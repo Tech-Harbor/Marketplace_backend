@@ -27,7 +27,7 @@ public class ProductEntity {
     private String category;
     private String seller;
     private String number;
-    private LocalDateTime createDate = LocalDateTime.now();
+    private LocalDateTime createDate;
     @OneToMany
     private List<ImageFileEntity> image;
 }

@@ -1,7 +1,7 @@
-package com.example.backend.api.factory;
+package com.example.backend.ImageFile;
 
-import com.example.backend.api.DTO.ImageFileDTO;
-import com.example.backend.store.models.ImageFileEntity;
+import com.example.backend.ImageFile.ImageFileDTO;
+import com.example.backend.ImageFile.ImageFileEntity;
 import org.springframework.stereotype.Component;
 
 @Component

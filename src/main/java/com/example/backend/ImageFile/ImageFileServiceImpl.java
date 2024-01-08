@@ -1,11 +1,7 @@
-package com.example.backend.api.services.impl;
+package com.example.backend.ImageFile;
 
-import com.example.backend.api.DTO.ImageFileDTO;
-import com.example.backend.api.factory.ImageFileFactory;
-import com.example.backend.api.services.ImageFileService;
-import com.example.backend.store.models.ImageFileEntity;
-import com.example.backend.store.models.ProductEntity;
-import com.example.backend.store.repository.ImageFileRepository;
+import com.example.backend.Product.ProductEntity;
+import com.example.backend.utils.uploadImage.ImageUploadServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

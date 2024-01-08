@@ -1,11 +1,6 @@
-package com.example.backend.api.services.impl;
+package com.example.backend.Product;
 
-import com.example.backend.api.DTO.ProductDTO;
-import com.example.backend.api.factory.ProductFactory;
-import com.example.backend.api.services.ImageFileService;
-import com.example.backend.api.services.ProductService;
-import com.example.backend.store.models.ProductEntity;
-import com.example.backend.store.repository.ProductRepository;
+import com.example.backend.ImageFile.ImageFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

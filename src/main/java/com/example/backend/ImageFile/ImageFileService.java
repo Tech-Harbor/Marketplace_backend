@@ -1,7 +1,7 @@
-package com.example.backend.api.services;
+package com.example.backend.ImageFile;
 
-import com.example.backend.api.DTO.ImageFileDTO;
-import com.example.backend.store.models.ProductEntity;
+import com.example.backend.ImageFile.ImageFileDTO;
+import com.example.backend.Product.ProductEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageFileService {

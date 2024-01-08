@@ -1,7 +1,8 @@
-package com.example.backend.api.factory;
+package com.example.backend.Product;
 
-import com.example.backend.api.DTO.ProductDTO;
-import com.example.backend.store.models.ProductEntity;
+import com.example.backend.ImageFile.ImageFileFactory;
+import com.example.backend.Product.ProductDTO;
+import com.example.backend.Product.ProductEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

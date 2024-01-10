@@ -1,6 +1,6 @@
-package com.example.backend.store.repository;
+package com.example.backend.ImageFile;
 
-import com.example.backend.store.models.ImageFileEntity;
+import com.example.backend.ImageFile.ImageFileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

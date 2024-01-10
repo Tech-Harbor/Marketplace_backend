@@ -1,4 +1,4 @@
-package com.example.backend.api.DTO;
+package com.example.backend.ImageFile;
 
 import lombok.Builder;
 @Builder

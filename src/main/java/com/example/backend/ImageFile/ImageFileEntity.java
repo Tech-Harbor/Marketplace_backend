@@ -1,6 +1,7 @@
-package com.example.backend.store.models;
+package com.example.backend.ImageFile;
 
 
+import com.example.backend.Product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

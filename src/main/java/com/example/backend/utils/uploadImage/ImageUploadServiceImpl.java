@@ -1,6 +1,5 @@
-package com.example.backend.api.services.impl;
+package com.example.backend.utils.uploadImage;
 
-import com.example.backend.api.services.ImageUploadService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

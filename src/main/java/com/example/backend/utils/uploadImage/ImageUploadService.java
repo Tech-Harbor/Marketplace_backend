@@ -1,4 +1,4 @@
-package com.example.backend.api.services;
+package com.example.backend.utils.uploadImage;
 
 import org.springframework.web.multipart.MultipartFile;
 

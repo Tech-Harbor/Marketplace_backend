@@ -1,7 +1,7 @@
-package com.example.backend.api.services;
+package com.example.backend.Product;
 
-import com.example.backend.api.DTO.ProductDTO;
-import com.example.backend.store.models.ProductEntity;
+import com.example.backend.Product.ProductDTO;
+import com.example.backend.Product.ProductEntity;
 
 import java.util.List;
 

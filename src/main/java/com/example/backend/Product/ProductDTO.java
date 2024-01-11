@@ -11,8 +11,5 @@ public record ProductDTO (Long id,
                           String description_product,
                           String characteristic_product,
                           double price,
-                          String category,
-                          String seller,
-                          String number,
                           LocalDateTime createDate,
                           List<ImageFileDTO> image){}

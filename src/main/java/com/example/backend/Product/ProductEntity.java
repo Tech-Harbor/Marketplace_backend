@@ -1,5 +1,6 @@
 package com.example.backend.Product;
 
+import com.example.backend.Comment.CommentEntity;
 import com.example.backend.ImageFile.ImageFileEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,11 +25,11 @@ public class ProductEntity {
     @Column(columnDefinition = "TEXT")
     private String characteristic_product;
     private double price;
-    //private String customer_reviews;
-    private String category;
-    private String seller;
-    private String number;
     private LocalDateTime createDate;
     @OneToMany
+    @JoinColumn(name = "image_id")
     private List<ImageFileEntity> image;
+    @OneToMany
+    @JoinColumn(name = "comment_id")
+    private List<CommentEntity> commentEntities;
 }

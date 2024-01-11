@@ -6,18 +6,21 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "Image")
+@Table(name = "Images")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ImageFileEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String type;
+
+    private String name, type;
+
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 }

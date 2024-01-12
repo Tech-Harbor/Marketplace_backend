@@ -18,14 +18,17 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String lastname;
-    private String name;
-    private String email;
-    private String number;
+
+    private String lastname, name, email, number;
+
     @ManyToOne
+    @JoinColumn(name = "order_id")
     private OrderEntity orderEntity;
+
     @ManyToOne
+    @JoinColumn(name = "comment_id")
     private CommentEntity commentEntity;
+
     @Enumerated(value = EnumType.STRING)
     private Role role;
 }

@@ -21,6 +21,6 @@ public class SectionEntity {
     @Column(nullable = false)
     private String title;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "section")
     private List<CategoryEntity> categoriesList;
 }

@@ -1,7 +1,8 @@
 package com.example.backend.Product;
 
 import com.example.backend.ImageFile.ImageFileDTO;
-import lombok.*;
+import lombok.Builder;
+
 import java.time.LocalDateTime;
 import java.util.List;
 

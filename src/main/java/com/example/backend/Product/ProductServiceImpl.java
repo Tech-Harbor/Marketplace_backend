@@ -4,6 +4,7 @@ import com.example.backend.ImageFile.ImageFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,11 +16,24 @@ public class ProductServiceImpl implements ProductService {
     private final ProductFactory productFactory;
     private final ImageFileService imageService;
     @Override
-    public ProductDTO createProduct(ProductEntity entity) {
-        ProductEntity product = productRepository.save(entity);
-        ProductDTO productDTO = productFactory.makeProduct(product);
+    public ProductDTO createProduct(ProductDTO productDTO) {
+        ProductEntity product = ProductEntity.builder()
+                .id(null)
+                .name(productDTO.name())
+                .description_product(productDTO.description_product())
+                .characteristic_product(productDTO.characteristic_product())
+                .price(productDTO.price())
+                .createDate(LocalDateTime.now())
+                .image(productDTO.image()
+                        .stream()
+                        .map(image -> imageService.getImageById(image.id()))
+                        .collect(Collectors.toList()))
+                .commentEntities(null)
+                .subcategory(null)
+                .build();
+        productRepository.save(product);
         imageService.setProductEntity(product);
-        return productDTO;
+        return productFactory.makeProduct(product);
     }
 
     @Override

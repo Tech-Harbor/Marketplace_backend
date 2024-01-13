@@ -6,7 +6,7 @@ import com.example.backend.Product.ProductEntity;
 import java.util.List;
 
 public interface ProductService {
-    ProductDTO createProduct(ProductEntity entity);
+    ProductDTO createProduct(ProductDTO entity);
     List<ProductDTO> getAllProduct();
     ProductDTO getOneProduct(Long id);
     ProductDTO editProduct(Long id, ProductEntity entity);

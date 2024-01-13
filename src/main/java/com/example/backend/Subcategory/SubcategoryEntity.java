@@ -28,6 +28,6 @@ public class SubcategoryEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "subcategory")
     private List<ProductEntity> productsList;
 }

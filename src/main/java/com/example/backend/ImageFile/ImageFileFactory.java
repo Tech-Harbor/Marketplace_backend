@@ -1,7 +1,5 @@
 package com.example.backend.ImageFile;
 
-import com.example.backend.ImageFile.ImageFileDTO;
-import com.example.backend.ImageFile.ImageFileEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +9,7 @@ public class ImageFileFactory {
                 .id(file.getId())
                 .type(file.getType())
                 .name(file.getName())
-//                .productId(file.getProduct().getId())
+                .productId(file.getProduct() == null ? 0 : file.getProduct().getId())
                 .build();
     }
 }

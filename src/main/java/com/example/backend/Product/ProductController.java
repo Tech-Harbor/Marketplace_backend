@@ -16,7 +16,7 @@ public class ProductController {
     private static final String URI_PRODUCT_ID = "/products/{id}";
 
     @PostMapping(URI_PRODUCTS)
-    public ProductDTO createProduct(@RequestBody ProductEntity entity){
+    public ProductDTO createProduct(@RequestBody ProductDTO entity){
         return productService.createProduct(entity);
     }
 

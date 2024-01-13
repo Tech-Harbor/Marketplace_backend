@@ -22,9 +22,7 @@ public class ProductFactory {
                 .name(entity.getName())
                 .price(entity.getPrice())
                 .createDate(entity.getCreateDate())
-                .image(entity.getImage().stream()
-                        .map(imageFileFactory::makeImageFile)
-                        .collect(Collectors.toList()))
+                .image(entity.getImage().stream().map(imageFileFactory::makeImageFile).collect(Collectors.toList()))
                 .build();
     }
 }

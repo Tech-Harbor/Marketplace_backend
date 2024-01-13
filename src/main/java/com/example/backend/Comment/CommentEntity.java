@@ -6,8 +6,6 @@ import com.example.backend.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 
 @Entity
 @Table(name = "comments")
@@ -22,8 +20,9 @@ public class CommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    private List<UserEntity> userEntities;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     private String text;
 

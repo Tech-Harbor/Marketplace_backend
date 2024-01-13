@@ -5,8 +5,6 @@ import com.example.backend.utils.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "orders")
 @Getter
@@ -20,8 +18,9 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    private List<UserEntity> userEntities;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @Enumerated(value = EnumType.STRING)
     private Status status;

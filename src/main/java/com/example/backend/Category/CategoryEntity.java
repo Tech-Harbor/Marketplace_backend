@@ -27,6 +27,6 @@ public class CategoryEntity {
     @JoinColumn(name = "section_id")
     private SectionEntity section;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category")
     private List<SubcategoryEntity> subcategoriesList;
 }

@@ -32,12 +32,12 @@ public class ProductEntity {
 
     private double price;
 
-    private LocalDateTime createDate = LocalDateTime.now();
+    private LocalDateTime createDate;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
     private List<ImageFileEntity> image;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "productEntity")
     private List<CommentEntity> commentEntities;
 
     @ManyToOne

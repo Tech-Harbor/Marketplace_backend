@@ -5,6 +5,7 @@ import com.example.backend.Order.OrderEntity;
 import com.example.backend.utils.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,13 +22,11 @@ public class UserEntity {
 
     private String lastname, name, email, number;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private OrderEntity orderEntity;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    private List<OrderEntity> orderEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "comment_id")
-    private CommentEntity commentEntity;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    private List<CommentEntity> comments;
 
     @Enumerated(value = EnumType.STRING)
     private Role role;

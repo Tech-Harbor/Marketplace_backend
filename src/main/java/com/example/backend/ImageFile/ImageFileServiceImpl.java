@@ -46,4 +46,9 @@ public class ImageFileServiceImpl implements ImageFileService {
     public void deleteIdImage(Long id) {
         imageFileRepository.deleteById(id);
     }
+
+    @Override
+    public ImageFileEntity getImageById(Long id) {
+        return imageFileRepository.getReferenceById(id);
+    }
 }

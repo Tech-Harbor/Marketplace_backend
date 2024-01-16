@@ -3,6 +3,7 @@ package com.example.backend.Product;
 import com.example.backend.Comment.CommentEntity;
 import com.example.backend.ImageFile.ImageFileEntity;
 import com.example.backend.Subcategory.SubcategoryEntity;
+import com.example.backend.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,4 +44,8 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubcategoryEntity subcategory;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

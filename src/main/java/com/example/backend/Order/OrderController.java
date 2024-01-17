@@ -16,7 +16,7 @@ public class OrderController {
 
     public static final String create_ORDER = "/order";
     public static final String ORDERS = "/orders";
-    public static final String ORDER_DELETE_ID = "/delete/{id}";
+    public static final String ORDER_DELETE_ID = "/delete/order/{id}";
 
     @PostMapping(create_ORDER)
     public OrderDTO create(@RequestBody OrderEntity order){

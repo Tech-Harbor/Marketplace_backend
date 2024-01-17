@@ -33,9 +33,10 @@ public class ProductEntity {
 
     private double price;
 
-    private LocalDateTime createDate;
+    private LocalDateTime createDate = LocalDateTime.now();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
+    @OneToMany
+    @JoinColumn(name = "image_id")
     private List<ImageFileEntity> image;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "productEntity")

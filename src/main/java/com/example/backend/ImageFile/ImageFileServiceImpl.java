@@ -31,10 +31,7 @@ public class ImageFileServiceImpl implements ImageFileService {
     @Override
     public void setProductEntity(ProductEntity product) {
         List<ImageFileEntity> images = product.getImage();
-        for (ImageFileEntity image : images) {
-            image.setProduct(product);
-            imageFileRepository.save(image);
-        }
+        imageFileRepository.saveAll(images);
     }
 
     @Override
@@ -45,10 +42,5 @@ public class ImageFileServiceImpl implements ImageFileService {
     @Override
     public void deleteIdImage(Long id) {
         imageFileRepository.deleteById(id);
-    }
-
-    @Override
-    public ImageFileEntity getImageById(Long id) {
-        return imageFileRepository.getReferenceById(id);
     }
 }

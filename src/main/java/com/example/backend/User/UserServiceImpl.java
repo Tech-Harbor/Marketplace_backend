@@ -3,6 +3,9 @@ package com.example.backend.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
@@ -19,6 +22,13 @@ public class UserServiceImpl implements UserService{
     public UserDTO getByIdUser(Long id) {
         UserEntity userId = userRepository.getReferenceById(id);
         return userFactory.makeUserFactory(userId);
+    }
+
+    @Override
+    public List<UserDTO> getByAllUser() {
+        return userRepository.findAll().stream()
+                .map(userFactory::makeUserFactory)
+                .collect(Collectors.toList());
     }
 
     @Override

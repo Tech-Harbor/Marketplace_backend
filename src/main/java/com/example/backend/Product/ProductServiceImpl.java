@@ -1,12 +1,12 @@
 package com.example.backend.Product;
 
+import com.example.backend.ImageFile.ImageFileEntity;
+import com.example.backend.ImageFile.ImageFileRepository;
 import com.example.backend.ImageFile.ImageFileService;
 import com.example.backend.User.UserEntity;
 import com.example.backend.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +21,14 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO createProduct(Long id, ProductEntity product) {
         UserEntity userId = userRepository.getReferenceById(id);
         product.setUser(userId);
-        return productFactory.makeProduct(product);
+        return productFactory.makeProduct(productRepository.save(product));
     }
 
     @Override
     public List<ProductDTO> getAllProduct() {
-        return productRepository.findAll().stream().map(productFactory::makeProduct).collect(Collectors.toList());
+        return productRepository.findAll().stream()
+                .map(productFactory::makeProduct)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -9,5 +9,4 @@ public interface ImageFileService {
     void deleteIdImage(Long id);
     void setProductEntity(ProductEntity product);
     ImageFileDTO getImageFileById(Long id);
-    ImageFileEntity getImageById(Long id);
 }

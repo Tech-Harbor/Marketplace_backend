@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
@@ -13,6 +15,7 @@ public class UserController {
     private final UserService userService;
 
     private static final String CREATE_USER = "/user";
+    private static final String USERs = "/users";
     private static final String ID_USER_UPDATE = "/user/{id}";
     private static final String ID_USER = "/user/{id}";
     private static final String DELETE_USER_ID = "/user/delete/{id}";
@@ -21,6 +24,11 @@ public class UserController {
     @PostMapping(CREATE_USER)
     private UserDTO createUser(@RequestBody UserEntity user){
         return userService.createUser(user);
+    }
+
+    @GetMapping(USERs)
+    public List<UserDTO> getAllUsers(){
+        return userService.getByAllUser();
     }
 
     @PutMapping(ID_USER_UPDATE)

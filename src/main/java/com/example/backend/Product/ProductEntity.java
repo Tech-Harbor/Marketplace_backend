@@ -2,6 +2,7 @@ package com.example.backend.Product;
 
 import com.example.backend.Comment.CommentEntity;
 import com.example.backend.ImageFile.ImageFileEntity;
+import com.example.backend.Order.OrderEntity;
 import com.example.backend.Subcategory.SubcategoryEntity;
 import com.example.backend.User.UserEntity;
 import jakarta.persistence.*;
@@ -39,8 +40,11 @@ public class ProductEntity {
     @JoinColumn(name = "image_id")
     private List<ImageFileEntity> image;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "productEntity")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
     private List<CommentEntity> commentEntities;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
+    private List<OrderEntity> orderEntities;
 
     @ManyToOne
     @JoinColumn(name = "subcategory_id")

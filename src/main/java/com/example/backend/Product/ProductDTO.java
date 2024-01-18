@@ -13,4 +13,5 @@ public record ProductDTO (Long id,
                           String characteristic_product,
                           double price,
                           LocalDateTime createDate,
-                          List<ImageFileDTO> image){}
+                          List<ImageFileDTO> image,
+                          Long subcategoryId) {}

@@ -24,7 +24,7 @@ public class SubcategoryEntity {
 
     private String additions;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 

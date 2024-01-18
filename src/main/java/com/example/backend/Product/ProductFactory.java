@@ -23,6 +23,7 @@ public class ProductFactory {
                 .price(entity.getPrice())
                 .createDate(entity.getCreateDate())
                 .image(entity.getImage().stream().map(imageFileFactory::makeImageFile).collect(Collectors.toList()))
+                .subcategoryId(entity.getSubcategory().getId())
                 .build();
     }
 }

@@ -1,6 +1,5 @@
 package com.example.backend.Category;
 
-import com.example.backend.Section.SectionEntity;
 import com.example.backend.Subcategory.SubcategoryEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,10 +21,6 @@ public class CategoryEntity {
 
     @Column(nullable = false)
     private String title, information;
-
-    @ManyToOne
-    @JoinColumn(name = "section_id")
-    private SectionEntity section;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category")
     private List<SubcategoryEntity> subcategoriesList;

@@ -40,7 +40,7 @@ public class ProductEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "productEntity")
     private List<CommentEntity> commentEntities;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "subcategory_id")
     private SubcategoryEntity subcategory;
 }

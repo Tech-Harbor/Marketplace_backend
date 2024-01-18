@@ -1,6 +1,7 @@
 package com.example.backend.Product;
 
 import com.example.backend.ImageFile.ImageFileService;
+import com.example.backend.Subcategory.SubcategoryServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,16 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+
     private final ProductFactory productFactory;
+
     private final ImageFileService imageService;
+
+    private final SubcategoryServiceImpl subcategoryService;
+
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
         ProductEntity product = ProductEntity.builder()
-                .id(null)
                 .name(productDTO.name())
                 .description_product(productDTO.description_product())
                 .characteristic_product(productDTO.characteristic_product())
@@ -29,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
                         .map(image -> imageService.getImageById(image.id()))
                         .collect(Collectors.toList()))
                 .commentEntities(null)
-                .subcategory(null)
+                .subcategory(subcategoryService.getById(productDTO.subcategoryId()))
                 .build();
         productRepository.save(product);
         imageService.setProductEntity(product);

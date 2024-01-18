@@ -1,11 +1,8 @@
 package com.example.backend.Product;
 
 import com.example.backend.ImageFile.ImageFileFactory;
-import com.example.backend.Product.ProductDTO;
-import com.example.backend.Product.ProductEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.util.stream.Collectors;
 
 @Component
@@ -26,4 +23,12 @@ public class ProductFactory {
                 .subcategoryId(entity.getSubcategory().getId())
                 .build();
     }
+
+//    private List<ImageFileDTO> isNull(ProductEntity product) {
+//        return Optional.ofNullable(product.getImage())
+//                .map(todoList -> todoList.stream()
+//                        .map(imageFileFactory::makeImageFile)
+//                        .collect(Collectors.toList()))
+//                .orElse(Collections.emptyList());
+//    }
 }

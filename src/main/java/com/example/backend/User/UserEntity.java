@@ -2,8 +2,10 @@ package com.example.backend.User;
 
 import com.example.backend.Comment.CommentEntity;
 import com.example.backend.Order.OrderEntity;
+import com.example.backend.Product.ProductEntity;
 import com.example.backend.utils.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import java.util.List;
 
@@ -20,13 +22,22 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String lastname, name, email, number;
+    private String lastname;
+
+    private String name;
+
+    private String email;
+
+    private String number;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private List<OrderEntity> orderEntity;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private List<CommentEntity> comments;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    private List<ProductEntity> product;
 
     @Enumerated(value = EnumType.STRING)
     private Role role;

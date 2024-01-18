@@ -1,5 +1,6 @@
 package com.example.backend.Order;
 
+import com.example.backend.Product.ProductEntity;
 import com.example.backend.User.UserEntity;
 import com.example.backend.utils.enums.Status;
 import jakarta.persistence.*;
@@ -21,6 +22,9 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    @ManyToOne
+    private ProductEntity product;
 
     @Enumerated(value = EnumType.STRING)
     private Status status;

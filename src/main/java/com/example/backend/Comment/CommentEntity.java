@@ -1,11 +1,9 @@
 package com.example.backend.Comment;
 
-
 import com.example.backend.Product.ProductEntity;
 import com.example.backend.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
 
 @Entity
 @Table(name = "comments")
@@ -28,5 +26,5 @@ public class CommentEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private ProductEntity productEntity;
+    private ProductEntity product;
 }

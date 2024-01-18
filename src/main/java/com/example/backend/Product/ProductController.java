@@ -13,11 +13,12 @@ public class ProductController {
 
     private final ProductServiceImpl productService;
     private static final String URI_PRODUCTS = "/products";
+    private static final String URI_PRODUCT = "/product/{id}";
     private static final String URI_PRODUCT_ID = "/products/{id}";
 
-    @PostMapping(URI_PRODUCTS)
-    public ProductDTO createProduct(@RequestBody ProductDTO entity){
-        return productService.createProduct(entity);
+    @PostMapping(URI_PRODUCT)
+    public ProductDTO createProduct(@PathVariable Long id, @RequestBody ProductEntity entity){
+        return productService.createProduct(id,entity);
     }
 
     @GetMapping(URI_PRODUCTS)

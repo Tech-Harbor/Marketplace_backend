@@ -1,10 +1,12 @@
 package com.example.backend.Product;
 
+import com.example.backend.ImageFile.ImageFileEntity;
+import com.example.backend.ImageFile.ImageFileRepository;
 import com.example.backend.ImageFile.ImageFileService;
+import com.example.backend.User.UserEntity;
+import com.example.backend.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,32 +15,20 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
     private final ProductFactory productFactory;
-    private final ImageFileService imageService;
     @Override
-    public ProductDTO createProduct(ProductDTO productDTO) {
-        ProductEntity product = ProductEntity.builder()
-                .id(null)
-                .name(productDTO.name())
-                .description_product(productDTO.description_product())
-                .characteristic_product(productDTO.characteristic_product())
-                .price(productDTO.price())
-                .createDate(LocalDateTime.now())
-                .image(productDTO.image()
-                        .stream()
-                        .map(image -> imageService.getImageById(image.id()))
-                        .collect(Collectors.toList()))
-                .commentEntities(null)
-                .subcategory(null)
-                .build();
-        productRepository.save(product);
-        imageService.setProductEntity(product);
-        return productFactory.makeProduct(product);
+    public ProductDTO createProduct(Long id, ProductEntity product) {
+        UserEntity userId = userRepository.getReferenceById(id);
+        product.setUser(userId);
+        return productFactory.makeProduct(productRepository.save(product));
     }
 
     @Override
     public List<ProductDTO> getAllProduct() {
-        return productRepository.findAll().stream().map(productFactory::makeProduct).collect(Collectors.toList());
+        return productRepository.findAll().stream()
+                .map(productFactory::makeProduct)
+                .collect(Collectors.toList());
     }
 
     @Override

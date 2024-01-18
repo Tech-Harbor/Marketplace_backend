@@ -9,7 +9,6 @@ public class ImageFileFactory {
                 .id(file.getId())
                 .type(file.getType())
                 .name(file.getName())
-                .productId(file.getProduct() == null ? 0 : file.getProduct().getId())
                 .build();
     }
 }

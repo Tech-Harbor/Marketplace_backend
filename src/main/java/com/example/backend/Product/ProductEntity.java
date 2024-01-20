@@ -33,7 +33,7 @@ public class ProductEntity {
     private String characteristic_product;
 
     private double price;
-
+    @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
 
     @OneToMany

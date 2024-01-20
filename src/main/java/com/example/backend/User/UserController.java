@@ -1,13 +1,12 @@
 package com.example.backend.User;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:8080")
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class UserController {

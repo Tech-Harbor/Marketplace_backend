@@ -5,7 +5,6 @@ import com.example.backend.Order.OrderEntity;
 import com.example.backend.Product.ProductEntity;
 import com.example.backend.utils.enums.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 import java.util.List;
 

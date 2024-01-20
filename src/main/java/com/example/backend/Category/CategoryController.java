@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Validated
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/api")
 public class CategoryController {
 

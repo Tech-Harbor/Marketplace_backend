@@ -15,9 +15,16 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+  
     private final UserRepository userRepository;
+
     private final ProductFactory productFactory;
-    @Override
+
+    private final ImageFileService imageService;
+
+    private final SubcategoryServiceImpl subcategoryService;
+
+     @Override
     public ProductDTO createProduct(Long id, ProductEntity product) {
         UserEntity userId = userRepository.getReferenceById(id);
         product.setUser(userId);

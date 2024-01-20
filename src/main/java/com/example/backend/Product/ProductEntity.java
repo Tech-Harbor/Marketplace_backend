@@ -42,11 +42,11 @@ public class ProductEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
     private List<CommentEntity> commentEntities;
-
+  
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
     private List<OrderEntity> orderEntities;
-
-    @ManyToOne
+  
+    @ManyToOne(optional = false)
     @JoinColumn(name = "subcategory_id")
     private SubcategoryEntity subcategory;
 

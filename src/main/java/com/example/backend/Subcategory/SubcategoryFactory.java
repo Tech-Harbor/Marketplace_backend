@@ -4,8 +4,6 @@ import com.example.backend.Product.ProductDTO;
 import com.example.backend.Product.ProductFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 import java.util.List;
 
 @Component

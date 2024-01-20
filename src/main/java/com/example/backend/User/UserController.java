@@ -1,6 +1,6 @@
 package com.example.backend.User;
 
-import lombok.Getter;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,12 +1,10 @@
 package com.example.backend.Product;
 
-import com.example.backend.ImageFile.ImageFileEntity;
-import com.example.backend.ImageFile.ImageFileRepository;
-import com.example.backend.ImageFile.ImageFileService;
 import com.example.backend.User.UserEntity;
 import com.example.backend.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,10 +17,6 @@ public class ProductServiceImpl implements ProductService {
     private final UserRepository userRepository;
 
     private final ProductFactory productFactory;
-
-    private final ImageFileService imageService;
-
-    private final SubcategoryServiceImpl subcategoryService;
 
      @Override
     public ProductDTO createProduct(Long id, ProductEntity product) {

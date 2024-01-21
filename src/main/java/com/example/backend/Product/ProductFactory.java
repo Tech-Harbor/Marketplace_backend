@@ -1,16 +1,11 @@
 package com.example.backend.Product;
 
-import com.example.backend.ImageFile.ImageFileFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class ProductFactory {
-
-    private final ImageFileFactory imageFileFactory;
-
     public ProductDTO makeProduct(ProductEntity entity){
         return ProductDTO.builder()
                 .id(entity.getId())
@@ -19,16 +14,7 @@ public class ProductFactory {
                 .name(entity.getName())
                 .price(entity.getPrice())
                 .createDate(entity.getCreateDate())
-                .image(entity.getImage().stream().map(imageFileFactory::makeImageFile).collect(Collectors.toList()))
                 .subcategoryId(entity.getSubcategory().getId())
                 .build();
     }
-
-//    private List<ImageFileDTO> isNull(ProductEntity product) {
-//        return Optional.ofNullable(product.getImage())
-//                .map(todoList -> todoList.stream()
-//                        .map(imageFileFactory::makeImageFile)
-//                        .collect(Collectors.toList()))
-//                .orElse(Collections.emptyList());
-//    }
 }

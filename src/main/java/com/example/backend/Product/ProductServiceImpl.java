@@ -49,7 +49,6 @@ public class ProductServiceImpl implements ProductService {
                .name(entityId.getName())
                .createDate(entity.getCreateDate())
                .characteristic_product(entity.getCharacteristic_product())
-               .image(entityId.getImage())
                .price(entityId.getPrice())
                .build();
 

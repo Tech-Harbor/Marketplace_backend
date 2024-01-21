@@ -1,7 +1,6 @@
 package com.example.backend.Product;
 
 import com.example.backend.Comment.CommentEntity;
-import com.example.backend.ImageFile.ImageFileEntity;
 import com.example.backend.Order.OrderEntity;
 import com.example.backend.Subcategory.SubcategoryEntity;
 import com.example.backend.User.UserEntity;
@@ -35,10 +34,6 @@ public class ProductEntity {
     private double price;
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
-
-    @OneToMany
-    @JoinColumn(name = "image_id")
-    private List<ImageFileEntity> image;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
     private List<CommentEntity> commentEntities;

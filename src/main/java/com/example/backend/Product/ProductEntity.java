@@ -1,6 +1,7 @@
 package com.example.backend.Product;
 
 import com.example.backend.Comment.CommentEntity;
+import com.example.backend.File.ImageEntity;
 import com.example.backend.Order.OrderEntity;
 import com.example.backend.Subcategory.SubcategoryEntity;
 import com.example.backend.User.UserEntity;
@@ -32,6 +33,7 @@ public class ProductEntity {
     private String characteristic_product;
 
     private double price;
+
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
 
@@ -44,6 +46,10 @@ public class ProductEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "subcategory_id")
     private SubcategoryEntity subcategory;
+
+    @OneToMany
+    @JoinColumn(name = "photo_id")
+    private List<ImageEntity> image;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

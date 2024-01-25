@@ -1,9 +1,9 @@
 package com.example.backend.Product;
 
+import com.example.backend.Category.CategoryEntity;
 import com.example.backend.Comment.CommentEntity;
 import com.example.backend.File.ImageEntity;
 import com.example.backend.Order.OrderEntity;
-import com.example.backend.Subcategory.SubcategoryEntity;
 import com.example.backend.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -44,8 +44,8 @@ public class ProductEntity {
     private List<OrderEntity> orderEntities;
   
     @ManyToOne(optional = false)
-    @JoinColumn(name = "subcategory_id")
-    private SubcategoryEntity subcategory;
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
 
     @OneToMany
     @JoinColumn(name = "photo_id")

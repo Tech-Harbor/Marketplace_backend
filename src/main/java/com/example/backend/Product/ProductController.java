@@ -13,10 +13,9 @@ public class ProductController {
 
     private final ProductServiceImpl productService;
     private static final String URI_PRODUCTS = "/products";
-    private static final String URI_PRODUCT = "/product/{id}";
-    private static final String URI_PRODUCT_ID = "/products/{id}";
+    private static final String URI_CREATE_UPDATE_GET_DELETE = "/product/{id}";
 
-    @PostMapping(URI_PRODUCT)
+    @PostMapping(URI_CREATE_UPDATE_GET_DELETE)
     public ProductDTO createProduct(@PathVariable Long id, @RequestBody ProductEntity entity){
         return productService.createProduct(id,entity);
     }
@@ -26,22 +25,22 @@ public class ProductController {
         return productService.getAllProduct();
     }
 
-    @GetMapping(URI_PRODUCT_ID)
+    @GetMapping(URI_CREATE_UPDATE_GET_DELETE)
     public ProductDTO getOneProduct(@PathVariable Long id){
         return productService.getOneProduct(id);
     }
 
-    @PutMapping(URI_PRODUCT_ID)
+    @PutMapping(URI_CREATE_UPDATE_GET_DELETE)
     public ProductDTO editProduct(@PathVariable Long id, @RequestBody ProductEntity entity){
         return productService.editProduct(id, entity);
     }
 
-    @DeleteMapping(URI_PRODUCT_ID)
+    @DeleteMapping(URI_CREATE_UPDATE_GET_DELETE)
     public void deleteIdProduct(@PathVariable Long id){
         productService.deleteIdProduct(id);
     }
 
-    @DeleteMapping(URI_PRODUCTS)
+    @DeleteMapping(URI_CREATE_UPDATE_GET_DELETE)
     public void deleteAllProduct(){
         productService.deleteAll();
     }

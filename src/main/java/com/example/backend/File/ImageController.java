@@ -22,14 +22,17 @@ public class ImageController {
     private final ImageService imageService;
     private final FileUpload fileUpload;
 
-    @GetMapping("/list")
+    private static final String URL_iMAGES = "/images";
+    private static final String URL_UPLOAD = "/upload";
+
+    @GetMapping(URL_iMAGES)
     public ResponseEntity<List<ImageEntity>> list(){
         List<ImageEntity> list = imageService.list();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @SneakyThrows
-    @PostMapping("/upload")
+    @PostMapping(URL_UPLOAD)
     @ResponseBody
     public ResponseEntity<String> upload(@RequestParam MultipartFile file){
         BufferedImage bi = ImageIO.read(file.getInputStream());

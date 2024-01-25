@@ -16,8 +16,7 @@ public class UserController {
 
     private static final String CREATE_USER = "/user";
     private static final String USERs = "/users";
-    private static final String ID_USER_UPDATE = "/user/{id}";
-    private static final String ID_USER = "/user/{id}";
+    private static final String ID_USER_UPDATE_GET = "/user/{id}";
     private static final String DELETE_USER_ID = "/user/delete/{id}";
 
 
@@ -31,12 +30,12 @@ public class UserController {
         return userService.getByAllUser();
     }
 
-    @PutMapping(ID_USER_UPDATE)
+    @PutMapping(ID_USER_UPDATE_GET)
     public UserDTO updateByIdUser(@PathVariable Long id, @RequestBody UserEntity user){
         return userService.updateByIdUser(id, user);
     }
 
-    @GetMapping(ID_USER)
+    @GetMapping(ID_USER_UPDATE_GET)
     public UserDTO getById(@PathVariable Long id){
         return userService.getByIdUser(id);
     }

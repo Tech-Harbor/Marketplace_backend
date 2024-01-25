@@ -14,6 +14,7 @@ public class ProductController {
     private final ProductServiceImpl productService;
     private static final String URI_PRODUCTS = "/products";
     private static final String URI_CREATE_UPDATE_GET_DELETE = "/product/{id}";
+    private static final String URL_DELETE_ALL = "/deleteAll";
 
     @PostMapping(URI_CREATE_UPDATE_GET_DELETE)
     public ProductDTO createProduct(@PathVariable Long id, @RequestBody ProductEntity entity){
@@ -40,7 +41,7 @@ public class ProductController {
         productService.deleteIdProduct(id);
     }
 
-    @DeleteMapping(URI_CREATE_UPDATE_GET_DELETE)
+    @DeleteMapping(URL_DELETE_ALL)
     public void deleteAllProduct(){
         productService.deleteAll();
     }

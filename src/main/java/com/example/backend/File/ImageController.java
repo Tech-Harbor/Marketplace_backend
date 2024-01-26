@@ -1,10 +1,9 @@
 package com.example.backend.File;
 
 
+import com.example.backend.exception.BadRequestStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,19 +25,20 @@ public class ImageController {
     private static final String URL_UPLOAD = "/upload";
 
     @GetMapping(URL_iMAGES)
-    public ResponseEntity<List<ImageEntity>> list(){
-        List<ImageEntity> list = imageService.list();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    public List<ImageDTO> getAllImage(){
+        return imageService.getAllPhoto();
     }
 
     @SneakyThrows
     @PostMapping(URL_UPLOAD)
     @ResponseBody
-    public ResponseEntity<String> upload(@RequestParam MultipartFile file){
+    public ImageDTO upload(@RequestParam MultipartFile file){
         BufferedImage bi = ImageIO.read(file.getInputStream());
+
         if (bi == null) {
-            return new ResponseEntity<>("Image non valide!", HttpStatus.BAD_REQUEST);
+            throw new BadRequestStatus("There is no uploaded image");
         }
+
         Map result = fileUpload.uploadFile(file);
         ImageEntity image = new ImageEntity(
                 (String) result.get("original_filename"),
@@ -46,8 +46,6 @@ public class ImageController {
                 (String) result.get("public_id")
         );
 
-        imageService.save(image);
-
-        return new ResponseEntity<>("image ajoutée avec succès ! ", HttpStatus.OK);
+        return imageService.save(image);
     }
 }

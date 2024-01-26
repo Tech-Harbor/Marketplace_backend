@@ -4,6 +4,6 @@ package com.example.backend.File;
 import java.util.List;
 
 public interface ImageService {
-    void save(ImageEntity imageEntity);
-    List<ImageEntity> list();
+    ImageDTO save(ImageEntity imageEntity);
+    List<ImageDTO> getAllPhoto();
 }

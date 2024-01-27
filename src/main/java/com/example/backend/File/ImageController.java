@@ -1,7 +1,7 @@
 package com.example.backend.File;
 
 
-import com.example.backend.exception.BadRequestStatus;
+import com.example.backend.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ public class ImageController {
         BufferedImage bi = ImageIO.read(file.getInputStream());
 
         if (bi == null) {
-            throw new BadRequestStatus("There is no uploaded image");
+            throw new BadRequestException("There is no uploaded image");
         }
 
         Map result = fileUpload.uploadFile(file);

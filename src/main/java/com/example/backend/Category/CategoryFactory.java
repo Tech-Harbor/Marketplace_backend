@@ -23,8 +23,7 @@ public class CategoryFactory {
 
         return CategoryDTO.builder()
                 .id(category.getId())
-                .title(category.getTitle())
-                .information(category.getInformation())
+                .category_name(category.getCategory_name())
                 .productDTOList(productDTOList)
                 .build();
     }

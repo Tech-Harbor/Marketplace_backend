@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ImageFactory {
-
     public ImageDTO makeImageFactory(ImageEntity imageEntity){
         return ImageDTO.builder()
                 .id(imageEntity.getId())

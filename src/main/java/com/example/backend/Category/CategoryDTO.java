@@ -9,8 +9,5 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record CategoryDTO(Long id,
-                          @NotNull @NotBlank String title,
-                          @NotNull @NotBlank String information,
-                          List<ProductDTO> productDTOList
-) {}
+public record CategoryDTO(Long id, @NotNull @NotBlank String category_name,
+                          List<ProductDTO> productDTOList) {}

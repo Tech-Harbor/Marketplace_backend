@@ -36,8 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO create(CategoryDTO categoryDTO) {
         CategoryEntity newCategory = CategoryEntity.builder()
-                .title(categoryDTO.title())
-                .information(categoryDTO.information())
+                .category_name(categoryDTO.category_name())
                 .build();
 
         categoryRepository.save(newCategory);
@@ -47,8 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO update(Long categoryId, CategoryDTO categoryDTO) {
         CategoryEntity category = categoryRepository.getReferenceById(categoryId);
-        category.setTitle(categoryDTO.title());
-        category.setInformation(categoryDTO.information());
+        categoryDTO.category_name();
         categoryRepository.save(category);
         return categoryFactory.makeCategory(category);
     }

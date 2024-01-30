@@ -1,30 +1,30 @@
 package com.example.backend.Category;
 
-import com.example.backend.Subcategory.SubcategoryDTO;
-import com.example.backend.Subcategory.SubcategoryFactory;
+import com.example.backend.Product.ProductDTO;
+import com.example.backend.Product.ProductFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
 import java.util.List;
 
 @Component
 @AllArgsConstructor
 public class CategoryFactory {
 
-    private final SubcategoryFactory subcategoryFactory;
+    private ProductFactory productFactory;
 
     public CategoryDTO makeCategory(CategoryEntity category) {
-        List<SubcategoryDTO> subcategoryDTOList = category.getSubcategoriesList() == null ? null : category.getSubcategoriesList()
+        List<ProductDTO> productDTOList =
+                category.getProductEntityList() == null ? null : category.getProductEntityList()
                 .stream()
-                .map(subcategoryFactory::makeSubcategory)
+                .map(productFactory::makeProduct)
                 .toList();
+
 
         return CategoryDTO.builder()
                 .id(category.getId())
-                .title(category.getTitle())
-                .information(category.getInformation())
-                .subcategoryList(subcategoryDTOList)
+                .category_name(category.getCategory_name())
+                .productDTOList(productDTOList)
                 .build();
     }
 }

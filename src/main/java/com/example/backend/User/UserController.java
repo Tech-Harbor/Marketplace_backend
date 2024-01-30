@@ -1,6 +1,6 @@
 package com.example.backend.User;
 
-import lombok.Getter;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +16,7 @@ public class UserController {
 
     private static final String CREATE_USER = "/user";
     private static final String USERs = "/users";
-    private static final String ID_USER_UPDATE = "/user/{id}";
-    private static final String ID_USER = "/user/{id}";
-    private static final String DELETE_USER_ID = "/user/delete/{id}";
-
+    private static final String ID_USER_UPDATE_GET_DELETE = "/user/{id}";
 
     @PostMapping(CREATE_USER)
     private UserDTO createUser(@RequestBody UserEntity user){
@@ -31,17 +28,17 @@ public class UserController {
         return userService.getByAllUser();
     }
 
-    @PutMapping(ID_USER_UPDATE)
+    @PutMapping(ID_USER_UPDATE_GET_DELETE)
     public UserDTO updateByIdUser(@PathVariable Long id, @RequestBody UserEntity user){
         return userService.updateByIdUser(id, user);
     }
 
-    @GetMapping(ID_USER)
+    @GetMapping(ID_USER_UPDATE_GET_DELETE)
     public UserDTO getById(@PathVariable Long id){
         return userService.getByIdUser(id);
     }
 
-    @DeleteMapping(DELETE_USER_ID)
+    @DeleteMapping(ID_USER_UPDATE_GET_DELETE)
     public String deleteId(@PathVariable Long id){
         userService.deleteByIdUser(id);
         return "Видалений користувач" + id;

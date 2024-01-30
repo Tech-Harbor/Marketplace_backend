@@ -1,6 +1,6 @@
 package com.example.backend.Product;
 
-import com.example.backend.ImageFile.ImageFileDTO;
+import com.example.backend.File.ImageEntity;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -13,5 +13,5 @@ public record ProductDTO (Long id,
                           String characteristic_product,
                           double price,
                           LocalDateTime createDate,
-                          List<ImageFileDTO> image,
-                          Long subcategoryId) {}
+                          List<ImageEntity> image,
+                          Long categoryId) {}

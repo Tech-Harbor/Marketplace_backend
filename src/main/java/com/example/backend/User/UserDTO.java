@@ -9,9 +9,10 @@ import java.util.List;
 @Builder
 public record UserDTO(Long id,
                       String lastname,
-                      String name,
+                      String firstname,
                       String email,
                       String number,
+                      String password,
 //                      List<OrderEntity> orderEntity,
 //                      List<CommentEntity> comments,
                       List<ProductDTO> product,

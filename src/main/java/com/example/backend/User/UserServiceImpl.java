@@ -25,6 +25,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public UserEntity getByEmail(String email) {
+        return userRepository.findByEmail(email).get();
+    }
+
+    @Override
     public List<UserDTO> getByAllUser() {
         return userRepository.findAll().stream()
                 .map(userFactory::makeUserFactory)
@@ -36,7 +41,7 @@ public class UserServiceImpl implements UserService{
         UserEntity userId = userRepository.getReferenceById(id);
 
         UserEntity userSave = UserEntity.builder()
-                .name(userId.getName())
+                .firstname(userId.getFirstname())
                 .lastname(userId.getLastname())
                 .number(userId.getNumber())
                 .email(userId.getEmail())

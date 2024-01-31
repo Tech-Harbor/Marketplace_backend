@@ -19,7 +19,7 @@ public class UserFactory {
     public UserDTO makeUserFactory(UserEntity user) {
         return UserDTO.builder()
                 .id(user.getId())
-                .name(user.getName())
+                .firstname(user.getFirstname())
                 .email(user.getEmail())
                 .lastname(user.getLastname())
                 .number(user.getNumber())

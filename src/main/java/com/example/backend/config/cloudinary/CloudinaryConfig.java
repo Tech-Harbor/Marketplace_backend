@@ -1,30 +1,25 @@
 package com.example.backend.config.cloudinary;
 
 import com.cloudinary.Cloudinary;
+import com.example.backend.api.props.CloudinaryProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Value;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@RequiredArgsConstructor
 public class CloudinaryConfig {
 
-    @Value("${cloudinary.cloud_name}")
-    private String cloudName;
-
-    @Value("${cloudinary.api_key}")
-    private String apiKey;
-
-    @Value("${cloudinary.api_secret}")
-    private String apiSecret;
+    public final CloudinaryProperties cloudinaryProperties;
 
     @Bean
     public Cloudinary cloudinary(){
         Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", cloudName);
-        config.put("api_key", apiKey);
-        config.put("api_secret", apiSecret);
+        config.put("cloud_name", cloudinaryProperties.getCloudName());
+        config.put("api_key", cloudinaryProperties.getApiKey());
+        config.put("api_secret", cloudinaryProperties.getApiSecret());
         return new Cloudinary(config);
     }
 

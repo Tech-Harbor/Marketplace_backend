@@ -1,5 +1,7 @@
 package com.example.backend.security.service.impl;
 
+import com.example.backend.mail.MailService;
+import com.example.backend.mail.MailType;
 import com.example.backend.security.auth.AuthRequest;
 import com.example.backend.security.auth.AuthResponse;
 import com.example.backend.security.service.AuthService;
@@ -14,16 +16,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Properties;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final UserServiceImpl userService;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JwtService jwtService;
-
+    private final MailService mailService;
     private final AuthenticationManager authenticationManager;
 
     @Override
@@ -38,7 +40,11 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         userService.createUser(user);
+
+        mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
+
         String token = jwtService.generateJwtToken(user);
+
         return AuthResponse.builder()
                 .token(token)
                 .build();
@@ -46,9 +52,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(AuthRequest authRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.email(), authRequest.password()));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authRequest.password(),
+                    authRequest.email()
+                )
+        );
+
         UserEntity user = userService.getByEmail(authRequest.email());
+
         String token = jwtService.generateJwtToken(user);
+
         return AuthResponse.builder()
                 .token(token)
                 .build();

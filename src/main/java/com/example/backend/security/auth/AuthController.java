@@ -12,9 +12,9 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final static String SIGNUP_URI = "/signup";
-    private final static String LOGIN_URI = "/login";
-    private final static String INFO = "/info";
+    private static final String SIGNUP_URI = "/signup";
+    private static final String LOGIN_URI = "/login";
+    private static final String INFO = "/info";
 
     private final AuthService authService;
 

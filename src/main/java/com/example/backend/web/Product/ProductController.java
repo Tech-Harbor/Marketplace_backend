@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@CrossOrigin(origins = {"http://localhost:3000", "https://marketplace-frontend-mu.vercel.app/"})
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class ProductController {

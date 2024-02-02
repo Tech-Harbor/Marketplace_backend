@@ -37,7 +37,7 @@
                 <p>Hello, ${name}!</p>
                 <p>This is a registration form. You can log in and use the online store application.</p>
                 <p>With best regards, <br> Marketplace</p>
-                <Button id="a" href="https://github.com/Vladik-gif" style="text-align: center">Marketplace</Button>
+                <а id="a" href="https://marketplace-frontend-mu.vercel.app/" style="text-align: center">Marketplace</а>
             </div>
         </div>
     </body>

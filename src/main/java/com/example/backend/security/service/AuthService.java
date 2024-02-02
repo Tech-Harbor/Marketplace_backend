@@ -1,11 +1,11 @@
 package com.example.backend.security.service;
 
-import com.example.backend.security.auth.AuthRequest;
-import com.example.backend.security.auth.AuthResponse;
-import com.example.backend.web.User.UserDTO;
+import com.example.backend.security.auth.request.AuthRequest;
+import com.example.backend.security.auth.response.AuthResponse;
+import com.example.backend.security.auth.request.RegisterRequest;
 
 public interface AuthService {
 
-    AuthResponse signup(UserDTO userDTO);
+    AuthResponse signup(RegisterRequest registerRequest);
     AuthResponse login(AuthRequest authRequest);
 }

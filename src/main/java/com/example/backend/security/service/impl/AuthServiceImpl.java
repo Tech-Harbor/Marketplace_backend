@@ -2,18 +2,18 @@ package com.example.backend.security.service.impl;
 
 import com.example.backend.mail.MailService;
 import com.example.backend.mail.MailType;
-import com.example.backend.security.auth.AuthRequest;
-import com.example.backend.security.auth.AuthResponse;
+import com.example.backend.security.MyPasswordEncoder;
+import com.example.backend.security.auth.request.AuthRequest;
+import com.example.backend.security.auth.request.RegisterRequest;
+import com.example.backend.security.auth.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.web.User.Role;
-import com.example.backend.web.User.UserDTO;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Properties;
@@ -23,19 +23,19 @@ import java.util.Properties;
 public class AuthServiceImpl implements AuthService {
 
     private final UserServiceImpl userService;
-    private final PasswordEncoder passwordEncoder;
+    private final MyPasswordEncoder myPasswordEncoder;
     private final JwtService jwtService;
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthResponse signup(UserDTO userDTO) {
+    public AuthResponse signup(RegisterRequest registerRequest) {
         UserEntity user = UserEntity.builder()
-                .firstname(userDTO.firstname())
-                .lastname(userDTO.lastname())
-                .email(userDTO.email())
-                .number(userDTO.number())
-                .password(passwordEncoder.encode(userDTO.password()))
+                .firstname(registerRequest.firstname())
+                .lastname(registerRequest.lastname())
+                .email(registerRequest.email())
+                .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.passwordConfirmation()))
+                .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.password()))
                 .role(Role.USER)
                 .build();
 

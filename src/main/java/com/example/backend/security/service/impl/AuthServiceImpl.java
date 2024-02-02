@@ -53,8 +53,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse login(AuthRequest authRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    authRequest.password(),
-                    authRequest.email()
+                    authRequest.email(),
+                    authRequest.password()
                 )
         );
 

@@ -9,7 +9,7 @@
             flex-direction: column;
             font-family: "Segoe UI", serif;
             align-items: center;
-            background-color: #607FF2;
+            background-color: #254499;
             font-size: 20px;
             height: 100%;
         }
@@ -19,7 +19,7 @@
             flex-direction: column;
             margin: 10%;
             font-family: "Segoe UI", serif;
-            background-color: white;
+            background-color: #E8F6DC;
             padding: 3%;
             border-radius: 20px;
             color: black;

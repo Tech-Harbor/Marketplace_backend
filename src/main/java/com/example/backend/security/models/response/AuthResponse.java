@@ -1,4 +1,4 @@
-package com.example.backend.security.auth.response;
+package com.example.backend.security.models.response;
 
 import lombok.Builder;
 

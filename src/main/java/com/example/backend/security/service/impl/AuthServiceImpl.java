@@ -2,10 +2,10 @@ package com.example.backend.security.service.impl;
 
 import com.example.backend.mail.MailService;
 import com.example.backend.mail.MailType;
-import com.example.backend.security.MyPasswordEncoder;
-import com.example.backend.security.auth.request.AuthRequest;
-import com.example.backend.security.auth.request.RegisterRequest;
-import com.example.backend.security.auth.response.AuthResponse;
+import com.example.backend.security.utils.MyPasswordEncoder;
+import com.example.backend.security.models.request.AuthRequest;
+import com.example.backend.security.models.request.RegisterRequest;
+import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.web.User.Role;

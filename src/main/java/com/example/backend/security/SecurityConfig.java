@@ -1,5 +1,7 @@
 package com.example.backend.security;
 
+import com.example.backend.security.jwt.JwtAuthFilter;
+import com.example.backend.security.utils.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;

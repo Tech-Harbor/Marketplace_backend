@@ -1,4 +1,4 @@
-package com.example.backend.security;
+package com.example.backend.security.utils;
 
 import com.example.backend.web.User.UserRepository;
 import lombok.RequiredArgsConstructor;

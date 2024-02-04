@@ -1,8 +1,8 @@
 package com.example.backend.security.service;
 
-import com.example.backend.security.auth.request.AuthRequest;
-import com.example.backend.security.auth.response.AuthResponse;
-import com.example.backend.security.auth.request.RegisterRequest;
+import com.example.backend.security.models.request.AuthRequest;
+import com.example.backend.security.models.response.AuthResponse;
+import com.example.backend.security.models.request.RegisterRequest;
 
 public interface AuthService {
 

@@ -1,3 +1,3 @@
-package com.example.backend.security.auth.request;
+package com.example.backend.security.models.request;
 
 public record AuthRequest(String email, String password) {}

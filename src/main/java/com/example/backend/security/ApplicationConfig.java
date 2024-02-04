@@ -1,5 +1,6 @@
 package com.example.backend.security;
 
+import com.example.backend.security.utils.MyPasswordEncoder;
 import com.example.backend.web.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

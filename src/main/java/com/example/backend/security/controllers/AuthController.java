@@ -1,7 +1,9 @@
-package com.example.backend.security.auth;
+package com.example.backend.security.controllers;
 
+import com.example.backend.security.models.request.AuthRequest;
+import com.example.backend.security.models.request.RegisterRequest;
+import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
-import com.example.backend.web.User.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +21,8 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(SIGNUP_URI)
-    public AuthResponse signup(@RequestBody UserDTO userDTO) {
-        return authService.signup(userDTO);
+    public AuthResponse signup(@RequestBody RegisterRequest registerRequest) {
+        return authService.signup(registerRequest);
     }
 
     @PostMapping(LOGIN_URI)

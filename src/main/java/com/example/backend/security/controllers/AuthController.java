@@ -5,6 +5,7 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -21,12 +22,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(SIGNUP_URI)
-    public AuthResponse signup(@RequestBody RegisterRequest registerRequest) {
+    public AuthResponse signup(@RequestBody @Validated RegisterRequest registerRequest) {
         return authService.signup(registerRequest);
     }
 
     @PostMapping(LOGIN_URI)
-    public AuthResponse login(@RequestBody AuthRequest authRequest) {
+    public AuthResponse login(@RequestBody @Validated AuthRequest authRequest) {
         return authService.login(authRequest);
     }
 

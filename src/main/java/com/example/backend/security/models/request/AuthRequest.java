@@ -1,3 +1,7 @@
 package com.example.backend.security.models.request;
 
-public record AuthRequest(String email, String password) {}
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record AuthRequest(@Email @NotNull @NotBlank String email, @NotNull @NotBlank String password) {}

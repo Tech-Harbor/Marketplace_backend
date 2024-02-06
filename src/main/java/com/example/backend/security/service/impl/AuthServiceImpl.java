@@ -11,6 +11,7 @@ import com.example.backend.security.service.JwtService;
 import com.example.backend.web.User.Role;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserServiceImpl;
+import com.example.backend.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,11 +31,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse signup(RegisterRequest registerRequest) {
+        UserEntity existUser = userService.getByEmail(registerRequest.email()).orElse(null);
+
+        if (existUser != null) {
+            throw new BadRequestException("This email has already been used.");
+        }
+
         UserEntity user = UserEntity.builder()
                 .firstname(registerRequest.firstname())
                 .lastname(registerRequest.lastname())
                 .email(registerRequest.email())
-                .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.passwordConfirmation()))
                 .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.password()))
                 .role(Role.USER)
                 .build();
@@ -58,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
 
-        UserEntity user = userService.getByEmail(authRequest.email());
+        UserEntity user = userService.getByEmail(authRequest.email()).orElseThrow();
 
         String token = jwtService.generateJwtToken(user);
 

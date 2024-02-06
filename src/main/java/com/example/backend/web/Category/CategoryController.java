@@ -1,6 +1,5 @@
 package com.example.backend.web.Category;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +27,12 @@ public class CategoryController {
     }
 
     @PostMapping(URI_CATEGORIES)
-    public CategoryDTO create(@RequestBody @Valid CategoryDTO categoryDTO) {
+    public CategoryDTO create(@RequestBody @Validated CategoryDTO categoryDTO) {
         return categoryService.create(categoryDTO);
     }
 
     @PutMapping(URI_CATEGORY_ID)
-    public CategoryDTO update(@PathVariable Long id, @RequestBody @Valid CategoryDTO categoryDTO) {
+    public CategoryDTO update(@PathVariable Long id, @RequestBody @Validated CategoryDTO categoryDTO) {
         return categoryService.update(id, categoryDTO);
     }
 

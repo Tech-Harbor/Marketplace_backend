@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO update(Long categoryId, CategoryDTO categoryDTO) {
         CategoryEntity category = categoryRepository.getReferenceById(categoryId);
-        categoryDTO.category_name();
+        category.setCategory_name(categoryDTO.category_name());
         categoryRepository.save(category);
         return categoryFactory.makeCategory(category);
     }

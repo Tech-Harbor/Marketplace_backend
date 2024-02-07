@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.info.Info;
         info = @Info(
                 contact =  @Contact(),
                 description = "Marketplace_backend",
-                title = "OpenApiMerketplace",
-                version = "1.0.0"
+                title = "OpenApiMarketplace",
+                version = "1.1.0"
         )
 )
 public class OpenApiSwaggerConfig {}

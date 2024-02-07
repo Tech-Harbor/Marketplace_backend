@@ -3,6 +3,7 @@ package com.example.backend.security;
 import com.example.backend.security.utils.MyPasswordEncoder;
 import com.example.backend.web.User.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +35,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
+    @SneakyThrows
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) {
         return authConfiguration.getAuthenticationManager();
     }
 }

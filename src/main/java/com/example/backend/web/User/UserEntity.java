@@ -25,15 +25,16 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String lastname, firstname;
 
-    @Column(nullable = false, unique = true, length = 45)
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String number;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")

@@ -23,6 +23,7 @@ public class UserFactory {
                 .email(user.getEmail())
                 .lastname(user.getLastname())
                 .number(user.getNumber())
+                .password(user.getPassword())
                 .product(isNull(user))
                 .role(user.getRole())
                 .build();

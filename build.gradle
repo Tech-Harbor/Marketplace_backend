@@ -53,6 +53,7 @@ dependencies {
 
 //SPRING-SECURITY
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.2.2'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.3'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.3'

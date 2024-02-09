@@ -15,11 +15,6 @@ public class UserServiceImpl implements UserService{
     private final UserFactory userFactory;
 
     @Override
-    public UserDTO createUser(UserEntity user) {
-        return userFactory.makeUserFactory(userRepository.save(user));
-    }
-
-    @Override
     public UserDTO getByIdUser(Long id) {
         UserEntity userId = userRepository.getReferenceById(id);
         return userFactory.makeUserFactory(userId);
@@ -47,6 +42,7 @@ public class UserServiceImpl implements UserService{
                 .number(userId.getNumber())
                 .email(userId.getEmail())
                 .role(userId.getRole())
+                .password(userId.getPassword())
                 .product(userId.getProduct())
                 .build();
 

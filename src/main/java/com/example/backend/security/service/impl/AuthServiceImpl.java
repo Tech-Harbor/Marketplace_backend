@@ -10,6 +10,7 @@ import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.web.User.Role;
 import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
 import com.example.backend.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
 
     @Override
     public AuthResponse signup(RegisterRequest registerRequest) {
@@ -46,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
                 .role(Role.USER)
                 .build();
 
-        userService.createUser(user);
+        userRepository.save(user);
 
         mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
 

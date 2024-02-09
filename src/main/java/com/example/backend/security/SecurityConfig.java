@@ -36,6 +36,11 @@ public class SecurityConfig {
                         .anyRequest()
                         .permitAll()
                 )
+                .oauth2Login(authProvider -> authProvider
+                        .loginPage("/api/auth/google")
+                        .successHandler((request, response, authentication) -> request.authenticate(response))
+                        .failureHandler((request, response, exception) -> {})
+                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)

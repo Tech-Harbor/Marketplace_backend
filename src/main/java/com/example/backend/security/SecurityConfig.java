@@ -39,6 +39,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/api/auth/signup")
+                )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();

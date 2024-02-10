@@ -3,21 +3,26 @@ package com.example.backend.security.utils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
 @Component
 public class CorsConfig {
+
+    private static final String localhost = "http://localhost:3000";
+    private static final String deploy = "https://marketplace-frontend-mu.vercel.app/";
+
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(localhost, deploy));
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000","https://marketplace-frontend-mu.vercel.app/"));
-        config.addAllowedMethod("*");
-        config.addAllowedHeader("*");
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", config);
-        return new CorsFilter(urlBasedCorsConfigurationSource);
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", configuration);
+        return urlBasedCorsConfigurationSource;
     }
 }

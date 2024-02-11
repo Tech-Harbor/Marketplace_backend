@@ -15,4 +15,5 @@ public record UserDTO(Long id,
 //                      List<OrderEntity> orderEntity,
 //                      List<CommentEntity> comments,
                       List<ProductDTO> product,
+                      RegisterAuthStatus status,
                       Role role) {}

@@ -49,6 +49,10 @@ public class UserEntity implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "register_status")
+    private RegisterAuthStatus registerAuthStatus;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

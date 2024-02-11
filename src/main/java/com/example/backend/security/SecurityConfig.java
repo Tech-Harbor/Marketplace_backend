@@ -23,6 +23,7 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authProvider;
     private final JwtAuthFilter jwtAuthFilter;
+    private final AuthGoogle authGoogle;
     private final CorsConfig corsConfig;
 
     @Bean
@@ -42,6 +43,7 @@ public class SecurityConfig {
                 .authenticationProvider(authProvider)
                 .oauth2Login(oauth -> oauth
                         .loginPage("/api/auth/signup")
+                        .successHandler(authGoogle)
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

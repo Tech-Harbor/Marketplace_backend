@@ -24,6 +24,7 @@ public class UserFactory {
                 .lastname(user.getLastname())
                 .number(user.getNumber())
                 .password(user.getPassword())
+                .status(user.getRegisterAuthStatus())
                 .product(isNull(user))
                 .role(user.getRole())
                 .build();

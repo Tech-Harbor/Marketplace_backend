@@ -8,10 +8,7 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
-import com.example.backend.web.User.Role;
-import com.example.backend.web.User.UserEntity;
-import com.example.backend.web.User.UserRepository;
-import com.example.backend.web.User.UserServiceImpl;
+import com.example.backend.web.User.*;
 import com.example.backend.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,6 +42,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(registerRequest.email())
                 .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.password()))
                 .number(registerRequest.number())
+                .registerAuthStatus(RegisterAuthStatus.JWT)
                 .role(Role.USER)
                 .build();
 

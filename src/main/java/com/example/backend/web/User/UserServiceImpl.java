@@ -36,17 +36,14 @@ public class UserServiceImpl implements UserService{
     public UserDTO updateByIdUser(Long id, UserEntity user) {
         UserEntity userId = userRepository.getReferenceById(id);
 
-        UserEntity userSave = UserEntity.builder()
-                .firstname(userId.getFirstname())
-                .lastname(userId.getLastname())
-                .number(userId.getNumber())
-                .email(userId.getEmail())
-                .role(userId.getRole())
-                .password(userId.getPassword())
-                .product(userId.getProduct())
-                .build();
+            userId.setFirstname(user.getFirstname());
+            userId.setLastname(user.getLastname());
+            userId.setNumber(user.getNumber());
+            userId.setEmail(user.getEmail());
+            userId.setPassword(user.getPassword());
+            userId.setProduct(user.getProduct());
 
-        return userFactory.makeUserFactory(userRepository.save(userSave));
+        return userFactory.makeUserFactory(userRepository.save(userId));
     }
 
     @Override

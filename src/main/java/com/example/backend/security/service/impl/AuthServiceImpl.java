@@ -2,12 +2,14 @@ package com.example.backend.security.service.impl;
 
 import com.example.backend.mail.MailService;
 import com.example.backend.mail.MailType;
-import com.example.backend.security.utils.MyPasswordEncoder;
 import com.example.backend.security.models.request.AuthRequest;
+import com.example.backend.security.models.request.EmailRequest;
+import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
+import com.example.backend.security.utils.MyPasswordEncoder;
 import com.example.backend.web.User.*;
 import com.example.backend.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -72,5 +74,24 @@ public class AuthServiceImpl implements AuthService {
         return AuthResponse.builder()
                 .token(token)
                 .build();
+    }
+
+    @Override
+    public void formUpdatePassword(Long id, PasswordRequest passwordRequest) {
+        UserEntity userId = userRepository.getReferenceById(id);
+
+        userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
+
+        userRepository.save(userId);
+
+        // TODO: 12.02.2024 Треба зробити щоб обновлювалися дані тільки
+        //  (email, password) користувача, а інші залишалися ті які є в базі
+    }
+
+    @Override
+    public void requestEmailUpdatePassword(EmailRequest emailRequest) {
+        UserEntity emailUser = userService.getByEmail(emailRequest.email()).orElse(null);
+
+        mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
     }
 }

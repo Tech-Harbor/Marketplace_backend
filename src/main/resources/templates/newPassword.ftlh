@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Thank you for registration ${name}</title>
+    <title>Account activation, ${name}</title>
     <style>
         #body {
             display: flex;
@@ -33,11 +33,11 @@
     <body>
         <div id="body">
             <div id="div">
-                <h1 style="text-align: center">Registration</h1>
+                <h1 style="text-align: center">New Password Profile</h1>
                 <p>Hello, ${name}!</p>
-                <p>This is a registration form. You can log in and use the online store application.</p>
                 <p>With best regards, <br> Marketplace</p>
-                <а id="a" href="https://marketplace-frontend-mu.vercel.app/" >Marketplace</а>
+                <а id="a" href="https://marketplace-frontend-mu.vercel.app/update/password/{userId}"
+                   style="text-align: center">Update Password</а>
             </div>
         </div>
     </body>

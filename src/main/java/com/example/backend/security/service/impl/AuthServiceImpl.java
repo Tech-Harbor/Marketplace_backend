@@ -42,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
                 .lastname(registerRequest.lastname())
                 .email(registerRequest.email())
                 .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.password()))
-                .number(registerRequest.number())
+                .phone(registerRequest.phone())
                 .registerAuthStatus(RegisterAuthStatus.JWT)
                 .role(Role.USER)
                 .build();

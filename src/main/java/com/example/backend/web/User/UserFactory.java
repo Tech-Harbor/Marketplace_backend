@@ -22,7 +22,7 @@ public class UserFactory {
                 .firstname(user.getFirstname())
                 .email(user.getEmail())
                 .lastname(user.getLastname())
-                .number(user.getNumber())
+                .phone(user.getPhone())
                 .password(user.getPassword())
                 .status(user.getRegisterAuthStatus())
                 .product(isNull(user))

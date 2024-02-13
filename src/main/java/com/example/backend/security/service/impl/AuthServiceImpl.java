@@ -17,26 +17,25 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Properties;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserServiceImpl userService;
-    private final MyPasswordEncoder myPasswordEncoder;
-    private final JwtService jwtService;
-    private final MailService mailService;
     private final AuthenticationManager authenticationManager;
+    private final MyPasswordEncoder myPasswordEncoder;
     private final UserRepository userRepository;
+    private final UserServiceImpl userService;
+    private final MailService mailService;
+    private final JwtService jwtService;
 
     @Override
     public AuthResponse signup(RegisterRequest registerRequest) {
-        UserEntity existUser = userService.getByEmail(registerRequest.email()).orElse(null);
+        Optional<UserEntity> existUser = userService.getByEmail(registerRequest.email());
 
-        if (existUser != null) {
-            throw new BadRequestException("This email has already been used.");
-        }
+        existUser.ifPresent(user -> {throw new BadRequestException("This email has already been used.");});
 
         UserEntity user = UserEntity.builder()
                 .firstname(registerRequest.firstname())

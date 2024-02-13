@@ -52,10 +52,10 @@ public class AuthServiceImpl implements AuthService {
 
         mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
 
-        String token = jwtService.generateJwtToken(user);
+        assignToken(user);
 
         return AuthResponse.builder()
-                .token(token)
+                .token(assignToken(user))
                 .build();
     }
 
@@ -69,10 +69,10 @@ public class AuthServiceImpl implements AuthService {
 
         UserEntity user = userService.getByEmail(authRequest.email()).orElseThrow();
 
-        String token = jwtService.generateJwtToken(user);
+        assignToken(user);
 
         return AuthResponse.builder()
-                .token(token)
+                .token(assignToken(user))
                 .build();
     }
 
@@ -83,9 +83,6 @@ public class AuthServiceImpl implements AuthService {
         userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
         userRepository.save(userId);
-
-        // TODO: 12.02.2024 Треба зробити щоб обновлювалися дані тільки
-        //  (email, password) користувача, а інші залишалися ті які є в базі
     }
 
     @Override
@@ -93,5 +90,9 @@ public class AuthServiceImpl implements AuthService {
         UserEntity emailUser = userService.getByEmail(emailRequest.email()).orElse(null);
 
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
+    }
+
+    private String assignToken(UserEntity user){
+        return jwtService.generateJwtToken(user);
     }
 }

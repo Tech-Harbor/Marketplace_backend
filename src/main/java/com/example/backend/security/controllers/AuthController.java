@@ -40,10 +40,9 @@ public class AuthController {
         return authService.login(authRequest);
     }
 
-    @PatchMapping(FORM_UPDATE_PASSWORD_URI)
+    @PutMapping(FORM_UPDATE_PASSWORD_URI)
     public void updatePassword(@PathVariable Long userId, @RequestBody @Validated PasswordRequest passwordRequest) {
         authService.formUpdatePassword(userId, passwordRequest);
-        // TODO: 12.02.2024 Треба перейти в сервер авторизації
     }
 
     @GetMapping(INFO)

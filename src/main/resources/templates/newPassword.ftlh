@@ -33,11 +33,10 @@
     <body>
         <div id="body">
             <div id="div">
-                <h1 style="text-align: center">New Password Profile</h1>
-                <p>Hello, ${name}!</p>
-                <p>With best regards, <br> Marketplace</p>
+                <h1 style="text-align: center">Password Reset</h1>
+                <p>Для зміни пароля перейдіть за посиланням, ${name}!:</p>
                 <а id="a" href="https://marketplace-frontend-mu.vercel.app/update/password/{userId}"
-                   style="text-align: center">Update Password</а>
+                    >Update Password</а>
             </div>
         </div>
     </body>

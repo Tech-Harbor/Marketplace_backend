@@ -24,4 +24,9 @@ public class ImageServiceImpl implements ImageService{
                 .map(imageFactory::makeImageFactory)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ImageDTO imageById(Long id) {
+        return imageRepository.getReferenceById(id);
+    }
 }

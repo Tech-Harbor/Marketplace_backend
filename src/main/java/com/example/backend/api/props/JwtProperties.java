@@ -10,9 +10,5 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
     private String key;
-    private long seconds;
-    private long minutes;
-    private long hours;
-    private long day;
-    private long days;
+    private long expiration;
 }

@@ -39,21 +39,13 @@ public class JwtServiceImpl implements JwtService {
         return generateJwtToken(new HashMap<>(), userDetails);
     }
 
-    @Override
-    public String generateJwtToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    private String generateJwtToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts
                 .builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() +
-                                jwtProperties.getHours() *
-                                jwtProperties.getMinutes() *
-                                jwtProperties.getMinutes() *
-                                jwtProperties.getDay() *
-                                jwtProperties.getDays()
-                        )
-                )
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration()))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

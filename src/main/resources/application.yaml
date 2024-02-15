@@ -47,8 +47,4 @@ cloudinary:
 
 jwt:
   key: ${JWT_KEY}
-  seconds: 1000
-  minutes: 60
-  hours: 60
-  day: 24
-  days: 7
+  expiration: 604800000

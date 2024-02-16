@@ -2,6 +2,8 @@ package com.example.backend.security;
 
 import com.example.backend.security.utils.CorsConfig;
 import com.example.backend.web.User.*;
+import com.example.backend.web.User.utils.RegisterAuthStatus;
+import com.example.backend.web.User.utils.Role;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -3,6 +3,8 @@ package com.example.backend.web.User;
 import com.example.backend.web.Comment.CommentEntity;
 import com.example.backend.web.Order.OrderEntity;
 import com.example.backend.web.Product.ProductEntity;
+import com.example.backend.web.User.utils.RegisterAuthStatus;
+import com.example.backend.web.User.utils.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

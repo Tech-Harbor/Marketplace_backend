@@ -1,6 +1,8 @@
 package com.example.backend.web.User;
 
 import com.example.backend.web.Product.ProductDTO;
+import com.example.backend.web.User.utils.RegisterAuthStatus;
+import com.example.backend.web.User.utils.Role;
 import lombok.Builder;
 
 import java.util.List;

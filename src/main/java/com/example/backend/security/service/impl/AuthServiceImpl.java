@@ -11,6 +11,8 @@ import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.utils.MyPasswordEncoder;
 import com.example.backend.web.User.*;
+import com.example.backend.web.User.utils.RegisterAuthStatus;
+import com.example.backend.web.User.utils.Role;
 import com.example.backend.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

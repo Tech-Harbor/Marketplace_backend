@@ -8,16 +8,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static com.example.backend.api.Constants.DEPLOY;
+import static com.example.backend.api.Constants.LOCALHOST;
+
 @Component
 public class CorsConfig {
-
-    private static final String localhost = "http://localhost:3000";
-    private static final String deploy = "https://marketplace-frontend-mu.vercel.app/";
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(localhost, deploy));
+        configuration.setAllowedOrigins(Arrays.asList(LOCALHOST, DEPLOY));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);

@@ -1,5 +1,6 @@
-package com.example.backend.security.utils;
+package com.example.backend.security.service.details;
 
+import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -11,13 +12,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MyUserDetailsService implements UserDetailsService {
 
+    private final MyUserDetailsFactory myUserDetailsFactory;
     private final UserRepository userRepository;
 
     @Override
     @SneakyThrows
     public UserDetails loadUserByUsername(String username) {
-        return userRepository.findByEmail(username).orElseThrow(
+        UserEntity user =  userRepository.findByEmail(username).orElseThrow(
                 () -> new RuntimeException("Email not found")
         );
+        return myUserDetailsFactory.build(user);
     }
 }

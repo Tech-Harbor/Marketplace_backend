@@ -30,8 +30,8 @@ public class AuthController {
 
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = "Bearer Authentication")
-    public AuthResponse signup(@RequestBody @Validated RegisterRequest registerRequest) {
-        return authService.signup(registerRequest);
+    public void signup(@RequestBody @Validated RegisterRequest registerRequest) {
+        authService.signup(registerRequest);
     }
 
     @PostMapping(LOGIN_URI)

@@ -10,13 +10,17 @@ import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.utils.MyPasswordEncoder;
-import com.example.backend.web.User.*;
+import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.UserRepository;
+import com.example.backend.web.User.UserServiceImpl;
 import com.example.backend.web.User.utils.RegisterAuthStatus;
 import com.example.backend.web.User.utils.Role;
 import com.example.backend.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -34,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
 
     @Override
-    public AuthResponse signup(RegisterRequest registerRequest) {
+    public void signup(RegisterRequest registerRequest) {
         Optional<UserEntity> existUser = userService.getByEmail(registerRequest.email());
 
         existUser.ifPresent(user -> {throw new BadRequestException("This email has already been used.");});
@@ -52,28 +56,25 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
 
         mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
-
-        assignToken(user);
-
-        return AuthResponse.builder()
-                .token(assignToken(user))
-                .build();
     }
 
     @Override
     public AuthResponse login(AuthRequest authRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
                     authRequest.email(),
                     authRequest.password()
                 )
         );
 
-        UserEntity user = userService.getByEmail(authRequest.email()).orElseThrow();
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        assignToken(user);
+        userService.getByEmail(authRequest.email()).orElseThrow();
+
+        assignToken(authentication);
 
         return AuthResponse.builder()
-                .token(assignToken(user))
+                .token(assignToken(authentication))
                 .build();
     }
 
@@ -93,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
     }
 
-    private String assignToken(UserEntity user){
-        return jwtService.generateJwtToken(user);
+    private String assignToken(Authentication authentication){
+        return jwtService.generateJwtToken(authentication);
     }
 }

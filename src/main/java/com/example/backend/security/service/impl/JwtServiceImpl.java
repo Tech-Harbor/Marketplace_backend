@@ -2,13 +2,14 @@ package com.example.backend.security.service.impl;
 
 import com.example.backend.api.props.JwtProperties;
 import com.example.backend.security.service.JwtService;
+import com.example.backend.security.service.details.MyUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -35,11 +36,14 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateJwtToken(UserDetails userDetails) {
-        return generateJwtToken(new HashMap<>(), userDetails);
+    public String generateJwtToken(Authentication authentication) {
+        return generateJwtToken(new HashMap<>(), authentication);
     }
 
-    private String generateJwtToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    private String generateJwtToken(Map<String, Object> extraClaims, Authentication authentication) {
+
+        MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
+
         return Jwts
                 .builder()
                 .claims(extraClaims)
@@ -51,7 +55,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, MyUserDetails userDetails) {
         final String userEmail = extractUserEmail(token);
         return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }

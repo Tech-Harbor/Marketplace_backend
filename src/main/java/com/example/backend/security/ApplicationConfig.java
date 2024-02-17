@@ -1,7 +1,7 @@
 package com.example.backend.security;
 
 import com.example.backend.security.utils.MyPasswordEncoder;
-import com.example.backend.security.utils.MyUserDetailsService;
+import com.example.backend.security.service.details.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;

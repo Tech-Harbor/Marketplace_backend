@@ -1,13 +1,13 @@
 package com.example.backend.web.Category;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Validated
 @RequestMapping("/api")
 public class CategoryController {

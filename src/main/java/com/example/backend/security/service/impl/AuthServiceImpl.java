@@ -7,6 +7,9 @@ import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
+import com.example.backend.security.models.token.TokenEntity;
+import com.example.backend.security.models.token.TokenRepository;
+import com.example.backend.security.models.token.TokenType;
 import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.utils.MyPasswordEncoder;
@@ -32,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final MyPasswordEncoder myPasswordEncoder;
+    private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
     private final UserServiceImpl userService;
     private final MailService mailService;
@@ -69,12 +73,16 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        userService.getByEmail(authRequest.email()).orElseThrow();
+        var user = userService.getByEmail(authRequest.email()).orElseThrow();
 
-        assignToken(authentication);
+        var token = jwtService.generateJwtToken(authentication);
+
+        saveUserToken(user, token);
+
+        revokeAllUserTokens(user);
 
         return AuthResponse.builder()
-                .token(assignToken(authentication))
+                .token(token)
                 .build();
     }
 
@@ -94,7 +102,31 @@ public class AuthServiceImpl implements AuthService {
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
     }
 
-    private String assignToken(Authentication authentication){
-        return jwtService.generateJwtToken(authentication);
+    private void saveUserToken(UserEntity user, String jwtToken) {
+
+        var token = TokenEntity.builder()
+                .user(user)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+
+        tokenRepository.save(token);
+    }
+
+    private void revokeAllUserTokens(UserEntity user) {
+
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+
+        if (validUserTokens.isEmpty())
+            return;
+
+        validUserTokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+
+        tokenRepository.saveAll(validUserTokens);
     }
 }

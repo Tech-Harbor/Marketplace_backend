@@ -21,7 +21,7 @@ public class WebIsNullFactory {
 
     public List<ProductDTO> isNullProductCategory(CategoryEntity category) {
         return Optional.ofNullable(category.getProductEntityList())
-                .map(todoList -> todoList.stream()
+                .map(list -> list.stream()
                         .map(productFactory::makeProduct)
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
@@ -29,7 +29,7 @@ public class WebIsNullFactory {
 
     public List<ProductDTO> isNullProductUser(UserEntity user) {
         return Optional.ofNullable(user.getProduct())
-                .map(todoList -> todoList.stream()
+                .map(list -> list.stream()
                         .map(productFactory::makeProduct)
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());

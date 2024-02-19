@@ -24,7 +24,6 @@ repositories {
 
 //SPRING-BOOT
 dependencies {
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
     implementation('org.springframework.boot:spring-boot-starter-validation')
     implementation 'org.springframework.boot:spring-boot-starter-web'

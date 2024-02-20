@@ -1,4 +1,4 @@
-package com.example.backend.security;
+package com.example.backend.security.oauth;
 
 import com.example.backend.security.utils.CorsConfig;
 import com.example.backend.web.User.*;

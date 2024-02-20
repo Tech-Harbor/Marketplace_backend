@@ -1,6 +1,7 @@
 package com.example.backend.security;
 
 import com.example.backend.security.jwt.JwtAuthFilter;
+import com.example.backend.security.oauth.AuthGoogle;
 import com.example.backend.security.utils.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -42,7 +43,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)
                 .oauth2Login(oauth -> oauth
-                        .loginPage("/api/auth/signup")
+                        .loginPage("/api/auth/signup").permitAll()
                         .successHandler(authGoogle)
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

@@ -42,17 +42,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO editProduct(Long id, ProductEntity entity) {
         ProductEntity entityId = productRepository.getReferenceById(id);
+               entityId.setDescription_product(entity.getDescription_product());
+               entityId.setName(entityId.getName());
+               entityId.setCreateDate(entity.getCreateDate());
+               entityId.setCharacteristic_product(entity.getCharacteristic_product());
+               entityId.setPrice(entityId.getPrice());
 
-       ProductEntity saveProduct = ProductEntity.builder()
-               .id(entityId.getId())
-               .description_product(entity.getDescription_product())
-               .name(entityId.getName())
-               .createDate(entity.getCreateDate())
-               .characteristic_product(entity.getCharacteristic_product())
-               .price(entityId.getPrice())
-               .build();
-
-        return productFactory.makeProduct(productRepository.save(saveProduct));
+        return productFactory.makeProduct(productRepository.save(entityId));
     }
 
     @Override

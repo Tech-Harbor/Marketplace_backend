@@ -12,16 +12,8 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
-    private static final String CREATE_USER = "/user";
     private static final String USERs = "/users";
     private static final String ID_USER_UPDATE_GET_DELETE = "/user/{id}";
-
-    @PostMapping(CREATE_USER)
-    private UserDTO createUser(@RequestBody UserEntity user){
-        return userService.createUser(user);
-    }
-
     @GetMapping(USERs)
     public List<UserDTO> getAllUsers(){
         return userService.getByAllUser();

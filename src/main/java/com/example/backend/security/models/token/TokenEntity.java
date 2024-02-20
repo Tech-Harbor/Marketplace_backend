@@ -19,7 +19,7 @@ public class TokenEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(unique = true)
+    @Column(name = "refresh_token", unique = true)
     public String token;
 
     @Enumerated(EnumType.STRING)

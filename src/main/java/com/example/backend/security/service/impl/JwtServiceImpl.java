@@ -36,11 +36,16 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateJwtToken(Authentication authentication) {
-        return generateJwtToken(new HashMap<>(), authentication);
+    public String generateAccessToken(Authentication authentication) {
+        return generateJwtAccessToken(new HashMap<>(), authentication);
     }
 
-    private String generateJwtToken(Map<String, Object> extraClaims, Authentication authentication) {
+    @Override
+    public String generateRefreshToken(Authentication authentication) {
+        return generateJwtRefreshToken(new HashMap<>(), authentication);
+    }
+
+    private String generateJwtAccessToken(Map<String, Object> extraClaims, Authentication authentication) {
 
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
 
@@ -49,7 +54,20 @@ public class JwtServiceImpl implements JwtService {
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtAccessExpiration()))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    private String generateJwtRefreshToken(Map<String, Object> extraClaims, Authentication authentication) {
+
+        MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
+
+        return Jwts
+                .builder()
+                .claims(extraClaims)
+                .subject(userDetails.getUsername())
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration()))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

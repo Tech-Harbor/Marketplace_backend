@@ -75,14 +75,16 @@ public class AuthServiceImpl implements AuthService {
 
         var user = userService.getByEmail(authRequest.email()).orElseThrow();
 
-        var token = jwtService.generateJwtToken(authentication);
+        var accessToken = jwtService.generateAccessToken(authentication);
 
-        saveUserToken(user, token);
+        var refreshToken = jwtService.generateRefreshToken(authentication);
+
+        saveUserToken(user, refreshToken);
 
         revokeAllUserTokens(user);
 
         return AuthResponse.builder()
-                .token(token)
+                .accessToken(accessToken)
                 .build();
     }
 

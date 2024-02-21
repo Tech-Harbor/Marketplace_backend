@@ -41,52 +41,53 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
             @NotNull HttpServletResponse response,
             @NotNull Authentication authentication) {
 
-    OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
+        OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
 
         if (RegisterAuthStatus.GOOGLE.name().toLowerCase()
                 .equals(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())) {
 
             var principal = (DefaultOAuth2User) authentication.getPrincipal();
-
             Map<String, Object> attributes = principal.getAttributes();
-
             var email = attributes.getOrDefault("email", "").toString();
 
             userService.getByEmail(email)
                     .ifPresentOrElse(user -> {
-                                var newUser = new DefaultOAuth2User(List.of(new SimpleGrantedAuthority(
-                                        user.getRole().name())), attributes, "id");
-                                var securityAuth = new OAuth2AuthenticationToken(newUser, List.of(new SimpleGrantedAuthority(
-                                        user.getRole().name())), oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
-
+                                var newUser = createOAuth2User(user.getRole().name(), attributes);
+                                var securityAuth = createOAuth2AuthenticationToken(newUser, user.getRole().name(), oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
                                 SecurityContextHolder.getContext().setAuthentication(securityAuth);
                             }, () -> {
-
-                                var saveUser = UserEntity.builder()
-                                        .email(email)
-                                        .firstname(attributes.getOrDefault("firstname", "").toString())
-                                        .lastname(attributes.getOrDefault("lastname", "").toString())
-                                        .registerAuthStatus(RegisterAuthStatus.GOOGLE)
-                                        .role(Role.USER)
-                                        .password(passwordEncoder.encode(generateRandomPassword()))
-                                        .phone(attributes.getOrDefault("phone", "").toString())
-                                        .build();
-
+                                var saveUser = createUserEntity(attributes, email);
                                 userRepository.save(saveUser);
-
-                                var newUser = new DefaultOAuth2User(List.of(new SimpleGrantedAuthority(
-                                        saveUser.getRole().name())), attributes, "id");
-
-                                var securityAuth = new OAuth2AuthenticationToken(newUser, List.of(new SimpleGrantedAuthority(
-                                        saveUser.getRole().name())), oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
-
+                                var newUser = createOAuth2User(saveUser.getRole().name(), attributes);
+                                var securityAuth = createOAuth2AuthenticationToken(newUser, saveUser.getRole().name(), oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
                                 SecurityContextHolder.getContext().setAuthentication(securityAuth);
                             }
                     );
         }
-        //        this.setAlwaysUseDefaultTargetUrl(true);
-        //        this.setDefaultTargetUrl(corsConfig.corsConfigurationSource().toString());
-        //        super.onAuthenticationSuccess(request, response, chain, authentication);
+    }
+
+    private DefaultOAuth2User createOAuth2User(String roleName, Map<String, Object> attributes) {
+        String nameAttributeKey = "email";
+        if (!attributes.containsKey(nameAttributeKey)) {
+            throw new IllegalArgumentException("Missing '" + nameAttributeKey + "' attribute in OAuth2 user attributes");
+        }
+        return new DefaultOAuth2User(List.of(new SimpleGrantedAuthority(roleName)), attributes, nameAttributeKey);
+    }
+
+    private OAuth2AuthenticationToken createOAuth2AuthenticationToken(DefaultOAuth2User user, String roleName, String registrationId) {
+        return new OAuth2AuthenticationToken(user, List.of(new SimpleGrantedAuthority(roleName)), registrationId);
+    }
+
+    private UserEntity createUserEntity(Map<String, Object> attributes, String email) {
+        return UserEntity.builder()
+                .email(email)
+                .firstname(attributes.getOrDefault("given_name", "").toString())
+                .lastname(attributes.getOrDefault("family_name", "").toString())
+                .registerAuthStatus(RegisterAuthStatus.GOOGLE)
+                .role(Role.USER)
+                .password(passwordEncoder.encode(generateRandomPassword()))
+                .phone(attributes.getOrDefault("phone", "").toString())
+                .build();
     }
 
     private static String generateRandomPassword() {

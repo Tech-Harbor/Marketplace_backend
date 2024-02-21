@@ -31,7 +31,7 @@ public class SecurityConfig {
 
     @Bean
     @SneakyThrows
-    public SecurityFilterChain securityFilterChain(HttpSecurity http){
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -47,10 +47,7 @@ public class SecurityConfig {
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(oauth -> oauth
-//                        .loginPage("/api/auth/signup"). permitAll()
-                                .successHandler(authGoogle)
-//                                .defaultSuccessUrl("/api/users", true)
-                                .failureUrl("/api/orders")
+                        .successHandler(authGoogle)
                 )
                 .build();
     }

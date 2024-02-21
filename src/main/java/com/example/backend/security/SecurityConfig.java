@@ -5,7 +5,6 @@ import com.example.backend.security.oauth.AuthGoogle;
 import com.example.backend.security.utils.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -25,7 +24,6 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authProvider;
     private final JwtAuthFilter jwtAuthFilter;
-    @Autowired
     private final AuthGoogle authGoogle;
     private final CorsConfig corsConfig;
 

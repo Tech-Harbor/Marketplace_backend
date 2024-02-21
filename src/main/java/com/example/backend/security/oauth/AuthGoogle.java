@@ -1,7 +1,10 @@
 package com.example.backend.security.oauth;
 
 import com.example.backend.security.service.JwtService;
-import com.example.backend.web.User.*;
+import com.example.backend.security.utils.MyPasswordEncoder;
+import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.UserRepository;
+import com.example.backend.web.User.UserService;
 import com.example.backend.web.User.utils.RegisterAuthStatus;
 import com.example.backend.web.User.utils.Role;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -33,7 +35,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
+    private final MyPasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     @Override
@@ -94,7 +96,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                 .lastname(attributes.getOrDefault("family_name", "").toString())
                 .registerAuthStatus(RegisterAuthStatus.GOOGLE)
                 .role(Role.USER)
-                .password(passwordEncoder.encode(generateRandomPassword()))
+                .password(passwordEncoder.passwordEncoder().encode(generateRandomPassword()))
                 .phone(attributes.getOrDefault("phone", "").toString())
                 .build();
     }

@@ -5,6 +5,7 @@ import com.example.backend.security.oauth.AuthGoogle;
 import com.example.backend.security.utils.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,12 +25,14 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authProvider;
     private final JwtAuthFilter jwtAuthFilter;
+    @Autowired
     private final AuthGoogle authGoogle;
     private final CorsConfig corsConfig;
 
     @Bean
     @SneakyThrows
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
+
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
@@ -42,11 +45,13 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)
-                .oauth2Login(oauth -> oauth
-                        .loginPage("/api/auth/signup").permitAll()
-                        .successHandler(authGoogle)
-                )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth -> oauth
+//                        .loginPage("/api/auth/signup"). permitAll()
+                                .successHandler(authGoogle)
+//                                .defaultSuccessUrl("/api/users", true)
+                                .failureUrl("/api/orders")
+                )
                 .build();
     }
 }

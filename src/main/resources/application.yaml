@@ -15,7 +15,6 @@ spring:
               - profile
               - openid
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
         provider:
           google:
             user-name-attribute: email
@@ -58,9 +57,3 @@ jwt:
   key: ${JWT_KEY}
   jwtAccessExpiration: 604800000
   jwtRefreshExpiration: 2592000000
-
-logging:
-  level:
-    org:
-      springframework:
-        security=DEBUG:

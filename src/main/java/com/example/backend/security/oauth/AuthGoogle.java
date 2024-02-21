@@ -1,6 +1,6 @@
 package com.example.backend.security.oauth;
 
-import com.example.backend.security.utils.CorsConfig;
+import com.example.backend.security.service.JwtService;
 import com.example.backend.web.User.*;
 import com.example.backend.web.User.utils.RegisterAuthStatus;
 import com.example.backend.web.User.utils.Role;
@@ -24,6 +24,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.backend.api.Constants.DEPLOY;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -31,8 +33,8 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
     private final UserService userService;
-    private final CorsConfig corsConfig;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Override
     @SneakyThrows
@@ -40,41 +42,48 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
             @NotNull HttpServletRequest request,
             @NotNull HttpServletResponse response,
             @NotNull Authentication authentication) {
-
         OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
 
         if (RegisterAuthStatus.GOOGLE.name().toLowerCase()
                 .equals(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())) {
-
-            var principal = (DefaultOAuth2User) authentication.getPrincipal();
-            Map<String, Object> attributes = principal.getAttributes();
+            Map<String, Object> attributes = ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes();
             var email = attributes.getOrDefault("email", "").toString();
 
             userService.getByEmail(email)
-                    .ifPresentOrElse(user -> {
-                                var newUser = createOAuth2User(user.getRole().name(), attributes);
-                                var securityAuth = createOAuth2AuthenticationToken(newUser, user.getRole().name(), oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
-                                SecurityContextHolder.getContext().setAuthentication(securityAuth);
-                            }, () -> {
+                    .ifPresentOrElse(user -> SecurityContextHolder.getContext().setAuthentication(
+                                    createOAuth2AuthenticationToken(
+                                            createOAuth2User(user.getRole().name(), attributes), user.getRole().name(),
+                                            oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())
+                            ), () -> {
                                 var saveUser = createUserEntity(attributes, email);
                                 userRepository.save(saveUser);
-                                var newUser = createOAuth2User(saveUser.getRole().name(), attributes);
-                                var securityAuth = createOAuth2AuthenticationToken(newUser, saveUser.getRole().name(), oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
-                                SecurityContextHolder.getContext().setAuthentication(securityAuth);
+                                SecurityContextHolder.getContext().setAuthentication(
+                                        createOAuth2AuthenticationToken(
+                                                createOAuth2User(saveUser.getRole().name(), attributes),
+                                                saveUser.getRole().name(),
+                                                oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())
+                                );
                             }
                     );
+
+            response.addHeader("Set-Cookie", "jwt=" + jwtService.generateAccessToken(authentication) +
+                    "; Path=/; HttpOnly; SameSite=None; Secure");
         }
+
+        response.sendRedirect(DEPLOY);
     }
 
     private DefaultOAuth2User createOAuth2User(String roleName, Map<String, Object> attributes) {
         String nameAttributeKey = "email";
         if (!attributes.containsKey(nameAttributeKey)) {
-            throw new IllegalArgumentException("Missing '" + nameAttributeKey + "' attribute in OAuth2 user attributes");
+            throw new IllegalArgumentException("Missing '" + nameAttributeKey +
+                    "' attribute in OAuth2 user attributes");
         }
         return new DefaultOAuth2User(List.of(new SimpleGrantedAuthority(roleName)), attributes, nameAttributeKey);
     }
 
-    private OAuth2AuthenticationToken createOAuth2AuthenticationToken(DefaultOAuth2User user, String roleName, String registrationId) {
+    private OAuth2AuthenticationToken createOAuth2AuthenticationToken(DefaultOAuth2User user, String roleName,
+                                                                      String registrationId) {
         return new OAuth2AuthenticationToken(user, List.of(new SimpleGrantedAuthority(roleName)), registrationId);
     }
 
@@ -97,5 +106,4 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
         return Base64.getEncoder().encodeToString(randomBytes);
     }
-
 }

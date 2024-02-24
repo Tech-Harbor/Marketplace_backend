@@ -8,6 +8,5 @@ import java.util.List;
 public interface ImageService {
     ImageDTO uploadImage(MultipartFile file);
     List<ImageDTO> getAllPhoto();
-
     ImageDTO imageById(Long id);
 }

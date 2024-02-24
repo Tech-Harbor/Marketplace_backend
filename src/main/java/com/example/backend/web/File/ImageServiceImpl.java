@@ -1,7 +1,7 @@
 package com.example.backend.web.File;
 
 import com.example.backend.web.File.utils.FileUpload;
-import com.example.backend.web.exception.request.BadRequestException;
+import com.example.backend.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;

@@ -18,7 +18,6 @@ import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
 import com.example.backend.web.User.utils.RegisterAuthStatus;
 import com.example.backend.web.User.utils.Role;
-import com.example.backend.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +27,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Properties;
+
+import static com.example.backend.web.exception.RequestException.badRequestException;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
     public void signup(RegisterRequest registerRequest) {
         Optional<UserEntity> existUser = userService.getByEmail(registerRequest.email());
 
-        existUser.ifPresent(user -> {throw new BadRequestException("This email has already been used.");});
+        existUser.ifPresent(user -> {throw badRequestException("This email has already been used.");});
 
         UserEntity user = UserEntity.builder()
                 .firstname(registerRequest.firstname())

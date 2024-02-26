@@ -16,7 +16,7 @@ public class CommentController {
     private static final String DELETE_COMMENT_ID = "/delete/comment/{id}";
 
     @PostMapping(CREATE_COMMENT)
-    public CommentDTO createComment(@RequestBody CommentEntity comment){
+    public CommentDTO createComment(@RequestBody CommentDTO comment){
         return commentService.createComment(comment);
     }
 

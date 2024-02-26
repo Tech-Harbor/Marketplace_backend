@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-
     private final CategoryFactory categoryFactory;
 
     @Override
@@ -29,7 +28,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getOneById(Long id) {
+
         CategoryEntity category = categoryRepository.getReferenceById(id);
+
         return categoryFactory.makeCategory(category);
     }
 
@@ -39,16 +40,16 @@ public class CategoryServiceImpl implements CategoryService {
                 .category_name(categoryDTO.category_name())
                 .build();
 
-        categoryRepository.save(newCategory);
-        return categoryFactory.makeCategory(newCategory);
+        return categoryFactory.makeCategory(categoryRepository.save(newCategory));
     }
 
     @Override
     public CategoryDTO update(Long categoryId, CategoryDTO categoryDTO) {
         CategoryEntity category = categoryRepository.getReferenceById(categoryId);
+
         category.setCategory_name(categoryDTO.category_name());
-        categoryRepository.save(category);
-        return categoryFactory.makeCategory(category);
+
+        return categoryFactory.makeCategory(categoryRepository.save(category));
     }
 
     @Override

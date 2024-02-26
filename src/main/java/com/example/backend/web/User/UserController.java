@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @PutMapping(ID_USER_UPDATE_GET_DELETE)
-    public UserDTO updateByIdUser(@PathVariable Long id, @RequestBody UserEntity user){
+    public UserDTO updateByIdUser(@PathVariable Long id, @RequestBody UserDTO user){
         return userService.updateByIdUser(id, user);
     }
 

@@ -21,6 +21,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public UserEntity getById(Long id) {
+        return userRepository.getReferenceById(id);
+    }
+
+    @Override
     public Optional<UserEntity> getByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -33,15 +38,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO updateByIdUser(Long id, UserEntity user) {
+    public UserDTO updateByIdUser(Long id, UserDTO user) {
         UserEntity userId = userRepository.getReferenceById(id);
 
-            userId.setFirstname(user.getFirstname());
-            userId.setLastname(user.getLastname());
-            userId.setPhone(user.getPhone());
-            userId.setEmail(user.getEmail());
-            userId.setPassword(user.getPassword());
-            userId.setProduct(user.getProduct());
+            userId.setFirstname(user.firstname());
+            userId.setLastname(user.lastname());
+            userId.setPhone(user.phone());
+            userId.setEmail(user.email());
+            userId.setPassword(user.password());
 
         return userFactory.makeUserFactory(userRepository.save(userId));
     }

@@ -13,8 +13,16 @@ public class OrderServiceImpl implements OrderService{
     private final OrderFactory orderFactory;
 
     @Override
-    public OrderDTO createOrder(OrderEntity orderEntity) {
-        return orderFactory.makeOrderDTO(orderRepository.save(orderEntity));
+    public OrderDTO createOrder(OrderDTO order) {
+
+        OrderEntity newOrder = OrderEntity.builder()
+                .id(order.id())
+                .product(order.product())
+                .user(order.user())
+                .status(order.status())
+                .build();
+
+        return orderFactory.makeOrderDTO(orderRepository.save(newOrder));
     }
 
     @Override

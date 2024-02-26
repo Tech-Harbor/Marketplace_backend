@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record AuthRequest(
-        @NotNull @NotBlank @Email String email,
-        @NotNull @NotBlank String password) {}
+        @NotNull @NotBlank(message = "Поле не повинно бути порожнім") @Email String email,
+        @NotNull @NotBlank(message = "Поле не повинно бути порожнім") String password) {}

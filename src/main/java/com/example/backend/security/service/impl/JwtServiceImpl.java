@@ -59,12 +59,10 @@ public class JwtServiceImpl implements JwtService {
 
     private String generateJwtRefreshToken(Map<String, Object> extraClaims, Authentication authentication) {
 
-        MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
-
         return Jwts
                 .builder()
                 .claims(extraClaims)
-                .subject(userDetails.getUsername())
+                .subject(authentication.getName())
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration()))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();

@@ -1,7 +1,9 @@
 package com.example.backend.security.models.request;
 
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 
+@Builder
 public record RegisterRequest(
         @NotNull @NotBlank(message = "Поле не повинно бути порожнім")
         @Size(min = 2, max = 20, message = "Довжина firstname має бути між 2 та 20 символами")

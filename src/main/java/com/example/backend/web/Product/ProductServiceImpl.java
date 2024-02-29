@@ -1,7 +1,9 @@
 package com.example.backend.web.Product;
 
+import com.example.backend.web.Category.CategoryEntity;
+import com.example.backend.web.Category.CategoryService;
 import com.example.backend.web.User.UserEntity;
-import com.example.backend.web.User.UserRepository;
+import com.example.backend.web.User.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +15,27 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-  
-    private final UserRepository userRepository;
-
+    private final UserService userService;
     private final ProductFactory productFactory;
+    private final CategoryService categoryService;
 
-     @Override
-    public ProductDTO createProduct(Long id, ProductEntity product) {
-        UserEntity userId = userRepository.getReferenceById(id);
-        product.setUser(userId);
-        return productFactory.makeProduct(productRepository.save(product));
+    @Override
+    public ProductDTO createProduct(Long id, ProductDTO product) {
+        UserEntity userId = userService.getById(id);
+        CategoryEntity categoryId = categoryService.getById(product.categoryId());
+
+        ProductEntity newProduct = ProductEntity.builder()
+                .id(product.id())
+                .user(userId)
+                .name(product.name())
+                .description_product(product.description_product())
+                .characteristic_product(product.characteristic_product())
+                .price(product.price())
+                .createDate(product.createDate())
+                .category(categoryId)
+                .build();
+
+        return productFactory.makeProduct(productRepository.save(newProduct));
     }
 
     @Override
@@ -40,19 +53,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO editProduct(Long id, ProductEntity entity) {
+    public ProductDTO editProduct(Long id, ProductDTO entity) {
         ProductEntity entityId = productRepository.getReferenceById(id);
+               entityId.setDescription_product(entity.description_product());
+               entityId.setName(entity.name());
+               entityId.setCreateDate(entity.createDate());
+               entityId.setCharacteristic_product(entity.characteristic_product());
+               entityId.setPrice(entity.price());
+               entityId.setDescription_product(entity.description_product());
 
-       ProductEntity saveProduct = ProductEntity.builder()
-               .id(entityId.getId())
-               .description_product(entity.getDescription_product())
-               .name(entityId.getName())
-               .createDate(entity.getCreateDate())
-               .characteristic_product(entity.getCharacteristic_product())
-               .price(entityId.getPrice())
-               .build();
-
-        return productFactory.makeProduct(productRepository.save(saveProduct));
+        return productFactory.makeProduct(productRepository.save(entityId));
     }
 
     @Override

@@ -10,5 +10,6 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record CategoryDTO(Long id, @NotNull @NotBlank @Size(min = 5, max = 25) String category_name,
+public record CategoryDTO(Long id,
+                          @NotNull @NotBlank @Size(min = 5, max = 20) String category_name,
                           List<ProductDTO> productDTOList) {}

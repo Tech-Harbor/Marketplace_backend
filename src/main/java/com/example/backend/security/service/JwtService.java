@@ -1,15 +1,15 @@
 package com.example.backend.security.service;
 
+import com.example.backend.security.service.details.MyUserDetails;
 import io.jsonwebtoken.Claims;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 
-import java.util.Map;
 import java.util.function.Function;
 
 public interface JwtService {
     String extractUserEmail(String token);
     <T> T extractClaim(String token, Function<Claims, T> claimsResolver);
-    String generateJwtToken(UserDetails userDetails);
-    String generateJwtToken(Map<String, Object> extraClaims, UserDetails userDetails);
-    boolean isTokenValid(String token, UserDetails userDetails);
+    String generateAccessToken(Authentication authentication);
+    String generateRefreshToken(Authentication authentication);
+    boolean isTokenValid(String token, MyUserDetails userDetails);
 }

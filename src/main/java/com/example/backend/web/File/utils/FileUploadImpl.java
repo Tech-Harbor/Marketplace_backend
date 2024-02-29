@@ -1,7 +1,8 @@
-package com.example.backend.web.File;
+package com.example.backend.web.File.utils;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.backend.web.File.utils.FileUpload;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class FileUploadImpl implements FileUpload{
+public class FileUploadImpl implements FileUpload {
 
     private final Cloudinary cloudinary;
 

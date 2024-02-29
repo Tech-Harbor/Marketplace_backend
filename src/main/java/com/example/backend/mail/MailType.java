@@ -1,5 +1,5 @@
 package com.example.backend.mail;
 
 public enum MailType {
-    REGISTRATION
+    REGISTRATION, NEW_PASSWORD
 }

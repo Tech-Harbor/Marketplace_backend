@@ -10,10 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class UserServiceImplTest {
@@ -46,6 +45,21 @@ public class UserServiceImplTest {
     }
 
     @Test
+    public void getByIdUserNotTest(){
+        Long userId = 1L;
+
+        when(userRepository.getReferenceById(userId)).thenReturn(null);
+        when(userFactory.makeUserFactory(any(UserEntity.class))).thenReturn(null);
+
+        UserDTO resultUserDTO = userService.getByIdUser(userId);
+
+        assertNull(resultUserDTO);
+
+        verify(userRepository).getReferenceById(userId);
+        verify(userFactory, never()).makeUserFactory(any(UserEntity.class));
+    }
+
+    @Test
     public void getByIdTest() {
         Long userId = 1L;
 
@@ -58,6 +72,19 @@ public class UserServiceImplTest {
         UserEntity resultUserEntity = userService.getById(userId);
 
         assertEquals(userEntity, resultUserEntity);
+    }
+
+    @Test
+    public void getByIdNotTest() {
+        Long userId = 1L;
+
+        when(userRepository.getReferenceById(userId)).thenReturn(null);
+
+        UserEntity resultUserEntity = userService.getById(userId);
+
+        assertNull(resultUserEntity);
+
+        verify(userRepository).getReferenceById(userId);
     }
 
     @Test

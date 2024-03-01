@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -70,6 +71,30 @@ public class AuthServiceImplTest {
     }
 
     @Test
+    public void sigUpNotTest(){
+        String email = "email";
+
+        RegisterRequest registerRequest = RegisterRequest.builder()
+                .firstname("firstname")
+                .lastname("lastname")
+                .email(email)
+                .password("password")
+                .build();
+
+        when(userService.getByEmail(email)).thenReturn(Optional.empty());
+        when(myPasswordEncoder.passwordEncoder()).thenReturn(mock(PasswordEncoder.class));
+        when(myPasswordEncoder.passwordEncoder().encode(any())).thenReturn("encodedPassword");
+
+        authService.signup(registerRequest);
+
+        verify(userService).getByEmail(email);
+        verify(userRepository).save(any(UserEntity.class));
+        verify(mailService).sendEmail(any(UserEntity.class), eq(MailType.REGISTRATION), any(Properties.class));
+
+        verifyNoMoreInteractions(userService, userRepository, mailService);
+    }
+
+    @Test
     public void loginTest(){
         AuthRequest authRequest = AuthRequest.builder()
                 .email("email")
@@ -96,6 +121,27 @@ public class AuthServiceImplTest {
     }
 
     @Test
+    public void loginNotTest(){
+        AuthRequest authRequest = AuthRequest.builder()
+                .email("email")
+                .password("password")
+                .build();
+
+        Authentication authentication = mock(Authentication.class);
+
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                .thenReturn(authentication);
+        when(userService.getByEmail(authRequest.email())).thenReturn(Optional.empty());
+
+        assertThrows(Exception.class, () -> authService.login(authRequest));
+
+        verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
+        verify(userService).getByEmail(authRequest.email());
+
+        verifyNoMoreInteractions(authenticationManager, userService, jwtService);
+    }
+
+    @Test
     public void formUpdatePasswordTest(){
         Long userId = 1L;
 
@@ -118,6 +164,29 @@ public class AuthServiceImplTest {
     }
 
     @Test
+    public void formUpdatePasswordNotTest(){
+        Long userId = 1L;
+
+        PasswordRequest passwordRequest = PasswordRequest.builder()
+                .password("password")
+                .build();
+
+        UserEntity userEntity = UserEntity.builder()
+                .id(userId)
+                .password("password")
+                .build();
+
+        when(userRepository.getReferenceById(userId)).thenReturn(userEntity);
+        when(myPasswordEncoder.passwordEncoder()).thenReturn(new PasswordEncoderTestUtils());
+
+        authService.formUpdatePassword(userId, passwordRequest);
+
+        verify(userRepository).getReferenceById(userId);
+        verify(myPasswordEncoder).passwordEncoder();
+        verify(userRepository).save(any(UserEntity.class));
+    }
+
+    @Test
     public void requestEmailUpdatePasswordTest(){
         Long userId = 1L;
 
@@ -135,5 +204,17 @@ public class AuthServiceImplTest {
 
         verify(userService).getByEmail(emailRequest.email());
         verify(mailService).sendEmail(userEntity, MailType.NEW_PASSWORD, new Properties());
+    }
+
+    private static class PasswordEncoderTestUtils implements PasswordEncoder {
+        @Override
+        public String encode(CharSequence rawPassword) {
+            return rawPassword.toString();
+        }
+
+        @Override
+        public boolean matches(CharSequence rawPassword, String encodedPassword) {
+            return rawPassword.toString().equals(encodedPassword);
+        }
     }
 }

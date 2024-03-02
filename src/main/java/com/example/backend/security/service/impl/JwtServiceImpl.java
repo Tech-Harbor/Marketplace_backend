@@ -1,6 +1,6 @@
 package com.example.backend.security.service.impl;
 
-import com.example.backend.api.props.JwtProperties;
+import com.example.backend.web.utils.props.JwtProperties;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.details.MyUserDetails;
 import io.jsonwebtoken.Claims;

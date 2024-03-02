@@ -8,8 +8,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static com.example.backend.api.Constants.DEPLOY;
-import static com.example.backend.api.Constants.LOCALHOST;
+import static com.example.backend.web.utils.Constants.DEPLOY;
+import static com.example.backend.web.utils.Constants.LOCALHOST;
 
 @Component
 public class CorsConfig {

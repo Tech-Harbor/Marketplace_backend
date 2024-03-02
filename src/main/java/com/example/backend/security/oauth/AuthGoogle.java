@@ -26,7 +26,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.backend.api.Constants.DEPLOY;
+import static com.example.backend.web.utils.Constants.DEPLOY;
 
 @Component
 @RequiredArgsConstructor

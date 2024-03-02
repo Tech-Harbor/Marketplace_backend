@@ -3,7 +3,6 @@ package com.example.backend.security.oauth;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.utils.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
-import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserService;
 import com.example.backend.web.User.utils.RegisterAuthStatus;
 import com.example.backend.web.User.utils.Role;
@@ -33,9 +32,8 @@ import static com.example.backend.web.utils.Constants.DEPLOY;
 @Slf4j
 public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final UserRepository userRepository;
-    private final UserService userService;
     private final MyPasswordEncoder passwordEncoder;
+    private final UserService userService;
     private final JwtService jwtService;
 
     @Override
@@ -58,7 +56,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                                             oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())
                             ), () -> {
                                 var saveUser = createUserEntity(attributes, email);
-                                userRepository.save(saveUser);
+                                userService.mySave(saveUser);
                                 SecurityContextHolder.getContext().setAuthentication(
                                         createOAuth2AuthenticationToken(
                                                 createOAuth2User(saveUser.getRole().name(), attributes),

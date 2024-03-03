@@ -37,7 +37,7 @@ public class UserServiceImplTest {
                 .id(userId)
                 .build();
 
-        when(userRepository.getReferenceById(userId)).thenReturn(userEntity);
+        when(userService.getById(userId)).thenReturn(userEntity);
         when(userFactory.makeUserFactory(any(UserEntity.class))).thenReturn(expectedUserDTO);
 
         UserDTO resultUserDTO = userService.getByIdUser(userId);
@@ -49,7 +49,7 @@ public class UserServiceImplTest {
     public void getByIdUserNotTest(){
         Long userId = 1L;
 
-        when(userRepository.getReferenceById(userId)).thenReturn(null);
+        when(userService.getById(userId)).thenReturn(null);
         when(userFactory.makeUserFactory(isNull())).thenReturn(null);
 
         UserDTO resultUserDTO = userService.getByIdUser(userId);
@@ -68,7 +68,7 @@ public class UserServiceImplTest {
                 .id(userId)
                 .build();
 
-        when(userRepository.getReferenceById(userId)).thenReturn(userEntity);
+        when(userService.getById(userId)).thenReturn(userEntity);
 
         UserEntity resultUserEntity = userService.getById(userId);
 
@@ -79,7 +79,7 @@ public class UserServiceImplTest {
     public void getByIdNotTest() {
         Long userId = 1L;
 
-        when(userRepository.getReferenceById(userId)).thenReturn(null);
+        when(userService.getById(userId)).thenReturn(null);
 
         UserEntity resultUserEntity = userService.getById(userId);
 
@@ -96,7 +96,7 @@ public class UserServiceImplTest {
                 .email(emailUser)
                 .build();
 
-        when(userRepository.findByEmail(emailUser)).thenReturn(Optional.of(userEntity));
+        when(userService.getByEmail(emailUser)).thenReturn(Optional.of(userEntity));
 
         Optional<UserEntity> emailUserEntity = userService.getByEmail(emailUser);
 
@@ -119,8 +119,8 @@ public class UserServiceImplTest {
                 .id(userId)
                 .build();
 
-        when(userRepository.getReferenceById(userId)).thenReturn(existingUser);
-        when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getById(userId)).thenReturn(existingUser);
+        when(userService.mySave(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         UserDTO saveUserDto = UserDTO.builder()
                 .lastname("lastname")

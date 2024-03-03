@@ -14,9 +14,10 @@ import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class AuthServiceImplTest {
 
     @InjectMocks
@@ -66,7 +67,7 @@ public class AuthServiceImplTest {
         authService.signup(registerRequest);
 
         verify(userService).getByEmail(any());
-        verify(userRepository).save(any(UserEntity.class));
+        verify(userService).mySave(any(UserEntity.class));
         verify(mailService).sendEmail(any(UserEntity.class), eq(MailType.REGISTRATION), any(Properties.class));
     }
 
@@ -88,8 +89,8 @@ public class AuthServiceImplTest {
         authService.signup(registerRequest);
 
         verify(userService).getByEmail(email);
-        verify(userRepository).save(any(UserEntity.class));
         verify(mailService).sendEmail(any(UserEntity.class), eq(MailType.REGISTRATION), any(Properties.class));
+        verify(userService).mySave(any(UserEntity.class));
 
         verifyNoMoreInteractions(userService, userRepository, mailService);
     }
@@ -153,14 +154,14 @@ public class AuthServiceImplTest {
                 .id(userId)
                 .build();
 
-        when(userRepository.getReferenceById(userId)).thenReturn(userEntity);
         when(myPasswordEncoder.passwordEncoder()).thenReturn(mock(PasswordEncoder.class));
+        when(userService.getById(userId)).thenReturn(userEntity);
 
         authService.formUpdatePassword(userId, passwordRequest);
 
-        verify(userRepository).getReferenceById(userId);
         verify(myPasswordEncoder).passwordEncoder();
-        verify(userRepository).save(userEntity);
+        verify(userService).getById(userId);
+        verify(userService).mySave(userEntity);
     }
 
     @Test
@@ -176,14 +177,14 @@ public class AuthServiceImplTest {
                 .password("password")
                 .build();
 
-        when(userRepository.getReferenceById(userId)).thenReturn(userEntity);
         when(myPasswordEncoder.passwordEncoder()).thenReturn(new PasswordEncoderTestUtils());
+        when(userService.getById(userId)).thenReturn(userEntity);
 
         authService.formUpdatePassword(userId, passwordRequest);
 
-        verify(userRepository).getReferenceById(userId);
         verify(myPasswordEncoder).passwordEncoder();
-        verify(userRepository).save(any(UserEntity.class));
+        verify(userService).getById(userId);
+        verify(userService).mySave(userEntity);
     }
 
     @Test

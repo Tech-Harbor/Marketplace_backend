@@ -32,4 +32,4 @@ jobs:
     steps:
       - name: Trigger Deploy Hook
         run: |
-          curl -X POST -d {} ${{ env.deployGithub }}
+          curl -X POST -d {} ${{ secrets.deployGithub }}

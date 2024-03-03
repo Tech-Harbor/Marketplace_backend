@@ -3,9 +3,7 @@ name: Auto Deploy
 on:
   push:
     branches:
-      - bohdan
-      - Petsa
-      - bezsmertnyi
+      - dev
 
 jobs:
   test:

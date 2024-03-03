@@ -10,4 +10,5 @@ public interface UserService {
     List<UserDTO> getByAllUser();
     UserDTO updateByIdUser(Long id, UserDTO user);
     void deleteByIdUser(Long id);
+    UserEntity mySave(UserEntity user);
 }

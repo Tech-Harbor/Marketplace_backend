@@ -11,8 +11,7 @@ import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.utils.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
-import com.example.backend.web.User.UserRepository;
-import com.example.backend.web.User.UserServiceImpl;
+import com.example.backend.web.User.UserService;
 import com.example.backend.web.User.utils.RegisterAuthStatus;
 import com.example.backend.web.User.utils.Role;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +32,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final MyPasswordEncoder myPasswordEncoder;
-    private final UserRepository userRepository;
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final MailService mailService;
     private final JwtService jwtService;
 
@@ -54,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
                 .role(Role.USER)
                 .build();
 
-        userRepository.save(user);
+        userService.mySave(user);
 
         mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
     }
@@ -84,11 +82,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void formUpdatePassword(Long id, PasswordRequest passwordRequest) {
-        UserEntity userId = userRepository.getReferenceById(id);
+        UserEntity userId = userService.getById(id);
 
         userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
-        userRepository.save(userId);
+        userService.mySave(userId);
     }
 
     @Override

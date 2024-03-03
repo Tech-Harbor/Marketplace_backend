@@ -32,4 +32,4 @@ jobs:
     steps:
       - name: Trigger Deploy Hook
         run: |
-          curl -X POST -d {} https://api.render.com/deploy/srv-cmdbc2g21fec73d1u760?key=Da87MDIWjto
+          curl -X POST -d {} ${{ env.deployGithub }}

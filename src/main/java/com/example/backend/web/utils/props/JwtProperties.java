@@ -1,4 +1,4 @@
-package com.example.backend.api.props;
+package com.example.backend.web.utils.props;
 
 
 import lombok.Data;

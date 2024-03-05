@@ -7,25 +7,23 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/comments")
 public class CommentController {
 
     private final CommentService commentService;
-    private static final String CREATE_COMMENT = "/comment";
-    private static final String COMMENTS = "/comments";
-    private static final String DELETE_COMMENT_ID = "/delete/comment/{id}";
+    private static final String URI_COMMENTS_ID = "/{id}";
 
-    @PostMapping(CREATE_COMMENT)
+    @PostMapping
     public CommentDTO createComment(@RequestBody CommentDTO comment){
         return commentService.createComment(comment);
     }
 
-    @GetMapping(COMMENTS)
+    @GetMapping
     public List<CommentDTO> getAllComments(){
         return commentService.getAllComments();
     }
 
-    @DeleteMapping(DELETE_COMMENT_ID)
+    @DeleteMapping(URI_COMMENTS_ID)
     public String deleteByIdComment(@PathVariable Long id){
         commentService.deleteById(id);
         return "Видалений коміт";

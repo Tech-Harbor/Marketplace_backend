@@ -1,36 +1,47 @@
 package com.example.backend.web.File;
 
 
+import com.example.backend.web.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/images")
 public class ImageController {
 
     private final ImageService imageService;
-    private static final String URL_iMAGES = "/images";
-    private static final String URL_UPLOAD = "/upload";
-    private static final String URL_IMAGE_ID = "/image";
+    private final FileUpload fileUpload;
 
-    @GetMapping(URL_iMAGES)
+    @GetMapping
     public List<ImageDTO> getAllImage(){
         return imageService.getAllPhoto();
     }
 
-    @PostMapping(URL_UPLOAD)
+    @SneakyThrows
+    @PostMapping
     @ResponseBody
     public ImageDTO upload(@RequestParam MultipartFile file){
-        return imageService.uploadImage(file);
-    }
+        BufferedImage bi = ImageIO.read(file.getInputStream());
 
-    @GetMapping(URL_IMAGE_ID)
-    @ResponseBody
-    public ImageDTO imageGetById(@RequestParam Long imageId){
-        return imageService.imageById(imageId);
+        if (bi == null) {
+            throw new BadRequestException("There is no uploaded image");
+        }
+
+        Map result = fileUpload.uploadFile(file);
+        ImageEntity image = new ImageEntity(
+                (String) result.get("original_filename"),
+                (String) result.get("url"),
+                (String) result.get("public_id")
+        );
+
+        return imageService.save(image);
     }
 }

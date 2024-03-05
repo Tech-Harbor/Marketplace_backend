@@ -7,35 +7,34 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductServiceImpl productService;
-    private static final String URI_PRODUCTS = "/products";
-    private static final String URI_CREATE_UPDATE_GET_DELETE = "/product/{id}";
+    private static final String URI_PRODUCTS_ID = "/{id}";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
-    @PostMapping(URI_CREATE_UPDATE_GET_DELETE)
+    @PostMapping
     public ProductDTO createProduct(@PathVariable Long id, @RequestBody ProductDTO entity){
         return productService.createProduct(id,entity);
     }
 
-    @GetMapping(URI_PRODUCTS)
+    @GetMapping
     public List<ProductDTO> getProducts(){
         return productService.getAllProduct();
     }
 
-    @GetMapping(URI_CREATE_UPDATE_GET_DELETE)
+    @GetMapping(URI_PRODUCTS_ID)
     public ProductDTO getOneProduct(@PathVariable Long id){
         return productService.getOneProduct(id);
     }
 
-    @PutMapping(URI_CREATE_UPDATE_GET_DELETE)
+    @PutMapping(URI_PRODUCTS_ID)
     public ProductDTO editProduct(@PathVariable Long id, @RequestBody ProductDTO entity){
         return productService.editProduct(id, entity);
     }
 
-    @DeleteMapping(URI_CREATE_UPDATE_GET_DELETE)
+    @DeleteMapping(URI_PRODUCTS_ID)
     public void deleteIdProduct(@PathVariable Long id){
         productService.deleteIdProduct(id);
     }

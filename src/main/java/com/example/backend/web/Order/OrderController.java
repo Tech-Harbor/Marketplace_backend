@@ -8,26 +8,23 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/orders")
 public class OrderController {
 
     private final OrderService orderService;
+    public static final String URI_ORDERS_ID = "/{id}";
 
-    public static final String create_ORDER = "/order";
-    public static final String ORDERS = "/orders";
-    public static final String ORDER_DELETE_ID = "/delete/order/{id}";
-
-    @PostMapping(create_ORDER)
+    @PostMapping
     public OrderDTO create(@RequestBody OrderDTO order){
         return orderService.createOrder(order);
     }
 
-    @GetMapping(ORDERS)
+    @GetMapping
     public List<OrderDTO> getAllOrder(){
         return orderService.getAllOrder();
     }
 
-    @DeleteMapping(ORDER_DELETE_ID)
+    @DeleteMapping(URI_ORDERS_ID)
     public String deleteById(@PathVariable Long id){
         orderService.deleteById(id);
         return "delete order id: " + id;

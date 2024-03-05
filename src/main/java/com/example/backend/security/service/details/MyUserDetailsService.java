@@ -1,25 +1,26 @@
-package com.example.backend.security.utils;
+package com.example.backend.security.service.details;
 
-import com.example.backend.web.User.UserRepository;
+import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Component
 @Service
 @RequiredArgsConstructor
 public class MyUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final MyUserDetailsFactory myUserDetailsFactory;
+    private final UserService userService;
 
     @Override
     @SneakyThrows
     public UserDetails loadUserByUsername(String username) {
-        return userRepository.findByEmail(username).orElseThrow(
+        UserEntity user =  userService.getByEmail(username).orElseThrow(
                 () -> new RuntimeException("Email not found")
         );
+        return myUserDetailsFactory.build(user);
     }
 }

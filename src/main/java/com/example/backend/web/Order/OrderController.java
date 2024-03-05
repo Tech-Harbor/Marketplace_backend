@@ -18,7 +18,7 @@ public class OrderController {
     public static final String ORDER_DELETE_ID = "/delete/order/{id}";
 
     @PostMapping(create_ORDER)
-    public OrderDTO create(@RequestBody OrderEntity order){
+    public OrderDTO create(@RequestBody OrderDTO order){
         return orderService.createOrder(order);
     }
 

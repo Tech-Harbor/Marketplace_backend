@@ -36,8 +36,7 @@
                 <h1 style="text-align: center">Registration</h1>
                 <p>Hello, ${name}!</p>
                 <p>This is a registration form. You can log in and use the online store application.</p>
-                <p>With best regards, <br> Marketplace</p>
-                <а id="a" href="https://marketplace-frontend-mu.vercel.app/" style="text-align: center">Marketplace</а>
+                <а id="a" href="https://marketplace-frontend-mu.vercel.app/api/auth/login">Marketplace</а>
             </div>
         </div>
     </body>

@@ -1,20 +1,14 @@
 package com.example.backend.web.User;
 
-import com.example.backend.web.Product.ProductDTO;
-import com.example.backend.web.Product.ProductFactory;
+import com.example.backend.web.utils.WebIsNullFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class UserFactory {
 
-    private final ProductFactory productFactory;
+    private final WebIsNullFactory webIsNullFactory;
 
     public UserDTO makeUserFactory(UserEntity user) {
         return UserDTO.builder()
@@ -22,17 +16,11 @@ public class UserFactory {
                 .firstname(user.getFirstname())
                 .email(user.getEmail())
                 .lastname(user.getLastname())
-                .number(user.getNumber())
-                .product(isNull(user))
+                .phone(user.getPhone())
+                .password(user.getPassword())
+                .status(user.getRegisterAuthStatus())
+                .product(webIsNullFactory.isNullProductUser(user))
                 .role(user.getRole())
                 .build();
-    }
-
-    private List<ProductDTO> isNull(UserEntity user) {
-        return Optional.ofNullable(user.getProduct())
-                .map(todoList -> todoList.stream()
-                        .map(productFactory::makeProduct)
-                        .collect(Collectors.toList()))
-                .orElse(Collections.emptyList());
     }
 }

@@ -14,8 +14,16 @@ public class CommentServiceImpl implements CommentService{
     private final CommentFactory commentFactory;
 
     @Override
-    public CommentDTO createComment(CommentEntity comment) {
-        return commentFactory.makeCommentDTO(commentRepository.save(comment));
+    public CommentDTO createComment(CommentDTO comment) {
+
+        CommentEntity newComment = CommentEntity.builder()
+                .id(comment.id())
+                .product(comment.product())
+                .user(comment.user())
+                .text(comment.text())
+                .build();
+
+        return commentFactory.makeCommentDTO(commentRepository.save(newComment));
     }
 
     @Override

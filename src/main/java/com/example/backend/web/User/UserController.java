@@ -15,18 +15,13 @@ public class UserController {
 
     private static final String URI_USERS_ID = "/{id}";
 
-    @PostMapping
-    private UserDTO createUser(@RequestBody UserEntity user){
-        return userService.createUser(user);
-    }
-
     @GetMapping
     public List<UserDTO> getAllUsers(){
         return userService.getByAllUser();
     }
 
     @PutMapping(URI_USERS_ID)
-    public UserDTO updateByIdUser(@PathVariable Long id, @RequestBody UserEntity user){
+    public UserDTO updateByIdUser(@PathVariable Long id, @RequestBody UserDTO user){
         return userService.updateByIdUser(id, user);
     }
 

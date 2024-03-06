@@ -80,5 +80,6 @@ tasks.named('test') {
 }
 
 checkstyle {
-    toolVersion '10.7.0'
+    toolVersion '10.10.0'
+    configFile = file("${rootProject.projectDir}/src/main/resources/checkstyle/checkstyle.xml")
 }

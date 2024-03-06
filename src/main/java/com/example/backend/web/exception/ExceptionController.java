@@ -1,7 +1,6 @@
 package com.example.backend.web.exception;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -18,7 +17,7 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
-    final static String PATH = "com.example.backend.web.";
+    public final static String PATH = "com.example.backend.web.";
 
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(RuntimeException ex, WebRequest request) {

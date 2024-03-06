@@ -3,7 +3,6 @@ package com.example.backend.security.jwt;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.details.MyUserDetails;
 import com.example.backend.security.service.details.MyUserDetailsService;
-import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,9 +28,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     @SneakyThrows
     protected void doFilterInternal(
-            @Nonnull HttpServletRequest request,
-            @Nonnull HttpServletResponse response,
-            @Nonnull FilterChain filterChain) {
+            final HttpServletRequest request,
+            final HttpServletResponse response,
+            final FilterChain filterChain) {
 
         final String authHeader = request.getHeader(AUTHORIZATION);
         final String jwt, userEmail;

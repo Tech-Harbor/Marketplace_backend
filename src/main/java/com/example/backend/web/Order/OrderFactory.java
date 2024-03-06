@@ -4,8 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OrderFactory {
-
-    public OrderDTO makeOrderDTO(OrderEntity order){
+    public OrderDTO makeOrderDTO(final OrderEntity order){
         return OrderDTO.builder()
                 .id(order.getId())
                 .status(order.getStatus())

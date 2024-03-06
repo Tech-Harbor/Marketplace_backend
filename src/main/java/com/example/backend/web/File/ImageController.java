@@ -1,7 +1,6 @@
 package com.example.backend.web.File;
 
 
-import com.example.backend.web.File.utils.FileUpload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +15,6 @@ public class ImageController {
     private static final String URI_IMAGES_ID = "/{id}";
 
     private final ImageService imageService;
-    private final FileUpload fileUpload;
 
     @GetMapping
     public List<ImageDTO> getAllImage(){

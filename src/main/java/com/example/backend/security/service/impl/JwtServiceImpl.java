@@ -25,27 +25,27 @@ public class JwtServiceImpl implements JwtService {
     private final JwtProperties jwtProperties;
 
     @Override
-    public String extractUserEmail(String token) {
+    public String extractUserEmail(final String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
     @Override
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(final String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
     @Override
-    public String generateAccessToken(Authentication authentication) {
+    public String generateAccessToken(final Authentication authentication) {
         return generateJwtAccessToken(new HashMap<>(), authentication);
     }
 
     @Override
-    public String generateRefreshToken(Authentication authentication) {
+    public String generateRefreshToken(final Authentication authentication) {
         return generateJwtRefreshToken(new HashMap<>(), authentication);
     }
 
-    private String generateJwtAccessToken(Map<String, Object> extraClaims, Authentication authentication) {
+    private String generateJwtAccessToken(final Map<String, Object> extraClaims, final Authentication authentication) {
 
         return Jwts
                 .builder()
@@ -57,7 +57,7 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
-    private String generateJwtRefreshToken(Map<String, Object> extraClaims, Authentication authentication) {
+    private String generateJwtRefreshToken(final Map<String, Object> extraClaims, final Authentication authentication) {
 
         return Jwts
                 .builder()
@@ -69,20 +69,20 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean isTokenValid(String token, MyUserDetails userDetails) {
+    public boolean isTokenValid(final String token, final MyUserDetails userDetails) {
         final String userEmail = extractUserEmail(token);
         return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(final String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token) {
+    private Date extractExpiration(final String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(final String token) {
         return Jwts
                 .parser()
                 .verifyWith(getSignInKey())

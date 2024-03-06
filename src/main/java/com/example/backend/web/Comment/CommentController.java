@@ -14,17 +14,17 @@ public class CommentController {
     private static final String URI_COMMENTS_ID = "/{id}";
 
     @PostMapping
-    public CommentDTO createComment(@RequestBody CommentDTO comment){
+    public CommentDTO createComment(@RequestBody final CommentDTO comment) {
         return commentService.createComment(comment);
     }
 
     @GetMapping
-    public List<CommentDTO> getAllComments(){
+    public List<CommentDTO> getAllComments() {
         return commentService.getAllComments();
     }
 
     @DeleteMapping(URI_COMMENTS_ID)
-    public String deleteByIdComment(@PathVariable Long id){
+    public String deleteByIdComment(@PathVariable final Long id){
         commentService.deleteById(id);
         return "Видалений коміт";
     }

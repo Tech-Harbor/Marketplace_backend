@@ -15,7 +15,7 @@ public class ProductController {
     private static final String URL_DELETE_ALL = "/deleteAll";
 
     @PostMapping
-    public ProductDTO createProduct(@PathVariable Long id, @RequestBody ProductDTO entity){
+    public ProductDTO createProduct(@PathVariable final Long id, @RequestBody final ProductDTO entity){
         return productService.createProduct(id,entity);
     }
 
@@ -25,17 +25,17 @@ public class ProductController {
     }
 
     @GetMapping(URI_PRODUCTS_ID)
-    public ProductDTO getOneProduct(@PathVariable Long id){
+    public ProductDTO getOneProduct(@PathVariable final Long id){
         return productService.getOneProduct(id);
     }
 
     @PutMapping(URI_PRODUCTS_ID)
-    public ProductDTO editProduct(@PathVariable Long id, @RequestBody ProductDTO entity){
+    public ProductDTO editProduct(@PathVariable final Long id, @RequestBody final ProductDTO entity){
         return productService.editProduct(id, entity);
     }
 
     @DeleteMapping(URI_PRODUCTS_ID)
-    public void deleteIdProduct(@PathVariable Long id){
+    public void deleteIdProduct(@PathVariable final Long id){
         productService.deleteIdProduct(id);
     }
 

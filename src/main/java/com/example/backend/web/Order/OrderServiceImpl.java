@@ -1,16 +1,17 @@
 package com.example.backend.web.Order;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
-    private final OrderRepository orderRepository;
-    private final OrderFactory orderFactory;
+    private OrderRepository orderRepository;
+    private OrderFactory orderFactory;
 
     @Override
     public OrderDTO createOrder(OrderDTO order) {

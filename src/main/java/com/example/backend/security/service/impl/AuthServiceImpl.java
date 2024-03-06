@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
 
     @Override
-    public void signup(RegisterRequest registerRequest) {
+    public void signup(final RegisterRequest registerRequest) {
         Optional<UserEntity> existUser = userService.getByEmail(registerRequest.email());
 
         existUser.ifPresent(user -> {throw badRequestException("This email has already been used.");});
@@ -58,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse login(AuthRequest authRequest) {
+    public AuthResponse login(final AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     authRequest.email(),
@@ -81,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void formUpdatePassword(Long id, PasswordRequest passwordRequest) {
+    public void formUpdatePassword(Long id, final PasswordRequest passwordRequest) {
         UserEntity userId = userService.getById(id);
 
         userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
@@ -90,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void requestEmailUpdatePassword(EmailRequest emailRequest) {
+    public void requestEmailUpdatePassword(final EmailRequest emailRequest) {
         UserEntity emailUser = userService.getByEmail(emailRequest.email()).orElse(null);
 
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());

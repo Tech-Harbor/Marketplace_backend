@@ -8,7 +8,6 @@ import com.example.backend.web.User.utils.RegisterAuthStatus;
 import com.example.backend.web.User.utils.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +38,9 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
     @Override
     @SneakyThrows
     public void onAuthenticationSuccess(
-            @NotNull HttpServletRequest request,
-            @NotNull HttpServletResponse response,
-            @NotNull Authentication authentication) {
+            final HttpServletRequest request,
+            final HttpServletResponse response,
+            final Authentication authentication) {
         OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
 
         if (RegisterAuthStatus.GOOGLE.name().toLowerCase()
@@ -66,15 +65,15 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                             }
                     );
 
-            response.addHeader("Set-Cookie", "jwt=" + jwtService.generateAccessToken(authentication) +
-                    "; Path=/; HttpOnly; SameSite=None; Secure");
+            response.addHeader("Set-Cookie", "jwt="
+                    + jwtService.generateAccessToken(authentication) + "; Path=/; HttpOnly; SameSite=None; Secure");
         }
 
         response.sendRedirect(DEPLOY);
     }
 
     private DefaultOAuth2User createOAuth2User(String roleName, Map<String, Object> attributes) {
-        String nameAttributeKey = "email";
+        final String nameAttributeKey = "email";
         if (!attributes.containsKey(nameAttributeKey)) {
             throw new IllegalArgumentException("Missing '" + nameAttributeKey +
                     "' attribute in OAuth2 user attributes");

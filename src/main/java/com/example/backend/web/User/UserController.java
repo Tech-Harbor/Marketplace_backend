@@ -21,17 +21,17 @@ public class UserController {
     }
 
     @PutMapping(URI_USERS_ID)
-    public UserDTO updateByIdUser(@PathVariable Long id, @RequestBody UserDTO user){
+    public UserDTO updateByIdUser(@PathVariable final Long id, @RequestBody final UserDTO user){
         return userService.updateByIdUser(id, user);
     }
 
     @GetMapping(URI_USERS_ID)
-    public UserDTO getById(@PathVariable Long id){
+    public UserDTO getById(@PathVariable final Long id){
         return userService.getByIdUser(id);
     }
 
     @DeleteMapping(URI_USERS_ID)
-    public String deleteId(@PathVariable Long id){
+    public String deleteId(@PathVariable final Long id){
         userService.deleteByIdUser(id);
         return "Видалений користувач" + id;
     }

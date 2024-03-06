@@ -8,7 +8,7 @@ import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Tag(name = "AuthSystem", description = "Точка входу в систему і особистий кабінет, користувача")
 public class AuthController {
 
-    private final AuthService authService;
+    private AuthService authService;
 
     private final static String SIGNUP_URI = "/signup";
     private final static String LOGIN_URI = "/login";
@@ -46,12 +46,12 @@ public class AuthController {
     }
 
     @GetMapping(INFO)
-    public String info(@AuthenticationPrincipal UserDetails userDetails){
+    public String info(@AuthenticationPrincipal UserDetails userDetails) {
         return userDetails.getUsername();
     }
 
     @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)
-    public void requestEmailUpdatePassword(@RequestBody @Validated EmailRequest emailRequest){
+    public void requestEmailUpdatePassword(@RequestBody @Validated EmailRequest emailRequest) {
         authService.requestEmailUpdatePassword(emailRequest);
     }
 }

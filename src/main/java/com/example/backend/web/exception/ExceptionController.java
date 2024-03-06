@@ -20,9 +20,13 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     public final static String PATH = "com.example.backend.web.";
 
     @ExceptionHandler(EntityNotFoundException.class)
-    protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(RuntimeException ex, WebRequest request) {
+    protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(final RuntimeException ex,
+                                                                       final WebRequest request) {
+
         String message = ex.getMessage().replaceAll(PATH, "");
+
         String path = request.getDescription(false).replaceAll("uri=", "");
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDTO(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.name(),
@@ -32,9 +36,15 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
+                                                                  final HttpHeaders headers,
+                                                                  final HttpStatusCode status,
+                                                                  final WebRequest request) {
+
         String message = ex.getMessage().replaceAll(PATH, "");
+
         String path = request.getDescription(false).replaceAll("uri=", "");
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.name(),
@@ -44,9 +54,15 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex,
+                                                                  final HttpHeaders headers,
+                                                                  final HttpStatusCode status,
+                                                                  final WebRequest request) {
+
         String message = ex.getMessage().replaceAll(PATH, "");
+
         String path = request.getDescription(false).replaceAll("uri=", "");
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.name(),

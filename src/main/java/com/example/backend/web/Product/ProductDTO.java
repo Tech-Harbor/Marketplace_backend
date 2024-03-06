@@ -14,4 +14,4 @@ public record ProductDTO (Long id,
                           double price,
                           LocalDateTime createDate,
                           List<ImageEntity> image,
-                          Long categoryId) {}
+                          Long categoryId) { }

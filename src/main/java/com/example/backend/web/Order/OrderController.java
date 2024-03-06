@@ -15,7 +15,7 @@ public class OrderController {
     public static final String URI_ORDERS_ID = "/{id}";
 
     @PostMapping
-    public OrderDTO create(@RequestBody OrderDTO order){
+    public OrderDTO create(@RequestBody final OrderDTO order){
         return orderService.createOrder(order);
     }
 

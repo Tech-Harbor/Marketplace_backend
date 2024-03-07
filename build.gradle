@@ -82,5 +82,12 @@ tasks.named('test') {
 checkstyle {
     toolVersion '10.14.0'
     configFile = file('src/main/resources/checkstyle/checkstyle.xml')
-    showViolations = true
+}
+
+checkstyleMain {
+    source = 'src/main/java'
+}
+
+checkstyleTest {
+    source = 'src/test/java'
 }

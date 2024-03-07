@@ -14,7 +14,7 @@ public class CommentServiceImpl implements CommentService{
     private final CommentFactory commentFactory;
 
     @Override
-    public CommentDTO createComment(CommentDTO comment) {
+    public CommentDTO createComment(final CommentDTO comment) {
 
         CommentEntity newComment = CommentEntity.builder()
                 .id(comment.id())
@@ -27,7 +27,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         commentRepository.deleteById(id);
     }
 

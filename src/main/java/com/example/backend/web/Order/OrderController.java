@@ -25,7 +25,7 @@ public class OrderController {
     }
 
     @DeleteMapping(URI_ORDERS_ID)
-    public String deleteById(@PathVariable Long id){
+    public String deleteById(@PathVariable final Long id){
         orderService.deleteById(id);
         return "delete order id: " + id;
     }

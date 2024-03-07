@@ -18,4 +18,4 @@ public record UserDTO(Long id,
 //                      List<CommentEntity> comments,
                       List<ProductDTO> product,
                       RegisterAuthStatus status,
-                      Role role) {}
+                      Role role) { }

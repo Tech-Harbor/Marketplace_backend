@@ -15,18 +15,18 @@ public class UserServiceImpl implements UserService{
     private final UserFactory userFactory;
 
     @Override
-    public UserDTO getByIdUser(Long id) {
+    public UserDTO getByIdUser(final Long id) {
         UserEntity userId = userRepository.getReferenceById(id);
         return userFactory.makeUserFactory(userId);
     }
 
     @Override
-    public UserEntity getById(Long id) {
+    public UserEntity getById(final Long id) {
         return userRepository.getReferenceById(id);
     }
 
     @Override
-    public Optional<UserEntity> getByEmail(String email) {
+    public Optional<UserEntity> getByEmail(final String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO updateByIdUser(Long id, UserDTO user) {
-        UserEntity userId = userRepository.getReferenceById(id);
+    public UserDTO updateByIdUser(final Long id, final UserDTO user) {
+        final UserEntity userId = userRepository.getReferenceById(id);
 
             userId.setFirstname(user.firstname());
             userId.setLastname(user.lastname());
@@ -51,12 +51,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteByIdUser(Long id) {
+    public void deleteByIdUser(final Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public UserEntity mySave(UserEntity user){
+    public UserEntity mySave(final UserEntity user){
         return userRepository.save(user);
     }
 }

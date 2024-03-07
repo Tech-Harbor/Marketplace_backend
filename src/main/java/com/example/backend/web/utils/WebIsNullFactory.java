@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class WebIsNullFactory {
 
-    private final ProductFactory productFactory;
+    private ProductFactory productFactory;
 
-    public List<ProductDTO> isNullProductCategory(CategoryEntity category) {
+    public List<ProductDTO> isNullProductCategory(final CategoryEntity category) {
         return Optional.ofNullable(category.getProductEntityList())
                 .map(list -> list.stream()
                         .map(productFactory::makeProduct)
@@ -27,7 +27,7 @@ public class WebIsNullFactory {
                 .orElse(Collections.emptyList());
     }
 
-    public List<ProductDTO> isNullProductUser(UserEntity user) {
+    public List<ProductDTO> isNullProductUser(final UserEntity user) {
         return Optional.ofNullable(user.getProduct())
                 .map(list -> list.stream()
                         .map(productFactory::makeProduct)

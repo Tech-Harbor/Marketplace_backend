@@ -46,7 +46,6 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String generateJwtAccessToken(final Map<String, Object> extraClaims, final Authentication authentication) {
-
         return Jwts
                 .builder()
                 .claims(extraClaims)
@@ -58,7 +57,6 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String generateJwtRefreshToken(final Map<String, Object> extraClaims, final Authentication authentication) {
-
         return Jwts
                 .builder()
                 .claims(extraClaims)

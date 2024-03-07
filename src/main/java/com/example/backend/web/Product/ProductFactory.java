@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductFactory {
-    public ProductDTO makeProduct(final ProductEntity entity){
+    public ProductDTO makeProduct(final ProductEntity entity) {
         return ProductDTO.builder()
                 .id(entity.getId())
                 .description_product(entity.getDescription_product())

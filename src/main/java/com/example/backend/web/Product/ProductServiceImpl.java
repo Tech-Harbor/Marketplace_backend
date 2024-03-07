@@ -21,10 +21,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO createProduct(final Long id, final ProductDTO product) {
-        UserEntity userId = userService.getById(id);
-        CategoryEntity categoryId = categoryService.getById(product.categoryId());
+        final UserEntity userId = userService.getById(id);
+        final CategoryEntity categoryId = categoryService.getById(product.categoryId());
 
-        ProductEntity newProduct = ProductEntity.builder()
+        final ProductEntity newProduct = ProductEntity.builder()
                 .id(product.id())
                 .user(userId)
                 .name(product.name())
@@ -47,14 +47,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getOneProduct(final Long id) {
-        ProductEntity entity_Id = productRepository.getReferenceById(id);
+        final ProductEntity entity_Id = productRepository.getReferenceById(id);
 
         return productFactory.makeProduct(entity_Id);
     }
 
     @Override
-    public ProductDTO editProduct(Long id, ProductDTO entity) {
-        ProductEntity entityId = productRepository.getReferenceById(id);
+    public ProductDTO editProduct(final Long id, final ProductDTO entity) {
+        final ProductEntity entityId = productRepository.getReferenceById(id);
                entityId.setDescription_product(entity.description_product());
                entityId.setName(entity.name());
                entityId.setCreateDate(entity.createDate());
@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteIdProduct(Long id) {
+    public void deleteIdProduct(final Long id) {
         productRepository.deleteById(id);
     }
     @Override

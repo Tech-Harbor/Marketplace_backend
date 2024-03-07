@@ -14,9 +14,10 @@ public class ProductController {
     private static final String URI_PRODUCTS_ID = "/{id}";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
-    @PostMapping
-    public ProductDTO createProduct(@PathVariable final Long id, @RequestBody final ProductDTO entity){
-        return productService.createProduct(id,entity);
+    @PostMapping(URI_PRODUCTS_ID)
+    public ProductDTO createProductIdByUser(@PathVariable(value = "id") final Long userId,
+                                            @RequestBody final ProductDTO entity){
+        return productService.createProduct(userId, entity);
     }
 
     @GetMapping

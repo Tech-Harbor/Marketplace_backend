@@ -23,13 +23,13 @@ public class ImageController {
 
     @PostMapping
     @ResponseBody
-    public ImageDTO upload(@RequestParam MultipartFile file){
+    public ImageDTO upload(@RequestParam final MultipartFile file){
         return imageService.uploadImage(file);
     }
 
     @GetMapping(URI_IMAGES_ID)
     @ResponseBody
-    public ImageDTO imageGetById(@RequestParam Long imageId) {
+    public ImageDTO imageGetById(@RequestParam final Long imageId) {
         return imageService.imageById(imageId);
     }
 }

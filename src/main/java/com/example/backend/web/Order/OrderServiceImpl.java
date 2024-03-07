@@ -14,7 +14,7 @@ public class OrderServiceImpl implements OrderService{
     private OrderFactory orderFactory;
 
     @Override
-    public OrderDTO createOrder(OrderDTO order) {
+    public OrderDTO createOrder(final OrderDTO order) {
 
         OrderEntity newOrder = OrderEntity.builder()
                 .id(order.id())
@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         orderRepository.deleteById(id);
     }
 }

@@ -26,7 +26,7 @@ public class ImageServiceImpl implements ImageService{
     @Override
     @SneakyThrows
     public ImageDTO uploadImage(final MultipartFile file){
-        Optional<BufferedImage> imageOptional = Optional.ofNullable(ImageIO.read(file.getInputStream()));
+        final Optional<BufferedImage> imageOptional = Optional.ofNullable(ImageIO.read(file.getInputStream()));
 
         imageOptional.orElseThrow(() -> badRequestException("There is no uploaded image"));
 

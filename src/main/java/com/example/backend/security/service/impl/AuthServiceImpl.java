@@ -38,11 +38,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void signup(final RegisterRequest registerRequest) {
-        Optional<UserEntity> existUser = userService.getByEmail(registerRequest.email());
+        final Optional<UserEntity> existUser = userService.getByEmail(registerRequest.email());
 
         existUser.ifPresent(user -> {throw badRequestException("This email has already been used.");});
 
-        UserEntity user = UserEntity.builder()
+        final UserEntity user = UserEntity.builder()
                 .firstname(registerRequest.firstname())
                 .lastname(registerRequest.lastname())
                 .email(registerRequest.email())
@@ -59,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(final AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(
+        final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     authRequest.email(),
                     authRequest.password()
@@ -70,9 +70,9 @@ public class AuthServiceImpl implements AuthService {
 
         userService.getByEmail(authRequest.email()).orElseThrow();
 
-        var accessToken = jwtService.generateAccessToken(authentication);
+        final var accessToken = jwtService.generateAccessToken(authentication);
 
-        var refreshToken = jwtService.generateRefreshToken(authentication);
+        final var refreshToken = jwtService.generateRefreshToken(authentication);
 
         return AuthResponse.builder()
                 .accessToken(accessToken)
@@ -81,8 +81,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void formUpdatePassword(Long id, final PasswordRequest passwordRequest) {
-        UserEntity userId = userService.getById(id);
+    public void formUpdatePassword(final Long id, final PasswordRequest passwordRequest) {
+        final UserEntity userId = userService.getById(id);
 
         userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
@@ -91,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void requestEmailUpdatePassword(final EmailRequest emailRequest) {
-        UserEntity emailUser = userService.getByEmail(emailRequest.email()).orElse(null);
+        final UserEntity emailUser = userService.getByEmail(emailRequest.email()).orElse(null);
 
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
     }

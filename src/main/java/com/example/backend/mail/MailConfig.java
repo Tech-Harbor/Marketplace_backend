@@ -1,17 +1,17 @@
 package com.example.backend.mail;
 
 import com.example.backend.web.utils.props.MailProperties;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class MailConfig {
 
-    public final MailProperties mailProperties;
+    private MailProperties mailProperties;
 
     @Bean
     public JavaMailSender mailSender() {

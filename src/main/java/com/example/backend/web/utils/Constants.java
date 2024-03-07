@@ -7,4 +7,5 @@ public class Constants {
     public static final String LOCALHOST = "http://localhost:3000";
     public static final String DEPLOY = "https://marketplace-frontend-mu.vercel.app/";
     public static final String BEARER = "Bearer ";
+    public static final String PATH = "com.example.backend.web.";
 }

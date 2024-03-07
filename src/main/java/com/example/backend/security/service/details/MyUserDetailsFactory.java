@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyUserDetailsFactory {
-    public MyUserDetails build(UserEntity userEntity){
+    public MyUserDetails build(final UserEntity userEntity) {
         return MyUserDetails.builder()
                 .user(UserEntity.builder()
                         .lastname(userEntity.getLastname())

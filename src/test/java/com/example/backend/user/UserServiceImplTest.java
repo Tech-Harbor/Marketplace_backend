@@ -27,32 +27,32 @@ public class UserServiceImplTest {
 
     @Test
     public void getByIdUserTest() {
-        Long userId = 1L;
+        final Long userId = 1L;
 
-        UserEntity userEntity = UserEntity.builder()
+        final UserEntity userEntity = UserEntity.builder()
                 .id(userId)
                 .build();
 
-        UserDTO expectedUserDTO = UserDTO.builder()
+        final UserDTO expectedUserDTO = UserDTO.builder()
                 .id(userId)
                 .build();
 
-        when(userRepository.getReferenceById(userId)).thenReturn(userEntity);
+        when(userService.getById(userId)).thenReturn(userEntity);
         when(userFactory.makeUserFactory(any(UserEntity.class))).thenReturn(expectedUserDTO);
 
-        UserDTO resultUserDTO = userService.getByIdUser(userId);
+        final UserDTO resultUserDTO = userService.getByIdUser(userId);
 
         assertEquals(expectedUserDTO, resultUserDTO);
     }
 
     @Test
-    public void getByIdUserNotTest(){
-        Long userId = 1L;
+    public void getByIdUserNotTest() {
+        final Long userId = 1L;
 
-        when(userRepository.getReferenceById(userId)).thenReturn(null);
+        when(userService.getById(userId)).thenReturn(null);
         when(userFactory.makeUserFactory(isNull())).thenReturn(null);
 
-        UserDTO resultUserDTO = userService.getByIdUser(userId);
+        final UserDTO resultUserDTO = userService.getByIdUser(userId);
 
         assertNull(resultUserDTO);
 
@@ -62,24 +62,24 @@ public class UserServiceImplTest {
 
     @Test
     public void getByIdTest() {
-        Long userId = 1L;
+        final Long userId = 1L;
 
-        UserEntity userEntity = UserEntity.builder()
+        final UserEntity userEntity = UserEntity.builder()
                 .id(userId)
                 .build();
 
-        when(userRepository.getReferenceById(userId)).thenReturn(userEntity);
+        when(userService.getById(userId)).thenReturn(userEntity);
 
-        UserEntity resultUserEntity = userService.getById(userId);
+        final UserEntity resultUserEntity = userService.getById(userId);
 
         assertEquals(userEntity, resultUserEntity);
     }
 
     @Test
     public void getByIdNotTest() {
-        Long userId = 1L;
+        final Long userId = 1L;
 
-        when(userRepository.getReferenceById(userId)).thenReturn(null);
+        when(userService.getById(userId)).thenReturn(null);
 
         UserEntity resultUserEntity = userService.getById(userId);
 
@@ -89,25 +89,25 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getByEmailTest(){
-        String emailUser = "email";
+    public void getByEmailTest() {
+        final String emailUser = "email";
 
-        UserEntity userEntity = UserEntity.builder()
+        final UserEntity userEntity = UserEntity.builder()
                 .email(emailUser)
                 .build();
 
-        when(userRepository.findByEmail(emailUser)).thenReturn(Optional.of(userEntity));
+        when(userService.getByEmail(emailUser)).thenReturn(Optional.of(userEntity));
 
-        Optional<UserEntity> emailUserEntity = userService.getByEmail(emailUser);
+        final Optional<UserEntity> emailUserEntity = userService.getByEmail(emailUser);
 
         assertEquals(userEntity, emailUserEntity.orElse(null));
     }
 
     @Test
-    public void updateByIdUserTest(){
-        Long userId = 1L;
+    public void updateByIdUserTest() {
+        final Long userId = 1L;
 
-        UserDTO userDTOUpdate = UserDTO.builder()
+        final UserDTO userDTOUpdate = UserDTO.builder()
                 .lastname("lastname")
                 .firstname("firstname")
                 .phone("phone")
@@ -115,14 +115,14 @@ public class UserServiceImplTest {
                 .password("password")
                 .build();
 
-        UserEntity existingUser = UserEntity.builder()
+        final UserEntity existingUser = UserEntity.builder()
                 .id(userId)
                 .build();
 
-        when(userRepository.getReferenceById(userId)).thenReturn(existingUser);
-        when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getById(userId)).thenReturn(existingUser);
+        when(userService.mySave(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        UserDTO saveUserDto = UserDTO.builder()
+        final UserDTO saveUserDto = UserDTO.builder()
                 .lastname("lastname")
                 .firstname("firstname")
                 .phone("phone")
@@ -140,19 +140,19 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getByAllUserTest(){
-        UserEntity userEntity1 = UserEntity.builder().build();
-        UserEntity userEntity2 = UserEntity.builder().build();
+    public void getByAllUserTest() {
+        final UserEntity userEntity1 = UserEntity.builder().build();
+        final UserEntity userEntity2 = UserEntity.builder().build();
 
         when(userRepository.findAll()).thenReturn(Arrays.asList(userEntity1, userEntity2));
 
-        UserDTO userDTO1 = UserDTO.builder().build();
-        UserDTO userDTO2 = UserDTO.builder().build();
+        final UserDTO userDTO1 = UserDTO.builder().build();
+        final UserDTO userDTO2 = UserDTO.builder().build();
 
         when(userFactory.makeUserFactory(userEntity1)).thenReturn(userDTO1);
         when(userFactory.makeUserFactory(userEntity2)).thenReturn(userDTO2);
 
-        List<UserDTO> result = userService.getByAllUser();
+        final List<UserDTO> result = userService.getByAllUser();
 
         assertEquals(2, result.size());
         assertEquals(userDTO1, result.get(0));
@@ -160,8 +160,8 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void deleteByIdUserTest(){
-        Long userDeleteId = 1L;
+    public void deleteByIdUserTest() {
+        final Long userDeleteId = 1L;
 
         userService.deleteByIdUser(userDeleteId);
 

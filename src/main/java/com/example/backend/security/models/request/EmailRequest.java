@@ -6,4 +6,4 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
-public record EmailRequest(@NotNull @NotBlank @Email String email) {}
+public record EmailRequest(@NotNull @NotBlank @Email String email) { }

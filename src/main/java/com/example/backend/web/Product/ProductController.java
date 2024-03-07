@@ -14,33 +14,34 @@ public class ProductController {
     private static final String URI_PRODUCTS_ID = "/{id}";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
-    @PostMapping
-    public ProductDTO createProduct(@PathVariable Long id, @RequestBody ProductDTO entity){
-        return productService.createProduct(id,entity);
+    @PostMapping(URI_PRODUCTS_ID)
+    public ProductDTO createProductIdByUser(@PathVariable(value = "id") final Long userId,
+                                            @RequestBody final ProductDTO entity) {
+        return productService.createProduct(userId, entity);
     }
 
     @GetMapping
-    public List<ProductDTO> getProducts(){
+    public List<ProductDTO> getProducts() {
         return productService.getAllProduct();
     }
 
     @GetMapping(URI_PRODUCTS_ID)
-    public ProductDTO getOneProduct(@PathVariable Long id){
+    public ProductDTO getOneProduct(@PathVariable final Long id) {
         return productService.getOneProduct(id);
     }
 
     @PutMapping(URI_PRODUCTS_ID)
-    public ProductDTO editProduct(@PathVariable Long id, @RequestBody ProductDTO entity){
+    public ProductDTO editProduct(@PathVariable final Long id, @RequestBody final ProductDTO entity) {
         return productService.editProduct(id, entity);
     }
 
     @DeleteMapping(URI_PRODUCTS_ID)
-    public void deleteIdProduct(@PathVariable Long id){
+    public void deleteIdProduct(@PathVariable final Long id) {
         productService.deleteIdProduct(id);
     }
 
     @DeleteMapping(URL_DELETE_ALL)
-    public void deleteAllProduct(){
+    public void deleteAllProduct() {
         productService.deleteAll();
     }
 }

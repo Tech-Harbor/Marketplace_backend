@@ -2,20 +2,21 @@ package com.example.backend.config.cloudinary;
 
 import com.cloudinary.Cloudinary;
 import com.example.backend.web.utils.props.CloudinaryProperties;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CloudinaryConfig {
 
-    public final CloudinaryProperties cloudinaryProperties;
+    private CloudinaryProperties cloudinaryProperties;
 
     @Bean
-    public Cloudinary cloudinary(){
+    public Cloudinary cloudinary() {
         Map<String, String> config = new HashMap<>();
         config.put("cloud_name", cloudinaryProperties.getCloudName());
         config.put("api_key", cloudinaryProperties.getApiKey());

@@ -15,17 +15,17 @@ public class OrderController {
     public static final String URI_ORDERS_ID = "/{id}";
 
     @PostMapping
-    public OrderDTO create(@RequestBody OrderDTO order){
+    public OrderDTO create(@RequestBody final OrderDTO order) {
         return orderService.createOrder(order);
     }
 
     @GetMapping
-    public List<OrderDTO> getAllOrder(){
+    public List<OrderDTO> getAllOrder() {
         return orderService.getAllOrder();
     }
 
     @DeleteMapping(URI_ORDERS_ID)
-    public String deleteById(@PathVariable Long id){
+    public String deleteById(@PathVariable final Long id) {
         orderService.deleteById(id);
         return "delete order id: " + id;
     }

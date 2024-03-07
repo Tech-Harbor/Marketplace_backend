@@ -5,4 +5,4 @@ import com.example.backend.web.User.UserEntity;
 import lombok.Builder;
 
 @Builder
-public record CommentDTO(Long id, UserEntity user, ProductEntity product, String text) {}
+public record CommentDTO(Long id, UserEntity user, ProductEntity product, String text) { }

@@ -1,0 +1,18 @@
+-   repo: https://github.com/diffplug/spotless
+    rev: 5.10.1
+    hooks:
+      -   id: spotless
+          args: ["apply"]
+-   repo: https://github.com/diffplug/spotless
+    rev: 5.10.1
+    hooks:
+      -   id: spotless
+          args: ["apply"]
+-   repo: local
+    hooks:
+      -   id: checkstyle
+          name: checkstyle
+          entry: ./gradlew
+          args: ["checkstyleMain", "checkstyleTest"]
+          language: script
+          types: [pre-commit]

@@ -20,7 +20,7 @@ public class ImageEntity {
     private String imageUrl;
     private String imageId;
 
-    public ImageEntity(String name, String imageUrl, String imageId) {
+    public ImageEntity(final String name, final String imageUrl, final String imageId) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.imageId = imageId;

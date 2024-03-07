@@ -21,22 +21,22 @@ public class CategoryController {
     }
 
     @GetMapping(URI_CATEGORIES_ID)
-    public CategoryDTO getOneById(@PathVariable Long id) {
+    public CategoryDTO getOneById(@PathVariable final Long id) {
         return categoryService.getOneById(id);
     }
 
     @PostMapping
-    public CategoryDTO create(@RequestBody @Validated CategoryDTO categoryDTO) {
+    public CategoryDTO create(@RequestBody @Validated final CategoryDTO categoryDTO) {
         return categoryService.create(categoryDTO);
     }
 
     @PutMapping(URI_CATEGORIES_ID)
-    public CategoryDTO update(@PathVariable Long id, @RequestBody @Validated CategoryDTO categoryDTO) {
+    public CategoryDTO update(@PathVariable final Long id, @RequestBody @Validated final CategoryDTO categoryDTO) {
         return categoryService.update(id, categoryDTO);
     }
 
     @DeleteMapping(URI_CATEGORIES_ID)
-    public void delete(@PathVariable Long id) {
-        categoryService.delete(id);
+    public void delete(@PathVariable final Long id) {
+        categoryService.deleteId(id);
     }
 }

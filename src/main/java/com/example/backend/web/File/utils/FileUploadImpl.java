@@ -2,7 +2,6 @@ package com.example.backend.web.File.utils;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.example.backend.web.File.utils.FileUpload;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -23,12 +22,12 @@ public class FileUploadImpl implements FileUpload {
 
     @SneakyThrows
     @Override
-    public Map uploadFile(MultipartFile multipartFile) {
+    public Map uploadFile(final MultipartFile multipartFile) {
         File file = convertMultiPartToFile(multipartFile);
 
         Map map = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
 
-        if (!Files.deleteIfExists(file.toPath())){
+        if (!Files.deleteIfExists(file.toPath())) {
             throw new IOException("Failed to delete temporary file: " + file.getAbsolutePath());
         }
 
@@ -37,13 +36,13 @@ public class FileUploadImpl implements FileUpload {
 
     @SneakyThrows
     @Override
-    public Map deleteById(String id){
+    public Map deleteById(final String id) {
         return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
     }
 
     @SneakyThrows
-    private File convertMultiPartToFile(MultipartFile file){
-        File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+    private File convertMultiPartToFile(final MultipartFile file) {
+        final File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(file.getBytes());
         fos.close();

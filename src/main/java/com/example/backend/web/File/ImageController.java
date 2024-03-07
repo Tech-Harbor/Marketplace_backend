@@ -1,7 +1,6 @@
 package com.example.backend.web.File;
 
 
-import com.example.backend.web.File.utils.FileUpload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,22 +15,21 @@ public class ImageController {
     private static final String URI_IMAGES_ID = "/{id}";
 
     private final ImageService imageService;
-    private final FileUpload fileUpload;
 
     @GetMapping
-    public List<ImageDTO> getAllImage(){
+    public List<ImageDTO> getAllImage() {
         return imageService.getAllPhoto();
     }
 
     @PostMapping
     @ResponseBody
-    public ImageDTO upload(@RequestParam MultipartFile file){
+    public ImageDTO upload(@RequestParam final MultipartFile file) {
         return imageService.uploadImage(file);
     }
 
     @GetMapping(URI_IMAGES_ID)
     @ResponseBody
-    public ImageDTO imageGetById(@RequestParam Long imageId) {
+    public ImageDTO imageGetById(@RequestParam final Long imageId) {
         return imageService.imageById(imageId);
     }
 }

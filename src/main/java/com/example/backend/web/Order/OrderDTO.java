@@ -5,4 +5,4 @@ import com.example.backend.web.User.UserEntity;
 import lombok.Builder;
 
 @Builder
-public record OrderDTO(Long id, UserEntity user, ProductEntity product, Status status) {}
+public record OrderDTO(Long id, UserEntity user, ProductEntity product, Status status) { }

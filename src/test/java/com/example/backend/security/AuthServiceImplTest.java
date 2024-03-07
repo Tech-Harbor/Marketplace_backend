@@ -50,10 +50,10 @@ public class AuthServiceImplTest {
     private JwtService jwtService;
 
     @Test
-    public void sigUpTest(){
+    public void sigUpTest() {
         String email = "email";
 
-        RegisterRequest registerRequest = RegisterRequest.builder()
+        final RegisterRequest registerRequest = RegisterRequest.builder()
                 .firstname("firstname")
                 .lastname("lastname")
                 .email(email)
@@ -72,10 +72,10 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void sigUpNotTest(){
-        String email = "email";
+    public void sigUpNotTest() {
+        final String email = "email";
 
-        RegisterRequest registerRequest = RegisterRequest.builder()
+        final RegisterRequest registerRequest = RegisterRequest.builder()
                 .firstname("firstname")
                 .lastname("lastname")
                 .email(email)
@@ -96,13 +96,13 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void loginTest(){
-        AuthRequest authRequest = AuthRequest.builder()
+    public void loginTest() {
+        final AuthRequest authRequest = AuthRequest.builder()
                 .email("email")
                 .password("password")
                 .build();
 
-        Authentication authentication = mock(Authentication.class);
+        final Authentication authentication = mock(Authentication.class);
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
@@ -110,7 +110,7 @@ public class AuthServiceImplTest {
         when(jwtService.generateRefreshToken(authentication)).thenReturn("RefreshToken");
         when(userService.getByEmail(authRequest.email())).thenReturn(Optional.of(mock(UserEntity.class)));
 
-        AuthResponse authRequestLogin = authService.login(authRequest);
+        final AuthResponse authRequestLogin = authService.login(authRequest);
 
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verify(jwtService).generateAccessToken(authentication);
@@ -122,13 +122,13 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void loginNotTest(){
-        AuthRequest authRequest = AuthRequest.builder()
+    public void loginNotTest() {
+        final AuthRequest authRequest = AuthRequest.builder()
                 .email("email")
                 .password("password")
                 .build();
 
-        Authentication authentication = mock(Authentication.class);
+        final Authentication authentication = mock(Authentication.class);
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
@@ -143,14 +143,14 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void formUpdatePasswordTest(){
-        Long userId = 1L;
+    public void formUpdatePasswordTest() {
+        final Long userId = 1L;
 
-        PasswordRequest passwordRequest = PasswordRequest.builder()
+        final PasswordRequest passwordRequest = PasswordRequest.builder()
                 .password("password")
                 .build();
 
-        UserEntity userEntity = UserEntity.builder()
+        final UserEntity userEntity = UserEntity.builder()
                 .id(userId)
                 .build();
 
@@ -165,14 +165,14 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void formUpdatePasswordNotTest(){
-        Long userId = 1L;
+    public void formUpdatePasswordNotTest() {
+        final Long userId = 1L;
 
-        PasswordRequest passwordRequest = PasswordRequest.builder()
+        final PasswordRequest passwordRequest = PasswordRequest.builder()
                 .password("password")
                 .build();
 
-        UserEntity userEntity = UserEntity.builder()
+        final UserEntity userEntity = UserEntity.builder()
                 .id(userId)
                 .password("password")
                 .build();
@@ -188,14 +188,14 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void requestEmailUpdatePasswordTest(){
-        Long userId = 1L;
+    public void requestEmailUpdatePasswordTest() {
+        final Long userId = 1L;
 
-        EmailRequest emailRequest = EmailRequest.builder()
+        final EmailRequest emailRequest = EmailRequest.builder()
                 .email("email")
                 .build();
 
-        UserEntity userEntity = UserEntity.builder()
+        final UserEntity userEntity = UserEntity.builder()
                 .id(userId)
                 .build();
 
@@ -207,14 +207,14 @@ public class AuthServiceImplTest {
         verify(mailService).sendEmail(userEntity, MailType.NEW_PASSWORD, new Properties());
     }
 
-    private static class PasswordEncoderTestUtils implements PasswordEncoder {
+    private static final class PasswordEncoderTestUtils implements PasswordEncoder {
         @Override
-        public String encode(CharSequence rawPassword) {
+        public String encode(final CharSequence rawPassword) {
             return rawPassword.toString();
         }
 
         @Override
-        public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        public boolean matches(final CharSequence rawPassword, final String encodedPassword) {
             return rawPassword.toString().equals(encodedPassword);
         }
     }

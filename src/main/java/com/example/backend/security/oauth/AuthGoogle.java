@@ -8,7 +8,6 @@ import com.example.backend.web.User.utils.RegisterAuthStatus;
 import com.example.backend.web.User.utils.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -39,14 +38,15 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
     @Override
     @SneakyThrows
     public void onAuthenticationSuccess(
-            @NotNull HttpServletRequest request,
-            @NotNull HttpServletResponse response,
-            @NotNull Authentication authentication) {
-        OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
+            final HttpServletRequest request,
+            final HttpServletResponse response,
+            final Authentication authentication) {
+        final OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
 
         if (RegisterAuthStatus.GOOGLE.name().toLowerCase()
                 .equals(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())) {
-            Map<String, Object> attributes = ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes();
+            final Map<String, Object> attributes = ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes();
+
             var email = attributes.getOrDefault("email", "").toString();
 
             userService.getByEmail(email)
@@ -55,7 +55,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                                             createOAuth2User(user.getRole().name(), attributes), user.getRole().name(),
                                             oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())
                             ), () -> {
-                                var saveUser = createUserEntity(attributes, email);
+                                final var saveUser = createUserEntity(attributes, email);
                                 userService.mySave(saveUser);
                                 SecurityContextHolder.getContext().setAuthentication(
                                         createOAuth2AuthenticationToken(
@@ -66,28 +66,31 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                             }
                     );
 
-            response.addHeader("Set-Cookie", "jwt=" + jwtService.generateAccessToken(authentication) +
-                    "; Path=/; HttpOnly; SameSite=None; Secure");
+            response.addHeader("Set-Cookie", "jwt="
+                    + jwtService.generateAccessToken(authentication) + "; Path=/; HttpOnly; SameSite=None; Secure");
         }
 
         response.sendRedirect(DEPLOY);
     }
 
-    private DefaultOAuth2User createOAuth2User(String roleName, Map<String, Object> attributes) {
-        String nameAttributeKey = "email";
+    private DefaultOAuth2User createOAuth2User(final String roleName, final Map<String, Object> attributes) {
+        final String nameAttributeKey = "email";
+
         if (!attributes.containsKey(nameAttributeKey)) {
-            throw new IllegalArgumentException("Missing '" + nameAttributeKey +
-                    "' attribute in OAuth2 user attributes");
+            throw new IllegalArgumentException("Missing '" + nameAttributeKey
+                    + "' attribute in OAuth2 user attributes");
         }
+
         return new DefaultOAuth2User(List.of(new SimpleGrantedAuthority(roleName)), attributes, nameAttributeKey);
     }
 
-    private OAuth2AuthenticationToken createOAuth2AuthenticationToken(DefaultOAuth2User user, String roleName,
-                                                                      String registrationId) {
+    private OAuth2AuthenticationToken createOAuth2AuthenticationToken(final DefaultOAuth2User user,
+                                                                      final String roleName,
+                                                                      final String registrationId) {
         return new OAuth2AuthenticationToken(user, List.of(new SimpleGrantedAuthority(roleName)), registrationId);
     }
 
-    private UserEntity createUserEntity(Map<String, Object> attributes, String email) {
+    private UserEntity createUserEntity(final Map<String, Object> attributes, final String email) {
         return UserEntity.builder()
                 .email(email)
                 .firstname(attributes.getOrDefault("given_name", "").toString())

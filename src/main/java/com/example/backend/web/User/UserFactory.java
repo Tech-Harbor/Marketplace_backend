@@ -10,7 +10,7 @@ public class UserFactory {
 
     private final WebIsNullFactory webIsNullFactory;
 
-    public UserDTO makeUserFactory(UserEntity user) {
+    public UserDTO makeUserFactory(final UserEntity user) {
         return UserDTO.builder()
                 .id(user.getId())
                 .firstname(user.getFirstname())

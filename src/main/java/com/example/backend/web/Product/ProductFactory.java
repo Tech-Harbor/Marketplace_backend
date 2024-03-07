@@ -4,11 +4,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductFactory {
-    public ProductDTO makeProduct(ProductEntity entity){
+    public ProductDTO makeProduct(final ProductEntity entity) {
         return ProductDTO.builder()
                 .id(entity.getId())
-                .description_product(entity.getDescription_product())
-                .characteristic_product(entity.getCharacteristic_product())
+                .descriptionProduct(entity.getDescriptionProduct())
+                .characteristicProduct(entity.getCharacteristicProduct())
                 .name(entity.getName())
                 .price(entity.getPrice())
                 .createDate(entity.getCreateDate())

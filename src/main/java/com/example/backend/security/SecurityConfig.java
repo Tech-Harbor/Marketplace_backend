@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     @Bean
     @SneakyThrows
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http) {
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)

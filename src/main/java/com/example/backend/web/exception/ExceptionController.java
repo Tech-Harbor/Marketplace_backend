@@ -14,11 +14,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.LocalDateTime;
 
+import static com.example.backend.web.utils.Constants.PATH;
+
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
-
-    public final static String PATH = "com.example.backend.web.";
-
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(final RuntimeException ex,
                                                                        final WebRequest request) {

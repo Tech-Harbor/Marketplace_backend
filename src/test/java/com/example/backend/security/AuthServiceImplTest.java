@@ -207,14 +207,14 @@ public class AuthServiceImplTest {
         verify(mailService).sendEmail(userEntity, MailType.NEW_PASSWORD, new Properties());
     }
 
-    private static class PasswordEncoderTestUtils implements PasswordEncoder {
+    private static final class PasswordEncoderTestUtils implements PasswordEncoder {
         @Override
-        public String encode(CharSequence rawPassword) {
+        public String encode(final CharSequence rawPassword) {
             return rawPassword.toString();
         }
 
         @Override
-        public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        public boolean matches(final CharSequence rawPassword, final String encodedPassword) {
             return rawPassword.toString().equals(encodedPassword);
         }
     }

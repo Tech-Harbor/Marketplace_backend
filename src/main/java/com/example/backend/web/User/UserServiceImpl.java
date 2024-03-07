@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserFactory userFactory;
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserEntity mySave(final UserEntity user){
+    public UserEntity mySave(final UserEntity user) {
         return userRepository.save(user);
     }
 }

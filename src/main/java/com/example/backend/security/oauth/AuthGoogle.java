@@ -77,8 +77,8 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
         final String nameAttributeKey = "email";
 
         if (!attributes.containsKey(nameAttributeKey)) {
-            throw new IllegalArgumentException("Missing '" + nameAttributeKey +
-                    "' attribute in OAuth2 user attributes");
+            throw new IllegalArgumentException("Missing '" + nameAttributeKey
+                    + "' attribute in OAuth2 user attributes");
         }
 
         return new DefaultOAuth2User(List.of(new SimpleGrantedAuthority(roleName)), attributes, nameAttributeKey);

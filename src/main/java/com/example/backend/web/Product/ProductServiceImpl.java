@@ -28,8 +28,8 @@ public class ProductServiceImpl implements ProductService {
                 .id(product.id())
                 .user(userId)
                 .name(product.name())
-                .description_product(product.description_product())
-                .characteristic_product(product.characteristic_product())
+                .characteristicProduct(product.characteristicProduct())
+                .descriptionProduct(product.descriptionProduct())
                 .price(product.price())
                 .createDate(product.createDate())
                 .category(categoryId)
@@ -47,20 +47,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getOneProduct(final Long id) {
-        final ProductEntity entity_Id = productRepository.getReferenceById(id);
+        final ProductEntity entityId = productRepository.getReferenceById(id);
 
-        return productFactory.makeProduct(entity_Id);
+        return productFactory.makeProduct(entityId);
     }
 
     @Override
     public ProductDTO editProduct(final Long id, final ProductDTO entity) {
         final ProductEntity entityId = productRepository.getReferenceById(id);
-               entityId.setDescription_product(entity.description_product());
-               entityId.setName(entity.name());
-               entityId.setCreateDate(entity.createDate());
-               entityId.setCharacteristic_product(entity.characteristic_product());
-               entityId.setPrice(entity.price());
-               entityId.setDescription_product(entity.description_product());
+            entityId.setName(entity.name());
+            entityId.setCharacteristicProduct(entity.characteristicProduct());
+            entityId.setDescriptionProduct(entity.descriptionProduct());
+            entityId.setCreateDate(entity.createDate());
+            entityId.setPrice(entity.price());
 
         return productFactory.makeProduct(productRepository.save(entityId));
     }
@@ -70,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
     }
     @Override
-    public void deleteAll(){
+    public void deleteAll() {
         productRepository.deleteAll();
     }
 }

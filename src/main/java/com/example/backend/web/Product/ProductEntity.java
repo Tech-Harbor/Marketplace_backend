@@ -27,10 +27,10 @@ public class ProductEntity {
     private String name;
 
     @Column(columnDefinition = "TEXT")
-    private String description_product;
+    private String descriptionProduct;
 
     @Column(columnDefinition = "TEXT")
-    private String characteristic_product;
+    private String characteristicProduct;
 
     private double price;
 

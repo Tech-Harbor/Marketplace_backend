@@ -16,32 +16,32 @@ public class ProductController {
 
     @PostMapping(URI_PRODUCTS_ID)
     public ProductDTO createProductIdByUser(@PathVariable(value = "id") final Long userId,
-                                            @RequestBody final ProductDTO entity){
+                                            @RequestBody final ProductDTO entity) {
         return productService.createProduct(userId, entity);
     }
 
     @GetMapping
-    public List<ProductDTO> getProducts(){
+    public List<ProductDTO> getProducts() {
         return productService.getAllProduct();
     }
 
     @GetMapping(URI_PRODUCTS_ID)
-    public ProductDTO getOneProduct(@PathVariable final Long id){
+    public ProductDTO getOneProduct(@PathVariable final Long id) {
         return productService.getOneProduct(id);
     }
 
     @PutMapping(URI_PRODUCTS_ID)
-    public ProductDTO editProduct(@PathVariable final Long id, @RequestBody final ProductDTO entity){
+    public ProductDTO editProduct(@PathVariable final Long id, @RequestBody final ProductDTO entity) {
         return productService.editProduct(id, entity);
     }
 
     @DeleteMapping(URI_PRODUCTS_ID)
-    public void deleteIdProduct(@PathVariable final Long id){
+    public void deleteIdProduct(@PathVariable final Long id) {
         productService.deleteIdProduct(id);
     }
 
     @DeleteMapping(URL_DELETE_ALL)
-    public void deleteAllProduct(){
+    public void deleteAllProduct() {
         productService.deleteAll();
     }
 }

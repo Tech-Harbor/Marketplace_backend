@@ -7,9 +7,9 @@ import org.springframework.security.core.Authentication;
 import java.util.function.Function;
 
 public interface JwtService {
-    String extractUserEmail(final String token);
-    <T> T extractClaim(final String token, final Function<Claims, T> claimsResolver);
-    String generateAccessToken(final Authentication authentication);
-    String generateRefreshToken(final Authentication authentication);
-    boolean isTokenValid(final String token, final MyUserDetails userDetails);
+    String extractUserEmail(String token);
+    <T> T extractClaim(String token, Function<Claims, T> claimsResolver);
+    String generateAccessToken(Authentication authentication);
+    String generateRefreshToken(Authentication authentication);
+    boolean isTokenValid(String token,  MyUserDetails userDetails);
 }

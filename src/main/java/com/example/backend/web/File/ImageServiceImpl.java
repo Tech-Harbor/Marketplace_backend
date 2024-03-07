@@ -17,7 +17,7 @@ import static com.example.backend.web.exception.RequestException.badRequestExcep
 
 @Service
 @RequiredArgsConstructor
-public class ImageServiceImpl implements ImageService{
+public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
     private final FileUpload fileUpload;
@@ -25,7 +25,7 @@ public class ImageServiceImpl implements ImageService{
 
     @Override
     @SneakyThrows
-    public ImageDTO uploadImage(final MultipartFile file){
+    public ImageDTO uploadImage(final MultipartFile file) {
         final Optional<BufferedImage> imageOptional = Optional.ofNullable(ImageIO.read(file.getInputStream()));
 
         imageOptional.orElseThrow(() -> badRequestException("There is no uploaded image"));

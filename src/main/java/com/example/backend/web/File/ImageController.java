@@ -17,13 +17,13 @@ public class ImageController {
     private final ImageService imageService;
 
     @GetMapping
-    public List<ImageDTO> getAllImage(){
+    public List<ImageDTO> getAllImage() {
         return imageService.getAllPhoto();
     }
 
     @PostMapping
     @ResponseBody
-    public ImageDTO upload(@RequestParam final MultipartFile file){
+    public ImageDTO upload(@RequestParam final MultipartFile file) {
         return imageService.uploadImage(file);
     }
 

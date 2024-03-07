@@ -40,7 +40,10 @@ public class AuthServiceImpl implements AuthService {
     public void signup(final RegisterRequest registerRequest) {
         final Optional<UserEntity> existUser = userService.getByEmail(registerRequest.email());
 
-        existUser.ifPresent(user -> {throw badRequestException("This email has already been used.");});
+        existUser.ifPresent(user -> {
+                throw badRequestException("This email has already been used.");
+            }
+        );
 
         final UserEntity user = UserEntity.builder()
                 .firstname(registerRequest.firstname())

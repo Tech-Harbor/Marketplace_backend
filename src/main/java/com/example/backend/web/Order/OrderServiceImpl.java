@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
     private OrderFactory orderFactory;

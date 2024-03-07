@@ -7,8 +7,8 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 
 public interface AuthService {
-    void signup(final RegisterRequest registerRequest);
-    AuthResponse login(final AuthRequest authRequest);
-    void formUpdatePassword(final Long id, final PasswordRequest passwordRequest);
-    void requestEmailUpdatePassword(final EmailRequest emailRequest);
+    void signup(RegisterRequest registerRequest);
+    AuthResponse login(AuthRequest authRequest);
+    void formUpdatePassword(Long id, PasswordRequest passwordRequest);
+    void requestEmailUpdatePassword(EmailRequest emailRequest);
 }

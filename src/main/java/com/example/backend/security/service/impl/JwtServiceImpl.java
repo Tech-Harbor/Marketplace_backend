@@ -30,7 +30,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public <T> T extractClaim(final String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(final String token, final Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }

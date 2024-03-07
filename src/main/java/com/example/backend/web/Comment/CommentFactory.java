@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CommentFactory {
-    public CommentDTO makeCommentDTO(CommentEntity comment){
+    public CommentDTO makeCommentDTO(final CommentEntity comment) {
         return CommentDTO.builder()
                 .id(comment.getId())
                 .user(comment.getUser())

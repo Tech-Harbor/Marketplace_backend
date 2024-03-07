@@ -24,7 +24,7 @@ public class CommentController {
     }
 
     @DeleteMapping(URI_COMMENTS_ID)
-    public String deleteByIdComment(@PathVariable final Long id){
+    public String deleteByIdComment(@PathVariable final Long id) {
         commentService.deleteById(id);
         return "Видалений коміт";
     }

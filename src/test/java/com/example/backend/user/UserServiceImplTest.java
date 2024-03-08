@@ -26,7 +26,7 @@ public class UserServiceImplTest {
     private UserFactory userFactory;
 
     @Test
-    public void getByIdUserTest() {
+    void getByIdUserTest() {
         final Long userId = 1L;
 
         final UserEntity userEntity = UserEntity.builder()
@@ -46,7 +46,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getByIdUserNotTest() {
+    void getByIdUserNotTest() {
         final Long userId = 1L;
 
         when(userService.getById(userId)).thenReturn(null);
@@ -61,7 +61,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getByIdTest() {
+    void getByIdTest() {
         final Long userId = 1L;
 
         final UserEntity userEntity = UserEntity.builder()
@@ -76,7 +76,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getByIdNotTest() {
+    void getByIdNotTest() {
         final Long userId = 1L;
 
         when(userService.getById(userId)).thenReturn(null);
@@ -89,7 +89,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getByEmailTest() {
+    void getByEmailTest() {
         final String emailUser = "email";
 
         final UserEntity userEntity = UserEntity.builder()
@@ -104,7 +104,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void updateByIdUserTest() {
+    void updateByIdUserTest() {
         final Long userId = 1L;
 
         final UserDTO userDTOUpdate = UserDTO.builder()
@@ -140,7 +140,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getByAllUserTest() {
+    void getByAllUserTest() {
         final UserEntity userEntity1 = UserEntity.builder().build();
         final UserEntity userEntity2 = UserEntity.builder().build();
 
@@ -160,7 +160,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void deleteByIdUserTest() {
+    void deleteByIdUserTest() {
         final Long userDeleteId = 1L;
 
         userService.deleteByIdUser(userDeleteId);

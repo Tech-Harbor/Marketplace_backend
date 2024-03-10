@@ -3,6 +3,7 @@ package com.example.backend.security;
 import com.example.backend.security.jwt.JwtAuthFilter;
 import com.example.backend.security.oauth.AuthGoogle;
 import com.example.backend.security.utils.CorsConfig;
+import com.example.backend.web.User.utils.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/auth/info/**").authenticated()
+                        .requestMatchers("/api/auth/info/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                        .requestMatchers("/graphiql").permitAll()
                         .anyRequest()
                         .permitAll()
                 )

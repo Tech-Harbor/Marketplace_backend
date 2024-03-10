@@ -24,7 +24,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.backend.web.utils.Constants.DEPLOY;
+import static com.example.backend.web.utils.Constants.DEPLOY_DEFAULT_RENDER;
 
 @Component
 @RequiredArgsConstructor
@@ -70,7 +70,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                     + jwtService.generateAccessToken(authentication) + "; Path=/; HttpOnly; SameSite=None; Secure");
         }
 
-        response.sendRedirect(DEPLOY);
+        response.sendRedirect(DEPLOY_DEFAULT_RENDER);
     }
 
     private DefaultOAuth2User createOAuth2User(final String roleName, final Map<String, Object> attributes) {

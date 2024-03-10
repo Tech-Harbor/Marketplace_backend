@@ -50,7 +50,7 @@ public class AuthServiceImplTest {
     private JwtService jwtService;
 
     @Test
-    public void sigUpTest() {
+    void sigUpTest() {
         String email = "email";
 
         final RegisterRequest registerRequest = RegisterRequest.builder()
@@ -72,7 +72,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void sigUpNotTest() {
+    void sigUpNotTest() {
         final String email = "email";
 
         final RegisterRequest registerRequest = RegisterRequest.builder()
@@ -96,7 +96,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void loginTest() {
+    void loginTest() {
         final AuthRequest authRequest = AuthRequest.builder()
                 .email("email")
                 .password("password")
@@ -122,7 +122,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void loginNotTest() {
+    void loginNotTest() {
         final AuthRequest authRequest = AuthRequest.builder()
                 .email("email")
                 .password("password")
@@ -143,7 +143,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void formUpdatePasswordTest() {
+    void formUpdatePasswordTest() {
         final Long userId = 1L;
 
         final PasswordRequest passwordRequest = PasswordRequest.builder()
@@ -165,7 +165,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void formUpdatePasswordNotTest() {
+    void formUpdatePasswordNotTest() {
         final Long userId = 1L;
 
         final PasswordRequest passwordRequest = PasswordRequest.builder()
@@ -188,7 +188,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    public void requestEmailUpdatePasswordTest() {
+    void requestEmailUpdatePasswordTest() {
         final Long userId = 1L;
 
         final EmailRequest emailRequest = EmailRequest.builder()

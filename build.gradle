@@ -34,9 +34,7 @@ dependencies {
 
 //GRAPHQL
 dependencies {
-    implementation group: 'com.graphql-java', name: 'graphql-java-extended-scalars', version: '21.0'
-    implementation group: 'com.graphql-java-kickstart', name: 'graphql-java-servlet', version: '15.0.0'
-    implementation group: 'com.graphql-java', name: 'graphql-spring-boot-starter', version: '5.0.2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-graphql', version: '3.2.0'
 }
 
 //DATABASE
@@ -72,6 +70,8 @@ dependencies {
 
 //SPRING-TEST
 dependencies {
+    testImplementation 'org.springframework:spring-webflux'
+    testImplementation 'org.springframework.graphql:spring-graphql-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

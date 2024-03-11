@@ -2,6 +2,8 @@ package com.example.backend.web.User;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +28,8 @@ public class UserController {
     }
 
     @GetMapping(URI_USERS_ID)
-    public UserDTO getById(@PathVariable final Long id) {
+    @QueryMapping(name = "getByIdUser")
+    public UserDTO getById(@PathVariable @Argument final Long id) {
         return userService.getByIdUser(id);
     }
 

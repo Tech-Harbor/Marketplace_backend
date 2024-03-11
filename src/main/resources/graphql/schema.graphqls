@@ -1,0 +1,40 @@
+scalar LocalTimeDate
+
+type Query {
+    getByIdUser(id: ID): UserDTO
+    getByIdCategory(id: ID): CategoryDTO
+}
+
+type CategoryDTO {
+    id: ID
+    categoryName: String
+    product: [ProductDTO]
+}
+
+type ProductDTO {
+    id: ID
+    name: String
+    descriptionProduct: String
+    characteristicProduct: String
+    price: Boolean
+    date: LocalTimeDate
+}
+
+type UserDTO {
+    id: ID
+    lastname: String
+    firstname: String
+    phone: String
+    email: String
+    product: [ProductDTO]
+    status: [RegisterAuthStatus]
+    role: [Role]
+}
+
+enum Role {
+    ADMIN, USER
+}
+
+enum RegisterAuthStatus {
+    GOOGLE, JWT
+}

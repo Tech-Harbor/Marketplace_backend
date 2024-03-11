@@ -1,6 +1,8 @@
 package com.example.backend.web.Category;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +23,8 @@ public class CategoryController {
     }
 
     @GetMapping(URI_CATEGORIES_ID)
-    public CategoryDTO getOneById(@PathVariable final Long id) {
+    @QueryMapping(name = "getByIdCategory")
+    public CategoryDTO getOneById(@PathVariable @Argument final Long id) {
         return categoryService.getOneById(id);
     }
 

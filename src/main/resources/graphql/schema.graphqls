@@ -26,4 +26,15 @@ type UserDTO {
     firstname: String
     phone: String
     email: String
+    product: [ProductDTO]
+    status: [RegisterAuthStatus]
+    role: [Role]
+}
+
+enum Role {
+    ADMIN, USER
+}
+
+enum RegisterAuthStatus {
+    GOOGLE, JWT
 }

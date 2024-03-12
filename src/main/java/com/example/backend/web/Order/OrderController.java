@@ -2,6 +2,7 @@ package com.example.backend.web.Order;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class OrderController {
     }
 
     @GetMapping
+    @QueryMapping
     public List<OrderDTO> getAllOrder() {
         return orderService.getAllOrder();
     }

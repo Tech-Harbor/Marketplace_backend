@@ -21,7 +21,7 @@ public class CategoryEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String category_name;
+    private String categoryName;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category")
     private List<ProductEntity> productEntityList;

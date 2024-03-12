@@ -8,7 +8,7 @@ import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
@@ -16,42 +16,43 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Tag(name = "AuthSystem", description = "Точка входу в систему і особистий кабінет, користувача")
 public class AuthController {
 
-    private final AuthService authService;
+    private AuthService authService;
 
-    private final static String SIGNUP_URI = "/signup";
-    private final static String LOGIN_URI = "/login";
-    private final static String FORM_UPDATE_PASSWORD_URI = "/update/password/{userId}";
-    private final static String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
-    private final static String INFO = "/info";
+    private static final String SIGNUP_URI = "/signup";
+    private static final String LOGIN_URI = "/login";
+    private static final String FORM_UPDATE_PASSWORD_URI = "/update/password/{userId}";
+    private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
+    private static final String INFO = "/info";
 
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = "Bearer Authentication")
-    public void signup(@RequestBody @Validated RegisterRequest registerRequest) {
+    public void signup(@RequestBody @Validated final RegisterRequest registerRequest) {
         authService.signup(registerRequest);
     }
 
     @PostMapping(LOGIN_URI)
     @SecurityRequirement(name = "Bearer Authentication")
-    public AuthResponse login(@RequestBody @Validated AuthRequest authRequest) {
+    public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
         return authService.login(authRequest);
     }
 
     @PutMapping(FORM_UPDATE_PASSWORD_URI)
-    public void updatePassword(@PathVariable Long userId, @RequestBody @Validated PasswordRequest passwordRequest) {
+    public void updatePassword(@PathVariable final Long userId,
+                               @RequestBody @Validated final PasswordRequest passwordRequest) {
         authService.formUpdatePassword(userId, passwordRequest);
     }
 
     @GetMapping(INFO)
-    public String info(@AuthenticationPrincipal UserDetails userDetails){
+    public String info(@AuthenticationPrincipal final UserDetails userDetails) {
         return userDetails.getUsername();
     }
 
     @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)
-    public void requestEmailUpdatePassword(@RequestBody @Validated EmailRequest emailRequest){
+    public void requestEmailUpdatePassword(@RequestBody @Validated final EmailRequest emailRequest) {
         authService.requestEmailUpdatePassword(emailRequest);
     }
 }

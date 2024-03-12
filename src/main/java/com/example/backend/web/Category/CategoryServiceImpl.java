@@ -22,12 +22,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryEntity getById(Long id) {
+    public CategoryEntity getById(final Long id) {
         return categoryRepository.getReferenceById(id);
     }
 
     @Override
-    public CategoryDTO getOneById(Long id) {
+    public CategoryDTO getOneById(final Long id) {
 
         CategoryEntity category = categoryRepository.getReferenceById(id);
 
@@ -35,25 +35,25 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO create(CategoryDTO categoryDTO) {
+    public CategoryDTO create(final CategoryDTO categoryDTO) {
         CategoryEntity newCategory = CategoryEntity.builder()
-                .category_name(categoryDTO.category_name())
+                .categoryName(categoryDTO.categoryName())
                 .build();
 
         return categoryFactory.makeCategory(categoryRepository.save(newCategory));
     }
 
     @Override
-    public CategoryDTO update(Long categoryId, CategoryDTO categoryDTO) {
+    public CategoryDTO update(final Long categoryId, final CategoryDTO categoryDTO) {
         CategoryEntity category = categoryRepository.getReferenceById(categoryId);
 
-        category.setCategory_name(categoryDTO.category_name());
+        category.setCategoryName(category.getCategoryName());
 
         return categoryFactory.makeCategory(categoryRepository.save(category));
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteId(final Long id) {
         categoryRepository.deleteById(id);
     }
 }

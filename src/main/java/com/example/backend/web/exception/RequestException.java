@@ -6,15 +6,15 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
-public class RequestException extends RuntimeException{
+public class RequestException extends RuntimeException {
     private HttpStatus status;
 
-    public RequestException(String message, HttpStatus status) {
+    public RequestException(final String message, final HttpStatus status) {
         super(message);
         this.status = status;
     }
 
-    public static RequestException badRequestException(String message){
+    public static RequestException badRequestException(final String message) {
         return new RequestException(message, HttpStatus.BAD_REQUEST);
     }
 }

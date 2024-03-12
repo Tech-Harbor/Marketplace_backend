@@ -10,10 +10,10 @@ public class CategoryFactory {
 
     private final WebIsNullFactory webIsNullFactory;
 
-    public CategoryDTO makeCategory(CategoryEntity category) {
+    public CategoryDTO makeCategory(final CategoryEntity category) {
         return CategoryDTO.builder()
                 .id(category.getId())
-                .category_name(category.getCategory_name())
+                .categoryName(category.getCategoryName())
                 .productDTOList(webIsNullFactory.isNullProductCategory(category))
                 .build();
     }

@@ -8,15 +8,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static com.example.backend.web.utils.Constants.DEPLOY;
-import static com.example.backend.web.utils.Constants.LOCALHOST;
+import static com.example.backend.web.utils.Constants.*;
 
 @Component
 public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(LOCALHOST, DEPLOY));
+        configuration.setAllowedOrigins(Arrays.asList(LOCALHOST, DEPLOY_DEFAULT_RENDER, DEPLOY_STORE));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);

@@ -8,4 +8,4 @@ import lombok.Builder;
 @Builder
 public record AuthRequest(
         @NotNull @NotBlank(message = "Поле не повинно бути порожнім") @Email String email,
-        @NotNull @NotBlank(message = "Поле не повинно бути порожнім") String password) {}
+        @NotNull @NotBlank(message = "Поле не повинно бути порожнім") String password) { }

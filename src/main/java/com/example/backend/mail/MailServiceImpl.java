@@ -3,7 +3,7 @@ package com.example.backend.mail;
 import com.example.backend.web.User.UserEntity;
 import freemarker.template.Configuration;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,18 +15,18 @@ import java.util.Map;
 import java.util.Properties;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class MailServiceImpl implements MailService {
 
-    private final Configuration configuration;
-    private final JavaMailSender mailSender;
+    private Configuration configuration;
+    private JavaMailSender mailSender;
 
     @Override
-    public void sendEmail(UserEntity user, MailType type, Properties params) {
+    public void sendEmail(final UserEntity user, final MailType type, final Properties params) {
         switch (type) {
             case REGISTRATION -> sendRegistrationEmail(user, params);
             case NEW_PASSWORD -> sendNewPassword(user, params);
-            default -> {}
+            default -> { }
         }
     }
 

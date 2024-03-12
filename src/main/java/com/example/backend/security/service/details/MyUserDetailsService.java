@@ -17,7 +17,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     @SneakyThrows
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(final String username) {
         UserEntity user =  userService.getByEmail(username).orElseThrow(
                 () -> new RuntimeException("Email not found")
         );

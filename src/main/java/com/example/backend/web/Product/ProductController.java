@@ -1,6 +1,8 @@
 package com.example.backend.web.Product;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,18 +17,21 @@ public class ProductController {
     private static final String URL_DELETE_ALL = "/deleteAll";
 
     @PostMapping(URI_PRODUCTS_ID)
+    @MutationMapping
     public ProductDTO createProductIdByUser(@PathVariable(value = "id") final Long userId,
                                             @RequestBody final ProductDTO entity) {
         return productService.createProduct(userId, entity);
     }
 
     @GetMapping
-    public List<ProductDTO> getProducts() {
+    @QueryMapping
+    public List<ProductDTO> getAllProducts() {
         return productService.getAllProduct();
     }
 
     @GetMapping(URI_PRODUCTS_ID)
-    public ProductDTO getOneProduct(@PathVariable final Long id) {
+    @QueryMapping
+    public ProductDTO getByIdProduct(@PathVariable final Long id) {
         return productService.getOneProduct(id);
     }
 

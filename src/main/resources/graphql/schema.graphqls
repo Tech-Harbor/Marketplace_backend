@@ -4,6 +4,12 @@ type Query {
     getByIdUser(id: ID): UserDTO
     getByIdCategory(id: ID): CategoryDTO
     getAllOrder: [OrderDTO]
+    getAllProducts: [ProductDTO]
+    getByIdProduct(id: ID!): ProductDTO
+}
+
+type Mutation {
+    createProductIdByUser(userId: ID!, entity: ProductInput): ProductDTO
 }
 
 type CategoryDTO {
@@ -37,6 +43,13 @@ type OrderDTO {
     user: UserDTO
     product: ProductDTO
     status: Status
+}
+
+input ProductInput {
+    name: String!
+    descriptionProduct: String!
+    characteristicProduct: String
+    price: Int!
 }
 
 enum Status {

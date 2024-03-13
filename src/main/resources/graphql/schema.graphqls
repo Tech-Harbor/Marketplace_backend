@@ -3,6 +3,7 @@ scalar LocalTimeDate
 type Query {
     getByIdUser(id: ID): UserDTO
     getByIdCategory(id: ID): CategoryDTO
+    getAllOrder: [OrderDTO]
 }
 
 type CategoryDTO {
@@ -29,6 +30,17 @@ type UserDTO {
     product: [ProductDTO]
     status: [RegisterAuthStatus]
     role: [Role]
+}
+
+type OrderDTO {
+    id: ID
+    user: UserDTO
+    product: ProductDTO
+    status: Status
+}
+
+enum Status {
+    PENDING
 }
 
 enum Role {

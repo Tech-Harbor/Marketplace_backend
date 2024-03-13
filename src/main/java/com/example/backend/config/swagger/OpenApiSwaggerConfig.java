@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 @OpenAPIDefinition(
         info = @Info(
                 contact =  @Contact(),
-                title = "OpenApiMarketplace",
-                description = "Documentation for access to the Marketplace resources via REST API.",
+                title = "Oranger API ",
+                description = "Documentation for access to the Oranger resources via REST API.",
                 version = "1.1.0"
         )
 )

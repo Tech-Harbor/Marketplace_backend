@@ -1,6 +1,7 @@
 package com.example.backend.web.Product;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class ProductController {
 
     @PostMapping(URI_PRODUCTS_ID)
     @MutationMapping
-    public ProductDTO createProductIdByUser(@PathVariable(value = "id") final Long userId,
-                                            @RequestBody final ProductDTO entity) {
+    public ProductDTO createProductIdByUser(@PathVariable(value = "id") @Argument final Long userId,
+                                            @RequestBody @Argument final ProductDTO entity) {
         return productService.createProduct(userId, entity);
     }
 
@@ -31,7 +32,7 @@ public class ProductController {
 
     @GetMapping(URI_PRODUCTS_ID)
     @QueryMapping
-    public ProductDTO getByIdProduct(@PathVariable final Long id) {
+    public ProductDTO getByIdProduct(@PathVariable @Argument final Long id) {
         return productService.getOneProduct(id);
     }
 

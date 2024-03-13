@@ -1,6 +1,7 @@
 package com.example.backend.web.Comment;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class CommentController {
     }
 
     @GetMapping
+    @QueryMapping
     public List<CommentDTO> getAllComments() {
         return commentService.getAllComments();
     }

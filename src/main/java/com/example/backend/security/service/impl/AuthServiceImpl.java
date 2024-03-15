@@ -94,7 +94,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void requestEmailUpdatePassword(final EmailRequest emailRequest) {
-        final UserEntity emailUser = userService.getByEmail(emailRequest.email()).orElse(null);
+        final UserEntity emailUser = userService.getByEmail(emailRequest.email()).orElseThrow(
+                () -> badRequestException("This email is not exists")
+        );
 
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
     }

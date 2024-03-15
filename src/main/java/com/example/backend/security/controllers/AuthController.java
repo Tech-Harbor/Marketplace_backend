@@ -73,7 +73,8 @@ public class AuthController {
     @Operation(summary = "Information about the user who is authorized and logged into the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request")
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized")
         }
     )
     public String info(@AuthenticationPrincipal final UserDetails userDetails) {
@@ -84,7 +85,7 @@ public class AuthController {
     @Operation(summary = "Change password using email")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request")
+            @ApiResponse(responseCode = "500", description = "This email is not exists")
         }
     )
     public void requestEmailUpdatePassword(@RequestBody @Validated final EmailRequest emailRequest) {

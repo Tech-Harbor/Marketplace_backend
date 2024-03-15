@@ -7,6 +7,8 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
-@Tag(name = "AuthSystem", description = "Точка входу в систему і особистий кабінет, користувача")
+@Tag(name = "Authentication", description = "Authentication User and Update Password, personal office users")
 public class AuthController {
 
     private AuthService authService;
@@ -32,6 +34,12 @@ public class AuthController {
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Register user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "500", description = "This email has already been used")
+        }
+    )
     public void signup(@RequestBody @Validated final RegisterRequest registerRequest) {
         authService.signup(registerRequest);
     }
@@ -39,12 +47,23 @@ public class AuthController {
     @PostMapping(LOGIN_URI)
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Login user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized")
+        }
+    )
     public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
         return authService.login(authRequest);
     }
 
     @PutMapping(FORM_UPDATE_PASSWORD_URI)
     @Operation(summary = "Update Password User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad Request")
+        }
+    )
     public void updatePassword(@PathVariable final Long userId,
                                @RequestBody @Validated final PasswordRequest passwordRequest) {
         authService.formUpdatePassword(userId, passwordRequest);
@@ -52,12 +71,22 @@ public class AuthController {
 
     @GetMapping(INFO)
     @Operation(summary = "Information about the user who is authorized and logged into the system")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad Request")
+        }
+    )
     public String info(@AuthenticationPrincipal final UserDetails userDetails) {
         return userDetails.getUsername();
     }
 
     @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)
     @Operation(summary = "Change password using email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad Request")
+        }
+    )
     public void requestEmailUpdatePassword(@RequestBody @Validated final EmailRequest emailRequest) {
         authService.requestEmailUpdatePassword(emailRequest);
     }

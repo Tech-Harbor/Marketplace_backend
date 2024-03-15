@@ -2,14 +2,14 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Thank you for registration ${name}</title>
+    <title>Thank you for registration ${username}</title>
     <style>
         #body {
             display: flex;
             flex-direction: column;
             font-family: "Segoe UI", serif;
             align-items: center;
-            background-color: #254499;
+            background-color: #FF8A00;
             font-size: 20px;
             height: 100%;
         }
@@ -34,9 +34,9 @@
         <div id="body">
             <div id="div">
                 <h1 style="text-align: center">Registration</h1>
-                <p>Hello, ${name}!</p>
+                <p>Hello, ${username}!</p>
                 <p>This is a registration form. You can log in and use the online store application.</p>
-                <а id="a" href="https://marketplace-frontend-mu.vercel.app/api/auth/login">Marketplace</а>
+                <а id="a" href="https://oranger.store/api/auth/login">Oranger</а>
             </div>
         </div>
     </body>

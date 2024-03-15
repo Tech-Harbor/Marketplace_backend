@@ -2,14 +2,14 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Account activation, ${name}</title>
+    <title>Account activation, ${username}</title>
     <style>
         #body {
             display: flex;
             flex-direction: column;
             font-family: "Segoe UI", serif;
             align-items: center;
-            background-color: #254499;
+            background-color: #FF8A00;
             font-size: 20px;
             height: 100%;
         }
@@ -22,7 +22,7 @@
             background-color: #E8F6DC;
             padding: 3%;
             border-radius: 20px;
-            color: black;
+            color: #1B1E23;
         }
 
         #a {
@@ -33,10 +33,9 @@
     <body>
         <div id="body">
             <div id="div">
-                <h1 style="text-align: center">Password Reset</h1>
-                <p>Для зміни пароля перейдіть за посиланням, ${name}!:</p>
-                <а id="a" href="https://marketplace-frontend-mu.vercel.app/update/password/{userId}"
-                    >Update Password</а>
+                <h1 style="text-align: center">Reset Password</h1>
+                <p>Для зміни пароля перейдіть за посиланням, ${username}!</p>
+                <а id="a" href="https://oranger.store/update/password/#{userId}">Update Password</а>
             </div>
         </div>
     </body>

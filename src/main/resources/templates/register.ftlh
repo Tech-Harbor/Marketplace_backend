@@ -16,17 +16,12 @@
 
         #div {
             display: block;
-            flex-direction: column;
             margin: 10%;
             font-family: "Segoe UI", serif;
             background-color: #E8F6DC;
             padding: 3%;
             border-radius: 20px;
-            color: black;
-        }
-
-        #a {
-            text-decoration: none;
+            color: #1B1E23;
         }
     </style>
 </head>
@@ -36,7 +31,7 @@
                 <h1 style="text-align: center">Registration</h1>
                 <p>Hello, ${username}!</p>
                 <p>This is a registration form. You can log in and use the online store application.</p>
-                <а id="a" href="https://oranger.store/api/auth/login">Oranger</а>
+                <a href="https://oranger.store/api/auth/login">Oranger</a>
             </div>
         </div>
     </body>

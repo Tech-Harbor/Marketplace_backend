@@ -16,17 +16,12 @@
 
         #div {
             display: block;
-            flex-direction: column;
             margin: 10%;
             font-family: "Segoe UI", serif;
             background-color: #E8F6DC;
             padding: 3%;
             border-radius: 20px;
             color: #1B1E23;
-        }
-
-        #a {
-            text-decoration: none;
         }
     </style>
 </head>
@@ -35,7 +30,7 @@
             <div id="div">
                 <h1 style="text-align: center">Reset Password</h1>
                 <p>Для зміни пароля перейдіть за посиланням, ${username}!</p>
-                <а id="a" href="https://oranger.store/update/password/#{userId}">Update Password</а>
+                <a href="https://oranger.store/api/auth/change-password/{userId}(userId=${userId})">Update Password</a>
             </div>
         </div>
     </body>

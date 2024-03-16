@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import static com.example.backend.web.exception.RequestException.notFoundRequestException;
+
 @Service
 @RequiredArgsConstructor
 public class MyUserDetailsService implements UserDetailsService {
@@ -19,7 +21,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @SneakyThrows
     public UserDetails loadUserByUsername(final String username) {
         UserEntity user =  userService.getByEmail(username).orElseThrow(
-                () -> new RuntimeException("Email not found")
+                () -> notFoundRequestException("Email not found")
         );
         return myUserDetailsFactory.build(user);
     }

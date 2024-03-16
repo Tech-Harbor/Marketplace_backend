@@ -27,7 +27,7 @@ public class AuthController {
 
     private static final String SIGNUP_URI = "/signup";
     private static final String LOGIN_URI = "/login";
-    private static final String FORM_UPDATE_PASSWORD_URI = "/update/password/{userId}";
+    private static final String FORM_CHANGE_PASSWORD_URI = "/change-password/{userId}";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String INFO = "/info";
 
@@ -57,7 +57,7 @@ public class AuthController {
         return authService.login(authRequest);
     }
 
-    @PutMapping(FORM_UPDATE_PASSWORD_URI)
+    @PutMapping(FORM_CHANGE_PASSWORD_URI)
     @Operation(summary = "Update Password User")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),

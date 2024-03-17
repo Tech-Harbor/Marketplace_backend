@@ -31,7 +31,7 @@
                 <h1 style="text-align: center">Registration</h1>
                 <p>Hello, ${username}!</p>
                 <p>This is a registration form. You can log in and use the online store application.</p>
-                <a href="https://oranger.store/api/auth/login">Oranger</a>
+                <a href="https://oranger.store">Oranger</a>
             </div>
         </div>
     </body>

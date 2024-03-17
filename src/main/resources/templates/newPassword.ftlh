@@ -30,7 +30,7 @@
             <div id="div">
                 <h1 style="text-align: center">Reset Password</h1>
                 <p>Для зміни пароля перейдіть за посиланням, ${username}!</p>
-                <a href="https://oranger.store/api/auth/change-password/{userId}(userId=${userId})">Update Password</a>
+                <a href="https://oranger.store/change-password/${code}">Update Password</a>
             </div>
         </div>
     </body>

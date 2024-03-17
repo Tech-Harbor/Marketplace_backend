@@ -33,6 +33,9 @@ public class UserEntity {
     private String phone;
 
     @Column(nullable = false)
+    private String codeRandom;
+
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")

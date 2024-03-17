@@ -81,7 +81,7 @@ public class MailServiceImpl implements MailService {
         Map<String, Object> model = new HashMap<>();
 
         model.put("username", user.getLastname());
-        model.put("userId", user.getId());
+        model.put("code", user.getCodeRandom());
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);
 

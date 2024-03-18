@@ -24,7 +24,7 @@ public class UserController {
         return userService.getByAllUser();
     }
 
-    @PutMapping(URI_USERS_ID)
+    @PatchMapping(URI_USERS_ID)
     @MutationMapping
     public UserDTO updateByIdUser(@PathVariable @Argument final Long id,
                                   @RequestBody @Argument final UserDTO user) {

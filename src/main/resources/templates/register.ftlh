@@ -2,31 +2,26 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Thank you for registration ${name}</title>
+    <title>Thank you for registration ${username}</title>
     <style>
         #body {
             display: flex;
             flex-direction: column;
             font-family: "Segoe UI", serif;
             align-items: center;
-            background-color: #254499;
+            background-color: #FF8A00;
             font-size: 20px;
             height: 100%;
         }
 
         #div {
             display: block;
-            flex-direction: column;
             margin: 10%;
             font-family: "Segoe UI", serif;
             background-color: #E8F6DC;
             padding: 3%;
             border-radius: 20px;
-            color: black;
-        }
-
-        #a {
-            text-decoration: none;
+            color: #1B1E23;
         }
     </style>
 </head>
@@ -34,9 +29,9 @@
         <div id="body">
             <div id="div">
                 <h1 style="text-align: center">Registration</h1>
-                <p>Hello, ${name}!</p>
+                <p>Hello, ${username}!</p>
                 <p>This is a registration form. You can log in and use the online store application.</p>
-                <а id="a" href="https://marketplace-frontend-mu.vercel.app/api/auth/login">Marketplace</а>
+                <a href="https://oranger.store">Oranger</a>
             </div>
         </div>
     </body>

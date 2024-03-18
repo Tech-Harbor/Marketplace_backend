@@ -2,41 +2,35 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Account activation, ${name}</title>
+    <title>Account activation, ${username}</title>
     <style>
         #body {
             display: flex;
             flex-direction: column;
             font-family: "Segoe UI", serif;
             align-items: center;
-            background-color: #254499;
+            background-color: #FF8A00;
             font-size: 20px;
             height: 100%;
         }
 
         #div {
             display: block;
-            flex-direction: column;
             margin: 10%;
             font-family: "Segoe UI", serif;
             background-color: #E8F6DC;
             padding: 3%;
             border-radius: 20px;
-            color: black;
-        }
-
-        #a {
-            text-decoration: none;
+            color: #1B1E23;
         }
     </style>
 </head>
     <body>
         <div id="body">
             <div id="div">
-                <h1 style="text-align: center">Password Reset</h1>
-                <p>Для зміни пароля перейдіть за посиланням, ${name}!:</p>
-                <а id="a" href="https://marketplace-frontend-mu.vercel.app/update/password/{userId}"
-                    >Update Password</а>
+                <h1 style="text-align: center">Reset Password</h1>
+                <p>Для зміни пароля перейдіть за посиланням, ${username}!</p>
+                <a href="https://oranger.store/change-password/${userId}">Update Password</a>
             </div>
         </div>
     </body>

@@ -51,7 +51,7 @@ public class MailServiceImpl implements MailService {
         StringWriter writer = new StringWriter();
         Map<String, Object> model = new HashMap<>();
 
-        model.put("name", user.getLastname());
+        model.put("username", user.getLastname());
 
         configuration.getTemplate("register.ftlh").process(model, writer);
 
@@ -67,7 +67,7 @@ public class MailServiceImpl implements MailService {
                 mimePasswordMessage, false, "UTF-8"
         );
 
-        helper.setSubject("New Password" + user.getLastname());
+        helper.setSubject("Account activation, " + user.getLastname());
         helper.setTo(user.getEmail());
         helper.setText(passwordContent, true);
 
@@ -80,7 +80,8 @@ public class MailServiceImpl implements MailService {
 
         Map<String, Object> model = new HashMap<>();
 
-        model.put("name", user.getLastname());
+        model.put("username", user.getLastname());
+        model.put("userId", user.getId());
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);
 

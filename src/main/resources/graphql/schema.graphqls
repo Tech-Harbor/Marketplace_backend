@@ -23,7 +23,7 @@ input UserInput {
     email: String
     password: String
     product: [ProductInput]
-    status: [RegisterAuthStatus]
+    status: RegisterAuthStatus
     role: [Role]
 }
 
@@ -49,8 +49,8 @@ type UserDTO {
     phone: String
     email: String
     product: [ProductDTO]
-    status: [RegisterAuthStatus]
-    role: [Role]
+    status: RegisterAuthStatus
+    role: Role
 }
 
 type OrderDTO {

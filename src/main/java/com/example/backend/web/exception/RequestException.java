@@ -17,4 +17,8 @@ public class RequestException extends RuntimeException {
     public static RequestException badRequestException(final String message) {
         return new RequestException(message, HttpStatus.BAD_REQUEST);
     }
+
+    public static RequestException notFoundRequestException(final String message) {
+        return new RequestException(message, HttpStatus.NOT_FOUND);
+    }
 }

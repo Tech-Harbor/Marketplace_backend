@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Properties;
-import java.util.Random;
 
 import static com.example.backend.web.exception.RequestException.badRequestException;
 
@@ -53,7 +52,6 @@ public class AuthServiceImpl implements AuthService {
                 .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.password()))
                 .phone(registerRequest.phone())
                 .registerAuthStatus(RegisterAuthStatus.JWT)
-                .codeRandom(String.valueOf(new Random().nextInt(99999999)))
                 .role(Role.USER)
                 .build();
 

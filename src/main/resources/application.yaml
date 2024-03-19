@@ -61,3 +61,4 @@ jwt:
   key: ${JWT_KEY}
   jwtAccessExpiration: 604800000
   jwtRefreshExpiration: 2592000000
+  jwtNewPasswordExpiration: 900000

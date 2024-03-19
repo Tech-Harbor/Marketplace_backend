@@ -12,4 +12,5 @@ public class JwtProperties {
     private String key;
     private long jwtAccessExpiration;
     private long jwtRefreshExpiration;
+    private long jwtNewPasswordExpiration;
 }

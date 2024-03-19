@@ -1,5 +1,6 @@
 package com.example.backend.mail;
 
+import com.example.backend.security.service.JwtService;
 import com.example.backend.web.User.UserEntity;
 import freemarker.template.Configuration;
 import jakarta.mail.internet.MimeMessage;
@@ -20,20 +21,21 @@ public class MailServiceImpl implements MailService {
 
     private Configuration configuration;
     private JavaMailSender mailSender;
+    private JwtService jwtService;
 
     @Override
     public void sendEmail(final UserEntity user, final MailType type, final Properties params) {
         switch (type) {
-            case REGISTRATION -> sendRegistrationEmail(user, params);
-            case NEW_PASSWORD -> sendNewPassword(user, params);
+            case REGISTRATION -> sendRegistrationEmail(user);
+            case NEW_PASSWORD -> sendNewPassword(user);
             default -> { }
         }
     }
 
     @SneakyThrows
-    private void sendRegistrationEmail(final UserEntity user, final Properties params) {
+    private void sendRegistrationEmail(final UserEntity user) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        String emailContent = getRegistrationEmailContent(user, params);
+        String emailContent = getRegistrationEmailContent(user);
 
         MimeMessageHelper helper = new MimeMessageHelper(
                 mimeMessage, false, "UTF-8"
@@ -47,7 +49,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @SneakyThrows
-    private String getRegistrationEmailContent(final UserEntity user, final Properties properties) {
+    private String getRegistrationEmailContent(final UserEntity user) {
         StringWriter writer = new StringWriter();
         Map<String, Object> model = new HashMap<>();
 
@@ -59,9 +61,9 @@ public class MailServiceImpl implements MailService {
     }
 
     @SneakyThrows
-    private void sendNewPassword(final UserEntity user, final Properties params) {
+    private void sendNewPassword(final UserEntity user) {
         MimeMessage mimePasswordMessage = mailSender.createMimeMessage();
-        String passwordContent = getNewPasswordContent(user, params);
+        String passwordContent = getNewPasswordContent(user);
 
         MimeMessageHelper helper = new MimeMessageHelper(
                 mimePasswordMessage, false, "UTF-8"
@@ -75,13 +77,13 @@ public class MailServiceImpl implements MailService {
     }
 
     @SneakyThrows
-    private String getNewPasswordContent(final UserEntity user, final Properties properties) {
+    private String getNewPasswordContent(final UserEntity user) {
         StringWriter writer = new StringWriter();
 
         Map<String, Object> model = new HashMap<>();
 
         model.put("username", user.getLastname());
-        model.put("userId", user.getId());
+        model.put("newPasswordToken", jwtService.generateNewPasswordToken(user.getEmail()));
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);
 

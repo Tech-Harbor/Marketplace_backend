@@ -45,6 +45,17 @@ public class JwtServiceImpl implements JwtService {
         return generateJwtRefreshToken(new HashMap<>(), authentication);
     }
 
+    @Override
+    public String generateNewPasswordToken(final String email) {
+        return Jwts
+                .builder()
+                .subject(email)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtNewPasswordExpiration()))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     private String generateJwtAccessToken(final Map<String, Object> extraClaims, final Authentication authentication) {
         return Jwts
                 .builder()

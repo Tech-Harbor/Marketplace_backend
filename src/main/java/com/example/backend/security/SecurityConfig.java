@@ -31,7 +31,6 @@ public class SecurityConfig {
     @Bean
     @SneakyThrows
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) {
-
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))

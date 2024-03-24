@@ -12,9 +12,8 @@ import java.util.List;
 @RequestMapping("/api/images")
 public class ImageController {
 
-    private static final String URI_IMAGES_ID = "/{id}";
-
     private final ImageService imageService;
+    private static final String URI_IMAGES_ID = "/{id}";
 
     @GetMapping
     public List<ImageDTO> getAllImage() {

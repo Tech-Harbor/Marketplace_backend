@@ -47,6 +47,10 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateNewPasswordToken(final String email) {
+        return generateJwtNewPasswordToken(email);
+    }
+
+    private String generateJwtNewPasswordToken(final String email) {
         return Jwts
                 .builder()
                 .subject(email)

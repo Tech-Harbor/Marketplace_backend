@@ -145,6 +145,7 @@ public class AuthServiceImplTest {
     @Test
     void formUpdatePasswordTest() {
         final Long userId = 1L;
+        final String jwt = "jwt";
 
         final PasswordRequest passwordRequest = PasswordRequest.builder()
                 .password("password")
@@ -157,7 +158,7 @@ public class AuthServiceImplTest {
         when(myPasswordEncoder.passwordEncoder()).thenReturn(mock(PasswordEncoder.class));
         when(userService.getById(userId)).thenReturn(userEntity);
 
-        authService.formUpdatePassword(userId, passwordRequest);
+        authService.formUpdatePassword(jwt, passwordRequest);
 
         verify(myPasswordEncoder).passwordEncoder();
         verify(userService).getById(userId);
@@ -167,6 +168,7 @@ public class AuthServiceImplTest {
     @Test
     void formUpdatePasswordNotTest() {
         final Long userId = 1L;
+        final String jwt = "jwt";
 
         final PasswordRequest passwordRequest = PasswordRequest.builder()
                 .password("password")
@@ -180,7 +182,7 @@ public class AuthServiceImplTest {
         when(myPasswordEncoder.passwordEncoder()).thenReturn(new PasswordEncoderTestUtils());
         when(userService.getById(userId)).thenReturn(userEntity);
 
-        authService.formUpdatePassword(userId, passwordRequest);
+        authService.formUpdatePassword(jwt, passwordRequest);
 
         verify(myPasswordEncoder).passwordEncoder();
         verify(userService).getById(userId);

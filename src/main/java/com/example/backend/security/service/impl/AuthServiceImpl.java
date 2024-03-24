@@ -84,7 +84,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void formUpdatePassword(final Long id, final PasswordRequest passwordRequest) {
+    public void formUpdatePassword(final String jwt, final PasswordRequest passwordRequest) {
+        final var id = 1L;
+
         final UserEntity userId = userService.getById(id);
 
         userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));

@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getByIdUser(final Long id) {
-        UserEntity userId = userRepository.getReferenceById(id);
+        UserEntity userId = getById(id);
         return userFactory.makeUserFactory(userId);
     }
 
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateByIdUser(final Long id, final UserDTO user) {
-        final UserEntity userId = userRepository.getReferenceById(id);
+        final UserEntity userId = getById(id);
 
             userId.setFirstname(user.firstname());
             userId.setLastname(user.lastname());

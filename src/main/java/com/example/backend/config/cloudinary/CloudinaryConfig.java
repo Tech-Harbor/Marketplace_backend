@@ -13,7 +13,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class CloudinaryConfig {
 
-    private CloudinaryProperties cloudinaryProperties;
+    private final CloudinaryProperties cloudinaryProperties;
 
     @Bean
     public Cloudinary cloudinary() {

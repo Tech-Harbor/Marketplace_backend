@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class WebIsNullFactory {
 
-    private ProductFactory productFactory;
+    private final ProductFactory productFactory;
 
     public List<ProductDTO> isNullProductCategory(final CategoryEntity category) {
         return Optional.ofNullable(category.getProductEntityList())

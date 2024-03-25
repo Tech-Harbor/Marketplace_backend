@@ -15,8 +15,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 @AllArgsConstructor
 public class ApplicationConfig {
 
-    private MyPasswordEncoder myPasswordEncoder;
-    private MyUserDetailsService myUserDetailsService;
+    private final MyPasswordEncoder myPasswordEncoder;
+    private final MyUserDetailsService myUserDetailsService;
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

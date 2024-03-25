@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private OrderRepository orderRepository;
-    private OrderFactory orderFactory;
+    private final OrderRepository orderRepository;
+    private final OrderFactory orderFactory;
 
     @Override
     public OrderDTO createOrder(final OrderDTO order) {

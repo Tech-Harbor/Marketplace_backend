@@ -23,13 +23,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryEntity getById(final Long id) {
-        return categoryRepository.getReferenceById(id);
+        return getIdCategory(id);
     }
 
     @Override
     public CategoryDTO getOneById(final Long id) {
-
-        CategoryEntity category = categoryRepository.getReferenceById(id);
+        CategoryEntity category = getIdCategory(id);
 
         return categoryFactory.makeCategory(category);
     }
@@ -45,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO update(final Long categoryId, final CategoryDTO categoryDTO) {
-        CategoryEntity category = categoryRepository.getReferenceById(categoryId);
+        CategoryEntity category = getIdCategory(categoryId);
 
         category.setCategoryName(category.getCategoryName());
 
@@ -55,5 +54,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteId(final Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    public CategoryEntity getIdCategory(final Long id) {
+        return categoryRepository.getReferenceById(id);
     }
 }

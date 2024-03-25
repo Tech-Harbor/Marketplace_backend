@@ -47,14 +47,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getOneProduct(final Long id) {
-        final ProductEntity entityId = productRepository.getReferenceById(id);
+        final ProductEntity entityId = getIdProduct(id);
 
         return productFactory.makeProduct(entityId);
     }
 
     @Override
     public ProductDTO editProduct(final Long id, final ProductDTO entity) {
-        final ProductEntity entityId = productRepository.getReferenceById(id);
+        final ProductEntity entityId = getIdProduct(id);
+
             entityId.setName(entity.name());
             entityId.setCharacteristicProduct(entity.characteristicProduct());
             entityId.setDescriptionProduct(entity.descriptionProduct());
@@ -68,8 +69,13 @@ public class ProductServiceImpl implements ProductService {
     public void deleteIdProduct(final Long id) {
         productRepository.deleteById(id);
     }
+
     @Override
     public void deleteAll() {
         productRepository.deleteAll();
+    }
+
+    private ProductEntity getIdProduct(final Long id) {
+        return productRepository.getReferenceById(id);
     }
 }

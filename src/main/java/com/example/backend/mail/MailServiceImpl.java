@@ -83,7 +83,7 @@ public class MailServiceImpl implements MailService {
         Map<String, Object> model = new HashMap<>();
 
         model.put("username", user.getLastname());
-        model.put("newPasswordToken", jwtService.generateNewPasswordToken(user.getEmail()));
+        model.put("jwt", jwtService.generateNewPasswordToken(user.getEmail()));
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);
 

@@ -27,7 +27,7 @@ public class AuthController {
 
     private static final String SIGNUP_URI = "/signup";
     private static final String LOGIN_URI = "/login";
-    private static final String FORM_CHANGE_PASSWORD_URI = "/change-password/{jwt}";
+    private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String INFO = "/info";
 
@@ -64,7 +64,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Bad Request")
         }
     )
-    public void updatePassword(@PathVariable final String jwt,
+    public void updatePassword(@RequestParam final String jwt,
                                @RequestBody @Validated final PasswordRequest passwordRequest) {
         authService.formUpdatePassword(jwt, passwordRequest);
     }

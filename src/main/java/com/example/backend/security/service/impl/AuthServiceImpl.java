@@ -52,6 +52,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.password()))
                 .phone(registerRequest.phone())
                 .registerAuthStatus(RegisterAuthStatus.JWT)
+                .enabled(false)
                 .role(Role.USER)
                 .build();
 
@@ -101,5 +102,16 @@ public class AuthServiceImpl implements AuthService {
         );
 
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
+    }
+
+    @Override
+    public void activeUser(final String jwt) {
+        final var id = 1L;
+
+        final UserEntity activeUserTrue = userService.getById(id);
+
+        activeUserTrue.setEnabled(true);
+
+        userService.mySave(activeUserTrue);
     }
 }

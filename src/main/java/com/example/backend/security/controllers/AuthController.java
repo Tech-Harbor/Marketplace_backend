@@ -29,7 +29,8 @@ public class AuthController {
     private static final String LOGIN_URI = "/login";
     private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
-    private static final String INFO = "/info";
+    private static final String REQUEST_ACTIVE_USER = "/acvite/accouth";
+    private static final String INFO = "/accouth";
 
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = "Bearer Authentication")
@@ -89,5 +90,17 @@ public class AuthController {
     )
     public void requestEmailUpdatePassword(@RequestBody @Validated final EmailRequest emailRequest) {
         authService.requestEmailUpdatePassword(emailRequest);
+    }
+
+    @PostMapping(REQUEST_ACTIVE_USER)
+    @Operation(summary = "Active User, JWT Token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized")
+        }
+    )
+    public void activeUser(@RequestParam final String jwt){
+        authService.activeUser(jwt);
     }
 }

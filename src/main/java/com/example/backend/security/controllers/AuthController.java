@@ -31,7 +31,7 @@ public class AuthController {
     private static final String LOGIN_URI = "/login";
     private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
-    private static final String REQUEST_ACTIVE_USER = "/acvite/accouth";
+    private static final String REQUEST_ACTIVE_USER = "/active/accouth";
     private static final String INFO = "/accouth";
 
     @PostMapping(SIGNUP_URI)
@@ -106,7 +106,7 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
         }
     )
-    public void activeUser(@RequestParam final String jwt){
+    public void activeUser(@RequestParam final String jwt) {
         authService.activeUser(jwt);
     }
 }

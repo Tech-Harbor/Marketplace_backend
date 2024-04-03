@@ -9,6 +9,7 @@ import com.example.backend.security.models.response.AuthResponse;
 public interface AuthService {
     /**
      * Method for user registration in the system.
+     *
      * @param registerRequest The object containing the data for user registration
      * @throws RuntimeException Custom exception thrown if the provided data is invalid or if a
      *          user with the same email already exists

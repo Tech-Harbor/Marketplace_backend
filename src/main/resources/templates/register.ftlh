@@ -31,7 +31,9 @@
                 <h1 style="text-align: center">Registration</h1>
                 <p>Hello, ${username}!</p>
                 <p>This is a registration form. You can log in and use the online store application.</p>
-                <a href="https://oranger.store">Oranger</a>
+                <p>To activate the shape cabinet, follow the link</p>
+                <a href="https://oranger.store/api/auth/acvite/accouth?jwt=${jwt}">Oranger</a>
+
             </div>
         </div>
     </body>

@@ -7,6 +7,8 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -95,7 +97,11 @@ public class AuthController {
     @PostMapping(REQUEST_ACTIVE_USER)
     @Operation(summary = "Active User, JWT Token")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok",
+                    content = @Content(schema = @Schema(implementation = AuthRequest.class))
+            ),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "401", description = "Unauthorized")
         }

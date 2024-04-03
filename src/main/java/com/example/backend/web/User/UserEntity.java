@@ -50,4 +50,6 @@ public class UserEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "register_status")
     private RegisterAuthStatus registerAuthStatus;
+
+    private Boolean enabled;
 }

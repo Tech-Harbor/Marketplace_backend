@@ -229,8 +229,6 @@ public class AuthServiceImplTest {
 
         assertTrue(userNotActive.getEnabled());
         assertTrue(userActive.getEnabled());
-
-        assertEquals(userNotActive.getEnabled(), userActive.getEnabled());
     }
 
 

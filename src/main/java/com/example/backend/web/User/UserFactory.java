@@ -4,13 +4,16 @@ import com.example.backend.web.utils.WebIsNullFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Function;
+
 @Component
 @RequiredArgsConstructor
-public class UserFactory {
+public class UserFactory implements Function<UserEntity, UserDTO> {
 
     private final WebIsNullFactory webIsNullFactory;
 
-    public UserDTO makeUserFactory(final UserEntity user) {
+    @Override
+    public UserDTO apply(final UserEntity user) {
         return UserDTO.builder()
                 .id(user.getId())
                 .firstname(user.getFirstname())

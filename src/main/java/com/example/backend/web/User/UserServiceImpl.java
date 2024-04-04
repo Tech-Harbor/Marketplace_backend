@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getByIdUser(final Long id) {
         UserEntity userId = getById(id);
-        return userFactory.makeUserFactory(userId);
+        return userFactory.apply(userId);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getByAllUser() {
         return userRepository.findAll().stream()
-                .map(userFactory::makeUserFactory)
+                .map(userFactory::apply)
                 .collect(Collectors.toList());
     }
 
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
             userId.setEmail(user.email());
             userId.setPassword(user.password());
 
-        return userFactory.makeUserFactory(userRepository.save(userId));
+        return userFactory.apply(userRepository.save(userId));
     }
 
     @Override

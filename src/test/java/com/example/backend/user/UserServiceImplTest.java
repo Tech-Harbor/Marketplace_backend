@@ -38,7 +38,7 @@ public class UserServiceImplTest {
                 .build();
 
         when(userService.getById(userId)).thenReturn(userEntity);
-        when(userFactory.makeUserFactory(any(UserEntity.class))).thenReturn(expectedUserDTO);
+        when(userFactory.apply(any(UserEntity.class))).thenReturn(expectedUserDTO);
 
         final UserDTO resultUserDTO = userService.getByIdUser(userId);
 
@@ -50,14 +50,14 @@ public class UserServiceImplTest {
         final Long userId = 1L;
 
         when(userService.getById(userId)).thenReturn(null);
-        when(userFactory.makeUserFactory(isNull())).thenReturn(null);
+        when(userFactory.apply(isNull())).thenReturn(null);
 
         final UserDTO resultUserDTO = userService.getByIdUser(userId);
 
         assertNull(resultUserDTO);
 
         verify(userRepository).getReferenceById(userId);
-        verify(userFactory, never()).makeUserFactory(any(UserEntity.class));
+        verify(userFactory, never()).apply(any(UserEntity.class));
     }
 
     @Test
@@ -149,8 +149,8 @@ public class UserServiceImplTest {
         final UserDTO userDTO1 = UserDTO.builder().build();
         final UserDTO userDTO2 = UserDTO.builder().build();
 
-        when(userFactory.makeUserFactory(userEntity1)).thenReturn(userDTO1);
-        when(userFactory.makeUserFactory(userEntity2)).thenReturn(userDTO2);
+        when(userFactory.apply(userEntity1)).thenReturn(userDTO1);
+        when(userFactory.apply(userEntity2)).thenReturn(userDTO2);
 
         final List<UserDTO> result = userService.getByAllUser();
 

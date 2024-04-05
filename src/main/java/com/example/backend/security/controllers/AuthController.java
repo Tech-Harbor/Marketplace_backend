@@ -1,5 +1,6 @@
 package com.example.backend.security.controllers;
 
+import com.example.backend.security.models.response.ErrorResponse;
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
@@ -19,6 +20,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestController
 @AllArgsConstructor
 @Tag(name = "Authentication", description = "Authentication User and Update Password, personal office users")
@@ -37,7 +40,6 @@ public class AuthController {
     @Operation(summary = "Register user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "500", description = "This email has already been used")
         }
     )
@@ -50,8 +52,12 @@ public class AuthController {
     @Operation(summary = "Login user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
+            @ApiResponse(responseCode = "401", description = "Unauthorized",
+                    content = {
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                            @Schema(implementation = ErrorResponse.class))
+                    }
+                )
         }
     )
     public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
@@ -62,7 +68,6 @@ public class AuthController {
     @Operation(summary = "Update Password User")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request")
         }
     )
     public void updatePassword(@RequestParam final String jwt,
@@ -74,7 +79,12 @@ public class AuthController {
     @Operation(summary = "Information about the user who is authorized and logged into the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
+            @ApiResponse(responseCode = "401", description = "Unauthorized",
+                    content = {
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                            @Schema(implementation = ErrorResponse.class))
+                        }
+                )
         }
     )
     public String info(@AuthenticationPrincipal final UserDetails userDetails) {
@@ -98,9 +108,11 @@ public class AuthController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Ok",
-                    content = @Content(schema = @Schema(implementation = AuthRequest.class))
+                    content =
+                        @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                        @Schema(implementation = AuthRequest.class)
+                    )
             ),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "401", description = "Unauthorized")
         }
     )

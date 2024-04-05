@@ -1,5 +1,7 @@
 package com.example.backend.security;
 
+import com.example.backend.security.exception.AccessDeniedHandlerJwt;
+import com.example.backend.security.exception.AuthenticationEntryPointJwt;
 import com.example.backend.security.jwt.JwtAuthFilter;
 import com.example.backend.security.oauth.AuthGoogle;
 import com.example.backend.security.utils.CorsConfig;
@@ -22,6 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final AuthenticationEntryPointJwt authenticationEntryPointJwt;
+    private final AccessDeniedHandlerJwt accessDeniedHandlerJwt;
     private final AuthenticationProvider authProvider;
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthGoogle authGoogle;
@@ -35,13 +39,18 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/auth/info/**").authenticated()
+                        .requestMatchers("/api/auth/accouth/**").authenticated()
                         .requestMatchers("/graphiql").permitAll()
                         .anyRequest()
                         .permitAll()
                 )
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler(accessDeniedHandlerJwt)
+                        .authenticationEntryPoint(authenticationEntryPointJwt)
+                )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(oauth -> oauth

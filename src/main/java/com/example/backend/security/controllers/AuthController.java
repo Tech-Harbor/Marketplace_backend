@@ -20,19 +20,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
 @AllArgsConstructor
 @Tag(name = "Authentication", description = "Authentication User and Update Password, personal office users")
 public class AuthController {
 
     private final AuthService authService;
 
-    private static final String SIGNUP_URI = "/signup";
-    private static final String LOGIN_URI = "/login";
-    private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
-    private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
-    private static final String REQUEST_ACTIVE_USER = "/active/accouth";
-    private static final String INFO = "/accouth";
+    private static final String SIGNUP_URI = "/api/auth/signup";
+    private static final String LOGIN_URI = "/api/auth/login";
+    private static final String FORM_CHANGE_PASSWORD_URI = "/api/auth/change-password";
+    private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/api/auth/request/email";
+    private static final String INFO = "/api/auth/accouth";
 
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = "Bearer Authentication")
@@ -94,7 +92,7 @@ public class AuthController {
         authService.requestEmailUpdatePassword(emailRequest);
     }
 
-    @PostMapping(REQUEST_ACTIVE_USER)
+    @PostMapping()
     @Operation(summary = "Active User, JWT Token")
     @ApiResponses(value = {
             @ApiResponse(

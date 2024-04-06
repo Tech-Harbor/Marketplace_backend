@@ -113,7 +113,6 @@ public class AuthController {
                         @Schema(implementation = AuthRequest.class)
                     )
             ),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
         }
     )
     public void activeUser(@RequestParam final String jwt) {

@@ -15,6 +15,8 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.example.backend.web.utils.Constants.DATE_FORMAT;
+
 
 public class LocalDateTimeScalarConfig implements Coercing<LocalDateTime, String> {
 
@@ -24,7 +26,7 @@ public class LocalDateTimeScalarConfig implements Coercing<LocalDateTime, String
                                       @NotNull final GraphQLContext graphQLContext,
                                       @NotNull final Locale locale) {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ENGLISH);
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
 
         return format.format(
                 Date.from(((LocalDateTime) dataFetcherResult)

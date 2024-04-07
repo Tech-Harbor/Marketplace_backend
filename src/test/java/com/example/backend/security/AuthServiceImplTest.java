@@ -26,8 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -209,6 +208,31 @@ public class AuthServiceImplTest {
         verify(mailService).sendEmail(userEntity, MailType.NEW_PASSWORD, new Properties());
     }
 
+    @Test
+    void activeUserTest() {
+        final Long userId = 1L;
+
+        final UserEntity userNotActive = UserEntity.builder()
+                .id(userId)
+                .enabled(false)
+                .build();
+
+        final UserEntity userActive = UserEntity.builder()
+                .id(userId)
+                .enabled(true)
+                .build();
+
+        when(userService.getById(userId)).thenReturn(userNotActive);
+        when(userService.mySave(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        authService.activeUser("jwt");
+
+        assertTrue(userNotActive.getEnabled());
+        assertTrue(userActive.getEnabled());
+    }
+
+
+
     private static final class PasswordEncoderTestUtils implements PasswordEncoder {
         @Override
         public String encode(final CharSequence rawPassword) {
@@ -220,4 +244,5 @@ public class AuthServiceImplTest {
             return rawPassword.toString().equals(encodedPassword);
         }
     }
+
 }

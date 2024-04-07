@@ -1,5 +1,6 @@
 package com.example.backend.security.controllers;
 
+import com.example.backend.security.models.response.ErrorResponse;
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
@@ -7,6 +8,8 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -17,26 +20,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestController
-@RequestMapping("/api/auth")
 @AllArgsConstructor
 @Tag(name = "Authentication", description = "Authentication User and Update Password, personal office users")
 public class AuthController {
 
     private final AuthService authService;
 
-    private static final String SIGNUP_URI = "/signup";
-    private static final String LOGIN_URI = "/login";
-    private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
-    private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
-    private static final String INFO = "/info";
+    private static final String SIGNUP_URI = "/api/auth/signup";
+    private static final String LOGIN_URI = "/api/auth/login";
+    private static final String FORM_CHANGE_PASSWORD_URI = "/api/auth/change-password";
+    private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/api/auth/request/email";
+    private static final String INFO = "/api/auth/accouth";
 
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Register user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "500", description = "This email has already been used")
         }
     )
@@ -49,8 +52,12 @@ public class AuthController {
     @Operation(summary = "Login user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
+            @ApiResponse(responseCode = "401", description = "Unauthorized",
+                    content = {
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                            @Schema(implementation = ErrorResponse.class))
+                    }
+                )
         }
     )
     public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
@@ -61,7 +68,6 @@ public class AuthController {
     @Operation(summary = "Update Password User")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request")
         }
     )
     public void updatePassword(@RequestParam final String jwt,
@@ -73,7 +79,12 @@ public class AuthController {
     @Operation(summary = "Information about the user who is authorized and logged into the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
+            @ApiResponse(responseCode = "401", description = "Unauthorized",
+                    content = {
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                            @Schema(implementation = ErrorResponse.class))
+                        }
+                )
         }
     )
     public String info(@AuthenticationPrincipal final UserDetails userDetails) {
@@ -89,5 +100,22 @@ public class AuthController {
     )
     public void requestEmailUpdatePassword(@RequestBody @Validated final EmailRequest emailRequest) {
         authService.requestEmailUpdatePassword(emailRequest);
+    }
+
+    @PostMapping()
+    @Operation(summary = "Active User, JWT Token")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok",
+                    content =
+                        @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                        @Schema(implementation = AuthRequest.class)
+                    )
+            ),
+        }
+    )
+    public void activeUser(@RequestParam final String jwt) {
+        authService.activeUser(jwt);
     }
 }

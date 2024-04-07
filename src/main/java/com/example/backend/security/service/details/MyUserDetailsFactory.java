@@ -15,6 +15,7 @@ public class MyUserDetailsFactory {
                         .phone(userEntity.getPhone())
                         .role(userEntity.getRole())
                         .registerAuthStatus(userEntity.getRegisterAuthStatus())
+                        .enabled(userEntity.getEnabled())
                         .build())
                 .build();
     }

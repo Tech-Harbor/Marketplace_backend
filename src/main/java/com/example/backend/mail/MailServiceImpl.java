@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import static com.example.backend.web.utils.Constants.UTF_8;
+
 @Service
 @AllArgsConstructor
 public class MailServiceImpl implements MailService {
@@ -38,7 +40,7 @@ public class MailServiceImpl implements MailService {
         String emailContent = getRegistrationEmailContent(user);
 
         MimeMessageHelper helper = new MimeMessageHelper(
-                mimeMessage, false, "UTF-8"
+                mimeMessage, false, UTF_8
         );
 
         helper.setSubject("Thank you for registration, " + user.getLastname());
@@ -54,6 +56,7 @@ public class MailServiceImpl implements MailService {
         Map<String, Object> model = new HashMap<>();
 
         model.put("username", user.getLastname());
+        model.put("jwt", jwtService.generateNewPasswordTokenAndActiveUser(user.getEmail()));
 
         configuration.getTemplate("register.ftlh").process(model, writer);
 
@@ -66,7 +69,7 @@ public class MailServiceImpl implements MailService {
         String passwordContent = getNewPasswordContent(user);
 
         MimeMessageHelper helper = new MimeMessageHelper(
-                mimePasswordMessage, false, "UTF-8"
+                mimePasswordMessage, false, UTF_8
         );
 
         helper.setSubject("Account activation, " + user.getLastname());
@@ -83,7 +86,7 @@ public class MailServiceImpl implements MailService {
         Map<String, Object> model = new HashMap<>();
 
         model.put("username", user.getLastname());
-        model.put("jwt", jwtService.generateNewPasswordToken(user.getEmail()));
+        model.put("jwt", jwtService.generateNewPasswordTokenAndActiveUser(user.getEmail()));
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);
 

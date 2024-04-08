@@ -54,8 +54,8 @@ public class JwtServiceImpl implements JwtService {
                 .builder()
                 .subject(userData)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() +
-                        jwtProperties.getJwtNewPasswordExpirationAndActiveUser()))
+                .expiration(new Date(System.currentTimeMillis()
+                        + jwtProperties.getJwtNewPasswordExpirationAndActiveUser()))
                 .signWith(getSignInKey())
                 .compact();
     }

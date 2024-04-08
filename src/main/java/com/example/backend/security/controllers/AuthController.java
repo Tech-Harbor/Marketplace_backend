@@ -24,16 +24,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api")
 @Tag(name = "Authentication", description = "Authentication User and Update Password, personal office users")
 public class AuthController {
 
     private final AuthService authService;
 
-    private static final String SIGNUP_URI = "/api/auth/signup";
-    private static final String LOGIN_URI = "/api/auth/login";
-    private static final String FORM_CHANGE_PASSWORD_URI = "/api/auth/change-password";
-    private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/api/auth/request/email";
-    private static final String INFO = "/api/auth/accouth";
+    private static final String SIGNUP_URI = "/auth/signup";
+    private static final String LOGIN_URI = "/auth/login";
+    private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
+    private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
+    private static final String ACTIVE_USER = "/active";
+    private static final String INFO = "/accouth";
 
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = "Bearer Authentication")
@@ -102,7 +104,7 @@ public class AuthController {
         authService.requestEmailUpdatePassword(emailRequest);
     }
 
-    @PostMapping()
+    @PostMapping(ACTIVE_USER)
     @Operation(summary = "Active User, JWT Token")
     @ApiResponses(value = {
             @ApiResponse(

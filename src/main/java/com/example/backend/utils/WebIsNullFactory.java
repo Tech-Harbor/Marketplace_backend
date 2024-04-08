@@ -1,4 +1,4 @@
-package com.example.backend.web.utils;
+package com.example.backend.utils;
 
 
 import com.example.backend.web.Category.CategoryEntity;

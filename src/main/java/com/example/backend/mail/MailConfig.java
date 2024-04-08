@@ -1,6 +1,6 @@
 package com.example.backend.mail;
 
-import com.example.backend.web.utils.props.MailProperties;
+import com.example.backend.utils.props.MailProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

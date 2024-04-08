@@ -1,4 +1,4 @@
-package com.example.backend.web.utils.props;
+package com.example.backend.utils.props;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -2,6 +2,7 @@ package com.example.backend.web.Order;
 
 import com.example.backend.web.Product.ProductEntity;
 import com.example.backend.web.User.UserEntity;
+import com.example.backend.utils.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 

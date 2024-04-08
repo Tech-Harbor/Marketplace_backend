@@ -1,11 +1,10 @@
 package com.example.backend.security.service.impl;
 
-import com.example.backend.web.utils.props.JwtProperties;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.details.MyUserDetails;
+import com.example.backend.utils.props.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -50,13 +49,14 @@ public class JwtServiceImpl implements JwtService {
         return generateJwtNewPasswordTokenAndActiveUser(email);
     }
 
-    private String generateJwtNewPasswordTokenAndActiveUser(final String email) {
+    private String generateJwtNewPasswordTokenAndActiveUser(final String userData) {
         return Jwts
                 .builder()
-                .subject(email)
+                .subject(userData)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtNewPasswordExpiration()))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .expiration(new Date(System.currentTimeMillis()
+                        + jwtProperties.getJwtNewPasswordExpirationAndActiveUser()))
+                .signWith(getSignInKey())
                 .compact();
     }
 
@@ -67,7 +67,7 @@ public class JwtServiceImpl implements JwtService {
                 .subject(authentication.getName())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtAccessExpiration()))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .signWith(getSignInKey())
                 .compact();
     }
 
@@ -77,7 +77,7 @@ public class JwtServiceImpl implements JwtService {
                 .claims(extraClaims)
                 .subject(authentication.getName())
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration()))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .signWith(getSignInKey())
                 .compact();
     }
 

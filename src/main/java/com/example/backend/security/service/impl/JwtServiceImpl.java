@@ -2,7 +2,7 @@ package com.example.backend.security.service.impl;
 
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.details.MyUserDetails;
-import com.example.backend.web.utils.props.JwtProperties;
+import com.example.backend.utils.props.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -54,7 +54,8 @@ public class JwtServiceImpl implements JwtService {
                 .builder()
                 .subject(email)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtNewPasswordExpiration()))
+                .expiration(new Date(System.currentTimeMillis() +
+                        jwtProperties.getJwtNewPasswordExpirationAndActiveUser()))
                 .signWith(getSignInKey())
                 .compact();
     }

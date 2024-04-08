@@ -1,4 +1,4 @@
-package com.example.backend.web.utils.props;
+package com.example.backend.utils.props;
 
 
 import lombok.Data;
@@ -12,5 +12,5 @@ public class JwtProperties {
     private String key;
     private long jwtAccessExpiration;
     private long jwtRefreshExpiration;
-    private long jwtNewPasswordExpiration;
+    private long jwtNewPasswordExpirationAndActiveUser;
 }

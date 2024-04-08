@@ -1,11 +1,11 @@
 package com.example.backend.security.oauth;
 
 import com.example.backend.security.service.JwtService;
-import com.example.backend.security.utils.MyPasswordEncoder;
+import com.example.backend.utils.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserService;
-import com.example.backend.web.User.utils.RegisterAuthStatus;
-import com.example.backend.web.User.utils.Role;
+import com.example.backend.utils.enums.RegisterAuthStatus;
+import com.example.backend.utils.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.backend.web.utils.Constants.DEPLOY_STORE;
+import static com.example.backend.utils.Constants.DEPLOY_STORE;
 
 @Component
 @RequiredArgsConstructor

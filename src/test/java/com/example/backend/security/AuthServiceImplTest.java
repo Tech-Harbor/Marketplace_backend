@@ -9,7 +9,7 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.impl.AuthServiceImpl;
-import com.example.backend.security.utils.MyPasswordEncoder;
+import com.example.backend.utils.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;

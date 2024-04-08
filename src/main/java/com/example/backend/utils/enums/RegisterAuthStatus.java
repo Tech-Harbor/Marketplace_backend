@@ -1,4 +1,4 @@
-package com.example.backend.web.User.utils;
+package com.example.backend.utils.enums;
 
 public enum RegisterAuthStatus {
     GOOGLE, JWT

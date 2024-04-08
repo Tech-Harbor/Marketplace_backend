@@ -1,6 +1,6 @@
 package com.example.backend.web.File;
 
-import com.example.backend.web.File.utils.FileUpload;
+import com.example.backend.web.File.upload.FileUpload;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;

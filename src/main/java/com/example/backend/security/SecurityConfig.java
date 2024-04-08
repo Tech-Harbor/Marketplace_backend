@@ -4,7 +4,7 @@ import com.example.backend.security.exception.AccessDeniedHandlerJwt;
 import com.example.backend.security.exception.AuthenticationEntryPointJwt;
 import com.example.backend.security.jwt.JwtAuthFilter;
 import com.example.backend.security.oauth.AuthGoogle;
-import com.example.backend.security.utils.CorsConfig;
+import com.example.backend.utils.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;

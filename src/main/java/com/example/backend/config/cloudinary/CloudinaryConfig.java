@@ -1,7 +1,7 @@
 package com.example.backend.config.cloudinary;
 
 import com.cloudinary.Cloudinary;
-import com.example.backend.web.utils.props.CloudinaryProperties;
+import com.example.backend.utils.props.CloudinaryProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

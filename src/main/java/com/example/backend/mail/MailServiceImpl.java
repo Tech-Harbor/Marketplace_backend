@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.example.backend.web.utils.Constants.UTF_8;
+import static com.example.backend.utils.Constants.UTF_8;
 
 @Service
 @AllArgsConstructor

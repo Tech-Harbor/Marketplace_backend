@@ -3,8 +3,8 @@ package com.example.backend.web.User;
 import com.example.backend.web.Comment.CommentEntity;
 import com.example.backend.web.Order.OrderEntity;
 import com.example.backend.web.Product.ProductEntity;
-import com.example.backend.web.User.utils.RegisterAuthStatus;
-import com.example.backend.web.User.utils.Role;
+import com.example.backend.utils.enums.RegisterAuthStatus;
+import com.example.backend.utils.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 

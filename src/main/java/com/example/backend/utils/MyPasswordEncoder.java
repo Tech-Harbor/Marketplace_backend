@@ -1,4 +1,4 @@
-package com.example.backend.security.utils;
+package com.example.backend.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

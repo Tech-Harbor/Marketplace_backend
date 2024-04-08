@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.LocalDateTime;
 
-import static com.example.backend.web.utils.Constants.PATH;
+import static com.example.backend.utils.Constants.PATH;
 
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {

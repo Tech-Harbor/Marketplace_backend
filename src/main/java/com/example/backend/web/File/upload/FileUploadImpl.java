@@ -1,4 +1,4 @@
-package com.example.backend.web.File.utils;
+package com.example.backend.web.File.upload;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

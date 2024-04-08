@@ -49,10 +49,10 @@ public class JwtServiceImpl implements JwtService {
         return generateJwtNewPasswordTokenAndActiveUser(email);
     }
 
-    private String generateJwtNewPasswordTokenAndActiveUser(final String email) {
+    private String generateJwtNewPasswordTokenAndActiveUser(final String userData) {
         return Jwts
                 .builder()
-                .subject(email)
+                .subject(userData)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() +
                         jwtProperties.getJwtNewPasswordExpirationAndActiveUser()))

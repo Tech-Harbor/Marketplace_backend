@@ -8,12 +8,12 @@ import java.util.function.Function;
 
 public interface JwtService {
     /**
-     * Extracts the user email from the provided JWT token.
+     * Extracts the userData from the provided JWT token.
      *
      * @param token The JWT token from which the user email needs to be extracted
      * @return The user email extracted from the JWT token
      */
-    String extractUserEmail(String token);
+    String extractUserData(String token);
     /**
      * Extracts a specific claim from the provided JWT token.
      *

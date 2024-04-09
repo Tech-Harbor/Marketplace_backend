@@ -24,7 +24,7 @@ public class JwtServiceImpl implements JwtService {
     private final JwtProperties jwtProperties;
 
     @Override
-    public String extractUserEmail(final String token) {
+    public String extractUserData(final String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -83,7 +83,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public boolean isTokenValid(final String token, final MyUserDetails userDetails) {
-        final String userEmail = extractUserEmail(token);
+        final String userEmail = extractUserData(token);
         return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 

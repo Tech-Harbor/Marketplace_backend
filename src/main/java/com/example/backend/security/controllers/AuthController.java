@@ -1,11 +1,11 @@
 package com.example.backend.security.controllers;
 
-import com.example.backend.security.models.response.ErrorResponse;
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
+import com.example.backend.security.models.response.ErrorResponse;
 import com.example.backend.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -72,7 +73,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "Ok"),
         }
     )
-    public void updatePassword(@RequestParam final String jwt,
+    public void updatePassword(@RequestHeader(AUTHORIZATION) final String jwt,
                                @RequestBody @Validated final PasswordRequest passwordRequest) {
         authService.formUpdatePassword(jwt, passwordRequest);
     }
@@ -117,7 +118,7 @@ public class AuthController {
             ),
         }
     )
-    public void activeUser(@RequestParam final String jwt) {
+    public void activeUser(@RequestHeader(AUTHORIZATION) final String jwt) {
         authService.activeUser(jwt);
     }
 }

@@ -45,8 +45,8 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateNewPasswordTokenAndActiveUser(final String email) {
-        return generateJwtNewPasswordTokenAndActiveUser(email);
+    public String generateNewPasswordTokenAndActiveUser(final String userData) {
+        return generateJwtNewPasswordTokenAndActiveUser(userData);
     }
 
     private String generateJwtNewPasswordTokenAndActiveUser(final String userData) {

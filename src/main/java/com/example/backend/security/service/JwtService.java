@@ -38,12 +38,12 @@ public interface JwtService {
      */
     String generateRefreshToken(Authentication authentication);
     /**
-     * Generates a new password token and activates the user associated with the provided email.
+     * Generates a new password token and activates the user associated with the provided userData.
      *
      * @param email The email of the user to generate the token for and activate
      * @return The generated token
      */
-    String generateNewPasswordTokenAndActiveUser(String email);
+    String generateNewPasswordTokenAndActiveUser(String userData);
     /**
      * Checks if the provided token is valid for the given user details.
      *

@@ -114,4 +114,13 @@ public class AuthServiceImpl implements AuthService {
 
         userService.mySave(activeUserTrue);
     }
+
+    @Override
+    public void sendEmail() {
+        final var id = 1L;
+
+        final var user = userService.getById(id);
+
+        mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
+    }
 }

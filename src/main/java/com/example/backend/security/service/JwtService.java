@@ -8,12 +8,12 @@ import java.util.function.Function;
 
 public interface JwtService {
     /**
-     * Extracts the user email from the provided JWT token.
+     * Extracts the userData from the provided JWT token.
      *
      * @param token The JWT token from which the user email needs to be extracted
      * @return The user email extracted from the JWT token
      */
-    String extractUserEmail(String token);
+    String extractUserData(String token);
     /**
      * Extracts a specific claim from the provided JWT token.
      *
@@ -38,12 +38,12 @@ public interface JwtService {
      */
     String generateRefreshToken(Authentication authentication);
     /**
-     * Generates a new password token and activates the user associated with the provided email.
+     * Generates a new password token and activates the user associated with the provided userData.
      *
      * @param email The email of the user to generate the token for and activate
      * @return The generated token
      */
-    String generateNewPasswordTokenAndActiveUser(String email);
+    String generateNewPasswordTokenAndActiveUser(String userData);
     /**
      * Checks if the provided token is valid for the given user details.
      *

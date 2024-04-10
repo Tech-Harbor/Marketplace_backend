@@ -53,5 +53,5 @@ public interface AuthService {
     /**
      * This method sends a letter to the user's mail if he did not have time to activate the account the first time
      */
-    void sendEmail();
+    void sendEmailActive();
 }

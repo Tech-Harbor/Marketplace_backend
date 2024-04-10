@@ -130,6 +130,6 @@ public class AuthController {
         }
     )
     public void sendEmailSecondActive() {
-        authService.sendEmail();
+        authService.sendEmailActive();
     }
 }

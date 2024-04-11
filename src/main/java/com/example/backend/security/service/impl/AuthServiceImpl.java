@@ -15,6 +15,7 @@ import com.example.backend.web.User.UserService;
 import com.example.backend.utils.enums.RegisterAuthStatus;
 import com.example.backend.utils.enums.Role;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ import java.util.Properties;
 import static com.example.backend.web.exception.RequestException.badRequestException;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
@@ -58,6 +60,8 @@ public class AuthServiceImpl implements AuthService {
 
         userService.mySave(user);
 
+        log.info("Register User: " + user);
+
         mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
     }
 
@@ -78,6 +82,8 @@ public class AuthServiceImpl implements AuthService {
 
         final var refreshToken = jwtService.generateRefreshToken(authentication);
 
+        log.info("Login user: " + authentication);
+
         return AuthResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -92,6 +98,8 @@ public class AuthServiceImpl implements AuthService {
 
         userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
+        log.info("Update Password :" + userId.getLastname());
+
         userService.mySave(userId);
     }
 
@@ -100,6 +108,8 @@ public class AuthServiceImpl implements AuthService {
         final UserEntity emailUser = userService.getByEmail(emailRequest.email()).orElseThrow(
                 () -> badRequestException("This email is not exists")
         );
+
+        log.info("Email user" + emailUser.getEmail());
 
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
     }
@@ -112,6 +122,19 @@ public class AuthServiceImpl implements AuthService {
 
         activeUserTrue.setEnabled(true);
 
+        log.info("Active user: " + activeUserTrue.getLastname());
+
         userService.mySave(activeUserTrue);
+    }
+
+    @Override
+    public void sendEmailActive() {
+        final var id = 1L;
+
+        final var user = userService.getById(id);
+
+        log.info("SendEmail user: " + user.getLastname());
+
+        mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
     }
 }

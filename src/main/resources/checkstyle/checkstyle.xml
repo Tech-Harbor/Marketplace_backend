@@ -219,11 +219,6 @@
         <module name="NonEmptyAtclauseDescription"/>
         <module name="InvalidJavadocPosition"/>
 
-        <module name="SummaryJavadoc">
-            <property name="forbiddenSummaryFragments"
-                      value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
-        </module>
-
         <module name="AtclauseOrder">
             <property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
             <property name="target"
@@ -270,8 +265,6 @@
                     LITERAL_YIELD, LITERAL_CASE"/>
         </module>
 
-        <!-- Checks for Naming Conventions.                  -->
-        <!-- See https://checkstyle.org/checks/naming/index.html -->
         <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName"/>
@@ -281,22 +274,15 @@
         <module name="ParameterName"/>
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
-
-        <!-- Checks for imports                              -->
-        <!-- See https://checkstyle.org/checks/imports/index.html -->
-        <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
+        <module name="IllegalImport"/>
         <module name="RedundantImport"/>
+
         <module name="UnusedImports">
             <property name="processJavadoc" value="false"/>
         </module>
 
-        <!-- Checks for Size Violations.                    -->
-        <!-- See https://checkstyle.org/checks/sizes/index.html -->
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
-
-        <!-- Checks for whitespace                               -->
-        <!-- See https://checkstyle.org/checks/whitespace/index.html -->
         <module name="EmptyForIteratorPad"/>
         <module name="GenericWhitespace"/>
         <module name="MethodParamPad"/>
@@ -307,21 +293,12 @@
         <module name="TypecastParenPad"/>
         <module name="WhitespaceAfter"/>
         <module name="WhitespaceAround"/>
-
-        <!-- Modifier Checks                                    -->
-        <!-- See https://checkstyle.org/checks/modifier/index.html -->
         <module name="ModifierOrder"/>
         <module name="RedundantModifier"/>
-
-        <!-- Checks for blocks. You know, those {}'s         -->
-        <!-- See https://checkstyle.org/checks/blocks/index.html -->
         <module name="AvoidNestedBlocks"/>
         <module name="EmptyBlock"/>
         <module name="NeedBraces"/>
         <module name="RightCurly"/>
-
-        <!-- Checks for common coding problems               -->
-        <!-- See https://checkstyle.org/checks/coding/index.html -->
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <module name="IllegalInstantiation"/>
@@ -329,20 +306,13 @@
         <module name="MissingSwitchDefault"/>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
-
-        <!-- Checks for class design                         -->
-        <!-- See https://checkstyle.org/checks/design/index.html -->
         <module name="FinalClass"/>
         <module name="InterfaceIsType"/>
         <module name="VisibilityModifier"/>
-
-        <!-- Miscellaneous other checks.                   -->
-        <!-- See https://checkstyle.org/checks/misc/index.html -->
         <module name="ArrayTypeStyle"/>
         <module name="FinalParameters"/>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
-
 
     </module>
 </module>

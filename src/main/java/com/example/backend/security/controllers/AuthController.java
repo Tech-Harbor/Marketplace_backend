@@ -37,6 +37,7 @@ public class AuthController {
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String ACTIVE_USER = "/active";
     private static final String INFO = "/accouth";
+    private static final String SEND_MESSAGE_EMAIL_NOT_ACTIVE = "/sendMessageEmail";
 
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = "Bearer Authentication")
@@ -120,5 +121,15 @@ public class AuthController {
     )
     public void activeUser(@RequestHeader(AUTHORIZATION) final String jwt) {
         authService.activeUser(jwt);
+    }
+
+    @PostMapping(SEND_MESSAGE_EMAIL_NOT_ACTIVE)
+    @Operation(summary = "Re-sending the account activation letter if the first letter was not successful")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK")
+        }
+    )
+    public void sendEmailSecondActive() {
+        authService.sendEmailActive();
     }
 }

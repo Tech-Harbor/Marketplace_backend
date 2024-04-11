@@ -231,7 +231,22 @@ public class AuthServiceImplTest {
         assertTrue(userActive.getEnabled());
     }
 
+    @Test
+    void sendEmailActiveTest() {
+        final var id = 1L;
 
+        final UserEntity userId = UserEntity.builder()
+                .id(id)
+                .build();
+
+        when(userService.getById(id)).thenReturn(userId);
+
+        authService.sendEmailActive();
+
+        verify(userService).getById(id);
+
+        verify(mailService).sendEmail(any(UserEntity.class), eq(MailType.REGISTRATION), any(Properties.class));
+    }
 
     private static final class PasswordEncoderTestUtils implements PasswordEncoder {
         @Override

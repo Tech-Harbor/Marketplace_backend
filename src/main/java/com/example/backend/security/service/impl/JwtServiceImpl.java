@@ -29,6 +29,12 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
+    public boolean isTokenValid(final String token, final MyUserDetails userDetails) {
+        final String userEmail = extractUserData(token);
+        return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    @Override
     public <T> T extractClaim(final String token, final Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -79,12 +85,6 @@ public class JwtServiceImpl implements JwtService {
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration()))
                 .signWith(getSignInKey())
                 .compact();
-    }
-
-    @Override
-    public boolean isTokenValid(final String token, final MyUserDetails userDetails) {
-        final String userEmail = extractUserData(token);
-        return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(final String token) {

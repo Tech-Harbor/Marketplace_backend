@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Thank you for registration ${username}</title>
     <style>
         #body {
             display: flex;
@@ -28,11 +27,15 @@
     <body>
         <div id="body">
             <div id="div">
-                <h1 style="text-align: center">Registration</h1>
-                <p>Hello, ${username}!</p>
-                <p>This is a registration form. You can log in and use the online store application.</p>
-                <p>To activate the shape cabinet, follow the link</p>
-                <a href="https://oranger.store/?jwt=${jwt}">Oranger</a>
+                <h1 style="text-align: center">Шановний, ${username}!</h1>
+                <p>Ми раді повідомити Вам про успішну реєстрацію на нашому маркетплейсі Oranger.
+                    Ваш обліковий запис був створений і готовий до використання.
+                    Тепер Ви можете увійти на маркетплейс використовуючи логін і пароль,
+                    які були вказали під час реєстрації.</p>
+
+                <p>Ми сподіваємося, що Ви отримаєте задоволення від використання нашого сервісу</p>
+
+                <p>З повагою, Команда <a href="https://oranger.store/?jwt=${jwt}">Oranger</a></p>
             </div>
         </div>
     </body>

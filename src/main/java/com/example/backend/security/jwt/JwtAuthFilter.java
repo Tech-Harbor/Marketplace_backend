@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -32,16 +33,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             final FilterChain filterChain) {
 
         final String authHeader = request.getHeader(AUTHORIZATION);
-        final String jwt, userEmail;
+        final String jwt, userData;
 
-        if (authHeader != null && authHeader.startsWith(BEARER)) {
+        if (StringUtils.isNoneEmpty(authHeader) && authHeader.startsWith(BEARER)) {
 
             jwt = authHeader.substring(7);
-            userEmail = jwtService.extractUserData(jwt);
 
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            userData = jwtService.extractUserData(jwt);
 
-                MyUserDetails userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(userEmail);
+            if (StringUtils.isNoneEmpty(userData) && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+                MyUserDetails userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(userData);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
 

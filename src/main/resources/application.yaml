@@ -22,6 +22,7 @@ spring:
         provider:
           google:
             user-name-attribute: email
+
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}

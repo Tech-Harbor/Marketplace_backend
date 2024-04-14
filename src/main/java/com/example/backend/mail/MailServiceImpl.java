@@ -43,7 +43,7 @@ public class MailServiceImpl implements MailService {
                 mimeMessage, false, UTF_8
         );
 
-        helper.setSubject("Thank you for registration, " + user.getLastname());
+        helper.setSubject("???, " + user.getLastname());
         helper.setTo(user.getEmail());
         helper.setText(emailContent, true);
 
@@ -72,7 +72,7 @@ public class MailServiceImpl implements MailService {
                 mimePasswordMessage, false, UTF_8
         );
 
-        helper.setSubject("Account activation, " + user.getLastname());
+        helper.setSubject("Update Password, " + user.getLastname());
         helper.setTo(user.getEmail());
         helper.setText(passwordContent, true);
 

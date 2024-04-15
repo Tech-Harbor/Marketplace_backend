@@ -16,6 +16,7 @@ public class CategoryController {
 
     private final CategoryServiceImpl categoryService;
     private static final String URI_CATEGORIES_ID = "/{id}";
+    private static final String URI_CATEGORIES_FILTER = "/filter/{categoryName}";
 
     @GetMapping
     public List<CategoryDTO> getAll() {
@@ -36,6 +37,11 @@ public class CategoryController {
     @PutMapping(URI_CATEGORIES_ID)
     public CategoryDTO update(@PathVariable final Long id, @RequestBody @Validated final CategoryDTO categoryDTO) {
         return categoryService.update(id, categoryDTO);
+    }
+
+    @GetMapping(URI_CATEGORIES_FILTER)
+    public List<CategoryEntity> getFilterLatsName(@PathVariable final String categoryName) {
+        return categoryService.getFilterCategory(categoryName);
     }
 
     @DeleteMapping(URI_CATEGORIES_ID)

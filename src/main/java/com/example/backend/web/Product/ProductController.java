@@ -15,6 +15,7 @@ public class ProductController {
 
     private final ProductServiceImpl productService;
     private static final String URI_PRODUCTS_ID = "/{id}";
+    private static final String URI_PRODUCTS_FILTER = "/filter/{name}";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
     @PostMapping(URI_PRODUCTS_ID)
@@ -44,6 +45,11 @@ public class ProductController {
     @DeleteMapping(URI_PRODUCTS_ID)
     public void deleteIdProduct(@PathVariable final Long id) {
         productService.deleteIdProduct(id);
+    }
+
+    @GetMapping(URI_PRODUCTS_FILTER)
+    public List<ProductEntity> getFilterName(@PathVariable final String name) {
+        return productService.getFilterProductName(name);
     }
 
     @DeleteMapping(URL_DELETE_ALL)

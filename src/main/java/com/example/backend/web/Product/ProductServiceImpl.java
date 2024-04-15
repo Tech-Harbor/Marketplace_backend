@@ -4,6 +4,12 @@ import com.example.backend.web.Category.CategoryEntity;
 import com.example.backend.web.Category.CategoryService;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +20,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository productRepository;
-    private UserService userService;
-    private ProductFactory productFactory;
-    private CategoryService categoryService;
+    private final ProductRepository productRepository;
+    private final CategoryService categoryService;
+    private final ProductFactory productFactory;
+    private final UserService userService;
+    private final EntityManager em;
 
     @Override
     public ProductDTO createProduct(final Long id, final ProductDTO product) {
@@ -73,6 +80,24 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteAll() {
         productRepository.deleteAll();
+    }
+
+    @Override
+    public List<ProductEntity> getFilterProductName(final String name) {
+
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+        CriteriaQuery<ProductEntity> criteriaQuery = criteriaBuilder.createQuery(ProductEntity.class);
+
+        Root<ProductEntity> productEntityRoot = criteriaQuery.from(ProductEntity.class);
+
+        Predicate nameProductPredicate = criteriaBuilder.equal(productEntityRoot.get("name"), name);
+
+        criteriaQuery.where(nameProductPredicate);
+
+        TypedQuery<ProductEntity> typedQuery = em.createQuery(criteriaQuery);
+
+        return typedQuery.getResultList();
     }
 
     private ProductEntity getIdProduct(final Long id) {

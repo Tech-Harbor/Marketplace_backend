@@ -8,5 +8,6 @@ public interface ProductService {
     ProductDTO getOneProduct(Long id);
     ProductDTO editProduct(Long id, ProductDTO entity);
     void deleteIdProduct(Long id);
+    List<ProductEntity> getFilterProductName(String name);
     void deleteAll();
 }

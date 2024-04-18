@@ -70,7 +70,6 @@ dependencies {
 
 //SPRING-TEST
 dependencies {
-    testImplementation 'org.springframework:spring-webflux'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

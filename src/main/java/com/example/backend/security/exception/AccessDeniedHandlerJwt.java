@@ -21,10 +21,10 @@ public class AccessDeniedHandlerJwt implements AccessDeniedHandler {
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
-        ErrorResponse response = new ErrorResponse(
-                HttpServletResponse.SC_FORBIDDEN,
-                "You don't have required role to perform this action."
-        );
+        ErrorResponse response = ErrorResponse.builder()
+                .status(HttpServletResponse.SC_FORBIDDEN)
+                .message("You don't have required role to perform this action.")
+                .build();
 
         final ObjectMapper mapper = new ObjectMapper();
 

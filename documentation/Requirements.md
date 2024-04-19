@@ -20,3 +20,6 @@
             (за потребою, можна добавляти також).
         5.2 Всі класи, які потребують більше, ніж два параметра, що передаються з файлу конфігурації application.yaml, 
             мають бути у вигляді класу Properties.
+
+В API встановлений [checkstyle](https://github.com/Tech-Harbor/oranger_backend/blob/dev/src/main/resources/checkstyle/checkstyle.xml),
+    щоб дізнатися правила перейдіть за посиланням

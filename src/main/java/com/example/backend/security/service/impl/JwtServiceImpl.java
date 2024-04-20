@@ -49,17 +49,16 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateNewPasswordTokenAndActiveUser(final String userData) {
-        return generateJwtNewPasswordTokenAndActiveUser(userData);
+    public String generateUserDataToken(final String userData) {
+        return generateJwtUserDataToken(userData);
     }
 
-    private String generateJwtNewPasswordTokenAndActiveUser(final String userData) {
+    private String generateJwtUserDataToken(final String userData) {
         return Jwts
                 .builder()
                 .subject(userData)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()
-                        + jwtProperties.getJwtNewPasswordExpirationAndActiveUser()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration()))
                 .signWith(getSignInKey())
                 .compact();
     }

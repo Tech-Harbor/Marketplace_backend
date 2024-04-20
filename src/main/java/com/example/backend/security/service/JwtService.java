@@ -43,7 +43,7 @@ public interface JwtService {
      * @param email The email of the user to generate the token for and activate
      * @return The generated token
      */
-    String generateNewPasswordTokenAndActiveUser(String userData);
+    String generateUserDataToken(String userData);
     /**
      * Checks if the provided token is valid for the given user details.
      *

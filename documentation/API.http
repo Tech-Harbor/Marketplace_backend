@@ -41,7 +41,6 @@ POST http://localhost:8080/api/active
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer
 
-
 ###Accouth
 GET http://localhost:8080/api/accouth
 Content-Type: application/x-www-form-urlencoded

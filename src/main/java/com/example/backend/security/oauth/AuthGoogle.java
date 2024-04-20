@@ -70,7 +70,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                                 );
                             }
                     );
-            response.addHeader("Set-Cookie","jwt=" + jwtService.generateAccessToken(authentication) + COOK);
+            response.addHeader("Set-Cookie", "jwt=" + jwtService.generateAccessToken(authentication) + COOK);
         }
         response.sendRedirect(DEPLOY_STORE);
     }

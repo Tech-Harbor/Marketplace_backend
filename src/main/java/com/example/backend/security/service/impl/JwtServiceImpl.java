@@ -30,14 +30,12 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public boolean isTokenValid(final String token, final MyUserDetails userDetails) {
-        final String userEmail = extractUserData(token);
-        return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return extractUserData(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     @Override
     public <T> T extractClaim(final String token, final Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+        return claimsResolver.apply(extractAllClaims(token));
     }
 
     @Override
@@ -105,7 +103,6 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getKey());
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getKey()));
     }
 }

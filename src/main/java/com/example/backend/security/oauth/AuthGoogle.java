@@ -21,7 +21,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.backend.utils.Constants.NAME_ATTRIBUTE_KEY;
+import static com.example.backend.utils.Constants.EMAIL_KEY;
 import static com.example.backend.utils.Constants.EMPTY_LINE;
 import static com.example.backend.utils.Constants.DEPLOY_STORE;
 import static com.example.backend.utils.Constants.COOK;
@@ -48,7 +48,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
             final var attributes = ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes();
 
-            final var email = attributes.getOrDefault(NAME_ATTRIBUTE_KEY, EMPTY_LINE).toString();
+            final var email = attributes.getOrDefault(EMAIL_KEY, EMPTY_LINE).toString();
 
             userService.getByEmail(email)
                     .ifPresentOrElse(user -> SecurityContextHolder.getContext().setAuthentication(
@@ -76,11 +76,11 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
     }
 
     private DefaultOAuth2User createOAuth2User(final String roleName, final Map<String, Object> attributes) {
-        if (!attributes.containsKey(NAME_ATTRIBUTE_KEY)) {
-            throw new IllegalArgumentException("Missing" + NAME_ATTRIBUTE_KEY + "attribute in OAuth2 user attributes");
+        if (!attributes.containsKey(EMAIL_KEY)) {
+            throw new IllegalArgumentException("Missing" + EMAIL_KEY + "attribute in OAuth2 user attributes");
         }
 
-        return new DefaultOAuth2User(List.of(new SimpleGrantedAuthority(roleName)), attributes, NAME_ATTRIBUTE_KEY);
+        return new DefaultOAuth2User(List.of(new SimpleGrantedAuthority(roleName)), attributes, EMAIL_KEY);
     }
 
     private OAuth2AuthenticationToken createOAuth2AuthenticationToken(final DefaultOAuth2User user,

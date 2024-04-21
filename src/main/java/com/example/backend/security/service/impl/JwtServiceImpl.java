@@ -3,6 +3,7 @@ package com.example.backend.security.service.impl;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.details.MyUserDetails;
 import com.example.backend.utils.props.JwtProperties;
+import com.example.backend.web.User.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -16,6 +17,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import static com.example.backend.utils.Constants.PASSWORD;
 
 @Service
 @RequiredArgsConstructor
@@ -49,16 +52,35 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateUserDataToken(final String userData) {
-        return generateJwtUserDataToken(userData);
+    public String generateUserPasswordDataToken(final UserEntity userData) {
+        return generateJwtPasswordToken(userData);
     }
 
-    private String generateJwtUserDataToken(final String userData) {
+    @Override
+    public String generateUserEmailDataToken(final UserEntity userData) {
+        return generateJwtEmailToken(userData);
+    }
+
+    private String generateJwtPasswordToken(final UserEntity userData) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(PASSWORD, userData.getPassword());
+
         return Jwts
                 .builder()
-                .subject(userData)
+                .claims(claims)
+                .subject(userData.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration().toMillis()))
+                .signWith(getSignInKey())
+                .compact();
+    }
+
+    private String generateJwtEmailToken(final UserEntity userData) {
+        return Jwts
+                .builder()
+                .subject(userData.getEmail())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration().toMillis()))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -69,7 +91,7 @@ public class JwtServiceImpl implements JwtService {
                 .claims(extraClaims)
                 .subject(authentication.getName())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtAccessExpiration()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtAccessExpiration().toMillis()))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -79,7 +101,7 @@ public class JwtServiceImpl implements JwtService {
                 .builder()
                 .claims(extraClaims)
                 .subject(authentication.getName())
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration().toMillis()))
                 .signWith(getSignInKey())
                 .compact();
     }

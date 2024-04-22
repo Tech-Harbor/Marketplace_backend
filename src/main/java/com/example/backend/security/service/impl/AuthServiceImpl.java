@@ -90,15 +90,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void formUpdatePassword(final String jwt, final PasswordRequest passwordRequest) {
-        final var id = 1L;
+        var userPassword = userService.getByEmail(passwordRequest.email());
 
-        final var userId = userService.getById(id);
+        userPassword.ifPresent(user -> {
+                user.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
-        userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
+                log.info("Update Password :" + user.getFirstname());
 
-        log.info("Update Password :" + userId.getLastname());
-
-        userService.mySave(userId);
+                userService.mySave(user);
+            }
+        );
     }
 
     @Override
@@ -113,26 +114,28 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void activeUser(final String jwt) {
-        final var id = 1L;
+    public void activeUser(final String jwt, final EmailRequest emailRequest) {
+        final var activeUserTrue = userService.getByEmail(emailRequest.email());
 
-        final var activeUserTrue = userService.getById(id);
+        activeUserTrue.ifPresent(user -> {
+                user.setEnabled(true);
 
-        activeUserTrue.setEnabled(true);
+                log.info("Active user: " + user.getFirstname());
 
-        log.info("Active user: " + activeUserTrue.getLastname());
-
-        userService.mySave(activeUserTrue);
+                userService.mySave(user);
+            }
+        );
     }
 
     @Override
-    public void sendEmailActive() {
-        final var id = 1L;
+    public void sendEmailActive(final EmailRequest emailRequest) {
+        final var user = userService.getByEmail(emailRequest.email());
 
-        final var user = userService.getById(id);
+        user.ifPresent(entity -> {
+                log.info("SendEmail user: " + entity.getFirstname());
 
-        log.info("SendEmail user: " + user.getLastname());
-
-        mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
+                mailService.sendEmail(entity, MailType.REGISTRATION, new Properties());
+            }
+        );
     }
 }

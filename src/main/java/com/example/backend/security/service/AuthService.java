@@ -49,9 +49,9 @@ public interface AuthService {
      * @throws RuntimeException if user with the provided ID is not found
      * @Returns void
      */
-    void activeUser(String jwt);
+    void activeUser(String jwt, EmailRequest emailRequest);
     /**
      * This method sends a letter to the user's mail if he did not have time to activate the account the first time
      */
-    void sendEmailActive();
+    void sendEmailActive(EmailRequest emailRequest);
 }

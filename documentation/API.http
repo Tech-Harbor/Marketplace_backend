@@ -4,6 +4,7 @@ Content-Type: application/json
 Authorization: Bearer
 
 {
+  "email": "v4054741@gmail.com",
   "password": "Password325231"
 }
 
@@ -38,8 +39,12 @@ Content-Type: application/json
 
 ###Active User, JWT TOKEN
 POST http://localhost:8080/api/active
-Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer
+Content-Type: application/json
+
+{
+  "email": "v4054741@gmail.com"
+}
 
 ###Accouth
 GET http://localhost:8080/api/accouth
@@ -47,3 +52,8 @@ Content-Type: application/x-www-form-urlencoded
 
 ###Active Not Users
 POST http://localhost:8080/api/sendMessageEmail
+Content-Type: application/json
+
+{
+  "email": "v4054741@gmail.com"
+}

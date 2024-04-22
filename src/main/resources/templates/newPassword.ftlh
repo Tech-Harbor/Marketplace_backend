@@ -29,7 +29,7 @@
             <div id="div">
                 <h1 style="text-align: center">Reset Password</h1>
                 <p>Для зміни пароля перейдіть за посиланням, ${username}!</p>
-                <a href="https://oranger.store/auth/change-password?jwt=${jwt}">Update Password</a>
+                <a href="https://oranger.store/change-password?auth_modal=true&chp_token=${jwt}">Update Password</a>
             </div>
         </div>
     </body>

@@ -1,6 +1,7 @@
 package com.example.backend.security.service;
 
 import com.example.backend.security.service.details.MyUserDetails;
+import com.example.backend.web.User.UserEntity;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.Authentication;
 
@@ -43,7 +44,8 @@ public interface JwtService {
      * @param email The email of the user to generate the token for and activate
      * @return The generated token
      */
-    String generateNewPasswordTokenAndActiveUser(String userData);
+    String generateUserPasswordDataToken(UserEntity userData);
+    String generateUserEmailDataToken(UserEntity userData);
     /**
      * Checks if the provided token is valid for the given user details.
      *

@@ -55,7 +55,13 @@ public class AuthController {
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Login user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(
+                    responseCode = "200", description = "Ok",
+                    content = {
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                            @Schema(implementation = AuthResponse.class))
+                    }
+                ),
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = {
                             @Content(mediaType = APPLICATION_JSON_VALUE, schema =
@@ -71,7 +77,13 @@ public class AuthController {
     @PutMapping(FORM_CHANGE_PASSWORD_URI)
     @Operation(summary = "Update Password User")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(
+                    responseCode = "200", description = "Ok",
+                    content = {
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                            @Schema(implementation = PasswordRequest.class))
+                    }
+            ),
         }
     )
     public void updatePassword(@RequestHeader(AUTHORIZATION) final String jwt,
@@ -82,7 +94,13 @@ public class AuthController {
     @GetMapping(INFO)
     @Operation(summary = "Information about the user who is authorized and logged into the system")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(
+                    responseCode = "200", description = "Ok",
+                    content = {
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                            @Schema(implementation = String.class))
+                    }
+            ),
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = {
                             @Content(mediaType = APPLICATION_JSON_VALUE, schema =
@@ -98,7 +116,14 @@ public class AuthController {
     @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)
     @Operation(summary = "Change password using email")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok",
+                    content = {
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                            @Schema(implementation = EmailRequest.class))
+                    }
+            ),
             @ApiResponse(responseCode = "500", description = "This email is not exists")
         }
     )

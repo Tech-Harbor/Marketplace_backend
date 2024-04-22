@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import static com.example.backend.utils.Constants.JWT;
 import static com.example.backend.utils.Constants.UTF_8;
 
 @Service
@@ -56,7 +57,7 @@ public class MailServiceImpl implements MailService {
         Map<String, Object> model = new HashMap<>();
 
         model.put("username", user.getLastname());
-        model.put("jwt", jwtService.generateNewPasswordTokenAndActiveUser(user.getEmail()));
+        model.put(JWT, jwtService.generateUserEmailDataToken(user));
 
         configuration.getTemplate("register.ftlh").process(model, writer);
 
@@ -86,7 +87,7 @@ public class MailServiceImpl implements MailService {
         Map<String, Object> model = new HashMap<>();
 
         model.put("username", user.getLastname());
-        model.put("jwt", jwtService.generateNewPasswordTokenAndActiveUser(user.getPassword()));
+        model.put(JWT, jwtService.generateUserPasswordDataToken(user));
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);
 

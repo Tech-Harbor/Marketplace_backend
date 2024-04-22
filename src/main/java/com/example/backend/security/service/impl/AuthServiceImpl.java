@@ -12,19 +12,17 @@ import com.example.backend.security.service.JwtService;
 import com.example.backend.utils.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserService;
-import com.example.backend.utils.enums.RegisterAuthStatus;
-import com.example.backend.utils.enums.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Properties;
 
+import static com.example.backend.utils.enums.RegisterAuthStatus.JWT;
+import static com.example.backend.utils.enums.Role.USER;
 import static com.example.backend.web.exception.RequestException.badRequestException;
 
 @Service
@@ -40,22 +38,22 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void signup(final RegisterRequest registerRequest) {
-        final Optional<UserEntity> existUser = userService.getByEmail(registerRequest.email());
+        final var existUser = userService.getByEmail(registerRequest.email());
 
         existUser.ifPresent(user -> {
                 throw badRequestException("This email has already been used.");
             }
         );
 
-        final UserEntity user = UserEntity.builder()
+        final var user = UserEntity.builder()
                 .firstname(registerRequest.firstname())
                 .lastname(registerRequest.lastname())
                 .email(registerRequest.email())
                 .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.password()))
                 .phone(registerRequest.phone())
-                .registerAuthStatus(RegisterAuthStatus.JWT)
+                .registerAuthStatus(JWT)
                 .enabled(false)
-                .role(Role.USER)
+                .role(USER)
                 .build();
 
         userService.mySave(user);
@@ -67,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(final AuthRequest authRequest) {
-        final Authentication authentication = authenticationManager.authenticate(
+        final var authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     authRequest.email(),
                     authRequest.password()
@@ -94,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
     public void formUpdatePassword(final String jwt, final PasswordRequest passwordRequest) {
         final var id = 1L;
 
-        final UserEntity userId = userService.getById(id);
+        final var userId = userService.getById(id);
 
         userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
@@ -105,7 +103,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void requestEmailUpdatePassword(final EmailRequest emailRequest) {
-        final UserEntity emailUser = userService.getByEmail(emailRequest.email()).orElseThrow(
+        final var emailUser = userService.getByEmail(emailRequest.email()).orElseThrow(
                 () -> badRequestException("This email is not exists")
         );
 
@@ -118,7 +116,7 @@ public class AuthServiceImpl implements AuthService {
     public void activeUser(final String jwt) {
         final var id = 1L;
 
-        final UserEntity activeUserTrue = userService.getById(id);
+        final var activeUserTrue = userService.getById(id);
 
         activeUserTrue.setEnabled(true);
 

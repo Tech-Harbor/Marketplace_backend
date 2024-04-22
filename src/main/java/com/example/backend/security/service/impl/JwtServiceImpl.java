@@ -3,6 +3,7 @@ package com.example.backend.security.service.impl;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.details.MyUserDetails;
 import com.example.backend.utils.props.JwtProperties;
+import com.example.backend.web.User.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static com.example.backend.utils.Constants.PASSWORD;
+
 @Service
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
@@ -30,14 +33,12 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public boolean isTokenValid(final String token, final MyUserDetails userDetails) {
-        final String userEmail = extractUserData(token);
-        return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return extractUserData(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     @Override
     public <T> T extractClaim(final String token, final Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+        return claimsResolver.apply(extractAllClaims(token));
     }
 
     @Override
@@ -51,17 +52,35 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateNewPasswordTokenAndActiveUser(final String userData) {
-        return generateJwtNewPasswordTokenAndActiveUser(userData);
+    public String generateUserPasswordDataToken(final UserEntity userData) {
+        return generateJwtPasswordToken(userData);
     }
 
-    private String generateJwtNewPasswordTokenAndActiveUser(final String userData) {
+    @Override
+    public String generateUserEmailDataToken(final UserEntity userData) {
+        return generateJwtEmailToken(userData);
+    }
+
+    private String generateJwtPasswordToken(final UserEntity userData) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(PASSWORD, userData.getPassword());
+
         return Jwts
                 .builder()
-                .subject(userData)
+                .claims(claims)
+                .subject(userData.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()
-                        + jwtProperties.getJwtNewPasswordExpirationAndActiveUser()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration().toMillis()))
+                .signWith(getSignInKey())
+                .compact();
+    }
+
+    private String generateJwtEmailToken(final UserEntity userData) {
+        return Jwts
+                .builder()
+                .subject(userData.getEmail())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration().toMillis()))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -72,7 +91,7 @@ public class JwtServiceImpl implements JwtService {
                 .claims(extraClaims)
                 .subject(authentication.getName())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtAccessExpiration()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtAccessExpiration().toMillis()))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -82,7 +101,7 @@ public class JwtServiceImpl implements JwtService {
                 .builder()
                 .claims(extraClaims)
                 .subject(authentication.getName())
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration()))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration().toMillis()))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -105,7 +124,6 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getKey());
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getKey()));
     }
 }

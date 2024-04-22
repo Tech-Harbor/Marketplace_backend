@@ -35,7 +35,7 @@
 
                 <p>Ми сподіваємося, що Ви отримаєте задоволення від використання нашого сервісу</p>
 
-                <p>З повагою, Команда <a href="https://oranger.store/?jwt=${jwt}">Oranger</a></p>
+                <p>З повагою, Команда <a href="https://oranger.store/?auth_modal=true&reg_token=${jwt}">Oranger</a></p>
             </div>
         </div>
     </body>

@@ -19,11 +19,21 @@ public interface JwtTokenService {
      */
     String generateRefreshToken(Authentication authentication);
     /**
-     * Generates a new password token and activates the user associated with the provided userData.
+     * Generates a JWT token with the user's password included in the claims.
+     * The token includes information such as the password and email of the user,
+     * along with issued-at and expiration times.
      *
-     * @param email The email of the user to generate the token for and activate
-     * @return The generated token
+     * @param userData The UserEntity object representing the user for whom the token is being generated.
+     * @return The generated JWT token as a String.
      */
     String generateUserPasswordDataToken(UserEntity userData);
+    /**
+     * Generates a JWT token with the user's email as the subject.
+     * The token includes details about when it was issued and when it will expire.
+     * This JWT can be used for authentication or verification purposes.
+     *
+     * @param userData The UserEntity object representing the user whose email will be used as the subject.
+     * @return The generated JWT token as a String.
+     */
     String generateUserEmailDataToken(UserEntity userData);
 }

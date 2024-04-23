@@ -1,4 +1,4 @@
-package com.example.backend.utils;
+package com.example.backend.utils.general;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static com.example.backend.utils.Constants.*;
+import static com.example.backend.utils.general.Constants.*;
 
 @Component
 public class CorsConfig {

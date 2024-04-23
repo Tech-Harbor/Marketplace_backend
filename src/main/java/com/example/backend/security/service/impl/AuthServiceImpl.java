@@ -8,8 +8,8 @@ import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
-import com.example.backend.security.service.JwtService;
-import com.example.backend.utils.MyPasswordEncoder;
+import com.example.backend.security.service.JwtTokenService;
+import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserService;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +32,9 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final MyPasswordEncoder myPasswordEncoder;
+    private final JwtTokenService jwtTokenService;
     private final UserService userService;
     private final MailService mailService;
-    private final JwtService jwtService;
 
     @Override
     public void signup(final RegisterRequest registerRequest) {
@@ -76,9 +76,9 @@ public class AuthServiceImpl implements AuthService {
 
         userService.getByEmail(authRequest.email()).orElseThrow();
 
-        final var accessToken = jwtService.generateAccessToken(authentication);
+        final var accessToken = jwtTokenService.generateAccessToken(authentication);
 
-        final var refreshToken = jwtService.generateRefreshToken(authentication);
+        final var refreshToken = jwtTokenService.generateRefreshToken(authentication);
 
         log.info("Login user: " + authentication);
 

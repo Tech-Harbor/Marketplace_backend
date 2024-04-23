@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import static com.example.backend.utils.Constants.BEARER;
+import static com.example.backend.utils.general.Constants.BEARER;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component

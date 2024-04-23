@@ -1,7 +1,7 @@
 package com.example.backend.security.oauth;
 
-import com.example.backend.security.service.JwtService;
-import com.example.backend.utils.MyPasswordEncoder;
+import com.example.backend.security.service.JwtTokenService;
+import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,10 +21,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.backend.utils.Constants.EMAIL_KEY;
-import static com.example.backend.utils.Constants.EMPTY_LINE;
-import static com.example.backend.utils.Constants.DEPLOY_STORE;
-import static com.example.backend.utils.Constants.COOK;
+import static com.example.backend.utils.general.Constants.*;
 import static com.example.backend.utils.enums.RegisterAuthStatus.GOOGLE;
 import static com.example.backend.utils.enums.Role.USER;
 
@@ -33,8 +30,8 @@ import static com.example.backend.utils.enums.Role.USER;
 public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
     private final MyPasswordEncoder passwordEncoder;
+    private final JwtTokenService jwtService;
     private final UserService userService;
-    private final JwtService jwtService;
 
     @Override
     @SneakyThrows

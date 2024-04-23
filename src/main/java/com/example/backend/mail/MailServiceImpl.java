@@ -1,6 +1,6 @@
 package com.example.backend.mail;
 
-import com.example.backend.security.service.JwtService;
+import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.web.User.UserEntity;
 import freemarker.template.Configuration;
 import jakarta.mail.internet.MimeMessage;
@@ -15,16 +15,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.example.backend.utils.Constants.JWT;
-import static com.example.backend.utils.Constants.UTF_8;
+import static com.example.backend.utils.general.Constants.JWT;
+import static com.example.backend.utils.general.Constants.UTF_8;
 
 @Service
 @AllArgsConstructor
 public class MailServiceImpl implements MailService {
 
+    private JwtTokenService jwtTokenService;
     private Configuration configuration;
     private JavaMailSender mailSender;
-    private JwtService jwtService;
 
     @Override
     public void sendEmail(final UserEntity user, final MailType type, final Properties params) {
@@ -57,7 +57,7 @@ public class MailServiceImpl implements MailService {
         Map<String, Object> model = new HashMap<>();
 
         model.put("username", user.getLastname());
-        model.put(JWT, jwtService.generateUserEmailDataToken(user));
+        model.put(JWT, jwtTokenService.generateUserEmailDataToken(user));
 
         configuration.getTemplate("register.ftlh").process(model, writer);
 
@@ -87,7 +87,7 @@ public class MailServiceImpl implements MailService {
         Map<String, Object> model = new HashMap<>();
 
         model.put("username", user.getLastname());
-        model.put(JWT, jwtService.generateUserPasswordDataToken(user));
+        model.put(JWT, jwtTokenService.generateUserPasswordDataToken(user));
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);
 

@@ -1,4 +1,4 @@
-package com.example.backend.utils;
+package com.example.backend.utils.general;
 
 import lombok.experimental.UtilityClass;
 

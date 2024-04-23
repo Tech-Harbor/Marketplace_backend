@@ -7,9 +7,9 @@ import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
-import com.example.backend.security.service.JwtService;
+import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.security.service.impl.AuthServiceImpl;
-import com.example.backend.utils.MyPasswordEncoder;
+import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
@@ -26,7 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 import java.util.Properties;
 
-import static com.example.backend.utils.Constants.*;
+import static com.example.backend.utils.general.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -47,7 +47,7 @@ public class AuthServiceImplTest {
     @Mock
     private MailService mailService;
     @Mock
-    private JwtService jwtService;
+    private JwtTokenService jwtTokenService;
 
     @Test
     void sigUpTest() {
@@ -102,15 +102,15 @@ public class AuthServiceImplTest {
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
-        when(jwtService.generateAccessToken(authentication)).thenReturn("AccessToken");
-        when(jwtService.generateRefreshToken(authentication)).thenReturn("RefreshToken");
+        when(jwtTokenService.generateAccessToken(authentication)).thenReturn("AccessToken");
+        when(jwtTokenService.generateRefreshToken(authentication)).thenReturn("RefreshToken");
         when(userService.getByEmail(authRequest.email())).thenReturn(Optional.of(mock(UserEntity.class)));
 
         final AuthResponse authRequestLogin = authService.login(authRequest);
 
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(jwtService).generateAccessToken(authentication);
-        verify(jwtService).generateRefreshToken(authentication);
+        verify(jwtTokenService).generateAccessToken(authentication);
+        verify(jwtTokenService).generateRefreshToken(authentication);
         verify(userService).getByEmail(authRequest.email());
 
         assertNotNull(authRequestLogin.accessToken());
@@ -135,7 +135,7 @@ public class AuthServiceImplTest {
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verify(userService).getByEmail(authRequest.email());
 
-        verifyNoMoreInteractions(authenticationManager, userService, jwtService);
+        verifyNoMoreInteractions(authenticationManager, userService, jwtTokenService);
     }
 
     @Test

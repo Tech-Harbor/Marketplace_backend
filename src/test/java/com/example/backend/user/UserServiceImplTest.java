@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.backend.utils.Constants.EMAIL_KEY;
+import static com.example.backend.utils.general.Constants.EMAIL_KEY;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

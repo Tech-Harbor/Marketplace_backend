@@ -15,7 +15,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.example.backend.utils.Constants.DATE_FORMAT;
+import static com.example.backend.utils.general.Constants.DATE_FORMAT;
 
 
 public class LocalDateTimeScalarConfig implements Coercing<LocalDateTime, String> {

@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
-import static com.example.backend.utils.Constants.LOCAL_TIME_DATE;
-import static com.example.backend.utils.Constants.LOCAL_TIME_DATE_SCALAR;
+import static com.example.backend.utils.general.Constants.LOCAL_TIME_DATE;
+import static com.example.backend.utils.general.Constants.LOCAL_TIME_DATE_SCALAR;
 
 @Configuration
 public class GraphqlConfig {

@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.backend.utils.Constants.EMAIL_KEY;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -90,15 +91,13 @@ public class UserServiceImplTest {
 
     @Test
     void getByEmailTest() {
-        final String emailUser = "email";
-
         final UserEntity userEntity = UserEntity.builder()
-                .email(emailUser)
+                .email(EMAIL_KEY)
                 .build();
 
-        when(userService.getByEmail(emailUser)).thenReturn(Optional.of(userEntity));
+        when(userService.getByEmail(EMAIL_KEY)).thenReturn(Optional.of(userEntity));
 
-        final Optional<UserEntity> emailUserEntity = userService.getByEmail(emailUser);
+        final Optional<UserEntity> emailUserEntity = userService.getByEmail(EMAIL_KEY);
 
         assertEquals(userEntity, emailUserEntity.orElse(null));
     }

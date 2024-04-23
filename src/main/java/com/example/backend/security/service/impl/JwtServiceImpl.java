@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.example.backend.utils.Constants.PASSWORD;
+import static com.example.backend.utils.Constants.*;
 
 @Service
 @RequiredArgsConstructor
@@ -67,6 +67,9 @@ public class JwtServiceImpl implements JwtService {
 
         return Jwts
                 .builder()
+                .header()
+                .add(TYPE, JWT)
+                .and()
                 .claims(claims)
                 .subject(userData.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -78,6 +81,9 @@ public class JwtServiceImpl implements JwtService {
     private String generateJwtEmailToken(final UserEntity userData) {
         return Jwts
                 .builder()
+                .header()
+                .add(TYPE, JWT)
+                .and()
                 .subject(userData.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration().toMillis()))
@@ -89,6 +95,9 @@ public class JwtServiceImpl implements JwtService {
         return Jwts
                 .builder()
                 .claims(extraClaims)
+                .header()
+                .add(TYPE, JWT)
+                .and()
                 .subject(authentication.getName())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtAccessExpiration().toMillis()))
@@ -99,6 +108,9 @@ public class JwtServiceImpl implements JwtService {
     private String generateJwtRefreshToken(final Map<String, Object> extraClaims, final Authentication authentication) {
         return Jwts
                 .builder()
+                .header()
+                .add(TYPE, JWT)
+                .and()
                 .claims(extraClaims)
                 .subject(authentication.getName())
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration().toMillis()))

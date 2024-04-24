@@ -42,7 +42,7 @@ public class SecurityConfig {
                 )
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/auth/accouth/**").authenticated()
+                        .requestMatchers("/api/accouth/**").authenticated()
                         .requestMatchers("/graphiql").permitAll()
                         .anyRequest()
                         .permitAll()

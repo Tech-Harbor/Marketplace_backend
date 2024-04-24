@@ -43,26 +43,28 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
         if (GOOGLE.name().toLowerCase().equals(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())) {
 
-            final var attributes = ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes();
+            final var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes();
 
-            final var email = attributes.getOrDefault(EMAIL_KEY, EMPTY_LINE).toString();
+            final var defaultOAuth2UserEmail = defaultOAuth2User.getOrDefault(EMAIL_KEY, EMPTY_LINE).toString();
 
-            userService.getByEmail(email)
+            userService.getByEmail(defaultOAuth2UserEmail)
                     .ifPresentOrElse(user -> SecurityContextHolder.getContext().setAuthentication(
                                 createOAuth2AuthenticationToken(
-                                        createOAuth2User(user.getRole().name(), attributes), user.getRole().name(),
-                                        oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
+                                    createOAuth2User(user.getRole().name(), defaultOAuth2User), user.getRole().name(),
+                                    oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
                                 )
                             ), () -> {
-                                final var saveUser = createUserEntity(attributes, email);
+                                final var saveUser = createUserEntity(defaultOAuth2User, defaultOAuth2UserEmail);
 
                                 userService.mySave(saveUser);
 
                                 SecurityContextHolder.getContext().setAuthentication(
                                         createOAuth2AuthenticationToken(
-                                                createOAuth2User(saveUser.getRole().name(), attributes),
-                                                saveUser.getRole().name(),
-                                                oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
+                                            createOAuth2User(saveUser.getRole().name(), defaultOAuth2User),
+
+                                            saveUser.getRole().name(),
+
+                                            oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
                                         )
                                 );
                             }

@@ -32,22 +32,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             final HttpServletResponse response,
             final FilterChain filterChain) {
 
-        final String authHeader = request.getHeader(AUTHORIZATION);
-        final String jwt, userData;
+        final var authHeader = request.getHeader(AUTHORIZATION);
 
         if (StringUtils.isNoneEmpty(authHeader) && authHeader.startsWith(BEARER)) {
 
-            jwt = authHeader.substring(7);
+            var jwt = authHeader.substring(7);
 
-            userData = jwtService.extractUserData(jwt);
+            var userData = jwtService.extractUserData(jwt);
 
             if (StringUtils.isNoneEmpty(userData) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                MyUserDetails userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(userData);
+                var userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(userData);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
 
-                    var authenticationToken = new UsernamePasswordAuthenticationToken(
+                    final var authenticationToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
                             userDetails.getAuthorities()

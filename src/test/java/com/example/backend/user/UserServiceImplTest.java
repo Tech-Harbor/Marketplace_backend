@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.backend.utils.general.Constants.EMAIL_KEY;
+import static com.example.backend.utils.general.Constants.PASSWORD;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -110,8 +111,8 @@ public class UserServiceImplTest {
                 .lastname("lastname")
                 .firstname("firstname")
                 .phone("phone")
-                .email("email")
-                .password("password")
+                .email(EMAIL_KEY)
+                .password(PASSWORD)
                 .build();
 
         final UserEntity existingUser = UserEntity.builder()
@@ -125,8 +126,8 @@ public class UserServiceImplTest {
                 .lastname("lastname")
                 .firstname("firstname")
                 .phone("phone")
-                .email("email")
-                .password("password")
+                .email(EMAIL_KEY)
+                .password(PASSWORD)
                 .build();
 
         userService.updateByIdUser(userId, saveUserDto);

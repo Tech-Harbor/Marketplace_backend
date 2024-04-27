@@ -2,7 +2,7 @@ package com.example.backend.security.service.impl;
 
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.details.MyUserDetails;
-import com.example.backend.utils.general.SignInKey;
+import com.example.backend.utils.general.JwtPropertiesManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
 
-    private final SignInKey signInKey;
+    private final JwtPropertiesManager jwtPropertiesManager;
 
     @Override
     public String extractUserData(final String token) {
@@ -42,7 +42,7 @@ public class JwtServiceImpl implements JwtService {
     private Claims extractAllClaims(final String token) {
         return Jwts
                 .parser()
-                .verifyWith(signInKey.getSignInKey())
+                .verifyWith(jwtPropertiesManager.getSignInKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

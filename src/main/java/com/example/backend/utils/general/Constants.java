@@ -2,6 +2,8 @@ package com.example.backend.utils.general;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.Date;
+
 @UtilityClass
 public class Constants {
     public static final String LOCALHOST = "http://localhost:3000";
@@ -19,4 +21,5 @@ public class Constants {
     public static final String JWT = "JWT";
     public static final String TYPE = "type";
     public static final String ROLE = "role";
+    public static final Date DATE_TIME_MILLIS = new Date(System.currentTimeMillis());
 }

@@ -1,12 +1,11 @@
 package com.example.backend.security.controllers;
 
-import com.example.backend.security.models.request.AuthRequest;
-import com.example.backend.security.models.request.EmailRequest;
-import com.example.backend.security.models.request.PasswordRequest;
-import com.example.backend.security.models.request.RegisterRequest;
+import com.example.backend.security.models.request.*;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.models.response.ErrorResponse;
 import com.example.backend.security.service.AuthService;
+import com.example.backend.security.service.GoogleService;
+import com.example.backend.web.User.UserEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,9 +31,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class AuthController {
 
     private final AuthService authService;
+    private final GoogleService googleService;
 
     private static final String SIGNUP_URI = "/auth/signup";
     private static final String LOGIN_URI = "/auth/login";
+    private static final String GOOGLE_LOGIN = "/auth/google/login";
     private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String ACTIVE_USER = "/active";
@@ -57,19 +58,16 @@ public class AuthController {
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Login user")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200", description = "Ok",
-                    content = {
-                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
-                            @Schema(implementation = AuthResponse.class))
+            @ApiResponse(responseCode = "200", description = "Ok", content = {
+                        @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                        @Schema(implementation = AuthResponse.class))
                     }
                 ),
-            @ApiResponse(responseCode = "401", description = "Unauthorized",
-                    content = {
-                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
-                            @Schema(implementation = ErrorResponse.class))
-                    }
-                )
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = {
+                        @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                        @Schema(implementation = ErrorResponse.class))
+                }
+            )
         }
     )
     public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
@@ -79,12 +77,10 @@ public class AuthController {
     @PutMapping(FORM_CHANGE_PASSWORD_URI)
     @Operation(summary = "Update Password User")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200", description = "Ok",
-                    content = {
-                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
-                            @Schema(implementation = PasswordRequest.class))
-                    }
+            @ApiResponse(responseCode = "200", description = "Ok", content = {
+                    @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                    @Schema(implementation = PasswordRequest.class))
+                }
             ),
         }
     )
@@ -96,19 +92,16 @@ public class AuthController {
     @GetMapping(INFO)
     @Operation(summary = "Information about the user who is authorized and logged into the system")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200", description = "Ok",
-                    content = {
-                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
-                            @Schema(implementation = String.class))
-                    }
+            @ApiResponse(responseCode = "200", description = "Ok", content = {
+                    @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                    @Schema(implementation = String.class))
+                }
             ),
-            @ApiResponse(responseCode = "401", description = "Unauthorized",
-                    content = {
-                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
-                            @Schema(implementation = ErrorResponse.class))
-                        }
-                )
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = {
+                    @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                    @Schema(implementation = ErrorResponse.class))
+                }
+            )
         }
     )
     public String info(@AuthenticationPrincipal final UserDetails userDetails) {
@@ -118,12 +111,9 @@ public class AuthController {
     @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)
     @Operation(summary = "Change password using email")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Ok",
-                    content = {
-                            @Content(mediaType = APPLICATION_JSON_VALUE, schema =
-                            @Schema(implementation = EmailRequest.class))
+            @ApiResponse(responseCode = "200", description = "Ok", content = {
+                        @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                        @Schema(implementation = EmailRequest.class))
                     }
             ),
             @ApiResponse(responseCode = "500", description = "This email is not exists")
@@ -136,13 +126,9 @@ public class AuthController {
     @PostMapping(ACTIVE_USER)
     @Operation(summary = "Active User, JWT Token")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Ok",
-                    content =
-                        @Content(mediaType = APPLICATION_JSON_VALUE, schema =
-                        @Schema(implementation = EmailRequest.class)
-                    )
+            @ApiResponse(responseCode = "200", description = "Ok", content =
+                @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                @Schema(implementation = EmailRequest.class))
             ),
         }
     )
@@ -154,17 +140,24 @@ public class AuthController {
     @PostMapping(SEND_MESSAGE_EMAIL_NOT_ACTIVE)
     @Operation(summary = "Re-sending the account activation letter if the first letter was not successful")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Ok",
-                    content =
+            @ApiResponse(responseCode = "200", description = "Ok", content =
                     @Content(mediaType = APPLICATION_JSON_VALUE, schema =
                     @Schema(implementation = EmailRequest.class)
-                    )
+                )
             ),
         }
     )
     public void sendEmailSecondActive(@RequestBody @Validated final EmailRequest emailRequest) {
         authService.sendEmailActive(emailRequest);
+    }
+
+    @PostMapping(GOOGLE_LOGIN)
+    @Operation(summary = "Google Login (Beta Version)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+        }
+    )
+    public UserEntity googleLogin(final GoogleTokenRequest token) {
+        return googleService.googleLogin(token);
     }
 }

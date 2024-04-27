@@ -95,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
         userPassword.ifPresent(user -> {
                 user.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
-            log.debug("Update Password: {}", user.getFirstname());
+                log.debug("Update Password: {}", user.getFirstname());
 
                 userService.mySave(user);
             }

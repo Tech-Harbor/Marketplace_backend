@@ -15,6 +15,7 @@ import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -140,24 +141,30 @@ public class AuthServiceImplTest {
 
     @Test
     void formUpdatePasswordTest() {
-        final Long userId = 1L;
-
         final PasswordRequest passwordRequest = PasswordRequest.builder()
+                .email(EMAIL_KEY)
                 .password(PASSWORD)
                 .build();
 
         final UserEntity userEntity = UserEntity.builder()
-                .id(userId)
+                .email(EMAIL_KEY)
                 .build();
 
-        when(myPasswordEncoder.passwordEncoder()).thenReturn(mock(PasswordEncoder.class));
-        when(userService.getById(userId)).thenReturn(userEntity);
+        final PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
+
+        final ArgumentCaptor<UserEntity> userCaptor = ArgumentCaptor.forClass(UserEntity.class);
+
+        when(userService.getByEmail(EMAIL_KEY)).thenReturn(Optional.of(userEntity));
+        when(myPasswordEncoder.passwordEncoder()).thenReturn(passwordEncoder);
+        when(passwordEncoder.encode(PASSWORD)).thenReturn(PASSWORD);
 
         authService.formUpdatePassword(JWT, passwordRequest);
 
-        verify(myPasswordEncoder).passwordEncoder();
-        verify(userService).getById(userId);
-        verify(userService).mySave(userEntity);
+
+        verify(userService).mySave(userCaptor.capture());
+
+        UserEntity capturedUser = userCaptor.getValue();
+        assertEquals(PASSWORD, capturedUser.getPassword());
     }
 
     @Test

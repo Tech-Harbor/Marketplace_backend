@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,14 +17,13 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.backend.utils.general.Constants.*;
 import static com.example.backend.utils.enums.RegisterAuthStatus.GOOGLE;
 import static com.example.backend.utils.enums.Role.USER;
+import static com.example.backend.utils.general.Constants.*;
 
 @Component
 @RequiredArgsConstructor
@@ -101,11 +101,6 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
     }
 
     private static String generateRandomPassword() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[15];
-
-        secureRandom.nextBytes(randomBytes);
-
-        return Base64.getEncoder().encodeToString(randomBytes);
+        return Base64.getEncoder().encodeToString(RandomStringUtils.randomAlphanumeric(15).getBytes());
     }
 }

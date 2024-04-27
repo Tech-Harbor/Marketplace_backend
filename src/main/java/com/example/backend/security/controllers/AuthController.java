@@ -157,7 +157,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "Ok"),
         }
     )
-    public UserEntity googleLogin(final GoogleTokenRequest token) {
+    public UserEntity googleLogin(@RequestBody final GoogleTokenRequest token) {
         return googleService.googleLogin(token);
     }
 }

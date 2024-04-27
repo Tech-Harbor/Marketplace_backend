@@ -94,6 +94,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                 .lastname(attributes.getOrDefault("family_name", EMPTY_LINE).toString())
                 .registerAuthStatus(GOOGLE)
                 .role(USER)
+                .enabled(true)
                 .password(passwordEncoder.passwordEncoder().encode(generateRandomPassword()))
                 .phone(attributes.getOrDefault("phone", EMPTY_LINE).toString())
                 .build();

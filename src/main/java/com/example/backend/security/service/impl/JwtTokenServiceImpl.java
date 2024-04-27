@@ -45,6 +45,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     private String generateJwtPasswordToken(final UserEntity userData) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(PASSWORD, userData.getPassword());
+        claims.put(ROLE, userData.getRole());
 
         return Jwts
                 .builder()
@@ -60,11 +61,15 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     private String generateJwtEmailToken(final UserEntity userData) {
+        Map<String, Object> role = new HashMap<>();
+        role.put(ROLE, userData.getRole());
+
         return Jwts
                 .builder()
                 .header()
                 .add(TYPE, JWT)
                 .and()
+                .claims(role)
                 .subject(userData.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration().toMillis()))
@@ -75,10 +80,10 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     private String generateJwtAccessToken(final Map<String, Object> extraClaims, final Authentication authentication) {
         return Jwts
                 .builder()
-                .claims(extraClaims)
                 .header()
                 .add(TYPE, JWT)
                 .and()
+                .claims(extraClaims)
                 .subject(authentication.getName())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtAccessExpiration().toMillis()))

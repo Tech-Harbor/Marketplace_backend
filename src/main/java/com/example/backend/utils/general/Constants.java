@@ -18,4 +18,5 @@ public class Constants {
     public static final String PASSWORD = "password";
     public static final String JWT = "JWT";
     public static final String TYPE = "type";
+    public static final String ROLE = "role";
 }

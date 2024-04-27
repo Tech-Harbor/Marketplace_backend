@@ -51,7 +51,7 @@ GET http://localhost:8080/api/accouth
 Content-Type: application/x-www-form-urlencoded
 
 ###Active Not Users
-POST http://localhost:8080/api/sendMessageEmail
+POST http://localhost:8080/api/sendMessageEmailActive
 Content-Type: application/json
 
 {

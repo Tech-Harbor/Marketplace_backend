@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import static com.example.backend.utils.Constants.BEARER;
+import static com.example.backend.utils.general.Constants.BEARER;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
@@ -32,35 +32,52 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             final HttpServletResponse response,
             final FilterChain filterChain) {
 
-        final String authHeader = request.getHeader(AUTHORIZATION);
-        final String jwt, userData;
+        var jwt = getTokenHeaders(request);
+
+        var userData = getExtractUserData(jwt);
+
+        getSecurityContextHolder(request, userData, jwt);
+
+        filterChain.doFilter(request, response);
+    }
+
+    private String getTokenHeaders(final HttpServletRequest request) {
+        final var authHeader = request.getHeader(AUTHORIZATION);
 
         if (StringUtils.isNoneEmpty(authHeader) && authHeader.startsWith(BEARER)) {
+            return authHeader.substring(7);
+        }
 
-            jwt = authHeader.substring(7);
+        return null;
+    }
 
-            userData = jwtService.extractUserData(jwt);
+    private String getExtractUserData(final String jwt) {
 
-            if (StringUtils.isNoneEmpty(userData) && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (StringUtils.isNoneEmpty(jwt)) {
+            return jwtService.extractUserData(jwt);
+        }
 
-                MyUserDetails userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(userData);
+        return null;
+    }
 
-                if (jwtService.isTokenValid(jwt, userDetails)) {
+    private void getSecurityContextHolder(final HttpServletRequest request, final String userData, final String jwt) {
+        if (StringUtils.isNoneEmpty(userData) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                    var authenticationToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
+            var userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(userData);
 
-                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            if (jwtService.isTokenValid(jwt, userDetails)) {
 
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                final var authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
 
-                    response.addHeader(AUTHORIZATION, BEARER + jwt);
-                }
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
             }
         }
-        filterChain.doFilter(request, response);
     }
 }

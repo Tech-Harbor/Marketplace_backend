@@ -1,4 +1,4 @@
-package com.example.backend.utils;
+package com.example.backend.utils.general;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

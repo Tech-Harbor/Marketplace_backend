@@ -1,4 +1,4 @@
-package com.example.backend.utils;
+package com.example.backend.utils.general;
 
 import lombok.experimental.UtilityClass;
 
@@ -16,5 +16,6 @@ public class Constants {
     public static final String EMPTY_LINE = "";
     public static final String COOK = "; Path=/; HttpOnly; SameSite=None; Secure";
     public static final String PASSWORD = "password";
-    public static final String JWT = "jwt";
+    public static final String JWT = "JWT";
+    public static final String TYPE = "type";
 }

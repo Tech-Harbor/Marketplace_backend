@@ -8,8 +8,8 @@ import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
-import com.example.backend.security.service.JwtService;
-import com.example.backend.utils.MyPasswordEncoder;
+import com.example.backend.security.service.JwtTokenService;
+import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserService;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +32,9 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final MyPasswordEncoder myPasswordEncoder;
+    private final JwtTokenService jwtTokenService;
     private final UserService userService;
     private final MailService mailService;
-    private final JwtService jwtService;
 
     @Override
     public void signup(final RegisterRequest registerRequest) {
@@ -58,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
 
         userService.mySave(user);
 
-        log.info("Register User: " + user);
+        log.debug("Register User: {}", user);
 
         mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
     }
@@ -76,11 +76,11 @@ public class AuthServiceImpl implements AuthService {
 
         userService.getByEmail(authRequest.email()).orElseThrow();
 
-        final var accessToken = jwtService.generateAccessToken(authentication);
+        final var accessToken = jwtTokenService.generateAccessToken(authentication);
 
-        final var refreshToken = jwtService.generateRefreshToken(authentication);
+        final var refreshToken = jwtTokenService.generateRefreshToken(authentication);
 
-        log.info("Login user: " + authentication);
+        log.debug("Login user: {}", authentication);
 
         return AuthResponse.builder()
                 .accessToken(accessToken)
@@ -90,15 +90,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void formUpdatePassword(final String jwt, final PasswordRequest passwordRequest) {
-        final var id = 1L;
+        var userPassword = userService.getByEmail(passwordRequest.email());
 
-        final var userId = userService.getById(id);
+        userPassword.ifPresent(user -> {
+                user.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
-        userId.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
+            log.debug("Update Password: {}", user.getFirstname());
 
-        log.info("Update Password :" + userId.getLastname());
-
-        userService.mySave(userId);
+                userService.mySave(user);
+            }
+        );
     }
 
     @Override
@@ -107,32 +108,34 @@ public class AuthServiceImpl implements AuthService {
                 () -> badRequestException("This email is not exists")
         );
 
-        log.info("Email user" + emailUser.getEmail());
+        log.debug("Email user: {}", emailUser.getEmail());
 
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
     }
 
     @Override
-    public void activeUser(final String jwt) {
-        final var id = 1L;
+    public void activeUser(final String jwt, final EmailRequest emailRequest) {
+        final var activeUserTrue = userService.getByEmail(emailRequest.email());
 
-        final var activeUserTrue = userService.getById(id);
+        activeUserTrue.ifPresent(user -> {
+                user.setEnabled(true);
 
-        activeUserTrue.setEnabled(true);
+                log.debug("Active user: {}", user.getFirstname());
 
-        log.info("Active user: " + activeUserTrue.getLastname());
-
-        userService.mySave(activeUserTrue);
+                userService.mySave(user);
+            }
+        );
     }
 
     @Override
-    public void sendEmailActive() {
-        final var id = 1L;
+    public void sendEmailActive(final EmailRequest emailRequest) {
+        final var user = userService.getByEmail(emailRequest.email());
 
-        final var user = userService.getById(id);
+        user.ifPresent(entity -> {
+                log.debug("SendEmail user: {}", entity.getFirstname());
 
-        log.info("SendEmail user: " + user.getLastname());
-
-        mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
+                mailService.sendEmail(entity, MailType.REGISTRATION, new Properties());
+            }
+        );
     }
 }

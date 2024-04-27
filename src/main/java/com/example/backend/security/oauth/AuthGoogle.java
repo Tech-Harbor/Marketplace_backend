@@ -1,13 +1,14 @@
 package com.example.backend.security.oauth;
 
-import com.example.backend.security.service.JwtService;
-import com.example.backend.utils.MyPasswordEncoder;
+import com.example.backend.security.service.JwtTokenService;
+import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,25 +17,21 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.backend.utils.Constants.EMAIL_KEY;
-import static com.example.backend.utils.Constants.EMPTY_LINE;
-import static com.example.backend.utils.Constants.DEPLOY_STORE;
-import static com.example.backend.utils.Constants.COOK;
 import static com.example.backend.utils.enums.RegisterAuthStatus.GOOGLE;
 import static com.example.backend.utils.enums.Role.USER;
+import static com.example.backend.utils.general.Constants.*;
 
 @Component
 @RequiredArgsConstructor
 public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
     private final MyPasswordEncoder passwordEncoder;
+    private final JwtTokenService jwtService;
     private final UserService userService;
-    private final JwtService jwtService;
 
     @Override
     @SneakyThrows
@@ -46,26 +43,28 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
         if (GOOGLE.name().toLowerCase().equals(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())) {
 
-            final var attributes = ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes();
+            final var defaultOAuth2User = ((DefaultOAuth2User) authentication.getPrincipal()).getAttributes();
 
-            final var email = attributes.getOrDefault(EMAIL_KEY, EMPTY_LINE).toString();
+            final var defaultOAuth2UserEmail = defaultOAuth2User.getOrDefault(EMAIL_KEY, EMPTY_LINE).toString();
 
-            userService.getByEmail(email)
+            userService.getByEmail(defaultOAuth2UserEmail)
                     .ifPresentOrElse(user -> SecurityContextHolder.getContext().setAuthentication(
                                 createOAuth2AuthenticationToken(
-                                        createOAuth2User(user.getRole().name(), attributes), user.getRole().name(),
-                                        oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
+                                    createOAuth2User(user.getRole().name(), defaultOAuth2User), user.getRole().name(),
+                                    oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
                                 )
                             ), () -> {
-                                final var saveUser = createUserEntity(attributes, email);
+                                final var saveUser = createUserEntity(defaultOAuth2User, defaultOAuth2UserEmail);
 
                                 userService.mySave(saveUser);
 
                                 SecurityContextHolder.getContext().setAuthentication(
                                         createOAuth2AuthenticationToken(
-                                                createOAuth2User(saveUser.getRole().name(), attributes),
-                                                saveUser.getRole().name(),
-                                                oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
+                                            createOAuth2User(saveUser.getRole().name(), defaultOAuth2User),
+
+                                            saveUser.getRole().name(),
+
+                                            oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
                                         )
                                 );
                             }
@@ -102,11 +101,6 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
     }
 
     private static String generateRandomPassword() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[15];
-
-        secureRandom.nextBytes(randomBytes);
-
-        return Base64.getEncoder().encodeToString(randomBytes);
+        return Base64.getEncoder().encodeToString(RandomStringUtils.randomAlphanumeric(15).getBytes());
     }
 }

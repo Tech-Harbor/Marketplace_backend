@@ -1,6 +1,6 @@
 package com.example.backend.web.Category;
 
-import com.example.backend.utils.WebIsNullFactory;
+import com.example.backend.utils.general.WebIsNullFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

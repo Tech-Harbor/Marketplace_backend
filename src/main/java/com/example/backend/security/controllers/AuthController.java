@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api")
+@Slf4j
 @Tag(name = "Authentication", description = "Authentication User and Update Password, personal office users")
 public class AuthController {
 
@@ -37,7 +39,7 @@ public class AuthController {
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String ACTIVE_USER = "/active";
     private static final String INFO = "/accouth";
-    private static final String SEND_MESSAGE_EMAIL_NOT_ACTIVE = "/sendMessageEmail";
+    private static final String SEND_MESSAGE_EMAIL_NOT_ACTIVE = "/sendMessageEmailActive";
 
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = "Bearer Authentication")
@@ -139,22 +141,30 @@ public class AuthController {
                     description = "Ok",
                     content =
                         @Content(mediaType = APPLICATION_JSON_VALUE, schema =
-                        @Schema(implementation = AuthRequest.class)
+                        @Schema(implementation = EmailRequest.class)
                     )
             ),
         }
     )
-    public void activeUser(@RequestHeader(AUTHORIZATION) final String jwt) {
-        authService.activeUser(jwt);
+    public void activeUser(@RequestHeader(AUTHORIZATION) final String jwt,
+                           @RequestBody @Validated final EmailRequest emailRequest) {
+        authService.activeUser(jwt, emailRequest);
     }
 
     @PostMapping(SEND_MESSAGE_EMAIL_NOT_ACTIVE)
     @Operation(summary = "Re-sending the account activation letter if the first letter was not successful")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK")
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok",
+                    content =
+                    @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                    @Schema(implementation = EmailRequest.class)
+                    )
+            ),
         }
     )
-    public void sendEmailSecondActive() {
-        authService.sendEmailActive();
+    public void sendEmailSecondActive(@RequestBody @Validated final EmailRequest emailRequest) {
+        authService.sendEmailActive(emailRequest);
     }
 }

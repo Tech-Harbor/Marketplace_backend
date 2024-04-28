@@ -85,9 +85,8 @@ public class AuthController {
     @Operation(summary = "Active User, JWT Token")
     @ApiResponseEmailOK
     @ApiResponseBadRequest
-    public void activeUser(@RequestHeader(AUTHORIZATION) final String jwt,
-                           @RequestBody @Validated final EmailRequest emailRequest) {
-        authService.activeUser(jwt, emailRequest);
+    public void activeUser(@RequestHeader(AUTHORIZATION) final String jwt) {
+        authService.activeUser(jwt);
     }
 
     @PostMapping(SEND_MESSAGE_EMAIL_NOT_ACTIVE)

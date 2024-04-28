@@ -8,6 +8,7 @@ import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
+import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
@@ -35,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenService jwtTokenService;
     private final UserService userService;
     private final MailService mailService;
+    private final JwtService jwtService;
 
     @Override
     public void signup(final RegisterRequest registerRequest) {
@@ -90,7 +92,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void formUpdatePassword(final String jwt, final PasswordRequest passwordRequest) {
-        var userPassword = userService.getByEmail(passwordRequest.email());
+        final var token = jwtService.extractUserData(jwt.substring(7));
+
+        var userPassword = userService.getByEmail(token);
 
         userPassword.ifPresent(user -> {
                 user.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
@@ -114,8 +118,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void activeUser(final String jwt, final EmailRequest emailRequest) {
-        final var activeUserTrue = userService.getByEmail(emailRequest.email());
+    public void activeUser(final String jwt) {
+        final var token = jwtService.extractUserData(jwt.substring(7));
+
+        final var activeUserTrue = userService.getByEmail(token);
 
         activeUserTrue.ifPresent(user -> {
                 user.setEnabled(true);

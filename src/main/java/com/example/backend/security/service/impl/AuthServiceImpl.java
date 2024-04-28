@@ -60,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
 
         userService.mySave(user);
 
-        log.debug("Register User: {}", user);
+        log.info("Register User: {}", user);
 
         mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
     }
@@ -82,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
 
         final var refreshToken = jwtTokenService.generateRefreshToken(authentication);
 
-        log.debug("Login user: {}", authentication);
+        log.info("Login user: {}", authentication);
 
         return AuthResponse.builder()
                 .accessToken(accessToken)
@@ -99,7 +99,7 @@ public class AuthServiceImpl implements AuthService {
         userPassword.ifPresent(user -> {
                 user.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
-                log.debug("Update Password: {}", user.getFirstname());
+                log.info("Update Password: {}", user.getFirstname());
 
                 userService.mySave(user);
             }
@@ -112,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
                 () -> badRequestException("This email is not exists")
         );
 
-        log.debug("Email user: {}", emailUser.getEmail());
+        log.info("Email user: {}", emailUser.getEmail());
 
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
     }
@@ -126,7 +126,7 @@ public class AuthServiceImpl implements AuthService {
         activeUserTrue.ifPresent(user -> {
                 user.setEnabled(true);
 
-                log.debug("Active user: {}", user.getFirstname());
+                log.info("Active user: {}", user.getFirstname());
 
                 userService.mySave(user);
             }
@@ -138,7 +138,7 @@ public class AuthServiceImpl implements AuthService {
         final var user = userService.getByEmail(emailRequest.email());
 
         user.ifPresent(entity -> {
-                log.debug("SendEmail user: {}", entity.getFirstname());
+                log.info("SendEmail user: {}", entity.getFirstname());
 
                 mailService.sendEmail(entity, MailType.REGISTRATION, new Properties());
             }

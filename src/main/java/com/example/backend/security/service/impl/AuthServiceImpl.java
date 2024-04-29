@@ -24,7 +24,7 @@ import java.util.Properties;
 
 import static com.example.backend.utils.enums.RegisterAuthStatus.JWT;
 import static com.example.backend.utils.enums.Role.USER;
-import static com.example.backend.web.exception.RequestException.badRequestException;
+import static com.example.backend.utils.exception.RequestException.badRequestException;
 
 @Service
 @Slf4j

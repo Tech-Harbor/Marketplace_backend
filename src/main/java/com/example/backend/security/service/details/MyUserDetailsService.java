@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import static com.example.backend.web.exception.RequestException.notFoundRequestException;
+import static com.example.backend.utils.exception.RequestException.notFoundRequestException;
 
 @Service
 @RequiredArgsConstructor

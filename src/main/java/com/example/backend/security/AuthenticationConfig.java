@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 
 @Configuration
 @AllArgsConstructor
-public class ApplicationConfig {
+public class AuthenticationConfig {
 
     private final MyPasswordEncoder myPasswordEncoder;
     private final MyUserDetailsService myUserDetailsService;

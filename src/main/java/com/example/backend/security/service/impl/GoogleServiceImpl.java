@@ -20,7 +20,7 @@ import java.util.Collections;
 import static com.example.backend.utils.enums.RegisterAuthStatus.GOOGLE;
 import static com.example.backend.utils.enums.Role.USER;
 import static com.example.backend.utils.general.MyPasswordEncoder.generateRandomPassword;
-import static com.example.backend.web.exception.RequestException.badRequestException;
+import static com.example.backend.utils.exception.RequestException.badRequestException;
 
 @Service
 @Slf4j

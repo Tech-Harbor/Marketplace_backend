@@ -1,13 +1,15 @@
 package com.example.backend.web.User;
 
+import com.example.backend.utils.enums.RegisterAuthStatus;
+import com.example.backend.utils.enums.Role;
 import com.example.backend.web.Comment.CommentEntity;
 import com.example.backend.web.Order.OrderEntity;
 import com.example.backend.web.Product.ProductEntity;
-import com.example.backend.utils.enums.RegisterAuthStatus;
-import com.example.backend.utils.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -18,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
     @Id
@@ -51,6 +54,10 @@ public class UserEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "register_status")
     private RegisterAuthStatus registerAuthStatus;
+
+    @Builder.Default
+    @Column(name = "create_data")
+    private LocalDateTime createData = LocalDateTime.now();
 
     private Boolean enabled;
 }

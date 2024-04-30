@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +96,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                 .registerAuthStatus(GOOGLE)
                 .role(USER)
                 .enabled(true)
+                .createData(LocalDateTime.now())
                 .password(passwordEncoder.passwordEncoder().encode(generateRandomPassword()))
                 .phone(attributes.getOrDefault("phone", EMPTY_LINE).toString())
                 .build();

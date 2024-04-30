@@ -69,6 +69,7 @@ public class AuthController {
     @GetMapping(INFO)
     @Operation(summary = "Information about the user who is authorized and logged into the system")
     @ApiResponseUnauthorized
+    @ApiResponseOK
     public String info(@AuthenticationPrincipal final UserDetails userDetails) {
         return userDetails.getUsername();
     }

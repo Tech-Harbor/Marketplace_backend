@@ -1,6 +1,7 @@
 package com.example.backend.security.service.impl;
 
 import com.example.backend.security.service.JwtTokenService;
+import com.example.backend.security.service.details.MyUserDetails;
 import com.example.backend.utils.general.JwtPropertiesManager;
 import com.example.backend.web.User.UserEntity;
 import io.jsonwebtoken.Jwts;
@@ -41,7 +42,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     private String generateJwtPasswordToken(final UserEntity userData) {
-        Map<String, Object> claims = new HashMap<>();
+        final Map<String, Object> claims = new HashMap<>();
+
         claims.put(PASSWORD, userData.getPassword());
         claims.put(ROLE, userData.getRole());
 
@@ -60,7 +62,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     private String generateJwtEmailToken(final UserEntity userData) {
-        Map<String, Object> role = new HashMap<>();
+        final Map<String, Object> role = new HashMap<>();
+
         role.put(ROLE, userData.getRole());
 
         return Jwts
@@ -78,11 +81,17 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     private String generateJwtAccessToken(final Map<String, Object> extraClaims, final Authentication authentication) {
+        final var userDetails = (MyUserDetails) authentication.getPrincipal();
+        final Map<String, Object> role = new HashMap<>();
+
+        role.put(ROLE, userDetails.user().getRole().name());
+
         return Jwts
                 .builder()
                 .header()
                 .add(TYPE, JWT)
                 .and()
+                .claims(role)
                 .claims(extraClaims)
                 .subject(authentication.getName())
                 .issuedAt(DATE_TIME_MILLIS)
@@ -93,11 +102,17 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     private String generateJwtRefreshToken(final Map<String, Object> extraClaims, final Authentication authentication) {
+        final var userDetails = (MyUserDetails) authentication.getPrincipal();
+        final Map<String, Object> role = new HashMap<>();
+
+        role.put(ROLE, userDetails.user().getRole().name());
+
         return Jwts
                 .builder()
                 .header()
                 .add(TYPE, JWT)
                 .and()
+                .claims(role)
                 .claims(extraClaims)
                 .subject(authentication.getName())
                 .expiration(new Date(System.currentTimeMillis()

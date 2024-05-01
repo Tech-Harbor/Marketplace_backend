@@ -1,11 +1,12 @@
 package com.example.backend.security.controllers;
 
-import com.example.backend.security.models.request.*;
+import com.example.backend.security.models.request.AuthRequest;
+import com.example.backend.security.models.request.EmailRequest;
+import com.example.backend.security.models.request.PasswordRequest;
+import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
-import com.example.backend.security.service.GoogleService;
 import com.example.backend.utils.annotations.*;
-import com.example.backend.web.User.UserEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +27,6 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class AuthController {
 
     private final AuthService authService;
-    private final GoogleService googleService;
 
     private static final String SIGNUP_URI = "/auth/signup";
     private static final String LOGIN_URI = "/auth/login";
@@ -97,12 +97,5 @@ public class AuthController {
     @ApiResponseBadRequest
     public void sendEmailSecondActive(@RequestBody @Validated final EmailRequest emailRequest) {
         authService.sendEmailActive(emailRequest);
-    }
-
-    @PostMapping(GOOGLE_LOGIN)
-    @Operation(summary = "Google Login (Beta Version)")
-    @ApiResponseOK
-    public UserEntity googleLogin(@RequestBody final GoogleTokenRequest token) {
-        return googleService.googleLogin(token);
     }
 }

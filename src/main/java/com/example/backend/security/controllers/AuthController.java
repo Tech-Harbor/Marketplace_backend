@@ -51,6 +51,7 @@ public class AuthController {
     @Operation(summary = "Login user")
     @ApiResponseOK
     @ApiResponseUnauthorized
+    @ApiResponseNotFound
     @ApiResponseForbidden
     public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
         return authService.login(authRequest);

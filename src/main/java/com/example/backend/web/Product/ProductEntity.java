@@ -24,30 +24,32 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String descriptionProduct;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String characteristicProduct;
 
+    @Column(nullable = false)
     private double price;
 
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product", fetch = FetchType.LAZY)
     private List<CommentEntity> commentEntities;
   
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderEntity> orderEntities;
   
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private List<ImageEntity> image;
 

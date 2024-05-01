@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.example.backend.web.exception.RequestException.badRequestException;
+import static com.example.backend.utils.exception.RequestException.badRequestException;
 
 @Service
 @RequiredArgsConstructor

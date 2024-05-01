@@ -24,6 +24,7 @@ public class OrderEntity {
     private UserEntity user;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
     @Enumerated(value = EnumType.STRING)

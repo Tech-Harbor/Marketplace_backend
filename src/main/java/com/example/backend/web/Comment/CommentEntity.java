@@ -22,6 +22,7 @@ public class CommentEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @Column(nullable = false)
     private String text;
 
     @ManyToOne

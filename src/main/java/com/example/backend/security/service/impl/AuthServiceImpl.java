@@ -8,6 +8,7 @@ import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
+import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserEntity;
@@ -23,7 +24,7 @@ import java.util.Properties;
 
 import static com.example.backend.utils.enums.RegisterAuthStatus.JWT;
 import static com.example.backend.utils.enums.Role.USER;
-import static com.example.backend.web.exception.RequestException.badRequestException;
+import static com.example.backend.utils.exception.RequestException.badRequestException;
 
 @Service
 @Slf4j
@@ -35,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenService jwtTokenService;
     private final UserService userService;
     private final MailService mailService;
+    private final JwtService jwtService;
 
     @Override
     public void signup(final RegisterRequest registerRequest) {
@@ -58,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
 
         userService.mySave(user);
 
-        log.debug("Register User: {}", user);
+        log.info("Register User: {}", user);
 
         mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
     }
@@ -80,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
 
         final var refreshToken = jwtTokenService.generateRefreshToken(authentication);
 
-        log.debug("Login user: {}", authentication);
+        log.info("Login user: {}", authentication);
 
         return AuthResponse.builder()
                 .accessToken(accessToken)
@@ -90,12 +92,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void formUpdatePassword(final String jwt, final PasswordRequest passwordRequest) {
-        var userPassword = userService.getByEmail(passwordRequest.email());
+        final var token = jwtService.extractUserData(jwt.substring(7));
+
+        var userPassword = userService.getByEmail(token);
 
         userPassword.ifPresent(user -> {
                 user.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
 
-            log.debug("Update Password: {}", user.getFirstname());
+                log.info("Update Password: {}", user.getFirstname());
 
                 userService.mySave(user);
             }
@@ -108,19 +112,21 @@ public class AuthServiceImpl implements AuthService {
                 () -> badRequestException("This email is not exists")
         );
 
-        log.debug("Email user: {}", emailUser.getEmail());
+        log.info("Email user: {}", emailUser.getEmail());
 
         mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
     }
 
     @Override
-    public void activeUser(final String jwt, final EmailRequest emailRequest) {
-        final var activeUserTrue = userService.getByEmail(emailRequest.email());
+    public void activeUser(final String jwt) {
+        final var token = jwtService.extractUserData(jwt.substring(7));
+
+        final var activeUserTrue = userService.getByEmail(token);
 
         activeUserTrue.ifPresent(user -> {
                 user.setEnabled(true);
 
-                log.debug("Active user: {}", user.getFirstname());
+                log.info("Active user: {}", user.getFirstname());
 
                 userService.mySave(user);
             }
@@ -132,7 +138,7 @@ public class AuthServiceImpl implements AuthService {
         final var user = userService.getByEmail(emailRequest.email());
 
         user.ifPresent(entity -> {
-                log.debug("SendEmail user: {}", entity.getFirstname());
+                log.info("SendEmail user: {}", entity.getFirstname());
 
                 mailService.sendEmail(entity, MailType.REGISTRATION, new Properties());
             }

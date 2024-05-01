@@ -1,8 +1,8 @@
 package com.example.backend.security.service.impl;
 
 import com.example.backend.security.service.JwtTokenService;
-import com.example.backend.utils.general.SignInKey;
-import com.example.backend.utils.props.JwtProperties;
+import com.example.backend.security.service.details.MyUserDetails;
+import com.example.backend.utils.general.JwtPropertiesManager;
 import com.example.backend.web.User.UserEntity;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +19,7 @@ import static com.example.backend.utils.general.Constants.*;
 @RequiredArgsConstructor
 public class JwtTokenServiceImpl implements JwtTokenService {
 
-    private final JwtProperties jwtProperties;
-    private final SignInKey signInKey;
+    private final JwtPropertiesManager jwtPropertiesManager;
 
     @Override
     public String generateAccessToken(final Authentication authentication) {
@@ -43,8 +42,10 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     private String generateJwtPasswordToken(final UserEntity userData) {
-        Map<String, Object> claims = new HashMap<>();
+        final Map<String, Object> claims = new HashMap<>();
+
         claims.put(PASSWORD, userData.getPassword());
+        claims.put(ROLE, userData.getRole());
 
         return Jwts
                 .builder()
@@ -53,49 +54,70 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                 .and()
                 .claims(claims)
                 .subject(userData.getEmail())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration().toMillis()))
-                .signWith(signInKey.getSignInKey())
+                .issuedAt(DATE_TIME_MILLIS)
+                .expiration(new Date(System.currentTimeMillis()
+                        + jwtPropertiesManager.jwtProperties().getJwtUserDataExpiration().toMillis()))
+                .signWith(jwtPropertiesManager.getSignInKey())
                 .compact();
     }
 
     private String generateJwtEmailToken(final UserEntity userData) {
+        final Map<String, Object> role = new HashMap<>();
+
+        role.put(ROLE, userData.getRole());
+
         return Jwts
                 .builder()
                 .header()
                 .add(TYPE, JWT)
                 .and()
+                .claims(role)
                 .subject(userData.getEmail())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtUserDataExpiration().toMillis()))
-                .signWith(signInKey.getSignInKey())
+                .issuedAt(DATE_TIME_MILLIS)
+                .expiration(new Date(System.currentTimeMillis()
+                        + jwtPropertiesManager.jwtProperties().getJwtUserDataExpiration().toMillis()))
+                .signWith(jwtPropertiesManager.getSignInKey())
                 .compact();
     }
 
     private String generateJwtAccessToken(final Map<String, Object> extraClaims, final Authentication authentication) {
+        final var userDetails = (MyUserDetails) authentication.getPrincipal();
+        final Map<String, Object> role = new HashMap<>();
+
+        role.put(ROLE, userDetails.user().getRole().name());
+
         return Jwts
                 .builder()
-                .claims(extraClaims)
                 .header()
                 .add(TYPE, JWT)
                 .and()
+                .claims(role)
+                .claims(extraClaims)
                 .subject(authentication.getName())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtAccessExpiration().toMillis()))
-                .signWith(signInKey.getSignInKey())
+                .issuedAt(DATE_TIME_MILLIS)
+                .expiration(new Date(System.currentTimeMillis()
+                        + jwtPropertiesManager.jwtProperties().getJwtAccessExpiration().toMillis()))
+                .signWith(jwtPropertiesManager.getSignInKey())
                 .compact();
     }
 
     private String generateJwtRefreshToken(final Map<String, Object> extraClaims, final Authentication authentication) {
+        final var userDetails = (MyUserDetails) authentication.getPrincipal();
+        final Map<String, Object> role = new HashMap<>();
+
+        role.put(ROLE, userDetails.user().getRole().name());
+
         return Jwts
                 .builder()
                 .header()
                 .add(TYPE, JWT)
                 .and()
+                .claims(role)
                 .claims(extraClaims)
                 .subject(authentication.getName())
-                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getJwtRefreshExpiration().toMillis()))
-                .signWith(signInKey.getSignInKey())
+                .expiration(new Date(System.currentTimeMillis()
+                        + jwtPropertiesManager.jwtProperties().getJwtRefreshExpiration().toMillis()))
+                .signWith(jwtPropertiesManager.getSignInKey())
                 .compact();
     }
 }

@@ -1,5 +1,5 @@
 package com.example.backend.utils.enums;
 
-public enum Status {
+public enum StatusOrder {
     PENDING
 }

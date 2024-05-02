@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
                 .id(order.id())
                 .product(order.product())
                 .user(order.user())
-                .status(order.status())
+                .statusOrder(order.statusOrder())
                 .build();
 
         return orderFactory.makeOrderDTO(orderRepository.save(newOrder));

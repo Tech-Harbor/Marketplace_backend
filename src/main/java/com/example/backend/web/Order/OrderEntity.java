@@ -2,7 +2,7 @@ package com.example.backend.web.Order;
 
 import com.example.backend.web.Product.ProductEntity;
 import com.example.backend.web.User.UserEntity;
-import com.example.backend.utils.enums.Status;
+import com.example.backend.utils.enums.StatusOrder;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,5 +28,5 @@ public class OrderEntity {
     private ProductEntity product;
 
     @Enumerated(value = EnumType.STRING)
-    private Status status;
+    private StatusOrder statusOrder;
 }

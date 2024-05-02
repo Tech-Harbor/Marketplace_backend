@@ -7,7 +7,7 @@ public class OrderFactory {
     public OrderDTO makeOrderDTO(final OrderEntity order) {
         return OrderDTO.builder()
                 .id(order.getId())
-                .status(order.getStatusOrder())
+                .statusOrder(order.getStatus())
                 .user(order.getUser())
                 .product(order.getProduct())
                 .build();

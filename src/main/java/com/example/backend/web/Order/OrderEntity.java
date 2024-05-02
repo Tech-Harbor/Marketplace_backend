@@ -28,5 +28,5 @@ public class OrderEntity {
     private ProductEntity product;
 
     @Enumerated(value = EnumType.STRING)
-    private StatusOrder statusOrder;
+    private StatusOrder status;
 }

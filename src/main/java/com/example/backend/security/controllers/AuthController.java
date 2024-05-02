@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.example.backend.utils.general.Constants.BEARER_AUTHENTICATION;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
@@ -30,7 +31,6 @@ public class AuthController {
 
     private static final String SIGNUP_URI = "/auth/signup";
     private static final String LOGIN_URI = "/auth/login";
-    private static final String GOOGLE_LOGIN = "/auth/google/login";
     private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String ACTIVE_USER = "/active";
@@ -38,7 +38,7 @@ public class AuthController {
     private static final String SEND_MESSAGE_EMAIL_NOT_ACTIVE = "/sendMessageEmailActive";
 
     @PostMapping(SIGNUP_URI)
-    @SecurityRequirement(name = "Bearer Authentication")
+    @SecurityRequirement(name = BEARER_AUTHENTICATION)
     @Operation(summary = "Register user")
     @ApiResponseOK
     @ApiResponseBadRequest
@@ -47,7 +47,7 @@ public class AuthController {
     }
 
     @PostMapping(LOGIN_URI)
-    @SecurityRequirement(name = "Bearer Authentication")
+    @SecurityRequirement(name = BEARER_AUTHENTICATION)
     @Operation(summary = "Login user")
     @ApiResponseOK
     @ApiResponseUnauthorized

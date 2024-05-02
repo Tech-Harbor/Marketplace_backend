@@ -21,12 +21,12 @@ public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint {
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        ErrorResponse response = ErrorResponse.builder()
+        final var response = ErrorResponse.builder()
                 .status(HttpServletResponse.SC_FORBIDDEN)
                 .message("You need to login first in order to perform this action.")
                 .build();
 
-        final ObjectMapper mapper = new ObjectMapper();
+        final var mapper = new ObjectMapper();
 
         mapper.writeValue(httpServletResponse.getOutputStream(), response);
     }

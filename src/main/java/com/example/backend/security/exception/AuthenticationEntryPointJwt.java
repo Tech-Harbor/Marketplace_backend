@@ -22,7 +22,7 @@ public class AuthenticationEntryPointJwt implements AuthenticationEntryPoint {
         httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         final var response = ErrorResponse.builder()
-                .status(HttpServletResponse.SC_FORBIDDEN)
+                .status(HttpServletResponse.SC_UNAUTHORIZED)
                 .message("You need to login first in order to perform this action.")
                 .build();
 

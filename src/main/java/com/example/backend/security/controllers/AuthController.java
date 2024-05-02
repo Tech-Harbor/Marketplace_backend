@@ -40,7 +40,7 @@ public class AuthController {
     @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = BEARER_AUTHENTICATION)
     @Operation(summary = "Register user")
-    @ApiResponseOK
+    @ApiResponseCreated
     @ApiResponseBadRequest
     public void signup(@RequestBody @Validated final RegisterRequest registerRequest) {
         authService.signup(registerRequest);
@@ -51,7 +51,6 @@ public class AuthController {
     @Operation(summary = "Login user")
     @ApiResponseOK
     @ApiResponseUnauthorized
-    @ApiResponseNotFound
     @ApiResponseForbidden
     public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
         return authService.login(authRequest);

@@ -1,6 +1,8 @@
 package com.example.backend.user;
 
 import com.example.backend.web.User.*;
+import com.example.backend.web.User.store.dto.UserDTO;
+import com.example.backend.web.User.store.factory.UserFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

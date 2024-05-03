@@ -1,11 +1,15 @@
 package com.example.backend.web.User;
 
+import com.example.backend.web.User.store.dto.UserDTO;
+import com.example.backend.web.User.store.factory.UserFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.example.backend.utils.exception.RequestException.badRequestException;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserEntity> getByEmail(final String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserEntity getByUserData(final String userData) {
+        return userRepository.findByEmail(userData).orElseThrow(
+                () -> badRequestException("Not userData: " + userData)
+        );
     }
 
     @Override

@@ -7,13 +7,12 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import com.example.backend.utils.annotations.*;
+import com.example.backend.web.User.store.dto.UserInfoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,10 +67,9 @@ public class AuthController {
 
     @GetMapping(INFO)
     @Operation(summary = "Information about the user who is authorized and logged into the system")
-    @ApiResponseUnauthorized
-    @ApiResponseOK
-    public String info(@AuthenticationPrincipal final UserDetails userDetails) {
-        return userDetails.getUsername();
+    @ApiResponseInfoOK
+    public UserInfoDTO info(@RequestHeader(AUTHORIZATION) final String accessToken) {
+        return authService.info(accessToken);
     }
 
     @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)

@@ -49,7 +49,7 @@ public class ProductEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "photo_id")
     private List<ImageEntity> image;
 

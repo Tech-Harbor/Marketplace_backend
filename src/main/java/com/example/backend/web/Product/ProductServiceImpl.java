@@ -13,6 +13,7 @@ import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,8 @@ public class ProductServiceImpl implements ProductService {
                 .characteristicProduct(product.characteristicProduct())
                 .descriptionProduct(product.descriptionProduct())
                 .price(product.price())
-                .createDate(product.createDate())
+                .image(product.image())
+                .createDate(LocalDateTime.now())
                 .category(categoryId)
                 .build();
 

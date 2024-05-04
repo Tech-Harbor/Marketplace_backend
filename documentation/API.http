@@ -53,4 +53,20 @@ Authorization: Bearer
 
 ###Accouth
 GET http://localhost:8080/api/accouth
-Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer
+Content-Type: application/json
+
+###GRAPHQL
+GRAPHQL http://localhost:8080/graphql
+
+##Request for data for the main page of the site
+query {
+    getAllProducts {
+        name
+        price
+        location
+        images {
+            imageUrl
+        }
+    }
+}

@@ -2,9 +2,7 @@ package com.example.backend.web.User;
 
 import com.example.backend.utils.enums.RegisterAuthStatus;
 import com.example.backend.utils.enums.Role;
-import com.example.backend.web.Comment.CommentEntity;
 import com.example.backend.web.File.ImageEntity;
-import com.example.backend.web.Order.OrderEntity;
 import com.example.backend.web.Product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,12 +37,6 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user", fetch = FetchType.LAZY)
-    private List<OrderEntity> orderEntity;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user", fetch = FetchType.LAZY)
-    private List<CommentEntity> comments;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user", fetch = FetchType.LAZY)
     private List<ProductEntity> product;

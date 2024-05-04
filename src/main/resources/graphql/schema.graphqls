@@ -3,11 +3,9 @@ scalar LocalTimeDate
 type Query {
     getByIdUser(id: ID): UserDTO
     getByIdCategory(id: ID): CategoryDTO
-    getAllOrder: [OrderDTO]
     getAllUsers: [UserDTO]
     getAllProducts: [ProductDTO]
     getByIdProduct(id: ID!): ProductDTO
-    getAllComments: [CommentDTO]
 }
 
 type Mutation {
@@ -59,29 +57,11 @@ type UserDTO {
     role: Role
 }
 
-type OrderDTO {
-    id: ID
-    user: UserDTO
-    product: ProductDTO
-    status: Status
-}
-
-type CommentDTO {
-    id: ID
-    user: UserDTO
-    product: ProductDTO
-    text: String
-}
-
 input ProductInput {
     name: String!
     descriptionProduct: String!
     characteristicProduct: String
     price: Int!
-}
-
-enum Status {
-    PENDING
 }
 
 enum Role {

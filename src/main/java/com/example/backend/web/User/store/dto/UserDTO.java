@@ -14,8 +14,6 @@ public record UserDTO(Long id,
                       String email,
                       String phone,
                       String password,
-//                      List<OrderEntity> orderEntity,
-//                      List<CommentEntity> comments,
                       List<ProductDTO> product,
                       RegisterAuthStatus status,
                       Role role) { }

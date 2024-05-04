@@ -20,7 +20,7 @@ public class WebIsNullFactory {
     private final ProductFactory productFactory;
 
     public List<ProductDTO> isNullProductCategory(final CategoryEntity category) {
-        return Optional.ofNullable(category.getProductEntityList())
+        return Optional.ofNullable(category.getProducts())
                 .map(list -> list.stream()
                         .map(productFactory::makeProduct)
                         .collect(Collectors.toList()))

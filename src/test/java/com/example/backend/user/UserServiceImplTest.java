@@ -1,6 +1,8 @@
 package com.example.backend.user;
 
-import com.example.backend.web.User.*;
+import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.UserRepository;
+import com.example.backend.web.User.UserServiceImpl;
 import com.example.backend.web.User.store.dto.UserDTO;
 import com.example.backend.web.User.store.factory.UserFactory;
 import org.junit.jupiter.api.Test;
@@ -10,12 +12,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static com.example.backend.utils.general.Constants.EMAIL_KEY;
 import static com.example.backend.utils.general.Constants.PASSWORD;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -31,32 +33,32 @@ public class UserServiceImplTest {
 
     @Test
     void getByIdUserTest() {
-        final Long userId = 1L;
+        final var userId = 1L;
 
-        final UserEntity userEntity = UserEntity.builder()
+        final var userEntity = UserEntity.builder()
                 .id(userId)
                 .build();
 
-        final UserDTO expectedUserDTO = UserDTO.builder()
+        final var expectedUserDTO = UserDTO.builder()
                 .id(userId)
                 .build();
 
         when(userService.getById(userId)).thenReturn(userEntity);
         when(userFactory.apply(any(UserEntity.class))).thenReturn(expectedUserDTO);
 
-        final UserDTO resultUserDTO = userService.getByIdUser(userId);
+        final var resultUserDTO = userService.getByIdUser(userId);
 
         assertEquals(expectedUserDTO, resultUserDTO);
     }
 
     @Test
     void getByIdUserNotTest() {
-        final Long userId = 1L;
+        final var userId = 1L;
 
         when(userService.getById(userId)).thenReturn(null);
         when(userFactory.apply(isNull())).thenReturn(null);
 
-        final UserDTO resultUserDTO = userService.getByIdUser(userId);
+        final var resultUserDTO = userService.getByIdUser(userId);
 
         assertNull(resultUserDTO);
 
@@ -66,22 +68,22 @@ public class UserServiceImplTest {
 
     @Test
     void getByIdTest() {
-        final Long userId = 1L;
+        final var userId = 1L;
 
-        final UserEntity userEntity = UserEntity.builder()
+        final var userEntity = UserEntity.builder()
                 .id(userId)
                 .build();
 
         when(userService.getById(userId)).thenReturn(userEntity);
 
-        final UserEntity resultUserEntity = userService.getById(userId);
+        final var resultUserEntity = userService.getById(userId);
 
         assertEquals(userEntity, resultUserEntity);
     }
 
     @Test
     void getByIdNotTest() {
-        final Long userId = 1L;
+        final var userId = 1L;
 
         when(userService.getById(userId)).thenReturn(null);
 
@@ -94,22 +96,22 @@ public class UserServiceImplTest {
 
     @Test
     void getByEmailTest() {
-        final UserEntity userEntity = UserEntity.builder()
+        final var userEntity = UserEntity.builder()
                 .email(EMAIL_KEY)
                 .build();
 
         when(userService.getByEmail(EMAIL_KEY)).thenReturn(Optional.of(userEntity));
 
-        final Optional<UserEntity> emailUserEntity = userService.getByEmail(EMAIL_KEY);
+        final var emailUserEntity = userService.getByEmail(EMAIL_KEY);
 
         assertEquals(userEntity, emailUserEntity.orElse(null));
     }
 
     @Test
     void updateByIdUserTest() {
-        final Long userId = 1L;
+        final var userId = 1L;
 
-        final UserDTO userDTOUpdate = UserDTO.builder()
+        final var userDTOUpdate = UserDTO.builder()
                 .lastname("lastname")
                 .firstname("firstname")
                 .phone("phone")
@@ -117,14 +119,14 @@ public class UserServiceImplTest {
                 .password(PASSWORD)
                 .build();
 
-        final UserEntity existingUser = UserEntity.builder()
+        final var existingUser = UserEntity.builder()
                 .id(userId)
                 .build();
 
         when(userService.getById(userId)).thenReturn(existingUser);
-        when(userService.mySave(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        final UserDTO saveUserDto = UserDTO.builder()
+        final var saveUserDto = UserDTO.builder()
                 .lastname("lastname")
                 .firstname("firstname")
                 .phone("phone")
@@ -143,18 +145,18 @@ public class UserServiceImplTest {
 
     @Test
     void getByAllUserTest() {
-        final UserEntity userEntity1 = UserEntity.builder().build();
-        final UserEntity userEntity2 = UserEntity.builder().build();
+        final var userEntity1 = UserEntity.builder().build();
+        final var userEntity2 = UserEntity.builder().build();
 
         when(userRepository.findAll()).thenReturn(Arrays.asList(userEntity1, userEntity2));
 
-        final UserDTO userDTO1 = UserDTO.builder().build();
-        final UserDTO userDTO2 = UserDTO.builder().build();
+        final var userDTO1 = UserDTO.builder().build();
+        final var userDTO2 = UserDTO.builder().build();
 
         when(userFactory.apply(userEntity1)).thenReturn(userDTO1);
         when(userFactory.apply(userEntity2)).thenReturn(userDTO2);
 
-        final List<UserDTO> result = userService.getByAllUser();
+        final var result = userService.getByAllUser();
 
         assertEquals(2, result.size());
         assertEquals(userDTO1, result.get(0));
@@ -163,7 +165,7 @@ public class UserServiceImplTest {
 
     @Test
     void deleteByIdUserTest() {
-        final Long userDeleteId = 1L;
+        final var userDeleteId = 1L;
 
         userService.deleteByIdUser(userDeleteId);
 

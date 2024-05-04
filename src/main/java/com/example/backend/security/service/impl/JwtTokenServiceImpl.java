@@ -84,7 +84,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         final var userDetails = (MyUserDetails) authentication.getPrincipal();
         final Map<String, Object> role = new HashMap<>();
 
-        role.put(ROLE, userDetails.user().getRole().name());
+        role.put(ROLE, userDetails.user().role().name());
 
         return Jwts
                 .builder()
@@ -105,7 +105,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         final var userDetails = (MyUserDetails) authentication.getPrincipal();
         final Map<String, Object> role = new HashMap<>();
 
-        role.put(ROLE, userDetails.user().getRole().name());
+        role.put(ROLE, userDetails.user().role().name());
 
         return Jwts
                 .builder()

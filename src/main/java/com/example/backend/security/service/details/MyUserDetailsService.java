@@ -19,7 +19,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     @SneakyThrows
     public UserDetails loadUserByUsername(final String username) {
-        var user =  userService.getByEmail(username).orElseThrow(
+        var user =  userService.getBySecurityEmail(username).orElseThrow(
                 () -> notFoundRequestException("Email not found")
         );
         return myUserDetailsFactory.build(user);

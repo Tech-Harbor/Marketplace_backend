@@ -61,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
                 .role(USER)
                 .build();
 
-        userService.mySave(user);
+        userService.mySecuritySave(user);
 
         log.info("Register User: {}", user);
 
@@ -104,7 +104,7 @@ public class AuthServiceImpl implements AuthService {
 
                 log.info("Update Password: {}", user.getFirstname());
 
-                userService.mySave(user);
+                userService.mySecuritySave(user);
             }
         );
     }
@@ -131,7 +131,7 @@ public class AuthServiceImpl implements AuthService {
 
                 log.info("Active user: {}", user.getFirstname());
 
-                userService.mySave(user);
+                userService.mySecuritySave(user);
             }
         );
     }

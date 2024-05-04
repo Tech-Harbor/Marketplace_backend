@@ -6,7 +6,6 @@ import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
-import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.security.service.impl.AuthServiceImpl;
@@ -27,7 +26,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 import java.util.Properties;
 
-import static com.example.backend.utils.general.Constants.*;
+import static com.example.backend.utils.general.Constants.EMAIL_KEY;
+import static com.example.backend.utils.general.Constants.PASSWORD;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -54,7 +54,7 @@ public class AuthServiceImplTest {
 
     @Test
     void sigUpTest() {
-        final RegisterRequest registerRequest = RegisterRequest.builder()
+        final var registerRequest = RegisterRequest.builder()
                 .firstname("firstname")
                 .lastname("lastname")
                 .email(EMAIL_KEY)
@@ -68,13 +68,13 @@ public class AuthServiceImplTest {
         authService.signup(registerRequest);
 
         verify(userService).getByEmail(any());
-        verify(userService).mySave(any(UserEntity.class));
+        verify(userService).mySecuritySave(any(UserEntity.class));
         verify(mailService).sendEmail(any(UserEntity.class), eq(MailType.REGISTRATION), any(Properties.class));
     }
 
     @Test
     void sigUpNotTest() {
-        final RegisterRequest registerRequest = RegisterRequest.builder()
+        final var registerRequest = RegisterRequest.builder()
                 .firstname("firstname")
                 .lastname("lastname")
                 .email(EMAIL_KEY)
@@ -89,19 +89,19 @@ public class AuthServiceImplTest {
 
         verify(userService).getByEmail(EMAIL_KEY);
         verify(mailService).sendEmail(any(UserEntity.class), eq(MailType.REGISTRATION), any(Properties.class));
-        verify(userService).mySave(any(UserEntity.class));
+        verify(userService).mySecuritySave(any(UserEntity.class));
 
         verifyNoMoreInteractions(userService, userRepository, mailService);
     }
 
     @Test
     void loginTest() {
-        final AuthRequest authRequest = AuthRequest.builder()
+        final var authRequest = AuthRequest.builder()
                 .email(EMAIL_KEY)
                 .password(PASSWORD)
                 .build();
 
-        final Authentication authentication = mock(Authentication.class);
+        final var authentication = mock(Authentication.class);
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
@@ -109,7 +109,7 @@ public class AuthServiceImplTest {
         when(jwtTokenService.generateRefreshToken(authentication)).thenReturn("RefreshToken");
         when(userService.getByEmail(authRequest.email())).thenReturn(Optional.of(mock(UserEntity.class)));
 
-        final AuthResponse authRequestLogin = authService.login(authRequest);
+        final var authRequestLogin = authService.login(authRequest);
 
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verify(jwtTokenService).generateAccessToken(authentication);
@@ -122,12 +122,12 @@ public class AuthServiceImplTest {
 
     @Test
     void loginNotTest() {
-        final AuthRequest authRequest = AuthRequest.builder()
+        final var authRequest = AuthRequest.builder()
                 .email(EMAIL_KEY)
                 .password(PASSWORD)
                 .build();
 
-        final Authentication authentication = mock(Authentication.class);
+        final var authentication = mock(Authentication.class);
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
@@ -171,7 +171,7 @@ public class AuthServiceImplTest {
         // Перевірка, що паролі закодовано та збережено
         assertEquals(PASSWORD, user.getPassword());
 
-        verify(userService).mySave(user);
+        verify(userService).mySecuritySave(user);
     }
 
     @Test
@@ -196,7 +196,7 @@ public class AuthServiceImplTest {
 
     @Test
     void activeUserTest() {
-        final UserEntity userEntity = UserEntity.builder()
+        final var userEntity = UserEntity.builder()
                 .email(EMAIL_KEY)
                 .build();
 
@@ -210,7 +210,7 @@ public class AuthServiceImplTest {
 
         verify(jwtService).extractUserData(anyString());
         verify(userService).getByEmail(EMAIL_KEY);
-        verify(userService).mySave(userEntity);
+        verify(userService).mySecuritySave(userEntity);
     }
 
     @Test

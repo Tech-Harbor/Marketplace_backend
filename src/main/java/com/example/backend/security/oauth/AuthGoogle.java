@@ -56,7 +56,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                             ), () -> {
                                 final var saveUser = createUserEntity(defaultOAuth2User, defaultOAuth2UserEmail);
 
-                                userService.mySave(saveUser);
+                                userService.mySecuritySave(saveUser);
 
                                 SecurityContextHolder.getContext().setAuthentication(
                                         createOAuth2AuthenticationToken(

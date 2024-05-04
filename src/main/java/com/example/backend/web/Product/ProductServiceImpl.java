@@ -39,7 +39,8 @@ public class ProductServiceImpl implements ProductService {
                 .characteristicProduct(product.characteristicProduct())
                 .descriptionProduct(product.descriptionProduct())
                 .price(product.price())
-                .image(product.image())
+                .images(product.images())
+                .location(product.location())
                 .createDate(LocalDateTime.now())
                 .category(categoryId)
                 .build();

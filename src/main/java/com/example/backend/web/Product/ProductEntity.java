@@ -36,6 +36,9 @@ public class ProductEntity {
     @Column(nullable = false)
     private double price;
 
+    @Column(nullable = false)
+    private String location;
+
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
 
@@ -51,7 +54,7 @@ public class ProductEntity {
 
     @OneToMany
     @JoinColumn(name = "photo_id")
-    private List<ImageEntity> image;
+    private List<ImageEntity> images;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

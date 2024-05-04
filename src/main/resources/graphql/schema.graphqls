@@ -38,8 +38,14 @@ type ProductDTO {
     name: String
     descriptionProduct: String
     characteristicProduct: String
-    price: Boolean
+    price: Int
     date: LocalTimeDate
+    location: String
+    images: [ImageDTO]
+}
+
+type ImageDTO {
+    imageUrl: String
 }
 
 type UserDTO {

@@ -52,7 +52,6 @@ public class UserEntity {
     private RegisterAuthStatus registerAuthStatus;
 
     @Builder.Default
-    @Column(name = "create_data")
     private LocalDateTime createData = LocalDateTime.now();
 
     private Boolean enabled;

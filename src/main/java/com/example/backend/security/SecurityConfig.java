@@ -20,6 +20,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.example.backend.utils.general.Constants.GET_AUTH;
+import static com.example.backend.utils.general.Constants.PERMIT_ALL;
 
 @Configuration
 @EnableWebSecurity
@@ -43,8 +45,8 @@ public class SecurityConfig {
                 )
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.GET, "/api/accouth").authenticated()
-                        .requestMatchers("/graphiql").permitAll()
+                        .requestMatchers(HttpMethod.GET, GET_AUTH).authenticated()
+                        .requestMatchers(PERMIT_ALL).permitAll()
                         .anyRequest()
                         .permitAll()
                 )

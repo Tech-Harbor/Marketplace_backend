@@ -61,11 +61,11 @@ public class AuthServiceImpl implements AuthService {
                 .role(USER)
                 .build();
 
-        userService.mySecuritySave(user);
+        final var userSecurityDTO = userService.mySecuritySave(user);
 
-        log.info("Register User: {}", user);
+        log.info("Register User: {}", userSecurityDTO);
 
-        mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
+        mailService.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
     }
 
     @Override
@@ -115,9 +115,11 @@ public class AuthServiceImpl implements AuthService {
                 () -> badRequestException("This email is not exists")
         );
 
-        log.info("Email user: {}", emailUser.getEmail());
+        final var userSecurityDTO = userService.mySecuritySave(emailUser);
 
-        mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
+        log.info("Email user: {}", userSecurityDTO.email());
+
+        mailService.sendEmail(userSecurityDTO, MailType.NEW_PASSWORD, new Properties());
     }
 
     @Override
@@ -141,9 +143,11 @@ public class AuthServiceImpl implements AuthService {
         final var user = userService.getByEmail(emailRequest.email());
 
         user.ifPresent(entity -> {
-                log.info("SendEmail user: {}", entity.getFirstname());
+                final var userSecurityDTO = userService.mySecuritySave(entity);
 
-                mailService.sendEmail(entity, MailType.REGISTRATION, new Properties());
+                log.info("SendEmail user: {}", userSecurityDTO.firstname());
+
+                mailService.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
             }
         );
     }

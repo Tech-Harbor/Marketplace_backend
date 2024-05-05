@@ -1,9 +1,9 @@
 package com.example.backend.mail;
 
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.dto.UserSecurityDTO;
 
 import java.util.Properties;
 
 public interface MailService {
-    void sendEmail(UserEntity user, MailType type, Properties params);
+    void sendEmail(UserSecurityDTO user, MailType type, Properties params);
 }

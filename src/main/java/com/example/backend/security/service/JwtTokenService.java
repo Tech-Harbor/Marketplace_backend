@@ -1,6 +1,6 @@
 package com.example.backend.security.service;
 
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import org.springframework.security.core.Authentication;
 
 public interface JwtTokenService {
@@ -23,17 +23,17 @@ public interface JwtTokenService {
      * The token includes information such as the password and email of the user,
      * along with issued-at and expiration times.
      *
-     * @param userData The UserEntity object representing the user for whom the token is being generated.
+     * @param userData The UserSecurityDTO object representing the user for whom the token is being generated.
      * @return The generated JWT token as a String.
      */
-    String generateUserPasswordDataToken(UserEntity userData);
+    String generateUserPasswordDataToken(UserSecurityDTO userData);
     /**
      * Generates a JWT token with the user's email as the subject.
      * The token includes details about when it was issued and when it will expire.
      * This JWT can be used for authentication or verification purposes.
      *
-     * @param userData The UserEntity object representing the user whose email will be used as the subject.
+     * @param userData The UserSecurityDTO object representing the user whose email will be used as the subject.
      * @return The generated JWT token as a String.
      */
-    String generateUserEmailDataToken(UserEntity userData);
+    String generateUserEmailDataToken(UserSecurityDTO userData);
 }

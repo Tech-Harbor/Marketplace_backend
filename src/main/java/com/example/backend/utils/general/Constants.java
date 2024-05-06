@@ -21,5 +21,12 @@ public class Constants {
     public static final String JWT = "JWT";
     public static final String TYPE = "type";
     public static final String ROLE = "role";
+    public static final String BEARER_AUTHENTICATION = "Bearer Authentication";
     public static final Date DATE_TIME_MILLIS = new Date(System.currentTimeMillis());
+    public static final String[] PERMIT_ALL = {
+            "/graphiql"
+    };
+    public static final String[] GET_AUTH = {
+            "/api/accouth"
+    };
 }

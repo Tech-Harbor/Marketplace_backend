@@ -1,6 +1,5 @@
 package com.example.backend.security.service.details;
 
-import com.example.backend.web.User.UserEntity;
 import com.example.backend.web.User.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -20,7 +19,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     @SneakyThrows
     public UserDetails loadUserByUsername(final String username) {
-        UserEntity user =  userService.getByEmail(username).orElseThrow(
+        var user =  userService.getBySecurityEmail(username).orElseThrow(
                 () -> notFoundRequestException("Email not found")
         );
         return myUserDetailsFactory.build(user);

@@ -3,7 +3,7 @@ package com.example.backend.security.service.impl;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.security.service.details.MyUserDetails;
 import com.example.backend.utils.general.JwtPropertiesManager;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -32,20 +32,20 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public String generateUserPasswordDataToken(final UserEntity userData) {
+    public String generateUserPasswordDataToken(final UserSecurityDTO userData) {
         return generateJwtPasswordToken(userData);
     }
 
     @Override
-    public String generateUserEmailDataToken(final UserEntity userData) {
+    public String generateUserEmailDataToken(final UserSecurityDTO userData) {
         return generateJwtEmailToken(userData);
     }
 
-    private String generateJwtPasswordToken(final UserEntity userData) {
+    private String generateJwtPasswordToken(final UserSecurityDTO userData) {
         final Map<String, Object> claims = new HashMap<>();
 
-        claims.put(PASSWORD, userData.getPassword());
-        claims.put(ROLE, userData.getRole());
+        claims.put(PASSWORD, userData.password());
+        claims.put(ROLE, userData.role());
 
         return Jwts
                 .builder()
@@ -53,7 +53,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                 .add(TYPE, JWT)
                 .and()
                 .claims(claims)
-                .subject(userData.getEmail())
+                .subject(userData.email())
                 .issuedAt(DATE_TIME_MILLIS)
                 .expiration(new Date(System.currentTimeMillis()
                         + jwtPropertiesManager.jwtProperties().getJwtUserDataExpiration().toMillis()))
@@ -61,10 +61,10 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                 .compact();
     }
 
-    private String generateJwtEmailToken(final UserEntity userData) {
+    private String generateJwtEmailToken(final UserSecurityDTO userData) {
         final Map<String, Object> role = new HashMap<>();
 
-        role.put(ROLE, userData.getRole());
+        role.put(ROLE, userData.role());
 
         return Jwts
                 .builder()
@@ -72,7 +72,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                 .add(TYPE, JWT)
                 .and()
                 .claims(role)
-                .subject(userData.getEmail())
+                .subject(userData.email())
                 .issuedAt(DATE_TIME_MILLIS)
                 .expiration(new Date(System.currentTimeMillis()
                         + jwtPropertiesManager.jwtProperties().getJwtUserDataExpiration().toMillis()))
@@ -84,7 +84,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         final var userDetails = (MyUserDetails) authentication.getPrincipal();
         final Map<String, Object> role = new HashMap<>();
 
-        role.put(ROLE, userDetails.user().getRole().name());
+        role.put(ROLE, userDetails.user().role().name());
 
         return Jwts
                 .builder()
@@ -105,7 +105,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         final var userDetails = (MyUserDetails) authentication.getPrincipal();
         final Map<String, Object> role = new HashMap<>();
 
-        role.put(ROLE, userDetails.user().getRole().name());
+        role.put(ROLE, userDetails.user().role().name());
 
         return Jwts
                 .builder()

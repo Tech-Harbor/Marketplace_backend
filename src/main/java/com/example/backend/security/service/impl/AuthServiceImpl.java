@@ -11,8 +11,10 @@ import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserService;
+import com.example.backend.web.User.store.dto.UserInfoDTO;
+import com.example.backend.web.User.store.factory.UserInfoFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final MyPasswordEncoder myPasswordEncoder;
     private final JwtTokenService jwtTokenService;
+    private final UserInfoFactory userInfoFactory;
     private final UserService userService;
     private final MailService mailService;
     private final JwtService jwtService;
@@ -58,11 +61,11 @@ public class AuthServiceImpl implements AuthService {
                 .role(USER)
                 .build();
 
-        userService.mySave(user);
+        final var userSecurityDTO = userService.mySecuritySave(user);
 
-        log.info("Register User: {}", user);
+        log.info("Register User: {}", userSecurityDTO);
 
-        mailService.sendEmail(user, MailType.REGISTRATION, new Properties());
+        mailService.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
     }
 
     @Override
@@ -101,7 +104,7 @@ public class AuthServiceImpl implements AuthService {
 
                 log.info("Update Password: {}", user.getFirstname());
 
-                userService.mySave(user);
+                userService.mySecuritySave(user);
             }
         );
     }
@@ -112,9 +115,11 @@ public class AuthServiceImpl implements AuthService {
                 () -> badRequestException("This email is not exists")
         );
 
-        log.info("Email user: {}", emailUser.getEmail());
+        final var userSecurityDTO = userService.mySecuritySave(emailUser);
 
-        mailService.sendEmail(emailUser, MailType.NEW_PASSWORD, new Properties());
+        log.info("Email user: {}", emailUser.getFirstname());
+
+        mailService.sendEmail(userSecurityDTO, MailType.NEW_PASSWORD, new Properties());
     }
 
     @Override
@@ -128,7 +133,7 @@ public class AuthServiceImpl implements AuthService {
 
                 log.info("Active user: {}", user.getFirstname());
 
-                userService.mySave(user);
+                userService.mySecuritySave(user);
             }
         );
     }
@@ -138,10 +143,23 @@ public class AuthServiceImpl implements AuthService {
         final var user = userService.getByEmail(emailRequest.email());
 
         user.ifPresent(entity -> {
+                final var userSecurityDTO = userService.mySecuritySave(entity);
+
                 log.info("SendEmail user: {}", entity.getFirstname());
 
-                mailService.sendEmail(entity, MailType.REGISTRATION, new Properties());
+                mailService.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
             }
         );
+    }
+
+    @Override
+    public UserInfoDTO info(final String accessToken) {
+        final var token = jwtService.extractUserData(accessToken.substring(7));
+
+        final var user = userService.getByUserData(token);
+
+        log.info("Info {}", user);
+
+        return userInfoFactory.apply(user);
     }
 }

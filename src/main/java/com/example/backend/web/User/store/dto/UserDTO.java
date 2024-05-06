@@ -1,4 +1,4 @@
-package com.example.backend.web.User;
+package com.example.backend.web.User.store.dto;
 
 import com.example.backend.web.Product.ProductDTO;
 import com.example.backend.utils.enums.RegisterAuthStatus;
@@ -14,8 +14,6 @@ public record UserDTO(Long id,
                       String email,
                       String phone,
                       String password,
-//                      List<OrderEntity> orderEntity,
-//                      List<CommentEntity> comments,
                       List<ProductDTO> product,
                       RegisterAuthStatus status,
                       Role role) { }

@@ -1,9 +1,8 @@
-package com.example.backend.web.User;
+package com.example.backend.web.User.store;
 
 import com.example.backend.utils.enums.RegisterAuthStatus;
 import com.example.backend.utils.enums.Role;
-import com.example.backend.web.Comment.CommentEntity;
-import com.example.backend.web.Order.OrderEntity;
+import com.example.backend.web.File.ImageEntity;
 import com.example.backend.web.Product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,13 +39,10 @@ public class UserEntity {
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user", fetch = FetchType.LAZY)
-    private List<OrderEntity> orderEntity;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user", fetch = FetchType.LAZY)
-    private List<CommentEntity> comments;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user", fetch = FetchType.LAZY)
     private List<ProductEntity> product;
+
+    @OneToOne
+    private ImageEntity image;
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
@@ -56,7 +52,6 @@ public class UserEntity {
     private RegisterAuthStatus registerAuthStatus;
 
     @Builder.Default
-    @Column(name = "create_data")
     private LocalDateTime createData = LocalDateTime.now();
 
     private Boolean enabled;

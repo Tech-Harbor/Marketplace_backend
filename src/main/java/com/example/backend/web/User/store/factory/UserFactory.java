@@ -1,6 +1,8 @@
-package com.example.backend.web.User;
+package com.example.backend.web.User.store.factory;
 
 import com.example.backend.utils.general.WebIsNullFactory;
+import com.example.backend.web.User.store.UserEntity;
+import com.example.backend.web.User.store.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

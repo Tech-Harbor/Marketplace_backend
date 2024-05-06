@@ -6,16 +6,17 @@ import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
-import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.security.service.impl.AuthServiceImpl;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
+import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,7 +28,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 import java.util.Properties;
 
-import static com.example.backend.utils.general.Constants.*;
+import static com.example.backend.utils.general.Constants.EMAIL_KEY;
+import static com.example.backend.utils.general.Constants.PASSWORD;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -54,12 +56,14 @@ public class AuthServiceImplTest {
 
     @Test
     void sigUpTest() {
-        final RegisterRequest registerRequest = RegisterRequest.builder()
+        final var registerRequest = RegisterRequest.builder()
                 .firstname("firstname")
                 .lastname("lastname")
                 .email(EMAIL_KEY)
                 .password(PASSWORD)
                 .build();
+
+        final var userCaptor = ArgumentCaptor.forClass(UserSecurityDTO.class);
 
         when(userService.getByEmail(EMAIL_KEY)).thenReturn(Optional.empty());
         when(myPasswordEncoder.passwordEncoder()).thenReturn(mock(PasswordEncoder.class));
@@ -68,18 +72,20 @@ public class AuthServiceImplTest {
         authService.signup(registerRequest);
 
         verify(userService).getByEmail(any());
-        verify(userService).mySave(any(UserEntity.class));
-        verify(mailService).sendEmail(any(UserEntity.class), eq(MailType.REGISTRATION), any(Properties.class));
+        verify(userService).mySecuritySave(any(UserEntity.class));
+        verify(mailService).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
     }
 
     @Test
     void sigUpNotTest() {
-        final RegisterRequest registerRequest = RegisterRequest.builder()
+        final var registerRequest = RegisterRequest.builder()
                 .firstname("firstname")
                 .lastname("lastname")
                 .email(EMAIL_KEY)
                 .password(PASSWORD)
                 .build();
+
+        final var userCaptor = ArgumentCaptor.forClass(UserSecurityDTO.class);
 
         when(userService.getByEmail(EMAIL_KEY)).thenReturn(Optional.empty());
         when(myPasswordEncoder.passwordEncoder()).thenReturn(mock(PasswordEncoder.class));
@@ -88,20 +94,20 @@ public class AuthServiceImplTest {
         authService.signup(registerRequest);
 
         verify(userService).getByEmail(EMAIL_KEY);
-        verify(mailService).sendEmail(any(UserEntity.class), eq(MailType.REGISTRATION), any(Properties.class));
-        verify(userService).mySave(any(UserEntity.class));
+        verify(mailService).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
+        verify(userService).mySecuritySave(any(UserEntity.class));
 
         verifyNoMoreInteractions(userService, userRepository, mailService);
     }
 
     @Test
     void loginTest() {
-        final AuthRequest authRequest = AuthRequest.builder()
+        final var authRequest = AuthRequest.builder()
                 .email(EMAIL_KEY)
                 .password(PASSWORD)
                 .build();
 
-        final Authentication authentication = mock(Authentication.class);
+        final var authentication = mock(Authentication.class);
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
@@ -109,7 +115,7 @@ public class AuthServiceImplTest {
         when(jwtTokenService.generateRefreshToken(authentication)).thenReturn("RefreshToken");
         when(userService.getByEmail(authRequest.email())).thenReturn(Optional.of(mock(UserEntity.class)));
 
-        final AuthResponse authRequestLogin = authService.login(authRequest);
+        final var authRequestLogin = authService.login(authRequest);
 
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verify(jwtTokenService).generateAccessToken(authentication);
@@ -122,12 +128,12 @@ public class AuthServiceImplTest {
 
     @Test
     void loginNotTest() {
-        final AuthRequest authRequest = AuthRequest.builder()
+        final var authRequest = AuthRequest.builder()
                 .email(EMAIL_KEY)
                 .password(PASSWORD)
                 .build();
 
-        final Authentication authentication = mock(Authentication.class);
+        final var authentication = mock(Authentication.class);
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
@@ -171,32 +177,32 @@ public class AuthServiceImplTest {
         // Перевірка, що паролі закодовано та збережено
         assertEquals(PASSWORD, user.getPassword());
 
-        verify(userService).mySave(user);
+        verify(userService).mySecuritySave(user);
     }
 
     @Test
     void requestEmailUpdatePasswordTest() {
-        final Long userId = 1L;
-
-        final EmailRequest emailRequest = EmailRequest.builder()
+        final var emailRequest = EmailRequest.builder()
                 .email(EMAIL_KEY)
                 .build();
 
-        final UserEntity userEntity = UserEntity.builder()
-                .id(userId)
+        final var userEntity = UserEntity.builder()
+                .email(EMAIL_KEY)
                 .build();
+
+        final var userSecurity = userService.mySecuritySave(userEntity);
 
         when(userService.getByEmail(emailRequest.email())).thenReturn(Optional.of(userEntity));
 
         authService.requestEmailUpdatePassword(emailRequest);
 
         verify(userService).getByEmail(emailRequest.email());
-        verify(mailService).sendEmail(userEntity, MailType.NEW_PASSWORD, new Properties());
+        verify(mailService).sendEmail(userSecurity, MailType.NEW_PASSWORD, new Properties());
     }
 
     @Test
     void activeUserTest() {
-        final UserEntity userEntity = UserEntity.builder()
+        final var userEntity = UserEntity.builder()
                 .email(EMAIL_KEY)
                 .build();
 
@@ -210,18 +216,20 @@ public class AuthServiceImplTest {
 
         verify(jwtService).extractUserData(anyString());
         verify(userService).getByEmail(EMAIL_KEY);
-        verify(userService).mySave(userEntity);
+        verify(userService).mySecuritySave(userEntity);
     }
 
     @Test
     void sendEmailActiveTest() {
-        final EmailRequest emailRequest = EmailRequest.builder()
+        final var emailRequest = EmailRequest.builder()
                 .email(EMAIL_KEY)
                 .build();
 
-        final UserEntity user = UserEntity.builder()
+        final var user = UserEntity.builder()
                 .email(EMAIL_KEY)
                 .build();
+
+        final var userCaptor = ArgumentCaptor.forClass(UserSecurityDTO.class);
 
         when(userService.getByEmail(EMAIL_KEY)).thenReturn(Optional.of(user));
 
@@ -229,6 +237,6 @@ public class AuthServiceImplTest {
 
         verify(userService).getByEmail(EMAIL_KEY);
 
-        verify(mailService).sendEmail(any(UserEntity.class), eq(MailType.REGISTRATION), any(Properties.class));
+        verify(mailService).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
     }
 }

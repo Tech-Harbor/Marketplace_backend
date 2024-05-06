@@ -1,7 +1,7 @@
 package com.example.backend.mail;
 
 import com.example.backend.security.service.JwtTokenService;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import freemarker.template.Configuration;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class MailServiceImpl implements MailService {
     private JavaMailSender mailSender;
 
     @Override
-    public void sendEmail(final UserEntity user, final MailType type, final Properties params) {
+    public void sendEmail(final UserSecurityDTO user, final MailType type, final Properties params) {
         switch (type) {
             case REGISTRATION -> sendRegistrationEmail(user);
             case NEW_PASSWORD -> sendNewPassword(user);
@@ -36,27 +36,25 @@ public class MailServiceImpl implements MailService {
     }
 
     @SneakyThrows
-    private void sendRegistrationEmail(final UserEntity user) {
+    private void sendRegistrationEmail(final UserSecurityDTO user) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         String emailContent = getRegistrationEmailContent(user);
 
-        MimeMessageHelper helper = new MimeMessageHelper(
-                mimeMessage, false, UTF_8
-        );
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, UTF_8);
 
-        helper.setSubject("???, " + user.getLastname());
-        helper.setTo(user.getEmail());
+        helper.setSubject("???, " + user.lastname());
+        helper.setTo(user.email());
         helper.setText(emailContent, true);
 
         mailSender.send(mimeMessage);
     }
 
     @SneakyThrows
-    private String getRegistrationEmailContent(final UserEntity user) {
+    private String getRegistrationEmailContent(final UserSecurityDTO user) {
         StringWriter writer = new StringWriter();
         Map<String, Object> model = new HashMap<>();
 
-        model.put("username", user.getLastname());
+        model.put("username", user.lastname());
         model.put(JWT, jwtTokenService.generateUserEmailDataToken(user));
 
         configuration.getTemplate("register.ftlh").process(model, writer);
@@ -65,28 +63,26 @@ public class MailServiceImpl implements MailService {
     }
 
     @SneakyThrows
-    private void sendNewPassword(final UserEntity user) {
+    private void sendNewPassword(final UserSecurityDTO user) {
         MimeMessage mimePasswordMessage = mailSender.createMimeMessage();
         String passwordContent = getNewPasswordContent(user);
 
-        MimeMessageHelper helper = new MimeMessageHelper(
-                mimePasswordMessage, false, UTF_8
-        );
+        MimeMessageHelper helper = new MimeMessageHelper(mimePasswordMessage, false, UTF_8);
 
-        helper.setSubject("Update Password, " + user.getLastname());
-        helper.setTo(user.getEmail());
+        helper.setSubject("Update Password, " + user.lastname());
+        helper.setTo(user.email());
         helper.setText(passwordContent, true);
 
         mailSender.send(mimePasswordMessage);
     }
 
     @SneakyThrows
-    private String getNewPasswordContent(final UserEntity user) {
+    private String getNewPasswordContent(final UserSecurityDTO user) {
         StringWriter writer = new StringWriter();
 
         Map<String, Object> model = new HashMap<>();
 
-        model.put("username", user.getLastname());
+        model.put("username", user.lastname());
         model.put(JWT, jwtTokenService.generateUserPasswordDataToken(user));
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);

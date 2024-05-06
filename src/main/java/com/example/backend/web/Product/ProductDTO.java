@@ -13,5 +13,6 @@ public record ProductDTO(Long id,
                           String characteristicProduct,
                           double price,
                           LocalDateTime createDate,
-                          List<ImageEntity> image,
+                          List<ImageEntity> images,
+                          String location,
                           Long categoryId) { }

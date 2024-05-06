@@ -1,6 +1,6 @@
 package com.example.backend.security.service.details;
 
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,20 +10,20 @@ import java.util.Collection;
 import java.util.List;
 
 @Builder
-public record MyUserDetails(UserEntity user) implements UserDetails {
+public record MyUserDetails(UserSecurityDTO user) implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(user.getRole().name()));
+        return List.of(new SimpleGrantedAuthority(user.role().name()));
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.password();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.email();
     }
 
     @Override
@@ -43,7 +43,6 @@ public record MyUserDetails(UserEntity user) implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getEnabled();
+        return user.enabled();
     }
-
 }

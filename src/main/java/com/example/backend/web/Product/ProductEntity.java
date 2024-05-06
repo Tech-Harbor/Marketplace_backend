@@ -1,10 +1,8 @@
 package com.example.backend.web.Product;
 
 import com.example.backend.web.Category.CategoryEntity;
-import com.example.backend.web.Comment.CommentEntity;
 import com.example.backend.web.File.ImageEntity;
-import com.example.backend.web.Order.OrderEntity;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,22 +34,19 @@ public class ProductEntity {
     @Column(nullable = false)
     private double price;
 
+    @Column(nullable = false)
+    private String location;
+
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product", fetch = FetchType.LAZY)
-    private List<CommentEntity> commentEntities;
-  
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product", fetch = FetchType.LAZY)
-    private List<OrderEntity> orderEntities;
-  
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "photo_id")
-    private List<ImageEntity> image;
+    private List<ImageEntity> images;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -13,7 +13,8 @@ public class ProductFactory {
                 .price(entity.getPrice())
                 .createDate(entity.getCreateDate())
                 .categoryId(entity.getCategory().getId())
-                .image(entity.getImage())
+                .images(entity.getImages())
+                .location(entity.getLocation())
                 .build();
     }
 }

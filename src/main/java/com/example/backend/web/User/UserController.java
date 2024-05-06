@@ -1,6 +1,7 @@
 package com.example.backend.web.User;
 
 
+import com.example.backend.web.User.store.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;

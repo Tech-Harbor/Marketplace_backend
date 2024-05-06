@@ -1,5 +1,6 @@
 package com.example.backend.web.User;
 
+import com.example.backend.web.User.store.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

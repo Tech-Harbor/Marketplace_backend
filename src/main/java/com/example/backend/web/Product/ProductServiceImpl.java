@@ -2,7 +2,7 @@ package com.example.backend.web.Product;
 
 import com.example.backend.web.Category.CategoryEntity;
 import com.example.backend.web.Category.CategoryService;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -13,6 +13,7 @@ import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,9 @@ public class ProductServiceImpl implements ProductService {
                 .characteristicProduct(product.characteristicProduct())
                 .descriptionProduct(product.descriptionProduct())
                 .price(product.price())
-                .createDate(product.createDate())
+                .images(product.images())
+                .location(product.location())
+                .createDate(LocalDateTime.now())
                 .category(categoryId)
                 .build();
 

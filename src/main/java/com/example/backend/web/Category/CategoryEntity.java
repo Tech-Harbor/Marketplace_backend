@@ -24,5 +24,5 @@ public class CategoryEntity {
     private String categoryName;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category", fetch = FetchType.LAZY)
-    private List<ProductEntity> productEntityList;
+    private List<ProductEntity> products;
 }

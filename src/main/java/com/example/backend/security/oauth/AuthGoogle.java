@@ -2,7 +2,7 @@ package com.example.backend.security.oauth;
 
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -56,7 +56,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                             ), () -> {
                                 final var saveUser = createUserEntity(defaultOAuth2User, defaultOAuth2UserEmail);
 
-                                userService.mySave(saveUser);
+                                userService.mySecuritySave(saveUser);
 
                                 SecurityContextHolder.getContext().setAuthentication(
                                         createOAuth2AuthenticationToken(

@@ -1,9 +1,10 @@
 package com.example.backend.utils.annotations;
 
+import com.example.backend.web.User.store.dto.UserInfoDTO;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import com.example.backend.security.models.response.ErrorResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -12,11 +13,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiResponse(responseCode = "404", description = "Requested entity not found", content = {
-        @Content(mediaType = "application/json", schema =
-        @Schema(implementation = ErrorResponse.class))
-})
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
-public @interface ApiResponseNotFound { }
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Ok", content = {
+                @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                @Schema(implementation = UserInfoDTO.class))}
+        ),
+    }
+)
+@ResponseStatus(value = HttpStatus.OK)
+public @interface ApiResponseInfoOK { }

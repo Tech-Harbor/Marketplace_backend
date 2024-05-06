@@ -74,11 +74,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-//GOOGLE
-dependencies {
-    implementation group: 'com.google.api-client', name: 'google-api-client', version: '2.2.0'
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }

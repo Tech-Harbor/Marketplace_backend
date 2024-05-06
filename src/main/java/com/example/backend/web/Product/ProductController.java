@@ -25,7 +25,6 @@ public class ProductController {
         return productService.createProduct(userId, entity);
     }
 
-    @GetMapping
     @QueryMapping
     public List<ProductDTO> getAllProducts() {
         return productService.getAllProduct();

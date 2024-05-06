@@ -117,7 +117,7 @@ public class AuthServiceImpl implements AuthService {
 
         final var userSecurityDTO = userService.mySecuritySave(emailUser);
 
-        log.info("Email user: {}", userSecurityDTO.email());
+        log.info("Email user: {}", emailUser.getFirstname());
 
         mailService.sendEmail(userSecurityDTO, MailType.NEW_PASSWORD, new Properties());
     }
@@ -145,7 +145,7 @@ public class AuthServiceImpl implements AuthService {
         user.ifPresent(entity -> {
                 final var userSecurityDTO = userService.mySecuritySave(entity);
 
-                log.info("SendEmail user: {}", userSecurityDTO.firstname());
+                log.info("SendEmail user: {}", entity.getFirstname());
 
                 mailService.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
             }

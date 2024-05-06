@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.LocalDateTime;
 
+import static com.example.backend.utils.general.Constants.EMPTY_LINE;
 import static com.example.backend.utils.general.Constants.PATH;
 
 @ControllerAdvice
@@ -22,9 +23,9 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ErrorResponseDTO> handleNotFoundException(final RuntimeException ex,
                                                                        final WebRequest request) {
 
-        String message = ex.getMessage().replaceAll(PATH, "");
+        String message = ex.getMessage().replaceAll(PATH, EMPTY_LINE);
 
-        String path = request.getDescription(false).replaceAll("uri=", "");
+        String path = request.getDescription(false).replaceAll("uri=", EMPTY_LINE);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDTO(
                 LocalDateTime.now(),
@@ -40,9 +41,9 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                                                                   final HttpStatusCode status,
                                                                   final WebRequest request) {
 
-        String message = ex.getMessage().replaceAll(PATH, "");
+        String message = ex.getMessage().replaceAll(PATH, EMPTY_LINE);
 
-        String path = request.getDescription(false).replaceAll("uri=", "");
+        String path = request.getDescription(false).replaceAll("uri=", EMPTY_LINE);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(
                 LocalDateTime.now(),
@@ -58,9 +59,9 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                                                                   final HttpStatusCode status,
                                                                   final WebRequest request) {
 
-        String message = ex.getMessage().replaceAll(PATH, "");
+        String message = ex.getMessage().replaceAll(PATH, EMPTY_LINE);
 
-        String path = request.getDescription(false).replaceAll("uri=", "");
+        String path = request.getDescription(false).replaceAll("uri=", EMPTY_LINE);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO(
                 LocalDateTime.now(),

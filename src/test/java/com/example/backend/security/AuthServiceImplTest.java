@@ -237,7 +237,6 @@ public class AuthServiceImplTest {
 
         verify(userService).getByEmail(EMAIL_KEY);
 
-
         verify(mailService).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
     }
 }

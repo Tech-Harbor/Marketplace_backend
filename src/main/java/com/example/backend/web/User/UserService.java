@@ -1,5 +1,6 @@
 package com.example.backend.web.User;
 
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserDTO;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 

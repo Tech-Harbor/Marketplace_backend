@@ -2,7 +2,7 @@ package com.example.backend.web.Product;
 
 import com.example.backend.web.Category.CategoryEntity;
 import com.example.backend.web.Category.CategoryService;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;

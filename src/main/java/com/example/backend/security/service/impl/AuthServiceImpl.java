@@ -11,7 +11,7 @@ import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserService;
 import com.example.backend.web.User.store.dto.UserInfoDTO;
 import com.example.backend.web.User.store.factory.UserInfoFactory;

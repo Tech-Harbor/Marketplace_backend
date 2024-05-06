@@ -4,7 +4,7 @@ package com.example.backend.utils.general;
 import com.example.backend.web.Category.CategoryEntity;
 import com.example.backend.web.Product.ProductDTO;
 import com.example.backend.web.Product.ProductFactory;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

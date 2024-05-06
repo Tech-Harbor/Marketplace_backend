@@ -1,4 +1,4 @@
-package com.example.backend.web.User;
+package com.example.backend.web.User.store;
 
 import com.example.backend.utils.enums.RegisterAuthStatus;
 import com.example.backend.utils.enums.Role;

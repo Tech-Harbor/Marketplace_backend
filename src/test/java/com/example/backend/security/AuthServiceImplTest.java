@@ -10,7 +10,7 @@ import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.security.service.impl.AuthServiceImpl;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;

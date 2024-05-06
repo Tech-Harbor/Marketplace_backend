@@ -2,7 +2,7 @@ package com.example.backend.web.Product;
 
 import com.example.backend.web.Category.CategoryEntity;
 import com.example.backend.web.File.ImageEntity;
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

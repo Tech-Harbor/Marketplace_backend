@@ -1,6 +1,6 @@
 package com.example.backend.utils.general;
 
-import com.example.backend.web.User.UserEntity;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;

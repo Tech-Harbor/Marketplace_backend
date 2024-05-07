@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "products") //TODO замінити назву БД коли Назар закінчить головну сторінку на advertisements
+@Table(name = "advertisements")
 @Getter
 @Setter
 @NoArgsConstructor

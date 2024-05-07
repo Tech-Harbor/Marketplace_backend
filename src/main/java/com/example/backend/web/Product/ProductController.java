@@ -30,7 +30,6 @@ public class ProductController {
         return productService.getAllProduct();
     }
 
-    @GetMapping(URI_PRODUCTS_ID)
     @QueryMapping
     public ProductDTO getByIdProduct(@PathVariable @Argument final Long id) {
         return productService.getOneProduct(id);

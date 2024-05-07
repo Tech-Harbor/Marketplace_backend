@@ -19,7 +19,6 @@ public class UserController {
 
     private static final String URI_USERS_ID = "/{id}";
 
-    @GetMapping
     @QueryMapping
     public List<UserDTO> getAllUsers() {
         return userService.getByAllUser();
@@ -32,7 +31,6 @@ public class UserController {
         return userService.updateByIdUser(id, user);
     }
 
-    @GetMapping(URI_USERS_ID)
     @QueryMapping
     public UserDTO getByIdUser(@PathVariable @Argument final Long id) {
         return userService.getByIdUser(id);

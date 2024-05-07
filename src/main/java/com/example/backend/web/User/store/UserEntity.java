@@ -39,7 +39,7 @@ public class UserEntity {
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user", fetch = FetchType.LAZY)
-    private List<ProductEntity> product;
+    private List<ProductEntity> products;
 
     @OneToOne
     private ImageEntity image;

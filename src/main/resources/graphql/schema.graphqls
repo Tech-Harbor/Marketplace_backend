@@ -54,9 +54,10 @@ type UserDTO {
     firstname: String
     phone: String
     email: String
-    product: [ProductDTO]
     status: RegisterAuthStatus
     role: Role
+    products: [ProductDTO]
+    image: [ImageDTO]
 }
 
 input ProductInput {

@@ -1,7 +1,7 @@
 package com.example.backend.web.Category;
 
 import com.example.backend.web.File.ImageEntity;
-import com.example.backend.web.Product.ProductEntity;
+import com.example.backend.web.Advertisement.AdvertisementEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +25,7 @@ public class CategoryEntity {
     private String categoryName;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category", fetch = FetchType.LAZY)
-    private List<ProductEntity> products;
+    private List<AdvertisementEntity> advertisements;
 
     @OneToOne
     private ImageEntity image;

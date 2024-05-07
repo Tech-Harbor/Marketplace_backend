@@ -2,15 +2,15 @@ scalar LocalTimeDate
 
 type Query {
     getAllUsers: [UserDTO]
-    getAllProducts: [ProductDTO]
+    getAllAdvertisement: [AdvertisementDTO]
     getAllCategory: [CategoryDTO]
     getByIdUser(id: ID): UserDTO
     getByIdCategory(id: ID): CategoryDTO
-    getByIdProduct(id: ID!): ProductDTO
+    getByIdAdvertisement(id: ID!): AdvertisementDTO
 }
 
 type Mutation {
-    createProductIdByUser(userId: ID!, entity: ProductInput): ProductDTO
+    createAdvertisementIdByUser(userId: ID!, entity: AdvertisementInput): AdvertisementDTO
     updateByIdUser(id: ID!, entity: UserInput): UserDTO
 }
 
@@ -21,7 +21,7 @@ input UserInput {
     phone: String
     email: String
     password: String
-    product: [ProductInput]
+    advertisements: [AdvertisementInput]
     status: RegisterAuthStatus
     role: [Role]
 }
@@ -29,15 +29,15 @@ input UserInput {
 type CategoryDTO {
     id: ID
     categoryName: String
-    products: [ProductDTO]
+    advertisements: [AdvertisementDTO]
     image: [ImageDTO]
 }
 
-type ProductDTO {
+type AdvertisementDTO {
     id: ID
     name: String
-    descriptionProduct: String
-    characteristicProduct: String
+    descriptionAdvertisement: String
+    characteristicAdvertisement: String
     price: Int
     date: LocalTimeDate
     location: String
@@ -56,14 +56,14 @@ type UserDTO {
     email: String
     status: RegisterAuthStatus
     role: Role
-    products: [ProductDTO]
+    advertisements: [AdvertisementDTO]
     image: [ImageDTO]
 }
 
-input ProductInput {
+input AdvertisementInput {
     name: String!
-    descriptionProduct: String!
-    characteristicProduct: String
+    descriptionAdvertisement: String
+    characteristicAdvertisement: String
     price: Int!
 }
 

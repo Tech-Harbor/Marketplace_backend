@@ -14,7 +14,7 @@ public class CategoryFactory {
         return CategoryDTO.builder()
                 .id(category.getId())
                 .categoryName(category.getCategoryName())
-                .products(webIsNullFactory.isNullProductCategory(category))
+                .advertisements(webIsNullFactory.isNullAdvertisementCategory(category))
                 .image(category.getImage())
                 .build();
     }

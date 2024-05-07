@@ -1,14 +1,14 @@
-package com.example.backend.web.Product;
+package com.example.backend.web.Advertisement;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductFactory {
-    public ProductDTO makeProduct(final ProductEntity entity) {
-        return ProductDTO.builder()
+public class AdvertisementFactory {
+    public AdvertisementDTO makeAdvertisement(final AdvertisementEntity entity) {
+        return AdvertisementDTO.builder()
                 .id(entity.getId())
-                .descriptionProduct(entity.getDescriptionProduct())
-                .characteristicProduct(entity.getCharacteristicProduct())
+                .descriptionAdvertisement(entity.getDescriptionAdvertisement())
+                .characteristicAdvertisement(entity.getCharacteristicAdvertisement())
                 .name(entity.getName())
                 .price(entity.getPrice())
                 .createDate(entity.getCreateDate())

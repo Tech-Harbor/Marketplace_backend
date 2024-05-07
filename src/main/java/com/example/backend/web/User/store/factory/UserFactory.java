@@ -24,7 +24,7 @@ public class UserFactory implements Function<UserEntity, UserDTO> {
                 .phone(user.getPhone())
                 .password(user.getPassword())
                 .status(user.getRegisterAuthStatus())
-                .product(webIsNullFactory.isNullProductUser(user))
+                .advertisements(webIsNullFactory.isNullAdvertisementUser(user))
                 .role(user.getRole())
                 .build();
     }

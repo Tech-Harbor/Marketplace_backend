@@ -1,6 +1,7 @@
 package com.example.backend.web.File;
 
 import com.example.backend.web.File.upload.FileUpload;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @SneakyThrows
+    @Transactional
     public ImageDTO uploadImage(final MultipartFile file) {
         final Optional<BufferedImage> imageOptional = Optional.ofNullable(ImageIO.read(file.getInputStream()));
 

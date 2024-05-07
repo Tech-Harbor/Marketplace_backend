@@ -11,8 +11,8 @@ import com.example.backend.security.service.AuthService;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserService;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserInfoDTO;
 import com.example.backend.web.User.store.factory.UserInfoFactory;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 
 import java.util.Properties;
 
@@ -42,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
 
     @Override
+    @Transactional
     public void signup(final RegisterRequest registerRequest) {
         final var existUser = userService.getByEmail(registerRequest.email());
 
@@ -94,6 +96,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public void formUpdatePassword(final String jwt, final PasswordRequest passwordRequest) {
         final var token = jwtService.extractUserData(jwt.substring(7));
 
@@ -123,6 +126,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public void activeUser(final String jwt) {
         final var token = jwtService.extractUserData(jwt.substring(7));
 

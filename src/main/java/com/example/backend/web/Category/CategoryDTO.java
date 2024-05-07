@@ -1,6 +1,7 @@
 package com.example.backend.web.Category;
 
 
+import com.example.backend.web.File.ImageEntity;
 import com.example.backend.web.Product.ProductDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,4 +13,5 @@ import java.util.List;
 @Builder
 public record CategoryDTO(Long id,
                           @NotNull @NotBlank @Size(min = 5, max = 20) String categoryName,
-                          List<ProductDTO> products) { }
+                          List<ProductDTO> products,
+                          ImageEntity image) { }

@@ -1,5 +1,6 @@
 package com.example.backend.web.Category;
 
+import com.example.backend.web.File.ImageEntity;
 import com.example.backend.web.Product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,4 +26,7 @@ public class CategoryEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category", fetch = FetchType.LAZY)
     private List<ProductEntity> products;
+
+    @OneToOne
+    private ImageEntity image;
 }

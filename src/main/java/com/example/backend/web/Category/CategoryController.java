@@ -19,13 +19,13 @@ public class CategoryController {
     private static final String URI_CATEGORIES_FILTER = "/filter/{categoryName}";
 
     @GetMapping
-    public List<CategoryDTO> getAll() {
+    @QueryMapping
+    public List<CategoryDTO> getAllCategory() {
         return categoryService.getAll();
     }
 
-    @GetMapping(URI_CATEGORIES_ID)
-    @QueryMapping(name = "getByIdCategory")
-    public CategoryDTO getOneById(@PathVariable @Argument final Long id) {
+    @QueryMapping
+    public CategoryDTO getByIdCategory(@PathVariable @Argument final Long id) {
         return categoryService.getOneById(id);
     }
 

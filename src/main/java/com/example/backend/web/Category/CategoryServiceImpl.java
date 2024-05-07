@@ -44,6 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO create(final CategoryDTO categoryDTO) {
         CategoryEntity newCategory = CategoryEntity.builder()
                 .categoryName(categoryDTO.categoryName())
+                .image(categoryDTO.image())
                 .build();
 
         return categoryFactory.makeCategory(categoryRepository.save(newCategory));

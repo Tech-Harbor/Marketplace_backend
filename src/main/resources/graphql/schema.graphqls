@@ -1,10 +1,11 @@
 scalar LocalTimeDate
 
 type Query {
-    getByIdUser(id: ID): UserDTO
-    getByIdCategory(id: ID): CategoryDTO
     getAllUsers: [UserDTO]
     getAllProducts: [ProductDTO]
+    getAllCategory: [CategoryDTO]
+    getByIdUser(id: ID): UserDTO
+    getByIdCategory(id: ID): CategoryDTO
     getByIdProduct(id: ID!): ProductDTO
 }
 
@@ -28,7 +29,8 @@ input UserInput {
 type CategoryDTO {
     id: ID
     categoryName: String
-    product: [ProductDTO]
+    products: [ProductDTO]
+    image: [ImageDTO]
 }
 
 type ProductDTO {

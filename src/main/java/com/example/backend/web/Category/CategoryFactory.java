@@ -15,6 +15,7 @@ public class CategoryFactory {
                 .id(category.getId())
                 .categoryName(category.getCategoryName())
                 .products(webIsNullFactory.isNullProductCategory(category))
+                .image(category.getImage())
                 .build();
     }
 }

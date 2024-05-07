@@ -28,7 +28,7 @@ public class WebIsNullFactory {
     }
 
     public List<ProductDTO> isNullProductUser(final UserEntity user) {
-        return Optional.ofNullable(user.getProduct())
+        return Optional.ofNullable(user.getProducts())
                 .map(list -> list.stream()
                         .map(productFactory::makeProduct)
                         .collect(Collectors.toList()))

@@ -1,15 +1,8 @@
 package com.example.backend.web.Advertisement;
 
-import com.example.backend.web.Category.CategoryEntity;
 import com.example.backend.web.Category.CategoryService;
 import com.example.backend.web.User.UserService;
-import com.example.backend.web.User.store.UserEntity;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,10 +24,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     @Transactional
     public AdvertisementDTO createAdvertisement(final Long id, final AdvertisementDTO advertisement) {
-        final UserEntity userId = userService.getById(id);
-        final CategoryEntity categoryId = categoryService.getById(advertisement.categoryId());
+        final var userId = userService.getById(id);
+        final var categoryId = categoryService.getById(advertisement.categoryId());
 
-        final AdvertisementEntity newAdvertisement = AdvertisementEntity.builder()
+        final var newAdvertisement = AdvertisementEntity.builder()
                 .id(advertisement.id())
                 .user(userId)
                 .name(advertisement.name())
@@ -47,26 +40,26 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .category(categoryId)
                 .build();
 
-        return advertisementFactory.makeAdvertisement(advertisementRepository.save(newAdvertisement));
+        return advertisementFactory.apply(advertisementRepository.save(newAdvertisement));
     }
 
     @Override
     public List<AdvertisementDTO> getAllAdvertisement() {
         return advertisementRepository.findAll().stream()
-                .map(advertisementFactory::makeAdvertisement)
+                .map(advertisementFactory)
                 .collect(Collectors.toList());
     }
 
     @Override
     public AdvertisementDTO getOneAdvertisement(final Long id) {
-        final AdvertisementEntity entityId = getIdAdvertisement(id);
+        final var entityId = getIdAdvertisement(id);
 
-        return advertisementFactory.makeAdvertisement(entityId);
+        return advertisementFactory.apply(entityId);
     }
 
     @Override
     public AdvertisementDTO editAdvertisement(final Long id, final AdvertisementDTO entity) {
-        final AdvertisementEntity entityId = getIdAdvertisement(id);
+        final var entityId = getIdAdvertisement(id);
 
             entityId.setName(entity.name());
             entityId.setCharacteristicAdvertisement(entity.characteristicAdvertisement());
@@ -74,7 +67,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             entityId.setCreateDate(entity.createDate());
             entityId.setPrice(entity.price());
 
-        return advertisementFactory.makeAdvertisement(advertisementRepository.save(entityId));
+        return advertisementFactory.apply(advertisementRepository.save(entityId));
     }
 
     @Override
@@ -89,18 +82,19 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public List<AdvertisementEntity> getFilterAdvertisementName(final String name) {
+        final var criteriaBuilder = em.getCriteriaBuilder();
 
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        final var criteriaQuery = criteriaBuilder.createQuery(AdvertisementEntity.class);
 
-        CriteriaQuery<AdvertisementEntity> criteriaQuery = criteriaBuilder.createQuery(AdvertisementEntity.class);
+        final var advertisementEntityRoot = criteriaQuery.from(AdvertisementEntity.class);
 
-        Root<AdvertisementEntity> advertisementEntityRoot = criteriaQuery.from(AdvertisementEntity.class);
+        final var nameAdvertisementPredicate = criteriaBuilder.equal(
+                    advertisementEntityRoot.get("name"), name
+                );
 
-        Predicate nameAdvertisementPredicate = criteriaBuilder.equal(advertisementEntityRoot.get("name"), name);
+        final var typedQuery = em.createQuery(criteriaQuery);
 
         criteriaQuery.where(nameAdvertisementPredicate);
-
-        TypedQuery<AdvertisementEntity> typedQuery = em.createQuery(criteriaQuery);
 
         return typedQuery.getResultList();
     }

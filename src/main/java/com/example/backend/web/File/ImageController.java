@@ -13,7 +13,7 @@ import java.util.List;
 public class ImageController {
 
     private final ImageService imageService;
-    private static final String URI_IMAGES_ID = "/{id}";
+    private static final String URI_IMAGES_ID = "/{imageId}";
 
     @GetMapping
     public List<ImageDTO> getAllImage() {
@@ -28,7 +28,7 @@ public class ImageController {
 
     @GetMapping(URI_IMAGES_ID)
     @ResponseBody
-    public ImageDTO imageGetById(@RequestParam final Long imageId) {
+    public ImageDTO imageGetById(@PathVariable final Long imageId) {
         return imageService.imageById(imageId);
     }
 }

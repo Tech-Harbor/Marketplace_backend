@@ -1,11 +1,6 @@
 package com.example.backend.web.Category;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDTO> getAll() {
         return categoryRepository.findAll()
                 .stream()
-                .map(categoryFactory::makeCategory)
+                .map(categoryFactory)
                 .collect(Collectors.toList());
     }
 
@@ -35,28 +30,29 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getOneById(final Long id) {
-        CategoryEntity category = getIdCategory(id);
+        final var category = getIdCategory(id);
 
-        return categoryFactory.makeCategory(category);
+        return categoryFactory.apply(category);
     }
 
     @Override
     public CategoryDTO create(final CategoryDTO categoryDTO) {
-        CategoryEntity newCategory = CategoryEntity.builder()
+        final var newCategory = CategoryEntity.builder()
                 .categoryName(categoryDTO.categoryName())
                 .image(categoryDTO.image())
                 .build();
 
-        return categoryFactory.makeCategory(categoryRepository.save(newCategory));
+        return categoryFactory.apply(categoryRepository.save(newCategory));
     }
 
     @Override
     public CategoryDTO update(final Long categoryId, final CategoryDTO categoryDTO) {
-        CategoryEntity category = getIdCategory(categoryId);
+        final var category = getIdCategory(categoryId);
 
-        category.setCategoryName(category.getCategoryName());
+        category.setCategoryName(categoryDTO.categoryName());
+        category.setImage(categoryDTO.image());
 
-        return categoryFactory.makeCategory(categoryRepository.save(category));
+        return categoryFactory.apply(categoryRepository.save(category));
     }
 
     @Override
@@ -70,19 +66,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryEntity> getFilterCategory(final String categoryName) {
+        final var criteriaBuilder = em.getCriteriaBuilder();
 
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        final var criteriaQuery = criteriaBuilder.createQuery(CategoryEntity.class);
 
-        CriteriaQuery<CategoryEntity> criteriaQuery = criteriaBuilder.createQuery(CategoryEntity.class);
+        final var categoryEntityRootRoot = criteriaQuery.from(CategoryEntity.class);
 
-        Root<CategoryEntity> categoryEntityRootRoot = criteriaQuery.from(CategoryEntity.class);
-
-        Predicate categoryNamePredicate = criteriaBuilder.equal(
-                categoryEntityRootRoot.get("categoryName"), categoryName);
+        final var categoryNamePredicate = criteriaBuilder.equal(
+                categoryEntityRootRoot.get("categoryName"), categoryName
+        );
 
         criteriaQuery.where(categoryNamePredicate);
 
-        TypedQuery<CategoryEntity> typedQuery = em.createQuery(criteriaQuery);
+        final var typedQuery = em.createQuery(criteriaQuery);
 
         return typedQuery.getResultList();
     }

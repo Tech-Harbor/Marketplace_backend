@@ -4,13 +4,16 @@ import com.example.backend.utils.general.WebIsNullFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Function;
+
 @Component
 @RequiredArgsConstructor
-public class CategoryFactory {
+public class CategoryFactory implements Function<CategoryEntity, CategoryDTO> {
 
     private final WebIsNullFactory webIsNullFactory;
 
-    public CategoryDTO makeCategory(final CategoryEntity category) {
+    @Override
+    public CategoryDTO apply(final CategoryEntity category) {
         return CategoryDTO.builder()
                 .id(category.getId())
                 .categoryName(category.getCategoryName())

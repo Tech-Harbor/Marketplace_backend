@@ -31,7 +31,7 @@ public class AdvertisementController {
     }
 
     @QueryMapping
-    public AdvertisementDTO getByIdAdvertisement(@PathVariable @Argument final Long id) {
+    public AdvertisementDTO getByIdAdvertisement(@Argument final Long id) {
         return advertisementService.getOneAdvertisement(id);
     }
 

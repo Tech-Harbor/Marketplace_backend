@@ -2,7 +2,6 @@ package com.example.backend.web.Category;
 
 import java.util.List;
 public interface CategoryService {
-
     List<CategoryDTO> getAll();
     CategoryEntity getById(Long id);
     CategoryDTO getOneById(Long id);

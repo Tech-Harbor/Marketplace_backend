@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Validated
 @RequestMapping("/api/categories")
 public class CategoryController {
 
@@ -25,7 +24,7 @@ public class CategoryController {
     }
 
     @QueryMapping
-    public CategoryDTO getByIdCategory(@PathVariable @Argument final Long id) {
+    public CategoryDTO getByIdCategory(@Argument final Long id) {
         return categoryService.getOneById(id);
     }
 

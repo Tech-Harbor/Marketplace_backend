@@ -22,7 +22,7 @@ public class WebIsNullFactory {
     public List<AdvertisementDTO> isNullAdvertisementCategory(final CategoryEntity category) {
         return Optional.ofNullable(category.getAdvertisements())
                 .map(list -> list.stream()
-                        .map(advertisementFactory::makeAdvertisement)
+                        .map(advertisementFactory)
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }
@@ -30,7 +30,7 @@ public class WebIsNullFactory {
     public List<AdvertisementDTO> isNullAdvertisementUser(final UserEntity user) {
         return Optional.ofNullable(user.getAdvertisements())
                 .map(list -> list.stream()
-                        .map(advertisementFactory::makeAdvertisement)
+                        .map(advertisementFactory)
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }

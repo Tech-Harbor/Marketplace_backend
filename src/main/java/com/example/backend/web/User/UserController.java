@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @QueryMapping
-    public UserDTO getByIdUser(@PathVariable @Argument final Long id) {
+    public UserDTO getByIdUser(@Argument final Long id) {
         return userService.getByIdUser(id);
     }
 

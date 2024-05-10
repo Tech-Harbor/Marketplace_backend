@@ -25,7 +25,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Transactional
     public AdvertisementDTO createAdvertisement(final Long id, final AdvertisementDTO advertisement) {
         final var userId = userService.getById(id);
-        final var categoryName = categoryService.getByCategoryName(advertisement.category());
+        final var categoryName = categoryService.getCategoryName(advertisement.category());
 
         final var newAdvertisement = AdvertisementEntity.builder()
                 .id(advertisement.id())

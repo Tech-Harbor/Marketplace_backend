@@ -30,11 +30,11 @@ public class ImageServiceImpl implements ImageService {
 
         final var result = fileUpload.uploadFile(file);
 
-        final var image = new ImageEntity(
-                (String) result.get("original_filename"),
-                (String) result.get("url"),
-                (String) result.get("public_id")
-        );
+        final var image = ImageEntity.builder()
+                .name((String) result.get("original_filename"))
+                .imageUrl((String) result.get("url"))
+                .imageId((String) result.get("public_id"))
+                .build();
 
         imageOptional.orElseThrow(() -> badRequestException("There is no uploaded image"));
 

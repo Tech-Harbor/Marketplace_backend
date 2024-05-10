@@ -25,7 +25,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Transactional
     public AdvertisementDTO createAdvertisement(final Long id, final AdvertisementDTO advertisement) {
         final var userId = userService.getById(id);
-        final var categoryId = categoryService.getById(advertisement.categoryId());
+        final var categoryName = categoryService.getByCategoryName(advertisement.category());
 
         final var newAdvertisement = AdvertisementEntity.builder()
                 .id(advertisement.id())
@@ -37,7 +37,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .images(advertisement.images())
                 .location(advertisement.location())
                 .createDate(LocalDateTime.now())
-                .category(categoryId)
+                .category(categoryName)
                 .build();
 
         return advertisementFactory.apply(advertisementRepository.save(newAdvertisement));

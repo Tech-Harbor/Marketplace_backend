@@ -26,8 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryEntity getById(final Long id) {
-        return getIdCategory(id);
+    public CategoryEntity getByCategoryName(final String categoryName) {
+        return categoryRepository.getByCategoryName(categoryName);
     }
 
     @Override

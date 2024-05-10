@@ -1,5 +1,6 @@
 package com.example.backend.web.Category;
 
+import com.example.backend.web.File.ImageService;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
+    private final ImageService imageService;
     private final EntityManager em;
 
     @Override
@@ -37,9 +39,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO create(final CategoryDTO categoryDTO) {
+        final var newImage = imageService.getByImage(categoryDTO.image());
+
         final var newCategory = CategoryEntity.builder()
                 .categoryName(categoryDTO.categoryName())
-                .image(categoryDTO.image())
+                .image(newImage)
                 .build();
 
         return categoryFactory.apply(categoryRepository.save(newCategory));
@@ -47,10 +51,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO update(final Long categoryId, final CategoryDTO categoryDTO) {
+        final var updateImage = imageService.getByImage(categoryDTO.image());
+
         final var category = getIdCategory(categoryId);
 
         category.setCategoryName(categoryDTO.categoryName());
-        category.setImage(categoryDTO.image());
+        category.setImage(updateImage);
 
         return categoryFactory.apply(categoryRepository.save(category));
     }

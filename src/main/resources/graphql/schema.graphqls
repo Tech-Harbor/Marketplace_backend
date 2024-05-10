@@ -30,7 +30,7 @@ type CategoryDTO {
     id: ID
     categoryName: String
     advertisements: [AdvertisementDTO]
-    image: [ImageDTO]
+    image: String
 }
 
 type AdvertisementDTO {

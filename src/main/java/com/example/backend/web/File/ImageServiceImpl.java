@@ -49,6 +49,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public ImageEntity getByImage(final String image) {
+        return imageRepository.getByImageUrl(image);
+    }
+
+    @Override
     public ImageDTO imageById(final Long id) {
         return imageRepository.getReferenceById(id);
     }

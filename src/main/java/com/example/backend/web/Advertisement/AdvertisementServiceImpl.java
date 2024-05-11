@@ -26,7 +26,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         final var categoryName = categoryService.getCategoryName(advertisement.category());
 
         final var newAdvertisement = AdvertisementEntity.builder()
-                .id(advertisement.id())
                 .user(userId)
                 .name(advertisement.name())
                 .characteristicAdvertisement(advertisement.characteristicAdvertisement())

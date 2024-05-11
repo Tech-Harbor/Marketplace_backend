@@ -11,7 +11,7 @@ type Query {
 
 type Mutation {
     createAdvertisementIdByUser(userId: ID!, entity: AdvertisementInput): AdvertisementDTO
-    updateByIdUser(id: ID!, entity: UserInput): UserDTO
+    updateByIdUser(id: ID!, user: UserInput): UserDTO
 }
 
 input UserInput {

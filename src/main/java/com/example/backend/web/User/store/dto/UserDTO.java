@@ -9,6 +9,7 @@ import java.util.List;
 
 @Builder
 public record UserDTO(Long id,
+                      String image,
                       String lastname,
                       String firstname,
                       String email,

@@ -19,6 +19,7 @@ public class UserFactory implements Function<UserEntity, UserDTO> {
         return UserDTO.builder()
                 .id(user.getId())
                 .firstname(user.getFirstname())
+                .image(user.getImage().getImageUrl())
                 .email(user.getEmail())
                 .lastname(user.getLastname())
                 .phone(user.getPhone())

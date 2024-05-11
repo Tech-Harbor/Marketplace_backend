@@ -57,7 +57,7 @@ type UserDTO {
     status: RegisterAuthStatus
     role: Role
     advertisements: [AdvertisementDTO]
-    image: [ImageDTO]
+    image: String
 }
 
 input AdvertisementInput {

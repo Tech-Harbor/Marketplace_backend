@@ -157,7 +157,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserInfoDTO info(final String accessToken) {
+    public UserInfoDTO profileUser(final String accessToken) {
         final var token = jwtService.extractUserData(accessToken.substring(7));
 
         final var user = userService.getByUserData(token);

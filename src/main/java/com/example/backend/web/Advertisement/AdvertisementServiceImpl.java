@@ -2,7 +2,6 @@ package com.example.backend.web.Advertisement;
 
 import com.example.backend.web.Category.CategoryService;
 import com.example.backend.web.User.UserService;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     private final AdvertisementFactory advertisementFactory;
     private final CategoryService categoryService;
     private final UserService userService;
-    private final EntityManager em;
 
     @Override
     @Transactional
@@ -78,25 +76,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     public void deleteAll() {
         advertisementRepository.deleteAll();
-    }
-
-    @Override
-    public List<AdvertisementEntity> getFilterAdvertisementName(final String name) {
-        final var criteriaBuilder = em.getCriteriaBuilder();
-
-        final var criteriaQuery = criteriaBuilder.createQuery(AdvertisementEntity.class);
-
-        final var advertisementEntityRoot = criteriaQuery.from(AdvertisementEntity.class);
-
-        final var nameAdvertisementPredicate = criteriaBuilder.equal(
-                    advertisementEntityRoot.get("name"), name
-                );
-
-        final var typedQuery = em.createQuery(criteriaQuery);
-
-        criteriaQuery.where(nameAdvertisementPredicate);
-
-        return typedQuery.getResultList();
     }
 
     private AdvertisementEntity getIdAdvertisement(final Long id) {

@@ -15,7 +15,6 @@ public class AdvertisementController {
 
     private final AdvertisementServiceImpl advertisementService;
     private static final String URI_ADVERTISEMENT_ID = "/{id}";
-    private static final String URI_ADVERTISEMENT_FILTER = "/filter/{name}";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
     @PostMapping(URI_ADVERTISEMENT_ID)
@@ -43,11 +42,6 @@ public class AdvertisementController {
     @DeleteMapping(URI_ADVERTISEMENT_ID)
     public void deleteIdAdvertisement(@PathVariable final Long id) {
         advertisementService.deleteIdAdvertisement(id);
-    }
-
-    @GetMapping(URI_ADVERTISEMENT_FILTER)
-    public List<AdvertisementEntity> getFilterName(@PathVariable final String name) {
-        return advertisementService.getFilterAdvertisementName(name);
     }
 
     @DeleteMapping(URL_DELETE_ALL)

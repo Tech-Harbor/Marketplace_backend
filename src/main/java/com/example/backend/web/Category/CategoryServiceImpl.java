@@ -1,7 +1,6 @@
 package com.example.backend.web.Category;
 
 import com.example.backend.web.File.ImageService;
-import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,6 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
     private final ImageService imageService;
-    private final EntityManager em;
 
     @Override
     public List<CategoryDTO> getAll() {

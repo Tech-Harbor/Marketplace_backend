@@ -8,6 +8,5 @@ public interface AdvertisementService {
     AdvertisementDTO getOneAdvertisement(Long id);
     AdvertisementDTO editAdvertisement(Long id, AdvertisementDTO entity);
     void deleteIdAdvertisement(Long id);
-    List<AdvertisementEntity> getFilterAdvertisementName(String name);
     void deleteAll();
 }

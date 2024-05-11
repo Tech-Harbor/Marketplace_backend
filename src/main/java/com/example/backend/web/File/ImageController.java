@@ -9,18 +9,20 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/images")
+@RequestMapping("/api")
 public class ImageController {
 
     private final ImageService imageService;
     private static final String URI_IMAGES_ID = "/{imageId}";
+    private static final String URI_IMAGE = "/upload";
+    private static final String URI_IMAGES = "/images";
 
-    @GetMapping
+    @GetMapping(URI_IMAGES)
     public List<ImageDTO> getAllImage() {
         return imageService.getAllPhoto();
     }
 
-    @PostMapping
+    @PostMapping(URI_IMAGE)
     @ResponseBody
     public ImageDTO upload(@RequestParam final MultipartFile file) {
         return imageService.uploadImage(file);

@@ -10,7 +10,6 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record CategoryDTO(Long id,
-                          @NotNull @NotBlank @Size(min = 5, max = 20) String categoryName,
+public record CategoryDTO(@NotNull @NotBlank @Size(min = 5, max = 20) String categoryName,
                           List<AdvertisementDTO> advertisements,
                           String image) { }

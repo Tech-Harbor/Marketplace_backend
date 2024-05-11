@@ -31,10 +31,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO getOneById(final Long id) {
-        final var category = getIdCategory(id);
-
-        return categoryFactory.apply(category);
+    public CategoryDTO getCategoryDTOName(final String categoryName) {
+        return categoryFactory.apply(categoryRepository.getByCategoryName(categoryName));
     }
 
     @Override
@@ -66,26 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    public CategoryEntity getIdCategory(final Long id) {
+    private CategoryEntity getIdCategory(final Long id) {
         return categoryRepository.getReferenceById(id);
-    }
-
-    @Override
-    public List<CategoryEntity> getFilterCategory(final String categoryName) {
-        final var criteriaBuilder = em.getCriteriaBuilder();
-
-        final var criteriaQuery = criteriaBuilder.createQuery(CategoryEntity.class);
-
-        final var categoryEntityRootRoot = criteriaQuery.from(CategoryEntity.class);
-
-        final var categoryNamePredicate = criteriaBuilder.equal(
-                categoryEntityRootRoot.get("categoryName"), categoryName
-        );
-
-        criteriaQuery.where(categoryNamePredicate);
-
-        final var typedQuery = em.createQuery(criteriaQuery);
-
-        return typedQuery.getResultList();
     }
 }

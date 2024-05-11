@@ -5,7 +5,7 @@ type Query {
     getAllAdvertisement: [AdvertisementDTO]
     getAllCategory: [CategoryDTO]
     getByIdUser(id: ID): UserDTO
-    getByIdCategory(id: ID): CategoryDTO
+    getByNameCategory(name: String): CategoryDTO
     getByIdAdvertisement(id: ID!): AdvertisementDTO
 }
 
@@ -27,7 +27,6 @@ input UserInput {
 }
 
 type CategoryDTO {
-    id: ID
     categoryName: String
     advertisements: [AdvertisementDTO]
     image: String

@@ -43,7 +43,7 @@ public class UserController {
         return userService.getByIdUser(id);
     }
 
-    @PutMapping(UPDATE_IMAGE_USER)
+    @PatchMapping(UPDATE_IMAGE_USER)
     @ApiResponseOK
     public UserInfoDTO updateImage(@RequestHeader(AUTHORIZATION) final String jwt, @RequestParam MultipartFile image) {
         return userService.updateImageUser(jwt, image);

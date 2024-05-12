@@ -1,5 +1,6 @@
 package com.example.backend.web.Advertisement;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "AdvertisementService")
 @RequestMapping("/api/advertisement")
 public class AdvertisementController {
 

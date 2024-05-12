@@ -1,8 +1,6 @@
 package com.example.backend.web.User.store.dto;
 
 import com.example.backend.web.Advertisement.AdvertisementDTO;
-import com.example.backend.utils.enums.RegisterAuthStatus;
-import com.example.backend.utils.enums.Role;
 import lombok.Builder;
 
 import java.util.List;
@@ -15,6 +13,4 @@ public record UserDTO(Long id,
                       String email,
                       String phone,
                       String password,
-                      List<AdvertisementDTO> advertisements,
-                      RegisterAuthStatus status,
-                      Role role) { }
+                      List<AdvertisementDTO> advertisements) { }

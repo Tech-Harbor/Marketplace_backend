@@ -42,6 +42,23 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    @SneakyThrows
+    @Transactional
+    public ImageEntity uploadImageEntity(final MultipartFile file) {
+        final var imageOptional = Optional.ofNullable(ImageIO.read(file.getInputStream()));
+
+        imageOptional.orElseThrow(() -> badRequestException("There is no uploaded image"));
+
+        final var map = fileUpload.uploadFile(file);
+
+        return ImageEntity.builder()
+                .name((String) map.get("original_filename"))
+                .imageUrl((String) map.get("url"))
+                .imageId((String) map.get("public_id"))
+                .build();
+    }
+
+    @Override
     public List<ImageDTO> getAllPhoto() {
         return imageRepository.findAll().stream()
                 .map(imageFactory)

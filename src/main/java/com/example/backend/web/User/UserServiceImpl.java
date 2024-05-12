@@ -1,26 +1,35 @@
 package com.example.backend.web.User;
 
+import com.example.backend.security.service.JwtService;
+import com.example.backend.web.File.ImageService;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserDTO;
+import com.example.backend.web.User.store.dto.UserInfoDTO;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import com.example.backend.web.User.store.factory.UserFactory;
+import com.example.backend.web.User.store.factory.UserInfoFactory;
 import com.example.backend.web.User.store.factory.UserSecurityFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.example.backend.utils.exception.RequestException.badRequestException;
+import static java.util.Optional.ofNullable;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserSecurityFactory userSecurityFactory;
+    private final UserInfoFactory userInfoFactory;
     private final UserRepository userRepository;
+    private final ImageService imageService;
     private final UserFactory userFactory;
+    private final JwtService jwtService;
 
     @Override
     public UserDTO getByIdUser(final Long id) {
@@ -44,7 +53,7 @@ public class UserServiceImpl implements UserService {
                 () -> badRequestException("Not user")
         );
 
-        return Optional.ofNullable(userSecurityFactory.apply(user));
+        return ofNullable(userSecurityFactory.apply(user));
     }
 
     @Override
@@ -82,5 +91,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserSecurityDTO mySecuritySave(final UserEntity user) {
         return userSecurityFactory.apply(userRepository.save(user));
+    }
+
+    @Override
+    public UserInfoDTO updateImageUser(final String jwt, final MultipartFile image) {
+        final var token = jwtService.extractUserData(jwt).substring(7);
+        final var update = imageService.uploadImageEntity(image);
+        final var userData = getByUserData(token);
+
+        userData.setImage(update);
+
+        userRepository.save(userData);
+
+        return userInfoFactory.apply(userData);
     }
 }

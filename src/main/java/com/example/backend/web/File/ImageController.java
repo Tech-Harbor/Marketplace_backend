@@ -1,6 +1,7 @@
 package com.example.backend.web.File;
 
 
+import com.example.backend.web.File.store.dto.ImageCreateDTO;
 import com.example.backend.web.File.store.dto.ImageDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class ImageController {
 
     @PostMapping(URI_IMAGE)
     @ResponseBody
-    public ImageDTO upload(@RequestParam final MultipartFile file) {
+    public ImageCreateDTO upload(@RequestParam final MultipartFile file) {
         return imageService.uploadImage(file);
     }
 

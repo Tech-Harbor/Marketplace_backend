@@ -46,6 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
         final var newCategory = CategoryEntity.builder()
                 .categoryName(categoryDTO.categoryName())
                 .image(newImage)
+                .color(categoryDTO.color())
                 .build();
 
         return categoryCreateFactory.apply(categoryRepository.save(newCategory));
@@ -59,6 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         category.setCategoryName(categoryDTO.categoryName());
         category.setImage(updateImage);
+        category.setColor(category.getColor());
 
         return categoryCreateFactory.apply(categoryRepository.save(category));
     }

@@ -7,4 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
-public record CategoryCreateDTO(@NotNull @NotBlank @Size(min = 5, max = 20) String categoryName, String image) { }
+public record CategoryCreateDTO(@NotNull @NotBlank @Size(min = 5, max = 20) String categoryName,
+                                String image,
+                                @NotNull @NotBlank String color) { }

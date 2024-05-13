@@ -20,6 +20,7 @@ public class CategoryFactory implements Function<CategoryEntity, CategoryDTO> {
                 .categoryName(category.getCategoryName())
                 .advertisements(webIsNullFactory.isNullAdvertisementCategory(category))
                 .image(category.getImage().getImageUrl())
+                .color(category.getColor())
                 .build();
     }
 }

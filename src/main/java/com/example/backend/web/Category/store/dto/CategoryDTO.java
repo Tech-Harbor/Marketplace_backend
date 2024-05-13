@@ -7,4 +7,4 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record CategoryDTO(String categoryName, List<AdvertisementDTO> advertisements, String image) { }
+public record CategoryDTO(String categoryName, List<AdvertisementDTO> advertisements, String image, String color) { }

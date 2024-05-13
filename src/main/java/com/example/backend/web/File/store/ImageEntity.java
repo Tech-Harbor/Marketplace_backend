@@ -1,4 +1,4 @@
-package com.example.backend.web.File;
+package com.example.backend.web.File.store;
 
 import jakarta.persistence.*;
 import lombok.*;

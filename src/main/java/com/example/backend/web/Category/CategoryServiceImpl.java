@@ -1,5 +1,10 @@
 package com.example.backend.web.Category;
 
+import com.example.backend.web.Category.store.CategoryEntity;
+import com.example.backend.web.Category.store.dto.CategoryCreateDTO;
+import com.example.backend.web.Category.store.dto.CategoryDTO;
+import com.example.backend.web.Category.store.factory.CategoryCreateFactory;
+import com.example.backend.web.Category.store.factory.CategoryFactory;
 import com.example.backend.web.File.ImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
+    private final CategoryCreateFactory categoryCreateFactory;
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
     private final ImageService imageService;
@@ -34,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO create(final CategoryDTO categoryDTO) {
+    public CategoryCreateDTO create(final CategoryCreateDTO categoryDTO) {
         final var newImage = imageService.getByImage(categoryDTO.image());
 
         final var newCategory = CategoryEntity.builder()
@@ -42,11 +48,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .image(newImage)
                 .build();
 
-        return categoryFactory.apply(categoryRepository.save(newCategory));
+        return categoryCreateFactory.apply(categoryRepository.save(newCategory));
     }
 
     @Override
-    public CategoryDTO update(final Long categoryId, final CategoryDTO categoryDTO) {
+    public CategoryCreateDTO update(final Long categoryId, final CategoryCreateDTO categoryDTO) {
         final var updateImage = imageService.getByImage(categoryDTO.image());
 
         final var category = getIdCategory(categoryId);
@@ -54,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setCategoryName(categoryDTO.categoryName());
         category.setImage(updateImage);
 
-        return categoryFactory.apply(categoryRepository.save(category));
+        return categoryCreateFactory.apply(categoryRepository.save(category));
     }
 
     @Override

@@ -1,6 +1,8 @@
-package com.example.backend.web.Category;
+package com.example.backend.web.Category.store.factory;
 
 import com.example.backend.utils.general.WebIsNullFactory;
+import com.example.backend.web.Category.store.CategoryEntity;
+import com.example.backend.web.Category.store.dto.CategoryDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

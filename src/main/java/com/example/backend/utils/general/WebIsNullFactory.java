@@ -1,7 +1,7 @@
 package com.example.backend.utils.general;
 
 
-import com.example.backend.web.Category.CategoryEntity;
+import com.example.backend.web.Category.store.CategoryEntity;
 import com.example.backend.web.Advertisement.AdvertisementDTO;
 import com.example.backend.web.Advertisement.AdvertisementFactory;
 import com.example.backend.web.User.store.UserEntity;

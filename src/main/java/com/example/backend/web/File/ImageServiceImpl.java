@@ -1,5 +1,10 @@
 package com.example.backend.web.File;
 
+import com.example.backend.web.File.store.ImageEntity;
+import com.example.backend.web.File.store.dto.ImageCreateDTO;
+import com.example.backend.web.File.store.dto.ImageDTO;
+import com.example.backend.web.File.store.factory.ImageCreateFactory;
+import com.example.backend.web.File.store.factory.ImageFactory;
 import com.example.backend.web.File.upload.FileUpload;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +23,7 @@ import static com.example.backend.utils.exception.RequestException.badRequestExc
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
 
+    private final ImageCreateFactory imageCreateFactory;
     private final ImageRepository imageRepository;
     private final ImageFactory imageFactory;
     private final FileUpload fileUpload;
@@ -25,7 +31,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     @SneakyThrows
     @Transactional
-    public ImageDTO uploadImage(final MultipartFile file) {
+    public ImageCreateDTO uploadImage(final MultipartFile file) {
         final var imageOptional = Optional.ofNullable(ImageIO.read(file.getInputStream()));
 
         final var result = fileUpload.uploadFile(file);
@@ -38,7 +44,7 @@ public class ImageServiceImpl implements ImageService {
 
         imageOptional.orElseThrow(() -> badRequestException("There is no uploaded image"));
 
-        return imageFactory.apply(imageRepository.save(image));
+        return imageCreateFactory.apply(imageRepository.save(image));
     }
 
     @Override

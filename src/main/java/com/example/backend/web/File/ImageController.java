@@ -1,6 +1,7 @@
 package com.example.backend.web.File;
 
 
+import com.example.backend.web.File.store.dto.ImageDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

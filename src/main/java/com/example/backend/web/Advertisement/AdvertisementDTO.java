@@ -1,6 +1,6 @@
 package com.example.backend.web.Advertisement;
 
-import com.example.backend.web.File.ImageEntity;
+import com.example.backend.web.File.store.ImageEntity;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

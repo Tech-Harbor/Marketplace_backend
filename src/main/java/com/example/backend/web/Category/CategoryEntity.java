@@ -1,6 +1,6 @@
 package com.example.backend.web.Category;
 
-import com.example.backend.web.File.ImageEntity;
+import com.example.backend.web.File.store.ImageEntity;
 import com.example.backend.web.Advertisement.AdvertisementEntity;
 import jakarta.persistence.*;
 import lombok.*;

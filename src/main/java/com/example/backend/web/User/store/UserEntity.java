@@ -3,7 +3,7 @@ package com.example.backend.web.User.store;
 import com.example.backend.utils.enums.RegisterAuthStatus;
 import com.example.backend.utils.enums.Role;
 import com.example.backend.web.Advertisement.AdvertisementEntity;
-import com.example.backend.web.File.ImageEntity;
+import com.example.backend.web.File.store.ImageEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

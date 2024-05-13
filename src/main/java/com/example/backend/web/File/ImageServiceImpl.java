@@ -57,11 +57,13 @@ public class ImageServiceImpl implements ImageService {
 
         final var map = fileUpload.uploadFile(file);
 
-        return ImageEntity.builder()
+        final var image = ImageEntity.builder()
                 .name((String) map.get("original_filename"))
                 .imageUrl((String) map.get("url"))
                 .imageId((String) map.get("public_id"))
                 .build();
+
+        return imageRepository.save(image);
     }
 
     @Override

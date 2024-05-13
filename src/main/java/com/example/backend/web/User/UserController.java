@@ -45,7 +45,8 @@ public class UserController {
 
     @PatchMapping(UPDATE_IMAGE_USER)
     @ApiResponseOK
-    public UserInfoDTO updateImage(@RequestHeader(AUTHORIZATION) final String jwt, @RequestParam MultipartFile image) {
+    public UserInfoDTO updateImage(@RequestHeader(AUTHORIZATION) final String jwt,
+                                   @RequestParam final MultipartFile image) {
         return userService.updateImageUser(jwt, image);
     }
 

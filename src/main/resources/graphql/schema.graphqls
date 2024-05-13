@@ -49,8 +49,6 @@ type UserDTO {
     firstname: String
     phone: String
     email: String
-    status: RegisterAuthStatus
-    role: Role
     advertisements: [AdvertisementDTO]
     image: String
 }

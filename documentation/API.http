@@ -1,0 +1,71 @@
+//Security Auth
+
+###Register
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
+
+{
+  "lastname": "Vladik",
+  "firstname": "Bezsmertnyi",
+  "password": "Passwordq134",
+  "phone": "380732157991",
+  "email": "v4054741@gmail.com"
+}
+
+###Active User, JWT TOKEN
+POST http://localhost:8080/api/active
+Authorization: Bearer
+Content-Type: application/json
+
+###Login
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "v4054741@gmail.com",
+  "password": "Passwordq134"
+}
+
+###Active Not Users
+POST http://localhost:8080/api/sendMessageEmailActive
+Content-Type: application/json
+
+{
+  "email": "v4054741@gmail.com"
+}
+
+###LinkEmail
+POST http://localhost:8080/api/request/email
+Content-Type: application/json
+
+{
+  "email": "v4054741@gmail.com"
+}
+
+###Update Passsword JWT
+PUT http://localhost:8080/api/change-password
+Content-Type: application/json
+Authorization: Bearer
+
+{
+"password": "Password325231"
+}
+
+###Accouth
+GET http://localhost:8080/api/accouth
+Authorization: Bearer
+Content-Type: application/json
+
+###GRAPHQL
+GRAPHQL http://localhost:8080/graphql
+
+query {
+    getAllProducts {
+        name
+        price
+        location
+        images {
+            imageUrl
+        }
+    }
+}

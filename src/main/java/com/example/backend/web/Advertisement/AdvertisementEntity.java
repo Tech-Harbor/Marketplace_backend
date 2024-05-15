@@ -44,7 +44,7 @@ public class AdvertisementEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "photo_id")
     private List<ImageEntity> images;
 

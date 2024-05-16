@@ -15,4 +15,5 @@ public record AdvertisementDTO(Long id,
                                LocalDateTime createDate,
                                List<ImageEntity> images,
                                String location,
-                               String category) { }
+                               String category,
+                               String delivery) { }

@@ -35,6 +35,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .location(advertisement.location())
                 .createDate(LocalDateTime.now())
                 .category(categoryName)
+                .delivery(advertisement.delivery())
                 .build();
 
         return advertisementFactory.apply(advertisementRepository.save(newAdvertisement));
@@ -62,6 +63,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             entityId.setCharacteristicAdvertisement(entity.characteristicAdvertisement());
             entityId.setDescriptionAdvertisement(entity.descriptionAdvertisement());
             entityId.setCreateDate(entity.createDate());
+            entityId.setDelivery(entity.delivery());
             entityId.setPrice(entity.price());
 
         return advertisementFactory.apply(advertisementRepository.save(entityId));

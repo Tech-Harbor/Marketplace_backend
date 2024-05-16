@@ -37,6 +37,9 @@ public class AdvertisementEntity {
     @Column(nullable = false)
     private String location;
 
+    @Column(nullable = false)
+    private String delivery;
+
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
 

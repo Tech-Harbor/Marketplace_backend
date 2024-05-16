@@ -37,6 +37,7 @@ type AdvertisementDTO {
     price: Int
     createDate: LocalTimeDate
     location: String
+    delivery: String
     images: [ImageDTO]
 }
 

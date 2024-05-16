@@ -18,6 +18,7 @@ public class AdvertisementFactory implements Function<AdvertisementEntity, Adver
                 .category(entity.getCategory().getCategoryName())
                 .images(entity.getImages())
                 .location(entity.getLocation())
+                .delivery(entity.getDelivery())
                 .build();
     }
 }

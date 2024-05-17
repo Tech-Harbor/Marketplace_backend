@@ -33,7 +33,7 @@ public class AuthController {
     private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String ACTIVE_USER = "/active";
-    private static final String INFO = "/accouth";
+    private static final String PROFILE_USER = "/profile";
     private static final String SEND_MESSAGE_EMAIL_NOT_ACTIVE = "/sendMessageEmailActive";
 
     @PostMapping(SIGNUP_URI)
@@ -65,11 +65,11 @@ public class AuthController {
         authService.formUpdatePassword(jwt, passwordRequest);
     }
 
-    @GetMapping(INFO)
+    @GetMapping(PROFILE_USER)
     @Operation(summary = "Information about the user who is authorized and logged into the system")
     @ApiResponseInfoOK
-    public UserInfoDTO info(@RequestHeader(AUTHORIZATION) final String accessToken) {
-        return authService.info(accessToken);
+    public UserInfoDTO profile(@RequestHeader(AUTHORIZATION) final String accessToken) {
+        return authService.profileUser(accessToken);
     }
 
     @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)

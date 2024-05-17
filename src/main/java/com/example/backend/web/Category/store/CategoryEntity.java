@@ -1,6 +1,7 @@
-package com.example.backend.web.Category;
+package com.example.backend.web.Category.store;
 
-import com.example.backend.web.Product.ProductEntity;
+import com.example.backend.web.File.store.ImageEntity;
+import com.example.backend.web.Advertisement.AdvertisementEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,12 @@ public class CategoryEntity {
     @Column(nullable = false)
     private String categoryName;
 
+    @Column(nullable = false)
+    private String color;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category", fetch = FetchType.LAZY)
-    private List<ProductEntity> products;
+    private List<AdvertisementEntity> advertisements;
+
+    @OneToOne
+    private ImageEntity image;
 }

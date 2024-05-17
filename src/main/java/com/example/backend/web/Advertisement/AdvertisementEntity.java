@@ -1,7 +1,7 @@
-package com.example.backend.web.Product;
+package com.example.backend.web.Advertisement;
 
-import com.example.backend.web.Category.CategoryEntity;
-import com.example.backend.web.File.ImageEntity;
+import com.example.backend.web.Category.store.CategoryEntity;
+import com.example.backend.web.File.store.ImageEntity;
 import com.example.backend.web.User.store.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "advertisements")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductEntity {
+public class AdvertisementEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,16 +26,19 @@ public class ProductEntity {
     private String name;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String descriptionProduct;
+    private String descriptionAdvertisement;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String characteristicProduct;
+    private String characteristicAdvertisement;
 
     @Column(nullable = false)
     private double price;
 
     @Column(nullable = false)
     private String location;
+
+    @Column(nullable = false)
+    private String delivery;
 
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();

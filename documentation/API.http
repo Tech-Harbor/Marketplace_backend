@@ -60,7 +60,7 @@ Content-Type: application/json
 GRAPHQL http://localhost:8080/graphql
 
 query {
-    getAllProducts {
+    getAllAdvertisement {
         name
         price
         location

@@ -62,5 +62,5 @@ public interface AuthService {
      * @return UserInfoDTO containing the user's information
      * @throws RuntimeException if a user with the extracted data is not found
      */
-    UserInfoDTO info(String accessToken);
+    UserInfoDTO profileUser(String accessToken);
 }

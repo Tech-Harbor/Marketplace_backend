@@ -15,7 +15,7 @@ public class UserInfoFactory implements Function<UserEntity, UserInfoDTO> {
         return UserInfoDTO.builder()
                 .firstname(user.getFirstname())
                 .email(user.getEmail())
-                .image(user.getImage())
+                .image(user.getImage().getImageUrl())
                 .lastname(user.getLastname())
                 .phone(user.getPhone())
                 .build();

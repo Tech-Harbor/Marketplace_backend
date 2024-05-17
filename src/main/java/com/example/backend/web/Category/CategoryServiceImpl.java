@@ -1,11 +1,11 @@
 package com.example.backend.web.Category;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import com.example.backend.web.Category.store.CategoryEntity;
+import com.example.backend.web.Category.store.dto.CategoryCreateDTO;
+import com.example.backend.web.Category.store.dto.CategoryDTO;
+import com.example.backend.web.Category.store.factory.CategoryCreateFactory;
+import com.example.backend.web.Category.store.factory.CategoryFactory;
+import com.example.backend.web.File.ImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,46 +16,53 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
+    private final CategoryCreateFactory categoryCreateFactory;
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
-    private final EntityManager em;
+    private final ImageService imageService;
 
     @Override
     public List<CategoryDTO> getAll() {
         return categoryRepository.findAll()
                 .stream()
-                .map(categoryFactory::makeCategory)
+                .map(categoryFactory)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CategoryEntity getById(final Long id) {
-        return getIdCategory(id);
+    public CategoryEntity getCategoryName(final String categoryName) {
+        return categoryRepository.getByCategoryName(categoryName);
     }
 
     @Override
-    public CategoryDTO getOneById(final Long id) {
-        CategoryEntity category = getIdCategory(id);
-
-        return categoryFactory.makeCategory(category);
+    public CategoryDTO getCategoryDTOName(final String categoryName) {
+        return categoryFactory.apply(categoryRepository.getByCategoryName(categoryName));
     }
 
     @Override
-    public CategoryDTO create(final CategoryDTO categoryDTO) {
-        CategoryEntity newCategory = CategoryEntity.builder()
+    public CategoryCreateDTO create(final CategoryCreateDTO categoryDTO) {
+        final var newImage = imageService.getByImage(categoryDTO.image());
+
+        final var newCategory = CategoryEntity.builder()
                 .categoryName(categoryDTO.categoryName())
+                .image(newImage)
+                .color(categoryDTO.color())
                 .build();
 
-        return categoryFactory.makeCategory(categoryRepository.save(newCategory));
+        return categoryCreateFactory.apply(categoryRepository.save(newCategory));
     }
 
     @Override
-    public CategoryDTO update(final Long categoryId, final CategoryDTO categoryDTO) {
-        CategoryEntity category = getIdCategory(categoryId);
+    public CategoryCreateDTO update(final Long categoryId, final CategoryCreateDTO categoryDTO) {
+        final var updateImage = imageService.getByImage(categoryDTO.image());
 
-        category.setCategoryName(category.getCategoryName());
+        final var category = getIdCategory(categoryId);
 
-        return categoryFactory.makeCategory(categoryRepository.save(category));
+        category.setCategoryName(categoryDTO.categoryName());
+        category.setImage(updateImage);
+        category.setColor(category.getColor());
+
+        return categoryCreateFactory.apply(categoryRepository.save(category));
     }
 
     @Override
@@ -63,26 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    public CategoryEntity getIdCategory(final Long id) {
+    private CategoryEntity getIdCategory(final Long id) {
         return categoryRepository.getReferenceById(id);
-    }
-
-    @Override
-    public List<CategoryEntity> getFilterCategory(final String categoryName) {
-
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-
-        CriteriaQuery<CategoryEntity> criteriaQuery = criteriaBuilder.createQuery(CategoryEntity.class);
-
-        Root<CategoryEntity> categoryEntityRootRoot = criteriaQuery.from(CategoryEntity.class);
-
-        Predicate categoryNamePredicate = criteriaBuilder.equal(
-                categoryEntityRootRoot.get("categoryName"), categoryName);
-
-        criteriaQuery.where(categoryNamePredicate);
-
-        TypedQuery<CategoryEntity> typedQuery = em.createQuery(criteriaQuery);
-
-        return typedQuery.getResultList();
     }
 }

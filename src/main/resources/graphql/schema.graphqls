@@ -1,44 +1,43 @@
 scalar LocalTimeDate
 
 type Query {
-    getByIdUser(id: ID): UserDTO
-    getByIdCategory(id: ID): CategoryDTO
     getAllUsers: [UserDTO]
-    getAllProducts: [ProductDTO]
-    getByIdProduct(id: ID!): ProductDTO
+    getAllAdvertisement: [AdvertisementDTO]
+    getAllCategory: [CategoryDTO]
+    getByIdUser(id: ID!): UserDTO
+    getByNameCategory(name: String!): CategoryDTO
+    getByIdAdvertisement(id: ID!): AdvertisementDTO
 }
 
 type Mutation {
-    createProductIdByUser(userId: ID!, entity: ProductInput): ProductDTO
-    updateByIdUser(id: ID!, entity: UserInput): UserDTO
+    createAdvertisementIdByUser(userId: ID!, entity: AdvertisementInput): AdvertisementDTO
+    updateByIdUser(id: ID!, user: UserInput): UserDTO
 }
 
 input UserInput {
-    id: ID
-    lastname: String
-    firstname: String
-    phone: String
-    email: String
+    lastname: String!
+    firstname: String!
+    phone: String!
+    email: String!
     password: String
-    product: [ProductInput]
-    status: RegisterAuthStatus
-    role: [Role]
 }
 
 type CategoryDTO {
-    id: ID
     categoryName: String
-    product: [ProductDTO]
+    advertisements: [AdvertisementDTO]
+    image: String
+    color: String
 }
 
-type ProductDTO {
+type AdvertisementDTO {
     id: ID
     name: String
-    descriptionProduct: String
-    characteristicProduct: String
+    descriptionAdvertisement: String
+    characteristicAdvertisement: String
     price: Int
-    date: LocalTimeDate
+    createDate: LocalTimeDate
     location: String
+    delivery: String
     images: [ImageDTO]
 }
 
@@ -52,15 +51,14 @@ type UserDTO {
     firstname: String
     phone: String
     email: String
-    product: [ProductDTO]
-    status: RegisterAuthStatus
-    role: Role
+    advertisements: [AdvertisementDTO]
+    image: String
 }
 
-input ProductInput {
+input AdvertisementInput {
     name: String!
-    descriptionProduct: String!
-    characteristicProduct: String
+    descriptionAdvertisement: String!
+    characteristicAdvertisement: String!
     price: Int!
 }
 

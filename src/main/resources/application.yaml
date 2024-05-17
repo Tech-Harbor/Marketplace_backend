@@ -58,11 +58,8 @@ cloudinary:
   api_key: ${API_KEY}
   api_secret: ${API_SECRET}
 
-google:
-  clientId: ${GOOGLE_CLIENT_ID}
-
 jwt:
   key: ${JWT_KEY}
   jwtAccessExpiration: 10080m #7day
   jwtRefreshExpiration: 43200m #30day
-  jwtUserDataExpiration: 15m
+  jwtUserDataExpiration: 1440m #1day

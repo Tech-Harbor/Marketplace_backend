@@ -1,4 +1,4 @@
-package com.example.backend.web.File;
+package com.example.backend.web.File.store;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,17 +12,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ImageEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String imageUrl;
     private String imageId;
-
-    public ImageEntity(final String name, final String imageUrl, final String imageId) {
-        this.name = name;
-        this.imageUrl = imageUrl;
-        this.imageId = imageId;
-    }
 }

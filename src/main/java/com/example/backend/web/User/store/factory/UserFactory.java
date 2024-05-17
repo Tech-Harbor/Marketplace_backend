@@ -19,13 +19,12 @@ public class UserFactory implements Function<UserEntity, UserDTO> {
         return UserDTO.builder()
                 .id(user.getId())
                 .firstname(user.getFirstname())
+                .image(user.getImage().getImageUrl())
                 .email(user.getEmail())
                 .lastname(user.getLastname())
                 .phone(user.getPhone())
                 .password(user.getPassword())
-                .status(user.getRegisterAuthStatus())
-                .product(webIsNullFactory.isNullProductUser(user))
-                .role(user.getRole())
+                .advertisements(webIsNullFactory.isNullAdvertisementUser(user))
                 .build();
     }
 }

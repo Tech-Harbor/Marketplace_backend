@@ -1,9 +1,9 @@
 package com.example.backend.utils.general;
 
 
-import com.example.backend.web.Category.CategoryEntity;
-import com.example.backend.web.Product.ProductDTO;
-import com.example.backend.web.Product.ProductFactory;
+import com.example.backend.web.Category.store.CategoryEntity;
+import com.example.backend.web.Advertisement.AdvertisementDTO;
+import com.example.backend.web.Advertisement.AdvertisementFactory;
 import com.example.backend.web.User.store.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,20 +17,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class WebIsNullFactory {
 
-    private final ProductFactory productFactory;
+    private final AdvertisementFactory advertisementFactory;
 
-    public List<ProductDTO> isNullProductCategory(final CategoryEntity category) {
-        return Optional.ofNullable(category.getProducts())
+    public List<AdvertisementDTO> isNullAdvertisementCategory(final CategoryEntity category) {
+        return Optional.ofNullable(category.getAdvertisements())
                 .map(list -> list.stream()
-                        .map(productFactory::makeProduct)
+                        .map(advertisementFactory)
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }
 
-    public List<ProductDTO> isNullProductUser(final UserEntity user) {
-        return Optional.ofNullable(user.getProduct())
+    public List<AdvertisementDTO> isNullAdvertisementUser(final UserEntity user) {
+        return Optional.ofNullable(user.getAdvertisements())
                 .map(list -> list.stream()
-                        .map(productFactory::makeProduct)
+                        .map(advertisementFactory)
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }

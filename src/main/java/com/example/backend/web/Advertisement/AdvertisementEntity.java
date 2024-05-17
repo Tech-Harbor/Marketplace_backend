@@ -44,14 +44,12 @@ public class AdvertisementEntity {
     private LocalDateTime createDate = LocalDateTime.now();
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
     @OneToMany
-    @JoinColumn(name = "photo_id")
+    @JoinColumn(name = "advertisement_id")
     private List<ImageEntity> images;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private UserEntity user;
 }

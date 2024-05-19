@@ -27,6 +27,7 @@ import java.util.Properties;
 
 import static com.example.backend.utils.enums.RegisterAuthStatus.JWT;
 import static com.example.backend.utils.enums.Role.USER;
+import static com.example.backend.utils.enums.Status.OFFLINE;
 import static com.example.backend.utils.exception.RequestException.badRequestException;
 
 @Service
@@ -61,6 +62,7 @@ public class AuthServiceImpl implements AuthService {
                 .registerAuthStatus(JWT)
                 .enabled(false)
                 .role(USER)
+                .status(OFFLINE)
                 .build();
 
         final var userSecurityDTO = userService.mySecuritySave(user);
@@ -100,7 +102,7 @@ public class AuthServiceImpl implements AuthService {
     public void formUpdatePassword(final String jwt, final PasswordRequest passwordRequest) {
         final var token = jwtService.extractUserData(jwt.substring(7));
 
-        var userPassword = userService.getByEmail(token);
+        final var userPassword = userService.getByEmail(token);
 
         userPassword.ifPresent(user -> {
                 user.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));

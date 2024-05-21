@@ -1,5 +1,6 @@
 package com.example.backend.user;
 
+import com.example.backend.security.service.JwtService;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
@@ -12,10 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
-import static com.example.backend.utils.general.Constants.EMAIL_KEY;
-import static com.example.backend.utils.general.Constants.PASSWORD;
+import static com.example.backend.utils.general.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,6 +31,8 @@ public class UserServiceImplTest {
     private UserRepository userRepository;
     @Mock
     private UserFactory userFactory;
+    @Mock
+    private JwtService jwtService;
 
     @Test
     void getByIdUserTest() {
@@ -108,8 +111,8 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void updateByIdUserTest() {
-        final var userId = 1L;
+    void updateByUserTest() {
+        final String jwt = "Bearer sample.jwt.token";
 
         final var userDTOUpdate = UserDTO.builder()
                 .lastname("lastname")
@@ -119,14 +122,7 @@ public class UserServiceImplTest {
                 .password(PASSWORD)
                 .build();
 
-        final var existingUser = UserEntity.builder()
-                .id(userId)
-                .build();
-
-        when(userService.getById(userId)).thenReturn(existingUser);
-        when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        final var saveUserDto = UserDTO.builder()
+        final var user = UserEntity.builder()
                 .lastname("lastname")
                 .firstname("firstname")
                 .phone("phone")
@@ -134,13 +130,23 @@ public class UserServiceImplTest {
                 .password(PASSWORD)
                 .build();
 
-        userService.updateByIdUser(userId, saveUserDto);
+        when(jwtService.extractUserData(anyString())).thenReturn("userData");
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(user));
+        when(userRepository.save(any(UserEntity.class))).thenReturn(user);
+        when(userFactory.apply(any(UserEntity.class))).thenReturn(userDTOUpdate);
 
-        assertEquals(userDTOUpdate.lastname(), saveUserDto.lastname());
-        assertEquals(userDTOUpdate.firstname(), saveUserDto.firstname());
-        assertEquals(userDTOUpdate.phone(), saveUserDto.phone());
-        assertEquals(userDTOUpdate.email(), saveUserDto.email());
-        assertEquals(userDTOUpdate.password(), saveUserDto.password());
+        UserDTO updatedUser = userService.updateByUser(jwt, userDTOUpdate);
+
+        assertEquals(userDTOUpdate.firstname(), updatedUser.firstname());
+        assertEquals(userDTOUpdate.lastname(), updatedUser.lastname());
+        assertEquals(userDTOUpdate.phone(), updatedUser.phone());
+        assertEquals(userDTOUpdate.email(), updatedUser.email());
+        assertEquals(userDTOUpdate.password(), updatedUser.password());
+
+        verify(jwtService).extractUserData(jwt.substring(7));
+        verify(userRepository).findByEmail("userData");
+        verify(userRepository).save(Objects.requireNonNull(user));
+        verify(userFactory).apply(user);
     }
 
     @Test
@@ -164,11 +170,24 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void deleteByIdUserTest() {
-        final var userDeleteId = 1L;
+    void deleteUserTest() {
+        final String jwt = "Bearer sample.jwt.token";
 
-        userService.deleteByIdUser(userDeleteId);
+        final var user = UserEntity.builder()
+                .lastname("lastname")
+                .firstname("firstname")
+                .phone("phone")
+                .email(EMAIL_KEY)
+                .password(PASSWORD)
+                .build();
 
-        verify(userRepository).deleteById(userDeleteId);
+        when(jwtService.extractUserData(anyString())).thenReturn("userData");
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(user));
+
+        userService.deleteUser(jwt);
+
+        verify(jwtService).extractUserData(jwt.substring(7));
+        verify(userRepository).findByEmail("userData");
+        verify(userRepository).delete(Objects.requireNonNull(user));
     }
 }

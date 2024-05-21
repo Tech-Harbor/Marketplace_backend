@@ -16,8 +16,8 @@ public interface UserService {
     Optional<UserSecurityDTO> getBySecurityEmail(String email);
     UserEntity getByUserData(String userData);
     List<UserDTO> getByAllUser();
-    UserDTO updateByIdUser(Long id, UserDTO user);
-    void deleteByIdUser(Long id);
+    UserDTO updateByUser(String jwt, UserDTO user);
+    String deleteUser(String jwt);
     UserSecurityDTO mySecuritySave(UserEntity user);
     UserInfoDTO updateImageUser(String jwt, MultipartFile image);
 }

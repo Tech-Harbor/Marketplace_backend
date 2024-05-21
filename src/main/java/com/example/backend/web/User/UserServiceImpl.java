@@ -10,6 +10,7 @@ import com.example.backend.web.User.store.factory.UserFactory;
 import com.example.backend.web.User.store.factory.UserInfoFactory;
 import com.example.backend.web.User.store.factory.UserSecurityFactory;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserSecurityDTO> getBySecurityEmail(final String email) {
-        UserEntity user = userRepository.findByEmail(email).orElseThrow(
+        final var user = userRepository.findByEmail(email).orElseThrow(
                 () -> badRequestException("Not user")
         );
 
@@ -71,21 +72,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateByIdUser(final Long id, final UserDTO user) {
-        final UserEntity userId = getById(id);
+    public UserDTO updateByUser(final String jwt, final UserDTO user) {
+        final var token = jwtService.extractUserData(jwt.substring(7));
 
-            userId.setFirstname(user.firstname());
-            userId.setLastname(user.lastname());
-            userId.setPhone(user.phone());
-            userId.setEmail(user.email());
-            userId.setPassword(user.password());
+        final var byUserData = getByUserData(token);
 
-        return userFactory.apply(userRepository.save(userId));
+        if (StringUtils.isNoneEmpty(user.firstname())) {
+            byUserData.setFirstname(user.firstname());
+        }
+
+        if (StringUtils.isNoneEmpty(user.lastname())) {
+            byUserData.setLastname(user.lastname());
+        }
+
+        if (StringUtils.isNoneEmpty(user.phone())) {
+            byUserData.setPhone(user.phone());
+        }
+
+        if (StringUtils.isNoneEmpty(user.email())) {
+            byUserData.setEmail(user.email());
+        }
+
+        if (StringUtils.isNoneEmpty(user.password())) {
+            byUserData.setPassword(user.password());
+        }
+
+        return userFactory.apply(userRepository.save(byUserData));
     }
 
     @Override
-    public void deleteByIdUser(final Long id) {
-        userRepository.deleteById(id);
+    public String deleteUser(final String jwt) {
+        final var token = jwtService.extractUserData(jwt.substring(7));
+
+        final var byUserData = getByUserData(token);
+
+        userRepository.delete(byUserData);
+
+        return "Delete User" + byUserData.getFirstname();
     }
 
     @Override

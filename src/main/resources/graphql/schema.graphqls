@@ -11,15 +11,6 @@ type Query {
 
 type Mutation {
     createAdvertisementIdByUser(userId: ID!, entity: AdvertisementInput): AdvertisementDTO
-    updateByIdUser(id: ID!, user: UserInput): UserDTO
-}
-
-input UserInput {
-    lastname: String!
-    firstname: String!
-    phone: String!
-    email: String!
-    password: String
 }
 
 type CategoryDTO {

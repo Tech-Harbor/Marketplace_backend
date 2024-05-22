@@ -6,7 +6,6 @@ type Query {
     getAllCategory: [CategoryDTO]
     getByIdUser(id: ID!): UserDTO
     getByNameCategory(name: String!): CategoryDTO
-    getByIdAdvertisement(id: ID!): AdvertisementDTO
 }
 
 type CategoryDTO {

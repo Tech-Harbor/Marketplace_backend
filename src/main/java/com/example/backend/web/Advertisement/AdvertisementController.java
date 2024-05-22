@@ -2,11 +2,12 @@ package com.example.backend.web.Advertisement;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,13 +16,17 @@ import java.util.List;
 public class AdvertisementController {
 
     private final AdvertisementServiceImpl advertisementService;
-    private static final String URI_ADVERTISEMENT_ID = "/{id}";
+
+
+    private static final String URL_CREATE = "/createAdvertisement";
+    private static final String URL_EDIT = "/editAdvertisement";
+    private static final String URL_DELETE = "/editAdvertisement";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
-    @PostMapping(URI_ADVERTISEMENT_ID)
-    public AdvertisementDTO createAdvertisementIdByUser(@PathVariable(value = "id") final Long userId,
-                                                        @RequestBody final AdvertisementDTO entity) {
-        return advertisementService.createAdvertisement(userId, entity);
+    @PostMapping(URL_CREATE)
+    public AdvertisementDTO createAdvertisementByUser(@RequestHeader(AUTHORIZATION) final String jwt,
+                                                      @RequestBody final AdvertisementDTO entity) {
+        return advertisementService.createAdvertisement(jwt, entity);
     }
 
     @QueryMapping
@@ -29,19 +34,20 @@ public class AdvertisementController {
         return advertisementService.getAllAdvertisement();
     }
 
-    @QueryMapping
-    public AdvertisementDTO getByIdAdvertisement(@Argument final Long id) {
-        return advertisementService.getOneAdvertisement(id);
+    @GetMapping("/advertisement")
+    public AdvertisementDTO getByAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
+        return advertisementService.advertisement(jwt);
     }
 
-    @PutMapping(URI_ADVERTISEMENT_ID)
-    public AdvertisementDTO editAdvertisement(@PathVariable final Long id, @RequestBody final AdvertisementDTO entity) {
-        return advertisementService.editAdvertisement(id, entity);
+    @PatchMapping(URL_EDIT)
+    public AdvertisementDTO editAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt,
+                                              @RequestBody final AdvertisementDTO entity) {
+        return advertisementService.editAdvertisement(jwt, entity);
     }
 
-    @DeleteMapping(URI_ADVERTISEMENT_ID)
-    public void deleteIdAdvertisement(@PathVariable final Long id) {
-        advertisementService.deleteIdAdvertisement(id);
+    @DeleteMapping(URL_DELETE)
+    public void deleteAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
+        advertisementService.deleteAdvertisement(jwt);
     }
 
     @DeleteMapping(URL_DELETE_ALL)

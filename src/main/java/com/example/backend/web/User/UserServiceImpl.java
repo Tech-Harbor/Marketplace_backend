@@ -1,6 +1,6 @@
 package com.example.backend.web.User;
 
-import com.example.backend.security.service.JwtService;
+import com.example.backend.utils.general.Helpers;
 import com.example.backend.web.File.ImageService;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserDTO;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final UserFactory userFactory;
-    private final JwtService jwtService;
+    private final Helpers helpers;
 
     @Override
     public UserDTO getByIdUser(final Long id) {
@@ -73,9 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateByUser(final String jwt, final UserDTO user) {
-        final var token = jwtService.extractUserData(jwt.substring(7));
-
-        final var byUserData = getByUserData(token);
+        final var byUserData = helpers.tokenUserData(jwt);
 
         if (StringUtils.isNoneEmpty(user.firstname())) {
             byUserData.setFirstname(user.firstname());
@@ -101,14 +99,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String deleteUser(final String jwt) {
-        final var token = jwtService.extractUserData(jwt.substring(7));
-
-        final var byUserData = getByUserData(token);
+    public void deleteUser(final String jwt) {
+        final var byUserData = helpers.tokenUserData(jwt);
 
         userRepository.delete(byUserData);
 
-        return "Delete User" + byUserData.getFirstname();
+    }
+
+    @Override
+    public UserEntity getByUserFirstName(String firstName) {
+        return userRepository.getByFirstname(firstName).orElseThrow(
+                () -> badRequestException("Not user")
+        );
     }
 
     @Override
@@ -118,9 +120,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfoDTO updateImageUser(final String jwt, final MultipartFile image) {
-        final var token = jwtService.extractUserData(jwt).substring(7);
+        final var userData = helpers.tokenUserData(jwt);
         final var update = imageService.uploadImageEntity(image);
-        final var userData = getByUserData(token);
 
         userData.setImage(update);
 

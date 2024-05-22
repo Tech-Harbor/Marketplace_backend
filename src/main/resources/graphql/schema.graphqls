@@ -9,10 +9,6 @@ type Query {
     getByIdAdvertisement(id: ID!): AdvertisementDTO
 }
 
-type Mutation {
-    createAdvertisementIdByUser(userId: ID!, entity: AdvertisementInput): AdvertisementDTO
-}
-
 type CategoryDTO {
     categoryName: String
     advertisements: [AdvertisementDTO]
@@ -44,13 +40,6 @@ type UserDTO {
     email: String
     advertisements: [AdvertisementDTO]
     image: String
-}
-
-input AdvertisementInput {
-    name: String!
-    descriptionAdvertisement: String!
-    characteristicAdvertisement: String!
-    price: Int!
 }
 
 enum Role {

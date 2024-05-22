@@ -3,7 +3,6 @@ package com.example.backend.web.Advertisement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +19,8 @@ public class AdvertisementController {
     private static final String URL_DELETE_ALL = "/deleteAll";
 
     @PostMapping(URI_ADVERTISEMENT_ID)
-    @MutationMapping
-    public AdvertisementDTO createAdvertisementIdByUser(@PathVariable(value = "id") @Argument final Long userId,
-                                                        @RequestBody @Argument final AdvertisementDTO entity) {
+    public AdvertisementDTO createAdvertisementIdByUser(@PathVariable(value = "id") final Long userId,
+                                                        @RequestBody final AdvertisementDTO entity) {
         return advertisementService.createAdvertisement(userId, entity);
     }
 

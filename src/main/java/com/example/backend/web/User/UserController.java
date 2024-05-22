@@ -19,14 +19,14 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "UserService")
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
 
-    public static final String UPDATE_USER = "/updateUser";
+    private static final String UPDATE_USER = "/updateUser";
     private static final String UPDATE_IMAGE_USER = "/updateImageUser";
-    public static final String DELETE_USER = "/deleteUser";
+    private static final String DELETE_USER = "/deleteUser";
 
     @QueryMapping
     public List<UserDTO> getAllUsers() {

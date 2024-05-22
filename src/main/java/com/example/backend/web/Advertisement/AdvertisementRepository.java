@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdvertisementRepository extends JpaRepository<AdvertisementEntity, Long> {
-
+    AdvertisementEntity getByName(String name);
 }

@@ -3,10 +3,10 @@ package com.example.backend.web.Advertisement;
 import java.util.List;
 
 public interface AdvertisementService {
-    AdvertisementDTO createAdvertisement(Long id, AdvertisementDTO entity);
+    AdvertisementDTO createAdvertisement(String jwt, AdvertisementDTO entity);
     List<AdvertisementDTO> getAllAdvertisement();
-    AdvertisementDTO getOneAdvertisement(Long id);
-    AdvertisementDTO editAdvertisement(Long id, AdvertisementDTO entity);
-    void deleteIdAdvertisement(Long id);
+    AdvertisementDTO advertisement(String jwt);
+    AdvertisementDTO editAdvertisement(String jwt, AdvertisementDTO entity);
+    void deleteAdvertisement(String jwt);
     void deleteAll();
 }

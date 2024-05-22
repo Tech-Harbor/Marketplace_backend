@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Modifying
     @Query("DELETE FROM UserEntity user WHERE user.createData <= :dateTime AND user.enabled = false")
     void deleteNotValidatedUsers(@Param("dateTime") LocalDateTime dateTime);
+
+    Optional<UserEntity> getByFirstname(String firstName);
 }

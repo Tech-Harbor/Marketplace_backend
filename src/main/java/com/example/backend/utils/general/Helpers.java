@@ -22,7 +22,7 @@ public class Helpers {
         return userService.getByUserData(token);
     }
 
-    public Optional<UserEntity> tokenUserEmail(String jwt) {
+    public Optional<UserEntity> tokenUserEmail(final String jwt) {
         final var token = jwtService.extractUserData(jwt.substring(7));
 
         return userService.getByEmail(token);

@@ -103,11 +103,10 @@ public class UserServiceImpl implements UserService {
         final var byUserData = helpers.tokenUserData(jwt);
 
         userRepository.delete(byUserData);
-
     }
 
     @Override
-    public UserEntity getByUserFirstName(String firstName) {
+    public UserEntity getByUserFirstName(final String firstName) {
         return userRepository.getByFirstname(firstName).orElseThrow(
                 () -> badRequestException("Not user")
         );

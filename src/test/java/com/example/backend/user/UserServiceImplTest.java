@@ -1,9 +1,9 @@
 package com.example.backend.user;
 
-import com.example.backend.security.service.JwtService;
-import com.example.backend.web.User.store.UserEntity;
+import com.example.backend.utils.general.Helpers;
 import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserDTO;
 import com.example.backend.web.User.store.factory.UserFactory;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.example.backend.utils.general.Constants.*;
+import static com.example.backend.utils.general.Constants.EMAIL_KEY;
+import static com.example.backend.utils.general.Constants.PASSWORD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,7 +33,7 @@ public class UserServiceImplTest {
     @Mock
     private UserFactory userFactory;
     @Mock
-    private JwtService jwtService;
+    private Helpers helpers;
 
     @Test
     void getByIdUserTest() {
@@ -130,8 +131,7 @@ public class UserServiceImplTest {
                 .password(PASSWORD)
                 .build();
 
-        when(jwtService.extractUserData(anyString())).thenReturn("userData");
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(user));
+        when(helpers.tokenUserData(anyString())).thenReturn(user);
         when(userRepository.save(any(UserEntity.class))).thenReturn(user);
         when(userFactory.apply(any(UserEntity.class))).thenReturn(userDTOUpdate);
 
@@ -143,8 +143,7 @@ public class UserServiceImplTest {
         assertEquals(userDTOUpdate.email(), updatedUser.email());
         assertEquals(userDTOUpdate.password(), updatedUser.password());
 
-        verify(jwtService).extractUserData(jwt.substring(7));
-        verify(userRepository).findByEmail("userData");
+        verify(helpers).tokenUserData(jwt);
         verify(userRepository).save(Objects.requireNonNull(user));
         verify(userFactory).apply(user);
     }
@@ -181,13 +180,11 @@ public class UserServiceImplTest {
                 .password(PASSWORD)
                 .build();
 
-        when(jwtService.extractUserData(anyString())).thenReturn("userData");
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(user));
+        when(helpers.tokenUserData(anyString())).thenReturn(user);
 
         userService.deleteUser(jwt);
 
-        verify(jwtService).extractUserData(jwt.substring(7));
-        verify(userRepository).findByEmail("userData");
+        verify(helpers).tokenUserData(jwt);
         verify(userRepository).delete(Objects.requireNonNull(user));
     }
 }

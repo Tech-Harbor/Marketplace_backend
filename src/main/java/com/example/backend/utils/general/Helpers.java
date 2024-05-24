@@ -15,8 +15,8 @@ public class Helpers {
     private final JwtService jwtService;
     private final UserService userService;
 
-    public Helpers(@Lazy JwtService jwtService,
-                   @Lazy UserService userService) {
+    public Helpers(final @Lazy JwtService jwtService,
+                   final @Lazy UserService userService) {
         this.jwtService = jwtService;
         this.userService = userService;
     }

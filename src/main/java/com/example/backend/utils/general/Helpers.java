@@ -4,17 +4,23 @@ package com.example.backend.utils.general;
 import com.example.backend.security.service.JwtService;
 import com.example.backend.web.User.UserService;
 import com.example.backend.web.User.store.UserEntity;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
 public class Helpers {
 
     private final JwtService jwtService;
     private final UserService userService;
+
+    public Helpers(@Lazy JwtService jwtService,
+                   @Lazy UserService userService) {
+        this.jwtService = jwtService;
+        this.userService = userService;
+    }
+
 
     public UserEntity tokenUserData(final String jwt) {
         final var token = jwtService.extractUserData(jwt.substring(7));

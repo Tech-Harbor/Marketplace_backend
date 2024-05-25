@@ -6,6 +6,7 @@ import com.example.backend.web.User.store.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class AdvertisementEntity {
     private String characteristicAdvertisement;
 
     @Column(nullable = false)
-    private double price;
+    private BigDecimal price;
 
     @Column(nullable = false)
     private String location;

@@ -64,7 +64,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     public AdvertisementDTO editAdvertisement(final String jwt, final AdvertisementDTO advertisementDTO) {
         final var user = helpers.tokenUserData(jwt);
-        final var idAdvertisement = getIdAdvertisement(user.getAdvertisements().get(0).getId());
+        final var idAdvertisement =
+                advertisementRepository.getReferenceById(user.getAdvertisements().get(0).getId());
 
         if (StringUtils.isNoneEmpty(advertisementDTO.name())) {
             idAdvertisement.setName(advertisementDTO.name());
@@ -82,13 +83,18 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             idAdvertisement.setDelivery(advertisementDTO.delivery());
         }
 
+        if (StringUtils.isNoneEmpty(advertisementDTO.price().toString())) {
+            idAdvertisement.setPrice(advertisementDTO.price());
+        }
+
         return advertisementFactory.apply(advertisementRepository.save(idAdvertisement));
     }
 
     @Override
     public void deleteAdvertisement(final String jwt) {
         final var user = helpers.tokenUserData(jwt);
-        final var idAdvertisement = getIdAdvertisement(user.getAdvertisements().get(0).getId());
+        final var idAdvertisement =
+                advertisementRepository.getReferenceById(user.getAdvertisements().get(0).getId());
 
         advertisementRepository.delete(idAdvertisement);
     }
@@ -96,9 +102,5 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     public void deleteAll() {
         advertisementRepository.deleteAll();
-    }
-
-    private AdvertisementEntity getIdAdvertisement(final Long id) {
-        return advertisementRepository.getReferenceById(id);
     }
 }

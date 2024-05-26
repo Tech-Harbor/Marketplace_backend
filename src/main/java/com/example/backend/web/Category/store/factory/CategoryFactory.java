@@ -17,7 +17,7 @@ public class CategoryFactory implements Function<CategoryEntity, CategoryDTO> {
     @Override
     public CategoryDTO apply(final CategoryEntity category) {
         return CategoryDTO.builder()
-                .categoryName(category.getCategoryName())
+                .name(category.getName())
                 .advertisements(webIsNullFactory.isNullAdvertisementCategory(category))
                 .image(category.getImage().getImageUrl())
                 .color(category.getColor())

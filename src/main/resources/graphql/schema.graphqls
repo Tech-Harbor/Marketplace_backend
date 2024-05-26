@@ -9,7 +9,7 @@ type Query {
 }
 
 type CategoryDTO {
-    categoryName: String
+    name: String
     advertisements: [AdvertisementDTO]
     image: String
     color: String

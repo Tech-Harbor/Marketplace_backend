@@ -11,7 +11,7 @@ public class CategoryCreateFactory implements Function<CategoryEntity, CategoryC
     @Override
     public CategoryCreateDTO apply(final CategoryEntity category) {
         return CategoryCreateDTO.builder()
-                .categoryName(category.getCategoryName())
+                .name(category.getName())
                 .image(category.getImage().getImageUrl())
                 .color(category.getColor())
                 .build();

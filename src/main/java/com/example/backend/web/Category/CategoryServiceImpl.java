@@ -30,13 +30,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryEntity getCategoryName(final String categoryName) {
-        return categoryRepository.getByCategoryName(categoryName);
+    public CategoryEntity getCategoryName(final String name) {
+        return categoryRepository.getByName(name);
     }
 
     @Override
-    public CategoryDTO getCategoryDTOName(final String categoryName) {
-        return categoryFactory.apply(categoryRepository.getByCategoryName(categoryName));
+    public CategoryDTO getCategoryDTOName(final String name) {
+        return categoryFactory.apply(categoryRepository.getByName(name));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
         final var newImage = imageService.getByImage(categoryDTO.image());
 
         final var newCategory = CategoryEntity.builder()
-                .categoryName(categoryDTO.categoryName())
+                .name(categoryDTO.name())
                 .image(newImage)
                 .color(categoryDTO.color())
                 .build();
@@ -56,9 +56,9 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryCreateDTO update(final Long categoryId, final CategoryCreateDTO categoryDTO) {
         final var updateImage = imageService.getByImage(categoryDTO.image());
 
-        final var category = getIdCategory(categoryId);
+        final var category = categoryRepository.getReferenceById(categoryId);
 
-        category.setCategoryName(categoryDTO.categoryName());
+        category.setName(categoryDTO.name());
         category.setImage(updateImage);
         category.setColor(category.getColor());
 
@@ -68,9 +68,5 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteId(final Long id) {
         categoryRepository.deleteById(id);
-    }
-
-    private CategoryEntity getIdCategory(final Long id) {
-        return categoryRepository.getReferenceById(id);
     }
 }

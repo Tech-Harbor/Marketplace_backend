@@ -15,7 +15,7 @@ public class AdvertisementFactory implements Function<AdvertisementEntity, Adver
                 .name(entity.getName())
                 .price(entity.getPrice())
                 .createDate(entity.getCreateDate())
-                .category(entity.getCategory().getCategoryName())
+                .category(entity.getCategory().getName())
                 .images(entity.getImages())
                 .location(entity.getLocation())
                 .delivery(entity.getDelivery())

@@ -16,7 +16,7 @@ public interface UserService {
     Optional<UserSecurityDTO> getBySecurityEmail(String email);
     UserEntity getByUserData(String userData);
     List<UserDTO> getByAllUser();
-    UserDTO updateByUser(String jwt, UserDTO user);
+    UserInfoDTO updateByUser(String jwt, UserInfoDTO user);
     void deleteUser(String jwt);
     UserEntity getByUserFirstName(String firstName);
     UserSecurityDTO mySecuritySave(UserEntity user);

@@ -5,7 +5,9 @@ import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserDTO;
+import com.example.backend.web.User.store.dto.UserInfoDTO;
 import com.example.backend.web.User.store.factory.UserFactory;
+import com.example.backend.web.User.store.factory.UserInfoFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,6 +34,8 @@ public class UserServiceImplTest {
     private UserRepository userRepository;
     @Mock
     private UserFactory userFactory;
+    @Mock
+    private UserInfoFactory userInfoFactory;
     @Mock
     private Helpers helpers;
 
@@ -115,7 +119,7 @@ public class UserServiceImplTest {
     void updateByUserTest() {
         final String jwt = "Bearer sample.jwt.token";
 
-        final var userDTOUpdate = UserDTO.builder()
+        final var userDTOUpdate = UserInfoDTO.builder()
                 .lastname("lastname")
                 .firstname("firstname")
                 .phone("phone")
@@ -133,9 +137,9 @@ public class UserServiceImplTest {
 
         when(helpers.tokenUserData(anyString())).thenReturn(user);
         when(userRepository.save(any(UserEntity.class))).thenReturn(user);
-        when(userFactory.apply(any(UserEntity.class))).thenReturn(userDTOUpdate);
+        when(userInfoFactory.apply(any(UserEntity.class))).thenReturn(userDTOUpdate);
 
-        UserDTO updatedUser = userService.updateByUser(jwt, userDTOUpdate);
+        final var updatedUser = userService.updateByUser(jwt, userDTOUpdate);
 
         assertEquals(userDTOUpdate.firstname(), updatedUser.firstname());
         assertEquals(userDTOUpdate.lastname(), updatedUser.lastname());
@@ -145,7 +149,7 @@ public class UserServiceImplTest {
 
         verify(helpers).tokenUserData(jwt);
         verify(userRepository).save(Objects.requireNonNull(user));
-        verify(userFactory).apply(user);
+        verify(userInfoFactory).apply(user);
     }
 
     @Test

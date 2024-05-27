@@ -35,7 +35,8 @@ public class UserController {
 
     @PatchMapping(UPDATE_USER)
     @ApiResponseOK
-    public UserDTO updateByUser(@RequestHeader(AUTHORIZATION) final String jwt, @RequestBody final UserDTO user) {
+    public UserInfoDTO updateByUser(@RequestHeader(AUTHORIZATION) final String jwt,
+                                    @RequestBody final UserInfoDTO user) {
         return userService.updateByUser(jwt, user);
     }
 

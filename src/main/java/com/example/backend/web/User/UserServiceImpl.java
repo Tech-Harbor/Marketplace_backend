@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateByUser(final String jwt, final UserDTO user) {
+    public UserInfoDTO updateByUser(final String jwt, final UserInfoDTO user) {
         final var byUserData = helpers.tokenUserData(jwt);
 
         if (StringUtils.isNoneEmpty(user.firstname())) {
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
             byUserData.setPassword(user.password());
         }
 
-        return userFactory.apply(userRepository.save(byUserData));
+        return userInfoFactory.apply(userRepository.save(byUserData));
     }
 
     @Override

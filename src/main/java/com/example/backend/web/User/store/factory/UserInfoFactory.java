@@ -19,6 +19,7 @@ public class UserInfoFactory implements Function<UserEntity, UserInfoDTO> {
                 .lastname(user.getLastname())
                 .phone(user.getPhone())
                 .status(user.getStatus())
+                .password(user.getPassword())
                 .build();
     }
 }

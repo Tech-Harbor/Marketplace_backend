@@ -9,6 +9,7 @@ import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import com.example.backend.web.User.store.factory.UserFactory;
 import com.example.backend.web.User.store.factory.UserInfoFactory;
 import com.example.backend.web.User.store.factory.UserSecurityFactory;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -72,6 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserInfoDTO updateByUser(final String jwt, final UserInfoDTO user) {
         final var byUserData = helpers.tokenUserData(jwt);
 
@@ -99,6 +101,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(final String jwt) {
         final var byUserData = helpers.tokenUserData(jwt);
 
@@ -118,6 +121,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserInfoDTO updateImageUser(final String jwt, final MultipartFile image) {
         final var userData = helpers.tokenUserData(jwt);
         final var update = imageService.uploadImageEntity(image);

@@ -26,7 +26,7 @@ public class UserController {
 
     private static final String UPDATE_USER = "/updateUser";
     private static final String UPDATE_IMAGE_USER = "/updateImageUser";
-    private static final String DELETE_USER = "/deleteUser";
+    private static final String DELETE_USER = "/user/delete";
 
     @QueryMapping
     public List<UserDTO> getAllUsers() {

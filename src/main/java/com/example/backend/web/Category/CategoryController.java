@@ -1,5 +1,7 @@
 package com.example.backend.web.Category;
 
+import com.example.backend.utils.annotations.ApiResponseCreated;
+import com.example.backend.utils.annotations.ApiResponseDelete;
 import com.example.backend.web.Category.store.dto.CategoryCreateDTO;
 import com.example.backend.web.Category.store.dto.CategoryDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,13 +16,16 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "CategoryService")
-@RequestMapping("/api/categories")
+@RequestMapping("/api")
 public class CategoryController {
 
     private final CategoryServiceImpl categoryService;
-    private static final String URI_CATEGORIES_ID = "/{id}";
+    private static final String URI_CATEGORIES_ID = "/category/{id}";
+    private static final String URI_CATEGORY = "/category";
+    private static final String URI_CATEGORIES = "/categories";
+    private static final String URI_CATEGORY_DELETE = "/category/delete";
 
-    @GetMapping
+    @GetMapping(URI_CATEGORIES)
     @QueryMapping
     public List<CategoryDTO> getAllCategory() {
         return categoryService.getAll();
@@ -31,7 +36,8 @@ public class CategoryController {
         return categoryService.getCategoryDTOName(name);
     }
 
-    @PostMapping
+    @PostMapping(URI_CATEGORY)
+    @ApiResponseCreated
     public CategoryCreateDTO create(@RequestBody @Validated final CategoryCreateDTO categoryDTO) {
         return categoryService.create(categoryDTO);
     }
@@ -42,8 +48,9 @@ public class CategoryController {
         return categoryService.update(id, categoryDTO);
     }
 
-    @DeleteMapping(URI_CATEGORIES_ID)
-    public void delete(@PathVariable final Long id) {
-        categoryService.deleteId(id);
+    @DeleteMapping(URI_CATEGORY_DELETE)
+    @ApiResponseDelete
+    public void deleteCategory(@RequestBody final CategoryDTO categoryDTO) {
+        categoryService.deleteCategory(categoryDTO);
     }
 }

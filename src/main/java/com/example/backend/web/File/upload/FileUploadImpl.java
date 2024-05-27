@@ -28,7 +28,7 @@ public class FileUploadImpl implements FileUpload {
         Map map = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
 
         if (!Files.deleteIfExists(file.toPath())) {
-            throw new IOException("Failed to delete temporary file: " + file.getAbsolutePath());
+            throw new IOException("Failed to deleteCategory temporary file: " + file.getAbsolutePath());
         }
 
         return map;

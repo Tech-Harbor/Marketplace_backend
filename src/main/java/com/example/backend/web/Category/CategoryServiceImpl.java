@@ -6,6 +6,7 @@ import com.example.backend.web.Category.store.dto.CategoryDTO;
 import com.example.backend.web.Category.store.factory.CategoryCreateFactory;
 import com.example.backend.web.Category.store.factory.CategoryFactory;
 import com.example.backend.web.File.ImageService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryCreateDTO create(final CategoryCreateDTO categoryDTO) {
         final var newImage = imageService.getByImage(categoryDTO.image());
 
@@ -53,6 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryCreateDTO update(final Long categoryId, final CategoryCreateDTO categoryDTO) {
         final var updateImage = imageService.getByImage(categoryDTO.image());
 
@@ -60,13 +63,16 @@ public class CategoryServiceImpl implements CategoryService {
 
         category.setName(categoryDTO.name());
         category.setImage(updateImage);
-        category.setColor(category.getColor());
+        category.setColor(categoryDTO.color());
 
         return categoryCreateFactory.apply(categoryRepository.save(category));
     }
 
     @Override
-    public void deleteId(final Long id) {
-        categoryRepository.deleteById(id);
+    @Transactional
+    public void deleteCategory(final CategoryDTO categoryDTO) {
+        final var deleteName = getCategoryName(categoryDTO.name());
+
+        categoryRepository.delete(deleteName);
     }
 }

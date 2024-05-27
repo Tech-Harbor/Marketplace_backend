@@ -62,6 +62,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    @Transactional
     public AdvertisementDTO editAdvertisement(final String jwt, final AdvertisementDTO advertisementDTO) {
         final var user = helpers.tokenUserData(jwt);
         final var idAdvertisement =
@@ -91,6 +92,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    @Transactional
     public void deleteAdvertisement(final String jwt) {
         final var user = helpers.tokenUserData(jwt);
         final var idAdvertisement =
@@ -100,6 +102,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    @Transactional
     public void deleteAll() {
         advertisementRepository.deleteAll();
     }

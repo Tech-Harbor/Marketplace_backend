@@ -1,7 +1,7 @@
 package com.example.backend.web.Category.store.dto;
 
 
-import com.example.backend.web.Advertisement.AdvertisementDTO;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
 import lombok.Builder;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.example.backend.web.Category.store;
 
 import com.example.backend.web.File.store.ImageEntity;
-import com.example.backend.web.Advertisement.AdvertisementEntity;
+import com.example.backend.web.Advertisement.store.AdvertisementEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

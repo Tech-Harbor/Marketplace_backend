@@ -1,6 +1,11 @@
 package com.example.backend.web.Advertisement;
 
 import com.example.backend.utils.general.Helpers;
+import com.example.backend.web.Advertisement.store.AdvertisementEntity;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementCreateDTO;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
+import com.example.backend.web.Advertisement.store.factory.AdvertisementCreateFactory;
+import com.example.backend.web.Advertisement.store.factory.AdvertisementFactory;
 import com.example.backend.web.Category.CategoryService;
 import com.example.backend.web.User.UserService;
 import jakarta.transaction.Transactional;
@@ -16,6 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AdvertisementServiceImpl implements AdvertisementService {
 
+    private final AdvertisementCreateFactory advertisementCreateFactory;
     private final AdvertisementRepository advertisementRepository;
     private final AdvertisementFactory advertisementFactory;
     private final CategoryService categoryService;
@@ -24,7 +30,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     @Transactional
-    public AdvertisementDTO createAdvertisement(final String jwt, final AdvertisementDTO advertisement) {
+    public AdvertisementCreateDTO createAdvertisement(final String jwt, final AdvertisementCreateDTO advertisement) {
         final var user = helpers.tokenUserData(jwt);
         final var userName = userService.getByUserFirstName(user.getFirstname());
         final var categoryName = categoryService.getCategoryName(advertisement.category());
@@ -32,17 +38,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         final var newAdvertisement = AdvertisementEntity.builder()
                 .user(userName)
                 .name(advertisement.name())
-                .characteristicAdvertisement(advertisement.characteristicAdvertisement())
                 .descriptionAdvertisement(advertisement.descriptionAdvertisement())
                 .price(advertisement.price())
                 .images(advertisement.images())
-                .location(advertisement.location())
                 .createDate(LocalDateTime.now())
                 .category(categoryName)
                 .delivery(advertisement.delivery())
                 .build();
 
-        return advertisementFactory.apply(advertisementRepository.save(newAdvertisement));
+        return advertisementCreateFactory.apply(advertisementRepository.save(newAdvertisement));
     }
 
     @Override
@@ -96,7 +100,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public void deleteAdvertisement(final String jwt) {
         final var user = helpers.tokenUserData(jwt);
         final var idAdvertisement =
-                advertisementRepository.getReferenceById(user.getAdvertisements().get(0).getId());
+                advertisementRepository.getByName(user.getAdvertisements().get(0).getName());
 
         advertisementRepository.delete(idAdvertisement);
     }

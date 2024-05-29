@@ -2,8 +2,8 @@ package com.example.backend.utils.general;
 
 
 import com.example.backend.web.Category.store.CategoryEntity;
-import com.example.backend.web.Advertisement.AdvertisementDTO;
-import com.example.backend.web.Advertisement.AdvertisementFactory;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
+import com.example.backend.web.Advertisement.store.factory.AdvertisementFactory;
 import com.example.backend.web.User.store.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

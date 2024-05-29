@@ -1,4 +1,4 @@
-package com.example.backend.web.Advertisement;
+package com.example.backend.web.Advertisement.store;
 
 import com.example.backend.web.Category.store.CategoryEntity;
 import com.example.backend.web.File.store.ImageEntity;

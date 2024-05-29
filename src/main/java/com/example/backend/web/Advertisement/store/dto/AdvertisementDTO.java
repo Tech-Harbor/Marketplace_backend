@@ -1,4 +1,4 @@
-package com.example.backend.web.Advertisement;
+package com.example.backend.web.Advertisement.store.dto;
 
 import com.example.backend.web.File.store.ImageEntity;
 import lombok.Builder;

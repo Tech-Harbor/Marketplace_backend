@@ -7,13 +7,17 @@ import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
 import com.example.backend.web.Advertisement.store.factory.AdvertisementCreateFactory;
 import com.example.backend.web.Advertisement.store.factory.AdvertisementFactory;
 import com.example.backend.web.Category.CategoryService;
+import com.example.backend.web.File.ImageService;
+import com.example.backend.web.File.store.ImageEntity;
 import com.example.backend.web.User.UserService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,22 +29,30 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     private final AdvertisementRepository advertisementRepository;
     private final AdvertisementFactory advertisementFactory;
     private final CategoryService categoryService;
+    private final ImageService imageService;
     private final UserService userService;
     private final Helpers helpers;
 
     @Override
     @Transactional
-    public AdvertisementCreateDTO createAdvertisement(final String jwt, final AdvertisementCreateDTO advertisement) {
+    public AdvertisementCreateDTO createAdvertisement(final String jwt,
+                                                      final AdvertisementCreateDTO advertisement,
+                                                      final List<MultipartFile> files) {
         final var user = helpers.tokenUserData(jwt);
         final var userName = userService.getByUserFirstName(user.getFirstname());
         final var categoryName = categoryService.getCategoryName(advertisement.category());
+        final var imagesList = new ArrayList<ImageEntity>();
+
+        for (MultipartFile file : files) {
+            imagesList.add(imageService.uploadImageEntity(file));
+        }
 
         final var newAdvertisement = AdvertisementEntity.builder()
                 .user(userName)
                 .name(advertisement.name())
                 .descriptionAdvertisement(advertisement.descriptionAdvertisement())
                 .price(advertisement.price())
-                .images(advertisement.images())
+                .images(imagesList)
                 .createDate(LocalDateTime.now())
                 .category(categoryName)
                 .delivery(advertisement.delivery())

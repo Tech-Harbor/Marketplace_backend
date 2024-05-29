@@ -7,7 +7,9 @@ import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,11 +28,12 @@ public class AdvertisementController {
     public static final String ADVERTISEMENT = "/advertisement";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
-    @PostMapping(URL_CREATE)
+    @PostMapping(value = URL_CREATE, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiResponseCreated
     public AdvertisementCreateDTO createAdvertisementByUser(@RequestHeader(AUTHORIZATION) final String jwt,
-                                                            @RequestBody final AdvertisementCreateDTO entity) {
-        return advertisementService.createAdvertisement(jwt, entity);
+                                                            @RequestPart final AdvertisementCreateDTO advertisement,
+                                                            @RequestPart final List<MultipartFile> images) {
+        return advertisementService.createAdvertisement(jwt, advertisement, images);
     }
 
     @QueryMapping

@@ -4,6 +4,7 @@ import com.example.backend.utils.annotations.ApiResponseCreated;
 import com.example.backend.utils.annotations.ApiResponseDelete;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementCreateDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -47,8 +48,8 @@ public class AdvertisementController {
     }
 
     @PatchMapping(URL_EDIT)
-    public AdvertisementDTO editAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt,
-                                              @RequestBody final AdvertisementDTO entity) {
+    public AdvertisementUpdateDTO editAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt,
+                                                    @RequestBody final AdvertisementUpdateDTO entity) {
         return advertisementService.editAdvertisement(jwt, entity);
     }
 

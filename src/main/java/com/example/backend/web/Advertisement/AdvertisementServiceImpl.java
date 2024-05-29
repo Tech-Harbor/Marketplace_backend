@@ -4,8 +4,10 @@ import com.example.backend.utils.general.Helpers;
 import com.example.backend.web.Advertisement.store.AdvertisementEntity;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementCreateDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
 import com.example.backend.web.Advertisement.store.factory.AdvertisementCreateFactory;
 import com.example.backend.web.Advertisement.store.factory.AdvertisementFactory;
+import com.example.backend.web.Advertisement.store.factory.AdvertisementUpdateFactory;
 import com.example.backend.web.Category.CategoryService;
 import com.example.backend.web.File.ImageService;
 import com.example.backend.web.File.store.ImageEntity;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AdvertisementServiceImpl implements AdvertisementService {
 
+    private final AdvertisementUpdateFactory advertisementUpdateFactory;
     private final AdvertisementCreateFactory advertisementCreateFactory;
     private final AdvertisementRepository advertisementRepository;
     private final AdvertisementFactory advertisementFactory;
@@ -79,7 +82,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     @Transactional
-    public AdvertisementDTO editAdvertisement(final String jwt, final AdvertisementDTO advertisementDTO) {
+    public AdvertisementUpdateDTO editAdvertisement(final String jwt, final AdvertisementUpdateDTO advertisementDTO) {
         final var user = helpers.tokenUserData(jwt);
         final var idAdvertisement =
                 advertisementRepository.getReferenceById(user.getAdvertisements().get(0).getId());
@@ -100,11 +103,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             idAdvertisement.setDelivery(advertisementDTO.delivery());
         }
 
+        if (StringUtils.isNoneEmpty(advertisementDTO.location())) {
+            idAdvertisement.setLocation(advertisementDTO.location());
+        }
+
         if (StringUtils.isNoneEmpty(advertisementDTO.price().toString())) {
             idAdvertisement.setPrice(advertisementDTO.price());
         }
 
-        return advertisementFactory.apply(advertisementRepository.save(idAdvertisement));
+        return advertisementUpdateFactory.apply(advertisementRepository.save(idAdvertisement));
     }
 
     @Override

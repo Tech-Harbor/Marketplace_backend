@@ -74,10 +74,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     public AdvertisementDTO advertisement(final String jwt) {
         final var user = helpers.tokenUserData(jwt);
-        final var advertisement =
+        final var advertisementRepositoryByName =
                 advertisementRepository.getByName(user.getAdvertisements().get(0).getName());
 
-        return advertisementFactory.apply(advertisement);
+        return advertisementFactory.apply(advertisementRepositoryByName);
     }
 
     @Override
@@ -118,10 +118,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Transactional
     public void deleteAdvertisement(final String jwt) {
         final var user = helpers.tokenUserData(jwt);
-        final var idAdvertisement =
+        final var advertisementRepositoryByName =
                 advertisementRepository.getByName(user.getAdvertisements().get(0).getName());
 
-        advertisementRepository.delete(idAdvertisement);
+        advertisementRepository.delete(advertisementRepositoryByName);
     }
 
     @Override

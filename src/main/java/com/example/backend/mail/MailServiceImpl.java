@@ -3,7 +3,6 @@ package com.example.backend.mail;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import freemarker.template.Configuration;
-import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.StringWriter;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import static com.example.backend.utils.general.Constants.JWT;
@@ -37,10 +35,9 @@ public class MailServiceImpl implements MailService {
 
     @SneakyThrows
     private void sendRegistrationEmail(final UserSecurityDTO user) {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        String emailContent = getRegistrationEmailContent(user);
-
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, UTF_8);
+        final var mimeMessage = mailSender.createMimeMessage();
+        final var emailContent = getRegistrationEmailContent(user);
+        final var helper = new MimeMessageHelper(mimeMessage, false, UTF_8);
 
         helper.setSubject("???, " + user.lastname());
         helper.setTo(user.email());
@@ -51,8 +48,8 @@ public class MailServiceImpl implements MailService {
 
     @SneakyThrows
     private String getRegistrationEmailContent(final UserSecurityDTO user) {
-        StringWriter writer = new StringWriter();
-        Map<String, Object> model = new HashMap<>();
+        final var writer = new StringWriter();
+        final var model = new HashMap<String, Object>();
 
         model.put("username", user.lastname());
         model.put(JWT, jwtTokenService.generateUserEmailDataToken(user));
@@ -64,10 +61,9 @@ public class MailServiceImpl implements MailService {
 
     @SneakyThrows
     private void sendNewPassword(final UserSecurityDTO user) {
-        MimeMessage mimePasswordMessage = mailSender.createMimeMessage();
-        String passwordContent = getNewPasswordContent(user);
-
-        MimeMessageHelper helper = new MimeMessageHelper(mimePasswordMessage, false, UTF_8);
+        final var mimePasswordMessage = mailSender.createMimeMessage();
+        final var passwordContent = getNewPasswordContent(user);
+        final var helper = new MimeMessageHelper(mimePasswordMessage, false, UTF_8);
 
         helper.setSubject("Update Password, " + user.lastname());
         helper.setTo(user.email());
@@ -78,9 +74,8 @@ public class MailServiceImpl implements MailService {
 
     @SneakyThrows
     private String getNewPasswordContent(final UserSecurityDTO user) {
-        StringWriter writer = new StringWriter();
-
-        Map<String, Object> model = new HashMap<>();
+        final var writer = new StringWriter();
+        final var model = new HashMap<String, Object>();
 
         model.put("username", user.lastname());
         model.put(JWT, jwtTokenService.generateUserPasswordDataToken(user));

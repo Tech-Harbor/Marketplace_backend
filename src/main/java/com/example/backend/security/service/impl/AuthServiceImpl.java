@@ -13,7 +13,6 @@ import com.example.backend.utils.general.Helpers;
 import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserService;
 import com.example.backend.web.User.store.UserEntity;
-import com.example.backend.web.User.store.dto.UserInfoDTO;
 import com.example.backend.web.User.store.factory.UserInfoFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -152,14 +151,5 @@ public class AuthServiceImpl implements AuthService {
                 mailService.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
             }
         );
-    }
-
-    @Override
-    public UserInfoDTO profileUser(final String accessToken) {
-        final var user = helpers.tokenUserData(accessToken);
-
-        log.info("Info {}", user);
-
-        return userInfoFactory.apply(user);
     }
 }

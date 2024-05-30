@@ -2,13 +2,18 @@ package com.example.backend.web.User;
 
 
 import com.example.backend.utils.annotations.ApiResponseDelete;
+import com.example.backend.utils.annotations.ApiResponseInfoOK;
 import com.example.backend.utils.annotations.ApiResponseOK;
 import com.example.backend.web.User.store.dto.UserDTO;
+import com.example.backend.web.User.store.dto.UserImageUpdateInfoDTO;
 import com.example.backend.web.User.store.dto.UserInfoDTO;
+import com.example.backend.web.User.store.dto.UserUpdateInfoDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +31,7 @@ public class UserController {
 
     private static final String UPDATE_USER = "/updateUser";
     private static final String UPDATE_IMAGE_USER = "/updateImageUser";
+    private static final String PROFILE_USER = "/profile";
     private static final String DELETE_USER = "/user/delete";
 
     @QueryMapping
@@ -35,8 +41,8 @@ public class UserController {
 
     @PatchMapping(UPDATE_USER)
     @ApiResponseOK
-    public UserInfoDTO updateByUser(@RequestHeader(AUTHORIZATION) final String jwt,
-                                    @RequestBody final UserInfoDTO user) {
+    public UserUpdateInfoDTO updateByUser(@RequestHeader(AUTHORIZATION) final String jwt,
+                                          @RequestBody final UserUpdateInfoDTO user) {
         return userService.updateByUser(jwt, user);
     }
 
@@ -45,11 +51,18 @@ public class UserController {
         return userService.getByIdUser(id);
     }
 
-    @PatchMapping(UPDATE_IMAGE_USER)
+    @PatchMapping(value = UPDATE_IMAGE_USER, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiResponseOK
-    public UserInfoDTO updateImage(@RequestHeader(AUTHORIZATION) final String jwt,
-                                   @RequestPart final MultipartFile image) {
+    public UserImageUpdateInfoDTO updateImage(@RequestHeader(AUTHORIZATION) final String jwt,
+                                              @RequestPart final MultipartFile image) {
         return userService.updateImageUser(jwt, image);
+    }
+
+    @GetMapping(PROFILE_USER)
+    @Operation(summary = "Information about the user who is authorized and logged into the system")
+    @ApiResponseInfoOK
+    public UserInfoDTO profile(@RequestHeader(AUTHORIZATION) final String accessToken) {
+        return userService.profileUser(accessToken);
     }
 
     @DeleteMapping(DELETE_USER)

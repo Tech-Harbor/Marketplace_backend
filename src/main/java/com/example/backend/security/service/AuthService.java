@@ -5,7 +5,6 @@ import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
-import com.example.backend.web.User.store.dto.UserInfoDTO;
 
 public interface AuthService {
     /**
@@ -55,12 +54,4 @@ public interface AuthService {
      * This method sends a letter to the user's mail if he did not have time to activate the account the first time
      */
     void sendEmailActive(EmailRequest emailRequest);
-    /**
-     * Retrieves user information based on a JWT token.
-     *
-     * @param accessToken The JWT token used for identifying and extracting user data
-     * @return UserInfoDTO containing the user's information
-     * @throws RuntimeException if a user with the extracted data is not found
-     */
-    UserInfoDTO profileUser(String accessToken);
 }

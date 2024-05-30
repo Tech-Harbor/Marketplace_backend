@@ -7,7 +7,6 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
 import com.example.backend.utils.annotations.*;
-import com.example.backend.web.User.store.dto.UserInfoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +22,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @AllArgsConstructor
 @RequestMapping("/api")
 @Slf4j
-@Tag(name = "Authentication", description = "Authentication User and Update Password, personal office users")
+@Tag(name = "Authentication")
 public class AuthController {
 
     private final AuthService authService;
@@ -33,7 +32,6 @@ public class AuthController {
     private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String ACTIVE_USER = "/active";
-    private static final String PROFILE_USER = "/profile";
     private static final String SEND_MESSAGE_EMAIL_NOT_ACTIVE = "/sendMessageEmailActive";
 
     @PostMapping(SIGNUP_URI)
@@ -63,13 +61,6 @@ public class AuthController {
     public void updatePassword(@RequestHeader(AUTHORIZATION) final String jwt,
                                @RequestBody @Validated final PasswordRequest passwordRequest) {
         authService.formUpdatePassword(jwt, passwordRequest);
-    }
-
-    @GetMapping(PROFILE_USER)
-    @Operation(summary = "Information about the user who is authorized and logged into the system")
-    @ApiResponseInfoOK
-    public UserInfoDTO profile(@RequestHeader(AUTHORIZATION) final String accessToken) {
-        return authService.profileUser(accessToken);
     }
 
     @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)

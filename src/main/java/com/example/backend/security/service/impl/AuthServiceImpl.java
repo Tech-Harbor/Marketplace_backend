@@ -13,7 +13,6 @@ import com.example.backend.utils.general.Helpers;
 import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserService;
 import com.example.backend.web.User.store.UserEntity;
-import com.example.backend.web.User.store.factory.UserInfoFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +36,6 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final MyPasswordEncoder myPasswordEncoder;
     private final JwtTokenService jwtTokenService;
-    private final UserInfoFactory userInfoFactory;
     private final UserService userService;
     private final MailService mailService;
     private final Helpers helpers;

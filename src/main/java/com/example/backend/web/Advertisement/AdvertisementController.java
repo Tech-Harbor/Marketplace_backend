@@ -61,7 +61,7 @@ public class AdvertisementController {
 
     @DeleteMapping(URL_DELETE_ALL)
     @ApiResponseDelete
-    public void deleteAllAdvertisement() {
-        advertisementService.deleteAll();
+    public void deleteAllAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
+        advertisementService.deleteAll(jwt);
     }
 }

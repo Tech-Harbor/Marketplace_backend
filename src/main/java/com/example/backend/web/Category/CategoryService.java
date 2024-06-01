@@ -7,9 +7,9 @@ import com.example.backend.web.Category.store.dto.CategoryDTO;
 import java.util.List;
 public interface CategoryService {
     List<CategoryDTO> getAll();
-    CategoryEntity getCategoryName(String categoryName);
-    CategoryDTO getCategoryDTOName(String categoryName);
+    CategoryEntity getCategoryName(String name);
+    CategoryDTO getCategoryDTOName(String name);
     CategoryCreateDTO create(CategoryCreateDTO categoryDTO);
     CategoryCreateDTO update(Long categoryId, CategoryCreateDTO categoryDTO);
-    void deleteId(Long id);
+    void deleteCategory(CategoryDTO categoryDTO);
 }

@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
                 contact =  @Contact(),
                 title = "Oranger API ",
                 description = "Documentation for access to the Oranger resources via REST API.",
-                version = "1.1.0"
+                version = "1.2.1"
         )
 )
 @SecurityScheme(

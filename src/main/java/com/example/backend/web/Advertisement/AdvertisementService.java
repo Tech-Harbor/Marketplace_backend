@@ -1,12 +1,17 @@
 package com.example.backend.web.Advertisement;
 
+import com.example.backend.web.Advertisement.store.dto.AdvertisementCreateDTO;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 public interface AdvertisementService {
-    AdvertisementDTO createAdvertisement(Long id, AdvertisementDTO entity);
+    AdvertisementCreateDTO createAdvertisement(String jwt, AdvertisementCreateDTO entity, List<MultipartFile> files);
     List<AdvertisementDTO> getAllAdvertisement();
-    AdvertisementDTO getOneAdvertisement(Long id);
-    AdvertisementDTO editAdvertisement(Long id, AdvertisementDTO entity);
-    void deleteIdAdvertisement(Long id);
+    AdvertisementDTO advertisement(String jwt);
+    AdvertisementUpdateDTO editAdvertisement(String jwt, AdvertisementUpdateDTO entity);
+    void deleteAdvertisement(String jwt);
     void deleteAll();
 }

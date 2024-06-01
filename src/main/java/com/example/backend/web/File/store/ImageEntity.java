@@ -1,5 +1,6 @@
 package com.example.backend.web.File.store;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import lombok.*;
 public class ImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     private String name;
     private String imageUrl;

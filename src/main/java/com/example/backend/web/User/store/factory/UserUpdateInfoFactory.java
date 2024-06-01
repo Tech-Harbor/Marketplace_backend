@@ -1,7 +1,7 @@
 package com.example.backend.web.User.store.factory;
 
 import com.example.backend.web.User.store.UserEntity;
-import com.example.backend.web.User.store.dto.UserInfoDTO;
+import com.example.backend.web.User.store.dto.UserUpdateInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -9,16 +9,14 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class UserInfoFactory implements Function<UserEntity, UserInfoDTO> {
+public class UserUpdateInfoFactory implements Function<UserEntity, UserUpdateInfoDTO> {
     @Override
-    public UserInfoDTO apply(final UserEntity user) {
-        return UserInfoDTO.builder()
+    public UserUpdateInfoDTO apply(final UserEntity user) {
+        return UserUpdateInfoDTO.builder()
                 .firstname(user.getFirstname())
                 .email(user.getEmail())
-                .image(user.getImage().getImageUrl())
                 .lastname(user.getLastname())
                 .phone(user.getPhone())
-                .status(user.getStatus())
                 .password(user.getPassword())
                 .build();
     }

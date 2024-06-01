@@ -1,6 +1,8 @@
 package com.example.backend.web.File;
 
 
+import com.example.backend.utils.annotations.ApiResponseCreated;
+import com.example.backend.utils.annotations.ApiResponseOK;
 import com.example.backend.web.File.store.dto.ImageCreateDTO;
 import com.example.backend.web.File.store.dto.ImageDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,19 +24,22 @@ public class ImageController {
     private static final String URI_IMAGES = "/images";
 
     @GetMapping(URI_IMAGES)
+    @ApiResponseOK
     public List<ImageDTO> getAllImage() {
         return imageService.getAllPhoto();
     }
 
     @PostMapping(URI_IMAGE)
     @ResponseBody
+    @ApiResponseCreated
     public ImageCreateDTO upload(@RequestParam final MultipartFile file) {
         return imageService.uploadImage(file);
     }
 
     @GetMapping(URI_IMAGES_ID)
     @ResponseBody
-    public ImageDTO imageGetById(@PathVariable final Long imageId) {
-        return imageService.imageById(imageId);
+    @ApiResponseOK
+    public void deleteCloudinaryAndRepositoryById(@PathVariable final String imageId) {
+        imageService.imageDeleteId(imageId);
     }
 }

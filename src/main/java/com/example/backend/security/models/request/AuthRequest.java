@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
+import static com.example.backend.utils.general.Constants.EMPTY_FIELD;
+
 @Builder
 public record AuthRequest(
-        @NotNull @NotBlank(message = "Поле не повинно бути порожнім") @Email String email,
-        @NotNull @NotBlank(message = "Поле не повинно бути порожнім") String password) { }
+        @NotNull @NotBlank(message = EMPTY_FIELD) @Email String email,
+        @NotNull @NotBlank(message = EMPTY_FIELD) String password) { }

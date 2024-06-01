@@ -1,7 +1,6 @@
 package com.example.backend.security.jwt;
 
 import com.example.backend.security.service.JwtService;
-import com.example.backend.security.service.details.MyUserDetails;
 import com.example.backend.security.service.details.MyUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,9 +31,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             final HttpServletResponse response,
             final FilterChain filterChain) {
 
-        var jwt = getTokenHeaders(request);
+        final var jwt = getTokenHeaders(request);
 
-        var userData = getExtractUserData(jwt);
+        final var userData = getExtractUserData(jwt);
 
         getSecurityContextHolder(request, userData, jwt);
 
@@ -63,7 +62,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private void getSecurityContextHolder(final HttpServletRequest request, final String userData, final String jwt) {
         if (StringUtils.isNoneEmpty(userData) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            var userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(userData);
+            final var userDetails = userDetailsService.loadUserByUsername(userData);
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
 

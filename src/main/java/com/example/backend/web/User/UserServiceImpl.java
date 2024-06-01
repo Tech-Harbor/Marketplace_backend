@@ -1,15 +1,14 @@
 package com.example.backend.web.User;
 
-import com.example.backend.security.service.JwtService;
+import com.example.backend.utils.general.Helpers;
 import com.example.backend.web.File.ImageService;
 import com.example.backend.web.User.store.UserEntity;
-import com.example.backend.web.User.store.dto.UserDTO;
-import com.example.backend.web.User.store.dto.UserInfoDTO;
-import com.example.backend.web.User.store.dto.UserSecurityDTO;
-import com.example.backend.web.User.store.factory.UserFactory;
-import com.example.backend.web.User.store.factory.UserInfoFactory;
-import com.example.backend.web.User.store.factory.UserSecurityFactory;
+import com.example.backend.web.User.store.dto.*;
+import com.example.backend.web.User.store.factory.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,15 +20,18 @@ import static com.example.backend.utils.exception.RequestException.badRequestExc
 import static java.util.Optional.ofNullable;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private final UserImageUpdateInfoFactory userImageUpdateInfoFactory;
+    private final UserUpdateInfoFactory userUpdateInfoFactory;
     private final UserSecurityFactory userSecurityFactory;
     private final UserInfoFactory userInfoFactory;
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final UserFactory userFactory;
-    private final JwtService jwtService;
+    private final Helpers helpers;
 
     @Override
     public UserDTO getByIdUser(final Long id) {
@@ -49,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserSecurityDTO> getBySecurityEmail(final String email) {
-        UserEntity user = userRepository.findByEmail(email).orElseThrow(
+        final var user = userRepository.findByEmail(email).orElseThrow(
                 () -> badRequestException("Not user")
         );
 
@@ -71,21 +73,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateByIdUser(final Long id, final UserDTO user) {
-        final UserEntity userId = getById(id);
+    @Transactional
+    public UserUpdateInfoDTO updateByUser(final String jwt, final UserUpdateInfoDTO user) {
+        final var byUserData = helpers.tokenUserData(jwt);
 
-            userId.setFirstname(user.firstname());
-            userId.setLastname(user.lastname());
-            userId.setPhone(user.phone());
-            userId.setEmail(user.email());
-            userId.setPassword(user.password());
+        if (StringUtils.isNoneEmpty(user.firstname())) {
+            byUserData.setFirstname(user.firstname());
+        }
 
-        return userFactory.apply(userRepository.save(userId));
+        if (StringUtils.isNoneEmpty(user.lastname())) {
+            byUserData.setLastname(user.lastname());
+        }
+
+        if (StringUtils.isNoneEmpty(user.phone())) {
+            byUserData.setPhone(user.phone());
+        }
+
+        if (StringUtils.isNoneEmpty(user.email())) {
+            byUserData.setEmail(user.email());
+        }
+
+        if (StringUtils.isNoneEmpty(user.password())) {
+            byUserData.setPassword(user.password());
+        }
+
+        return userUpdateInfoFactory.apply(userRepository.save(byUserData));
     }
 
     @Override
-    public void deleteByIdUser(final Long id) {
-        userRepository.deleteById(id);
+    @Transactional
+    public void deleteUser(final String jwt) {
+        final var byUserData = helpers.tokenUserData(jwt);
+
+        userRepository.delete(byUserData);
+    }
+
+    @Override
+    public UserEntity getByUserFirstName(final String firstName) {
+        return userRepository.getByFirstname(firstName).orElseThrow(
+                () -> badRequestException("Not user")
+        );
     }
 
     @Override
@@ -94,15 +121,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoDTO updateImageUser(final String jwt, final MultipartFile image) {
-        final var token = jwtService.extractUserData(jwt).substring(7);
+    @Transactional
+    public UserImageUpdateInfoDTO updateImageUser(final String jwt, final MultipartFile image) {
+        final var userData = helpers.tokenUserData(jwt);
         final var update = imageService.uploadImageEntity(image);
-        final var userData = getByUserData(token);
 
         userData.setImage(update);
 
         userRepository.save(userData);
 
-        return userInfoFactory.apply(userData);
+        return userImageUpdateInfoFactory.apply(userData);
+    }
+
+    @Override
+    public UserInfoDTO profileUser(final String accessToken) {
+        final var user = helpers.tokenUserData(accessToken);
+
+        log.info("Info {}", user);
+
+        return userInfoFactory.apply(user);
     }
 }

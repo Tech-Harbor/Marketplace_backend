@@ -6,13 +6,13 @@ import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
-import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.security.service.impl.AuthServiceImpl;
+import com.example.backend.utils.general.Helpers;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserRepository;
 import com.example.backend.web.User.UserServiceImpl;
+import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,7 +52,7 @@ public class AuthServiceImplTest {
     @Mock
     private JwtTokenService jwtTokenService;
     @Mock
-    private JwtService jwtService;
+    private Helpers helpers;
 
     @Test
     void sigUpTest() {
@@ -155,28 +155,21 @@ public class AuthServiceImplTest {
                 .password(PASSWORD)
                 .build();
 
-        // Мок поведінки jwtService, щоб повернути певний користувацький ідентифікатор з jwt
-        when(jwtService.extractUserData(jwt.substring(7))).thenReturn(EMAIL_KEY);
-
-        // Мок поведінки userService, щоб повернути опціональний об'єкт з користувачем
         final var user = UserEntity.builder()
                 .email(EMAIL_KEY)
                 .build();
 
-        when(userService.getByEmail(EMAIL_KEY)).thenReturn(Optional.of(user));
-
-        // Мок поведінки myPasswordEncoder, щоб повернути мокований PasswordEncoder
         final var encoder = mock(PasswordEncoder.class);
-        when(myPasswordEncoder.passwordEncoder()).thenReturn(encoder);
 
+        when(helpers.tokenUserEmail(anyString())).thenReturn(Optional.of(user));
+        when(myPasswordEncoder.passwordEncoder()).thenReturn(encoder);
         when(encoder.encode(PASSWORD)).thenReturn(PASSWORD);
 
-        // Виклик методу, який тестуємо
         authService.formUpdatePassword(jwt, passwordRequest);
 
-        // Перевірка, що паролі закодовано та збережено
         assertEquals(PASSWORD, user.getPassword());
-
+        verify(helpers).tokenUserEmail(jwt);
+        verify(myPasswordEncoder.passwordEncoder()).encode(passwordRequest.password());
         verify(userService).mySecuritySave(user);
     }
 
@@ -202,20 +195,19 @@ public class AuthServiceImplTest {
 
     @Test
     void activeUserTest() {
+        final var jwt = "Bearer some-jwt-token";
+
         final var userEntity = UserEntity.builder()
                 .email(EMAIL_KEY)
+                .enabled(false)
                 .build();
 
-        final var userOptional = Optional.of(userEntity);
+        when(helpers.tokenUserEmail(anyString())).thenReturn(Optional.of(userEntity));
 
-        when(jwtService.extractUserData(anyString())).thenReturn(EMAIL_KEY);
+        authService.activeUser(jwt);
 
-        when(userService.getByEmail(EMAIL_KEY)).thenReturn(userOptional);
-
-        authService.activeUser("your_jwt_token");
-
-        verify(jwtService).extractUserData(anyString());
-        verify(userService).getByEmail(EMAIL_KEY);
+        assertTrue(userEntity.getEnabled());
+        verify(helpers).tokenUserEmail(jwt);
         verify(userService).mySecuritySave(userEntity);
     }
 

@@ -1,29 +1,40 @@
 package com.example.backend.web.Advertisement;
 
+import com.example.backend.utils.annotations.ApiResponseCreated;
+import com.example.backend.utils.annotations.ApiResponseDelete;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementCreateDTO;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "AdvertisementService")
-@RequestMapping("/api/advertisement")
+@RequestMapping("/api")
 public class AdvertisementController {
 
-    private final AdvertisementServiceImpl advertisementService;
-    private static final String URI_ADVERTISEMENT_ID = "/{id}";
+    private final AdvertisementService advertisementService;
+    private static final String URL_CREATE = "/createAdvertisement";
+    private static final String URL_EDIT = "/editAdvertisement";
+    private static final String URL_DELETE = "/deleteAdvertisement";
+    public static final String ADVERTISEMENT = "/advertisement";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
-    @PostMapping(URI_ADVERTISEMENT_ID)
-    @MutationMapping
-    public AdvertisementDTO createAdvertisementIdByUser(@PathVariable(value = "id") @Argument final Long userId,
-                                                        @RequestBody @Argument final AdvertisementDTO entity) {
-        return advertisementService.createAdvertisement(userId, entity);
+    @PostMapping(value = URL_CREATE, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ApiResponseCreated
+    public AdvertisementCreateDTO createAdvertisementByUser(@RequestHeader(AUTHORIZATION) final String jwt,
+                                                            @RequestPart final AdvertisementCreateDTO advertisement,
+                                                            @RequestPart final List<MultipartFile> images) {
+        return advertisementService.createAdvertisement(jwt, advertisement, images);
     }
 
     @QueryMapping
@@ -31,22 +42,25 @@ public class AdvertisementController {
         return advertisementService.getAllAdvertisement();
     }
 
-    @QueryMapping
-    public AdvertisementDTO getByIdAdvertisement(@Argument final Long id) {
-        return advertisementService.getOneAdvertisement(id);
+    @GetMapping(ADVERTISEMENT)
+    public AdvertisementDTO getByAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
+        return advertisementService.advertisement(jwt);
     }
 
-    @PutMapping(URI_ADVERTISEMENT_ID)
-    public AdvertisementDTO editAdvertisement(@PathVariable final Long id, @RequestBody final AdvertisementDTO entity) {
-        return advertisementService.editAdvertisement(id, entity);
+    @PatchMapping(URL_EDIT)
+    public AdvertisementUpdateDTO editAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt,
+                                                    @RequestBody final AdvertisementUpdateDTO entity) {
+        return advertisementService.editAdvertisement(jwt, entity);
     }
 
-    @DeleteMapping(URI_ADVERTISEMENT_ID)
-    public void deleteIdAdvertisement(@PathVariable final Long id) {
-        advertisementService.deleteIdAdvertisement(id);
+    @DeleteMapping(URL_DELETE)
+    @ApiResponseDelete
+    public void deleteAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
+        advertisementService.deleteAdvertisement(jwt);
     }
 
     @DeleteMapping(URL_DELETE_ALL)
+    @ApiResponseDelete
     public void deleteAllAdvertisement() {
         advertisementService.deleteAll();
     }

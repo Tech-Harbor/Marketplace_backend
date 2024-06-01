@@ -1,4 +1,4 @@
-package com.example.backend.web.Advertisement;
+package com.example.backend.web.Advertisement.store;
 
 import com.example.backend.web.Category.store.CategoryEntity;
 import com.example.backend.web.File.store.ImageEntity;
@@ -6,6 +6,7 @@ import com.example.backend.web.User.store.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,10 +30,10 @@ public class AdvertisementEntity {
     private String descriptionAdvertisement;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String characteristicAdvertisement;
+    private String characteristicAdvertisement; //TODO: Поставити поле на обговорення!
 
     @Column(nullable = false)
-    private double price;
+    private BigDecimal price;
 
     @Column(nullable = false)
     private String location;
@@ -44,14 +45,12 @@ public class AdvertisementEntity {
     private LocalDateTime createDate = LocalDateTime.now();
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
     @OneToMany
-    @JoinColumn(name = "photo_id")
+    @JoinColumn(name = "advertisement_id")
     private List<ImageEntity> images;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private UserEntity user;
 }

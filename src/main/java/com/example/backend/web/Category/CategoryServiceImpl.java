@@ -6,6 +6,7 @@ import com.example.backend.web.Category.store.dto.CategoryDTO;
 import com.example.backend.web.Category.store.factory.CategoryCreateFactory;
 import com.example.backend.web.Category.store.factory.CategoryFactory;
 import com.example.backend.web.File.ImageService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,21 +31,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryEntity getCategoryName(final String categoryName) {
-        return categoryRepository.getByCategoryName(categoryName);
+    public CategoryEntity getCategoryName(final String name) {
+        return categoryRepository.getByName(name);
     }
 
     @Override
-    public CategoryDTO getCategoryDTOName(final String categoryName) {
-        return categoryFactory.apply(categoryRepository.getByCategoryName(categoryName));
+    public CategoryDTO getCategoryDTOName(final String name) {
+        return categoryFactory.apply(categoryRepository.getByName(name));
     }
 
     @Override
+    @Transactional
     public CategoryCreateDTO create(final CategoryCreateDTO categoryDTO) {
         final var newImage = imageService.getByImage(categoryDTO.image());
 
         final var newCategory = CategoryEntity.builder()
-                .categoryName(categoryDTO.categoryName())
+                .name(categoryDTO.name())
                 .image(newImage)
                 .color(categoryDTO.color())
                 .build();
@@ -53,24 +55,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryCreateDTO update(final Long categoryId, final CategoryCreateDTO categoryDTO) {
         final var updateImage = imageService.getByImage(categoryDTO.image());
 
-        final var category = getIdCategory(categoryId);
+        final var category = categoryRepository.getReferenceById(categoryId);
 
-        category.setCategoryName(categoryDTO.categoryName());
+        category.setName(categoryDTO.name());
         category.setImage(updateImage);
-        category.setColor(category.getColor());
+        category.setColor(categoryDTO.color());
 
         return categoryCreateFactory.apply(categoryRepository.save(category));
     }
 
     @Override
-    public void deleteId(final Long id) {
-        categoryRepository.deleteById(id);
-    }
+    @Transactional
+    public void deleteCategory(final CategoryDTO categoryDTO) {
+        final var deleteName = getCategoryName(categoryDTO.name());
 
-    private CategoryEntity getIdCategory(final Long id) {
-        return categoryRepository.getReferenceById(id);
+        categoryRepository.delete(deleteName);
     }
 }

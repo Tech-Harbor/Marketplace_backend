@@ -79,7 +79,8 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageDTO imageById(final Long id) {
-        return imageRepository.getReferenceById(id);
+    public void imageDeleteId(final String id) {
+        fileUpload.deleteCloudinaryById(id);
+        imageRepository.deleteById(Long.valueOf(id));
     }
 }

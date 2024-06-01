@@ -2,7 +2,8 @@ package com.example.backend.web.User.store;
 
 import com.example.backend.utils.enums.RegisterAuthStatus;
 import com.example.backend.utils.enums.Role;
-import com.example.backend.web.Advertisement.AdvertisementEntity;
+import com.example.backend.utils.enums.Status;
+import com.example.backend.web.Advertisement.store.AdvertisementEntity;
 import com.example.backend.web.File.store.ImageEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -55,4 +56,7 @@ public class UserEntity {
     private LocalDateTime createData = LocalDateTime.now();
 
     private Boolean enabled;
+
+    @Enumerated(value = EnumType.STRING)
+    private Status status;
 }

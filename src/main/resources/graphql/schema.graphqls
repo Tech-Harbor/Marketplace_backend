@@ -6,24 +6,10 @@ type Query {
     getAllCategory: [CategoryDTO]
     getByIdUser(id: ID!): UserDTO
     getByNameCategory(name: String!): CategoryDTO
-    getByIdAdvertisement(id: ID!): AdvertisementDTO
-}
-
-type Mutation {
-    createAdvertisementIdByUser(userId: ID!, entity: AdvertisementInput): AdvertisementDTO
-    updateByIdUser(id: ID!, user: UserInput): UserDTO
-}
-
-input UserInput {
-    lastname: String!
-    firstname: String!
-    phone: String!
-    email: String!
-    password: String
 }
 
 type CategoryDTO {
-    categoryName: String
+    name: String
     advertisements: [AdvertisementDTO]
     image: String
     color: String
@@ -53,13 +39,6 @@ type UserDTO {
     email: String
     advertisements: [AdvertisementDTO]
     image: String
-}
-
-input AdvertisementInput {
-    name: String!
-    descriptionAdvertisement: String!
-    characteristicAdvertisement: String!
-    price: Int!
 }
 
 enum Role {

@@ -1,5 +1,7 @@
-package com.example.backend.web.Advertisement;
+package com.example.backend.web.Advertisement.store.factory;
 
+import com.example.backend.web.Advertisement.store.AdvertisementEntity;
+import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
@@ -15,7 +17,7 @@ public class AdvertisementFactory implements Function<AdvertisementEntity, Adver
                 .name(entity.getName())
                 .price(entity.getPrice())
                 .createDate(entity.getCreateDate())
-                .category(entity.getCategory().getCategoryName())
+                .category(entity.getCategory().getName())
                 .images(entity.getImages())
                 .location(entity.getLocation())
                 .delivery(entity.getDelivery())

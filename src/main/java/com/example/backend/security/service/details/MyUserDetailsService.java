@@ -3,7 +3,6 @@ package com.example.backend.security.service.details;
 import com.example.backend.web.User.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     @SneakyThrows
-    public UserDetails loadUserByUsername(final String username) {
+    public MyUserDetails loadUserByUsername(final String username) {
         var user =  userService.getBySecurityEmail(username).orElseThrow(
                 () -> notFoundRequestException("Email not found")
         );

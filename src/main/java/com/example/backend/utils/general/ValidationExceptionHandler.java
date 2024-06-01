@@ -9,8 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import java.util.HashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
@@ -19,12 +19,12 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   final HttpHeaders headers,
                                                                   final HttpStatusCode status,
                                                                   final WebRequest request) {
-        Map<String, String> errors = new HashMap<>();
+        final var errors = new HashMap<>();
 
         ex.getBindingResult().getAllErrors().forEach((error) -> {
 
-            String fieldName = ((FieldError) error).getField();
-            String message = error.getDefaultMessage();
+            var fieldName = ((FieldError) error).getField();
+            var message = error.getDefaultMessage();
 
             errors.put(fieldName, message);
         });

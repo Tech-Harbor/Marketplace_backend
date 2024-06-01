@@ -8,25 +8,24 @@ import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.service.AuthService;
-import com.example.backend.security.service.JwtService;
 import com.example.backend.security.service.JwtTokenService;
+import com.example.backend.utils.general.Helpers;
 import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserService;
 import com.example.backend.web.User.store.UserEntity;
-import com.example.backend.web.User.store.dto.UserInfoDTO;
-import com.example.backend.web.User.store.factory.UserInfoFactory;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
 
 import java.util.Properties;
 
 import static com.example.backend.utils.enums.RegisterAuthStatus.JWT;
 import static com.example.backend.utils.enums.Role.USER;
+import static com.example.backend.utils.enums.Status.OFFLINE;
 import static com.example.backend.utils.exception.RequestException.badRequestException;
 
 @Service
@@ -37,10 +36,9 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final MyPasswordEncoder myPasswordEncoder;
     private final JwtTokenService jwtTokenService;
-    private final UserInfoFactory userInfoFactory;
     private final UserService userService;
     private final MailService mailService;
-    private final JwtService jwtService;
+    private final Helpers helpers;
 
     @Override
     @Transactional
@@ -61,6 +59,7 @@ public class AuthServiceImpl implements AuthService {
                 .registerAuthStatus(JWT)
                 .enabled(false)
                 .role(USER)
+                .status(OFFLINE)
                 .build();
 
         final var userSecurityDTO = userService.mySecuritySave(user);
@@ -98,9 +97,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void formUpdatePassword(final String jwt, final PasswordRequest passwordRequest) {
-        final var token = jwtService.extractUserData(jwt.substring(7));
-
-        var userPassword = userService.getByEmail(token);
+        final var userPassword = helpers.tokenUserEmail(jwt);
 
         userPassword.ifPresent(user -> {
                 user.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
@@ -128,9 +125,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void activeUser(final String jwt) {
-        final var token = jwtService.extractUserData(jwt.substring(7));
-
-        final var activeUserTrue = userService.getByEmail(token);
+        final var activeUserTrue = helpers.tokenUserEmail(jwt);
 
         activeUserTrue.ifPresent(user -> {
                 user.setEnabled(true);
@@ -154,16 +149,5 @@ public class AuthServiceImpl implements AuthService {
                 mailService.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
             }
         );
-    }
-
-    @Override
-    public UserInfoDTO profileUser(final String accessToken) {
-        final var token = jwtService.extractUserData(accessToken.substring(7));
-
-        final var user = userService.getByUserData(token);
-
-        log.info("Info {}", user);
-
-        return userInfoFactory.apply(user);
     }
 }

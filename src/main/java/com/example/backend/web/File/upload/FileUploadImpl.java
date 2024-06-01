@@ -35,7 +35,7 @@ public class FileUploadImpl implements FileUpload {
 
     @SneakyThrows
     @Override
-    public Map deleteById(final String id) {
+    public Map deleteCloudinaryById(final String id) {
         return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
     }
 

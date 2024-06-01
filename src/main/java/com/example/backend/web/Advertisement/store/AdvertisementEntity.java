@@ -30,7 +30,7 @@ public class AdvertisementEntity {
     private String descriptionAdvertisement;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String characteristicAdvertisement;
+    private String characteristicAdvertisement; //TODO: Поставити поле на обговорення!
 
     @Column(nullable = false)
     private BigDecimal price;

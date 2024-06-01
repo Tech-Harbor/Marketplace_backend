@@ -39,7 +39,7 @@ public class ImageController {
     @GetMapping(URI_IMAGES_ID)
     @ResponseBody
     @ApiResponseOK
-    public ImageDTO imageGetById(@PathVariable final Long imageId) {
-        return imageService.imageById(imageId);
+    public void deleteCloudinaryAndRepositoryById(@PathVariable final String imageId) {
+        imageService.imageDeleteId(imageId);
     }
 }

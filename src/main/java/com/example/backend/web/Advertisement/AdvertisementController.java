@@ -2,6 +2,7 @@ package com.example.backend.web.Advertisement;
 
 import com.example.backend.utils.annotations.ApiResponseCreated;
 import com.example.backend.utils.annotations.ApiResponseDelete;
+import com.example.backend.utils.annotations.ApiResponseOK;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementCreateDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
@@ -43,11 +44,13 @@ public class AdvertisementController {
     }
 
     @GetMapping(ADVERTISEMENT)
+    @ApiResponseOK
     public AdvertisementDTO getByAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
         return advertisementService.advertisement(jwt);
     }
 
     @PatchMapping(URL_EDIT)
+    @ApiResponseOK
     public AdvertisementUpdateDTO editAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt,
                                                     @RequestBody final AdvertisementUpdateDTO entity) {
         return advertisementService.editAdvertisement(jwt, entity);

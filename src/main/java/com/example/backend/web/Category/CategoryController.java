@@ -2,6 +2,7 @@ package com.example.backend.web.Category;
 
 import com.example.backend.utils.annotations.ApiResponseCreated;
 import com.example.backend.utils.annotations.ApiResponseDelete;
+import com.example.backend.utils.annotations.ApiResponseOK;
 import com.example.backend.web.Category.store.dto.CategoryCreateDTO;
 import com.example.backend.web.Category.store.dto.CategoryDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,6 +44,7 @@ public class CategoryController {
     }
 
     @PutMapping(URI_CATEGORIES_ID)
+    @ApiResponseOK
     public CategoryCreateDTO update(@PathVariable final Long id,
                                     @RequestBody @Validated final CategoryCreateDTO categoryDTO) {
         return categoryService.update(id, categoryDTO);

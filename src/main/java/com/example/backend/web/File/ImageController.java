@@ -2,6 +2,7 @@ package com.example.backend.web.File;
 
 
 import com.example.backend.utils.annotations.ApiResponseCreated;
+import com.example.backend.utils.annotations.ApiResponseDelete;
 import com.example.backend.utils.annotations.ApiResponseOK;
 import com.example.backend.web.File.store.dto.ImageCreateDTO;
 import com.example.backend.web.File.store.dto.ImageDTO;
@@ -38,7 +39,7 @@ public class ImageController {
 
     @GetMapping(URI_IMAGES_ID)
     @ResponseBody
-    @ApiResponseOK
+    @ApiResponseDelete
     public void deleteCloudinaryAndRepositoryById(@PathVariable final String imageId) {
         imageService.imageDeleteId(imageId);
     }

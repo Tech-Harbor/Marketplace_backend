@@ -9,8 +9,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryServiceImpl categoryService;
-    private static final String URI_CATEGORIES_ID = "/category/{id}";
+    private static final String URI_CATEGORIES_NAME = "/category/update";
     private static final String URI_CATEGORY = "/category";
     private static final String URI_CATEGORIES = "/categories";
     private static final String URI_CATEGORY_DELETE = "/category/delete";
@@ -37,17 +39,19 @@ public class CategoryController {
         return categoryService.getCategoryDTOName(name);
     }
 
-    @PostMapping(URI_CATEGORY)
+    @PostMapping(value = URI_CATEGORY, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiResponseCreated
-    public CategoryCreateDTO create(@RequestBody @Validated final CategoryCreateDTO categoryDTO) {
-        return categoryService.create(categoryDTO);
+    public CategoryCreateDTO create(@RequestPart @Validated final CategoryCreateDTO categoryDTO,
+                                    @RequestPart final MultipartFile image) {
+        return categoryService.create(categoryDTO, image);
     }
 
-    @PutMapping(URI_CATEGORIES_ID)
+    @PatchMapping(value = URI_CATEGORIES_NAME, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiResponseOK
-    public CategoryCreateDTO update(@PathVariable final Long id,
-                                    @RequestBody @Validated final CategoryCreateDTO categoryDTO) {
-        return categoryService.update(id, categoryDTO);
+    public CategoryCreateDTO update(@RequestParam final String name,
+                                    @RequestPart @Validated final CategoryCreateDTO categoryDTO,
+                                    @RequestPart final MultipartFile image) {
+        return categoryService.update(name, categoryDTO, image);
     }
 
     @DeleteMapping(URI_CATEGORY_DELETE)

@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,8 +44,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryCreateDTO create(final CategoryCreateDTO categoryDTO) {
-        final var newImage = imageService.getByImage(categoryDTO.image());
+    public CategoryCreateDTO create(final CategoryCreateDTO categoryDTO, final MultipartFile image) {
+        final var newImage = imageService.uploadImageEntity(image);
 
         final var newCategory = CategoryEntity.builder()
                 .name(categoryDTO.name())
@@ -56,11 +57,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryCreateDTO update(final Long categoryId, final CategoryCreateDTO categoryDTO) {
-        final var category = categoryRepository.getReferenceById(categoryId);
+    public CategoryCreateDTO update(final String name,
+                                    final CategoryCreateDTO categoryDTO,
+                                    final MultipartFile image) {
+        final var category = getCategoryName(name);
+        final var uploadImage = imageService.uploadImageEntity(image);
 
         if (StringUtils.isNoneEmpty(categoryDTO.name())) {
             category.setName(categoryDTO.name());
+        }
+
+        if (StringUtils.isNoneEmpty(categoryDTO.image())) {
+            category.setImage(uploadImage);
         }
 
         return categoryCreateFactory.apply(categoryRepository.save(category));

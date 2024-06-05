@@ -24,9 +24,6 @@ public class CategoryEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String color;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category", fetch = FetchType.LAZY)
     private List<AdvertisementEntity> advertisements;
 

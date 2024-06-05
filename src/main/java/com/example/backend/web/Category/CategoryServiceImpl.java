@@ -8,6 +8,7 @@ import com.example.backend.web.Category.store.factory.CategoryFactory;
 import com.example.backend.web.File.ImageService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,7 +49,6 @@ public class CategoryServiceImpl implements CategoryService {
         final var newCategory = CategoryEntity.builder()
                 .name(categoryDTO.name())
                 .image(newImage)
-                .color(categoryDTO.color())
                 .build();
 
         return categoryCreateFactory.apply(categoryRepository.save(newCategory));
@@ -57,13 +57,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryCreateDTO update(final Long categoryId, final CategoryCreateDTO categoryDTO) {
-        final var updateImage = imageService.getByImage(categoryDTO.image());
-
         final var category = categoryRepository.getReferenceById(categoryId);
 
-        category.setName(categoryDTO.name());
-        category.setImage(updateImage);
-        category.setColor(categoryDTO.color());
+        if (StringUtils.isNoneEmpty(categoryDTO.name())) {
+            category.setName(categoryDTO.name());
+        }
 
         return categoryCreateFactory.apply(categoryRepository.save(category));
     }

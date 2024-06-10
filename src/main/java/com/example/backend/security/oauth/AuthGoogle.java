@@ -2,8 +2,8 @@ package com.example.backend.security.oauth;
 
 import com.example.backend.security.service.JwtTokenService;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.UserService;
+import com.example.backend.web.User.store.UserEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.example.backend.utils.enums.RegisterAuthStatus.GOOGLE;
 import static com.example.backend.utils.enums.Role.USER;
@@ -50,7 +51,8 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
             userService.getByEmail(defaultOAuth2UserEmail)
                     .ifPresentOrElse(user -> SecurityContextHolder.getContext().setAuthentication(
                                 createOAuth2AuthenticationToken(
-                                    createOAuth2User(user.getRole().name(), defaultOAuth2User), user.getRole().name(),
+                                    createOAuth2User(user.getRoles().toString(), defaultOAuth2User),
+                                        user.getRoles().toString(),
                                     oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
                                 )
                             ), () -> {
@@ -60,9 +62,8 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
                                 SecurityContextHolder.getContext().setAuthentication(
                                         createOAuth2AuthenticationToken(
-                                            createOAuth2User(saveUser.getRole().name(), defaultOAuth2User),
-
-                                            saveUser.getRole().name(),
+                                            createOAuth2User(saveUser.getRoles().toString(), defaultOAuth2User),
+                                                    saveUser.getRoles().toString(),
 
                                             oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
                                         )
@@ -94,7 +95,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                 .firstname(attributes.getOrDefault("given_name", EMPTY_LINE).toString())
                 .lastname(attributes.getOrDefault("family_name", EMPTY_LINE).toString())
                 .registerAuthStatus(GOOGLE)
-                .role(USER)
+                .roles(Set.of(USER))
                 .enabled(true)
                 .createData(LocalDateTime.now())
                 .password(passwordEncoder.passwordEncoder().encode(generateRandomPassword()))

@@ -23,6 +23,7 @@ import java.util.Set;
 
 import static com.example.backend.utils.enums.RegisterAuthStatus.GOOGLE;
 import static com.example.backend.utils.enums.Role.USER;
+import static com.example.backend.utils.enums.Status.ONLINE;
 import static com.example.backend.utils.general.Constants.*;
 import static com.example.backend.utils.general.MyPasswordEncoder.generateRandomPassword;
 
@@ -97,6 +98,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                 .registerAuthStatus(GOOGLE)
                 .roles(Set.of(USER))
                 .enabled(true)
+                .status(ONLINE)
                 .createData(LocalDateTime.now())
                 .password(passwordEncoder.passwordEncoder().encode(generateRandomPassword()))
                 .phone(attributes.getOrDefault("phone", EMPTY_LINE).toString())

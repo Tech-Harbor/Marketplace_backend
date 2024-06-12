@@ -27,7 +27,7 @@ public class AdvertisementController {
     private static final String URL_CREATE = "/createAdvertisement";
     private static final String URL_EDIT = "/editAdvertisement";
     private static final String URL_DELETE = "/deleteAdvertisement";
-    public static final String ADVERTISEMENT = "/advertisement";
+    private static final String ADVERTISEMENT = "/advertisement";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
     @PostMapping(value = URL_CREATE, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

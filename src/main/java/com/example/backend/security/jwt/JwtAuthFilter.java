@@ -21,8 +21,8 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
     private final MyUserDetailsService userDetailsService;
+    private final JwtService jwtService;
 
     @Override
     @SneakyThrows
@@ -60,7 +60,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private void getSecurityContextHolder(final HttpServletRequest request, final String userData, final String jwt) {
-        if (StringUtils.isNoneEmpty(userData) && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (StringUtils.isNoneEmpty(userData) && isNotAuthenticated()) {
 
             final var userDetails = userDetailsService.loadUserByUsername(userData);
 
@@ -78,5 +78,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             }
         }
+    }
+
+    private boolean isNotAuthenticated() {
+        return SecurityContextHolder.getContext().getAuthentication() == null;
     }
 }

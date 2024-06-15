@@ -124,9 +124,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserImageUpdateInfoDTO updateImageUser(final String jwt, final MultipartFile image) {
         final var userData = helpers.tokenUserData(jwt);
-        final var update = imageService.uploadImageEntity(image);
+        final var uploadImage = imageService.uploadImageEntity(image);
 
-        userData.setImage(update);
+        userData.setImage(uploadImage);
 
         userRepository.save(userData);
 

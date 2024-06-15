@@ -4,6 +4,8 @@ import com.example.backend.utils.enums.RegisterAuthStatus;
 import com.example.backend.utils.enums.Role;
 import lombok.Builder;
 
+import java.util.Set;
+
 @Builder
 public record UserSecurityDTO(String lastname,
                               String firstname,
@@ -11,5 +13,5 @@ public record UserSecurityDTO(String lastname,
                               String phone,
                               String password,
                               RegisterAuthStatus status,
-                              Role role,
+                              Set<Role> roles,
                               Boolean enabled) { }

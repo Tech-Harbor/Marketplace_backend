@@ -51,7 +51,7 @@ public class UserController {
         return userService.getByIdUser(id);
     }
 
-    @PatchMapping(value = UPDATE_IMAGE_USER, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = UPDATE_IMAGE_USER, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiResponseOK
     public UserImageUpdateInfoDTO updateImage(@RequestHeader(AUTHORIZATION) final String jwt,
                                               @RequestPart final MultipartFile image) {

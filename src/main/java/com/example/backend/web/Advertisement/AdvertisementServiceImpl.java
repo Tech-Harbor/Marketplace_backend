@@ -126,7 +126,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     @Transactional
-    public void deleteAll() {
+    public void deleteAll(final String jwt) {
+        helpers.tokenUserData(jwt);
         advertisementRepository.deleteAll();
     }
 }

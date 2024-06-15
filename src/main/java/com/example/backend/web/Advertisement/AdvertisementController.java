@@ -2,6 +2,7 @@ package com.example.backend.web.Advertisement;
 
 import com.example.backend.utils.annotations.ApiResponseCreated;
 import com.example.backend.utils.annotations.ApiResponseDelete;
+import com.example.backend.utils.annotations.ApiResponseOK;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementCreateDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
@@ -26,7 +27,7 @@ public class AdvertisementController {
     private static final String URL_CREATE = "/createAdvertisement";
     private static final String URL_EDIT = "/editAdvertisement";
     private static final String URL_DELETE = "/deleteAdvertisement";
-    public static final String ADVERTISEMENT = "/advertisement";
+    private static final String ADVERTISEMENT = "/advertisement";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
     @PostMapping(value = URL_CREATE, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -43,11 +44,13 @@ public class AdvertisementController {
     }
 
     @GetMapping(ADVERTISEMENT)
+    @ApiResponseOK
     public AdvertisementDTO getByAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
         return advertisementService.advertisement(jwt);
     }
 
     @PatchMapping(URL_EDIT)
+    @ApiResponseOK
     public AdvertisementUpdateDTO editAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt,
                                                     @RequestBody final AdvertisementUpdateDTO entity) {
         return advertisementService.editAdvertisement(jwt, entity);
@@ -61,7 +64,7 @@ public class AdvertisementController {
 
     @DeleteMapping(URL_DELETE_ALL)
     @ApiResponseDelete
-    public void deleteAllAdvertisement() {
-        advertisementService.deleteAll();
+    public void deleteAllAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
+        advertisementService.deleteAll(jwt);
     }
 }

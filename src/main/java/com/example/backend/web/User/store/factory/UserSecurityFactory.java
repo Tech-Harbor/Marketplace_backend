@@ -19,7 +19,7 @@ public class UserSecurityFactory implements Function<UserEntity, UserSecurityDTO
                 .phone(user.getPhone())
                 .password(user.getPassword())
                 .status(user.getRegisterAuthStatus())
-                .role(user.getRole())
+                .roles(user.getRoles())
                 .enabled(user.getEnabled())
                 .build();
     }

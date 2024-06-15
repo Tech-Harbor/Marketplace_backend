@@ -13,7 +13,6 @@ public class CategoryCreateFactory implements Function<CategoryEntity, CategoryC
         return CategoryCreateDTO.builder()
                 .name(category.getName())
                 .image(category.getImage().getImageUrl())
-                .color(category.getColor())
                 .build();
     }
 }

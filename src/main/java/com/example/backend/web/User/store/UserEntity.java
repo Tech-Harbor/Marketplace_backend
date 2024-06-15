@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -46,7 +47,7 @@ public class UserEntity {
     private ImageEntity image;
 
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private Set<Role> roles;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "register_status")

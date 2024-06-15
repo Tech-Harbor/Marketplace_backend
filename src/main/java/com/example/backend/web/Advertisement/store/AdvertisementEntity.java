@@ -29,7 +29,7 @@ public class AdvertisementEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String descriptionAdvertisement;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String characteristicAdvertisement; //TODO: Поставити поле на обговорення!
 
     @Column(nullable = false)

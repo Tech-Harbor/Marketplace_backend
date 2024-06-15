@@ -13,5 +13,5 @@ public interface AdvertisementService {
     AdvertisementDTO advertisement(String jwt);
     AdvertisementUpdateDTO editAdvertisement(String jwt, AdvertisementUpdateDTO entity);
     void deleteAdvertisement(String jwt);
-    void deleteAll();
+    void deleteAll(String jwt);
 }

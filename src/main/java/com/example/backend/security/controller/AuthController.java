@@ -1,4 +1,4 @@
-package com.example.backend.security.controllers;
+package com.example.backend.security.controller;
 
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;

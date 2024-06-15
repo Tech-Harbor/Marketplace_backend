@@ -12,7 +12,6 @@ type CategoryDTO {
     name: String
     advertisements: [AdvertisementDTO]
     image: String
-    color: String
 }
 
 type AdvertisementDTO {

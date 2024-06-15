@@ -13,7 +13,7 @@ public class MyUserDetailsFactory {
                         .email(user.email())
                         .password(user.password())
                         .phone(user.phone())
-                        .role(user.role())
+                        .roles(user.roles())
                         .status(user.status())
                         .enabled(user.enabled())
                         .build())

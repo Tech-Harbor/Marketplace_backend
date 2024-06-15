@@ -22,8 +22,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Properties;
+import java.util.Set;
 
 import static com.example.backend.utils.enums.RegisterAuthStatus.JWT;
+import static com.example.backend.utils.enums.Role.ADMIN;
 import static com.example.backend.utils.enums.Role.USER;
 import static com.example.backend.utils.enums.Status.OFFLINE;
 import static com.example.backend.utils.exception.RequestException.badRequestException;
@@ -58,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
                 .phone(registerRequest.phone())
                 .registerAuthStatus(JWT)
                 .enabled(false)
-                .role(USER)
+                .roles(Set.of(USER, ADMIN))
                 .status(OFFLINE)
                 .build();
 

@@ -30,6 +30,8 @@ Content-Type: application/json
 POST http://localhost:8080/api/sendMessageEmailActive
 Content-Type: application/json
 
+//куку
+
 {
   "email": "v4054741@gmail.com"
 }

@@ -1,5 +1,4 @@
-package com.example.backend.config.websocket;
-
+package com.example.backend.websocket;
 
 import com.example.backend.utils.props.WebSocketProperties;
 import lombok.RequiredArgsConstructor;

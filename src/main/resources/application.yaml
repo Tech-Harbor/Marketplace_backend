@@ -11,9 +11,6 @@ spring:
     app-prefix: /app
     endpoint: /chat
     topic-prefix: /topic
-    notify-prefix: /specific/notify
-    error-prefix: /specific/error
-    time-to-first-message: 999999
 
   security:
     oauth2:

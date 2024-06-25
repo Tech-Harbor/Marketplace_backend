@@ -8,13 +8,8 @@ import org.springframework.stereotype.Component;
 @Data
 @ConfigurationProperties(prefix = "spring.socket")
 public class WebSocketProperties {
-
     private String[] destPrefixes;
     private String appPrefix;
     private String endpoint;
     private String topicPrefix;
-    private String notifyPrefix;
-    private String errorPrefix;
-    private int TimeToFirstMessage;
-
 }

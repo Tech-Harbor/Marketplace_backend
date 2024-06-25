@@ -7,7 +7,6 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 @RequiredArgsConstructor
 @Configuration
@@ -26,10 +25,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(final StompEndpointRegistry registry) {
         registry.addEndpoint(webSocketProperties.getEndpoint());
         registry.addEndpoint(webSocketProperties.getEndpoint()).setAllowedOriginPatterns("*").withSockJS();
-    }
-
-    @Override
-    public void configureWebSocketTransport(final WebSocketTransportRegistration registry) {
-        registry.setTimeToFirstMessage(webSocketProperties.getTimeToFirstMessage());
     }
 }

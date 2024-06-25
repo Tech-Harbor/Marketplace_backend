@@ -19,6 +19,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(final MessageBrokerRegistry registry) {
         registry.enableSimpleBroker(webSocketProperties.getDestPrefixes());
         registry.setApplicationDestinationPrefixes(webSocketProperties.getAppPrefix());
+        registry.setUserDestinationPrefix(webSocketProperties.getUserPrefix());
     }
 
     @Override

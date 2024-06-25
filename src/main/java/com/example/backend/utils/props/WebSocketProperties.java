@@ -12,4 +12,5 @@ public class WebSocketProperties {
     private String appPrefix;
     private String endpoint;
     private String topicPrefix;
+    private String userPrefix;
 }

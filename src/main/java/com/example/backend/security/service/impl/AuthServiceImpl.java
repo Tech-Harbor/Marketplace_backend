@@ -27,7 +27,6 @@ import java.util.Set;
 import static com.example.backend.utils.enums.RegisterAuthStatus.JWT;
 import static com.example.backend.utils.enums.Role.ADMIN;
 import static com.example.backend.utils.enums.Role.USER;
-import static com.example.backend.utils.enums.Status.OFFLINE;
 import static com.example.backend.utils.exception.RequestException.badRequestException;
 
 @Service

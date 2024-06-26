@@ -9,5 +9,4 @@ public record UserInfoDTO(String lastname,
                           String firstname,
                           String email,
                           String phone,
-                          Status status,
                           String password) { }

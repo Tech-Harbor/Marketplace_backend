@@ -18,7 +18,6 @@ public class UserInfoFactory implements Function<UserEntity, UserInfoDTO> {
                 .image(user.getImage().getImageUrl())
                 .lastname(user.getLastname())
                 .phone(user.getPhone())
-                .status(user.getStatus())
                 .password(user.getPassword())
                 .build();
     }

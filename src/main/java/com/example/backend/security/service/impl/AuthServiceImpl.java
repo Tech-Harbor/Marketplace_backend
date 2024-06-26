@@ -61,7 +61,6 @@ public class AuthServiceImpl implements AuthService {
                 .registerAuthStatus(JWT)
                 .enabled(false)
                 .roles(Set.of(USER, ADMIN))
-                .status(OFFLINE)
                 .build();
 
         final var userSecurityDTO = userService.mySecuritySave(user);

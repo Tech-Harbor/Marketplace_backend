@@ -45,7 +45,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         final Map<String, Object> claims = new HashMap<>();
 
         claims.put(PASSWORD, userData.password());
-        claims.put(ROLE, userData.roles());
+        claims.put(ROLES, userData.roles());
 
         return Jwts
                 .builder()
@@ -64,7 +64,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     private String generateJwtEmailToken(final UserSecurityDTO userData) {
         final Map<String, Object> role = new HashMap<>();
 
-        role.put(ROLE, userData.roles());
+        role.put(ROLES, userData.roles());
 
         return Jwts
                 .builder()
@@ -84,7 +84,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         final var userDetails = (MyUserDetails) authentication.getPrincipal();
         final Map<String, Object> role = new HashMap<>();
 
-        role.put(ROLE, userDetails.user().roles());
+        role.put(ROLES, userDetails.user().roles());
 
         return Jwts
                 .builder()
@@ -105,7 +105,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         final var userDetails = (MyUserDetails) authentication.getPrincipal();
         final Map<String, Object> role = new HashMap<>();
 
-        role.put(ROLE, userDetails.user().roles());
+        role.put(ROLES, userDetails.user().roles());
 
         return Jwts
                 .builder()

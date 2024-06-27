@@ -30,4 +30,5 @@ public class Constants {
     public static final String[] GET_AUTH = {
             "/api/accouth"
     };
+    public static final String PASSWORD_FORMAT_MESSAGE = "password має відповідати вказаному формату";
 }

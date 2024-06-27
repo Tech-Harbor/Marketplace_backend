@@ -18,7 +18,7 @@ public class Constants {
     public static final String EMPTY_LINE = "";
     public static final String COOK = "; Path=/; HttpOnly; SameSite=None; Secure";
     public static final String PASSWORD = "password";
-    public static final String JWT = "JWT";
+    public static final String JWT = "jwt";
     public static final String TYPE = "type";
     public static final String ROLES = "roles";
     public static final String BEARER_AUTHENTICATION = "Bearer Authentication";

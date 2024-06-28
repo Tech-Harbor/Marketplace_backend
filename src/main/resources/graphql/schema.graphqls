@@ -22,7 +22,7 @@ type AdvertisementDTO {
     price: Int
     createDate: LocalTimeDate
     location: String
-    delivery: String
+    delivery: Delivery
     images: [ImageDTO]
 }
 
@@ -40,10 +40,6 @@ type UserDTO {
     image: String
 }
 
-enum Role {
-    ADMIN, USER
-}
-
-enum RegisterAuthStatus {
-    GOOGLE, JWT
+enum Delivery {
+    NOVA_POSHTA, MEEST_EXPRESS, JUSTIN, UKRPOSHTA, PICKUP
 }

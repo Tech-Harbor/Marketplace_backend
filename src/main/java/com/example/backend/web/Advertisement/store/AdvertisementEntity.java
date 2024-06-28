@@ -1,14 +1,18 @@
 package com.example.backend.web.Advertisement.store;
 
+import com.example.backend.utils.enums.Delivery;
 import com.example.backend.web.Category.store.CategoryEntity;
 import com.example.backend.web.File.store.ImageEntity;
 import com.example.backend.web.User.store.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "advertisements")
@@ -39,7 +43,9 @@ public class AdvertisementEntity {
     private String location;
 
     @Column(nullable = false)
-    private String delivery;
+    @JdbcTypeCode(Types.ARRAY)
+    @Enumerated(value = EnumType.STRING)
+    private Set<Delivery> delivery;
 
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();

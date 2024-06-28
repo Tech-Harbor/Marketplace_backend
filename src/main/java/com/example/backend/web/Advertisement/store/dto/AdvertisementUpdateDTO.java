@@ -1,8 +1,10 @@
 package com.example.backend.web.Advertisement.store.dto;
 
+import com.example.backend.utils.enums.Delivery;
 import lombok.Builder;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Builder
 public record AdvertisementUpdateDTO(String name,
@@ -11,4 +13,4 @@ public record AdvertisementUpdateDTO(String name,
                                      BigDecimal price,
                                      String location,
                                      String category,
-                                     String delivery) { }
+                                     Set<Delivery> delivery) { }

@@ -1,10 +1,12 @@
 package com.example.backend.web.Advertisement.store.dto;
 
+import com.example.backend.utils.enums.Delivery;
 import com.example.backend.web.File.store.ImageEntity;
 import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 public record AdvertisementCreateDTO(String name,
@@ -13,4 +15,4 @@ public record AdvertisementCreateDTO(String name,
                                      List<ImageEntity> images,
                                      String location,
                                      String category,
-                                     String delivery) { }
+                                     Set<Delivery> delivery) { }

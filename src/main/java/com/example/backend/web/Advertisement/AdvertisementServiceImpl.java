@@ -99,7 +99,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             idAdvertisement.setDescriptionAdvertisement(advertisementDTO.descriptionAdvertisement());
         }
 
-        if (StringUtils.isNoneEmpty(advertisementDTO.delivery())) {
+        if (StringUtils.isNoneEmpty(advertisementDTO.delivery().toString())) {
             idAdvertisement.setDelivery(advertisementDTO.delivery());
         }
 

@@ -31,4 +31,5 @@ public class Constants {
             "/api/accouth"
     };
     public static final String PASSWORD_FORMAT_MESSAGE = "password має відповідати вказаному формату";
+    public static final String DELIVERY_MESSAGE = "Доставка через: ";
 }

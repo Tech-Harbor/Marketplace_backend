@@ -9,10 +9,12 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
-import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+
+import static jakarta.persistence.EnumType.STRING;
+import static java.sql.Types.ARRAY;
 
 @Entity
 @Table(name = "advertisements")
@@ -43,8 +45,8 @@ public class AdvertisementEntity {
     private String location;
 
     @Column(nullable = false)
-    @JdbcTypeCode(Types.ARRAY)
-    @Enumerated(value = EnumType.STRING)
+    @JdbcTypeCode(ARRAY)
+    @Enumerated(value = STRING)
     private Set<Delivery> delivery;
 
     @Builder.Default

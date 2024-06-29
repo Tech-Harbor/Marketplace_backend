@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
+import static com.example.backend.utils.general.Constants.*;
+
 @OpenAPIDefinition(
         info = @Info(
                 contact =  @Contact(),
@@ -16,11 +18,11 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
         )
 )
 @SecurityScheme(
-        name = "Bearer Authentication",
+        name = BEARER_AUTHENTICATION,
         description = "JWT auth description",
-        scheme = "Bearer",
+        scheme = BEARER,
         type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
+        bearerFormat = JWT,
         in = SecuritySchemeIn.HEADER
 )
 public class OpenApiSwaggerConfig { }

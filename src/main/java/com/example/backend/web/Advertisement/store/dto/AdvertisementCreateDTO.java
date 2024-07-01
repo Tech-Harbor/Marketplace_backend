@@ -15,4 +15,5 @@ public record AdvertisementCreateDTO(String name,
                                      List<ImageEntity> images,
                                      String location,
                                      String category,
-                                     Set<Delivery> delivery) { }
+                                     Set<Delivery> delivery,
+                                     boolean auction) { }

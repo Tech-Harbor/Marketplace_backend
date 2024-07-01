@@ -18,6 +18,7 @@ public class AdvertisementCreateFactory implements Function<AdvertisementEntity,
                 .images(entity.getImages())
                 .location(entity.getLocation())
                 .delivery(entity.getDelivery())
+                .auction(entity.isAuction())
                 .build();
     }
 }

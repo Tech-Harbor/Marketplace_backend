@@ -52,6 +52,9 @@ public class AdvertisementEntity {
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
 
+    @Column(nullable = false)
+    private boolean auction;
+
     @ManyToOne(optional = false)
     private CategoryEntity category;
 

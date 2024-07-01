@@ -60,6 +60,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .category(categoryName)
                 .delivery(advertisement.delivery())
                 .auction(advertisement.auction())
+                .active(advertisement.active())
                 .build();
 
         return advertisementCreateFactory.apply(advertisementRepository.save(newAdvertisement));
@@ -88,6 +89,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         final var idAdvertisement =
                 advertisementRepository.getReferenceById(user.getAdvertisements().get(0).getId());
         final var auctionParse = String.valueOf(advertisementDTO.auction());
+        final var activeParse = String.valueOf(advertisementDTO.active());
 
         if (StringUtils.isNoneEmpty(advertisementDTO.name())) {
             idAdvertisement.setName(advertisementDTO.name());
@@ -115,6 +117,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         if (StringUtils.isNoneEmpty(auctionParse)) {
             idAdvertisement.setAuction(advertisementDTO.auction());
+        }
+
+        if (StringUtils.isNoneEmpty(activeParse)) {
+            idAdvertisement.setAuction(advertisementDTO.active());
         }
 
         return advertisementUpdateFactory.apply(advertisementRepository.save(idAdvertisement));

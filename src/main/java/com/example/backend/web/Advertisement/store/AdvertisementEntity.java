@@ -55,6 +55,13 @@ public class AdvertisementEntity {
     @Column(nullable = false)
     private boolean auction;
 
+    @Column(nullable = false)
+    private boolean active;
+    //TODO: Налаштувати оголошення
+    // якщо через 30 днів після створення оголошення ця функція не була включена,
+    // то перейде в список не активних оголошень
+    // якщо оголошення пробуде 30 днів без активації це оголошення буде видалено назавжди
+
     @ManyToOne(optional = false)
     private CategoryEntity category;
 

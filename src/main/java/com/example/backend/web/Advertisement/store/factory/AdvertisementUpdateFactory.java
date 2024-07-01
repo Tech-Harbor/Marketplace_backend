@@ -19,6 +19,7 @@ public class AdvertisementUpdateFactory implements Function<AdvertisementEntity,
                 .location(entity.getLocation())
                 .delivery(entity.getDelivery())
                 .auction(entity.isAuction())
+                .active(entity.isActive())
                 .build();
     }
 }

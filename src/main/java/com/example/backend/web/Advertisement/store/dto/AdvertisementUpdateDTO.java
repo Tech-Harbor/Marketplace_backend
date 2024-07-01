@@ -14,4 +14,5 @@ public record AdvertisementUpdateDTO(String name,
                                      String location,
                                      String category,
                                      Set<Delivery> delivery,
-                                     boolean auction) { }
+                                     boolean auction,
+                                     boolean active) { }

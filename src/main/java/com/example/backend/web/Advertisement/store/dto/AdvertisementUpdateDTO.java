@@ -4,7 +4,6 @@ import com.example.backend.utils.enums.Delivery;
 import lombok.Builder;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
 @Builder
 public record AdvertisementUpdateDTO(String name,

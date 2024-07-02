@@ -7,7 +7,6 @@ import lombok.Builder;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Builder
 public record AdvertisementDTO(Long id,
@@ -19,4 +18,4 @@ public record AdvertisementDTO(Long id,
                                List<ImageEntity> images,
                                String location,
                                String category,
-                               Set<Delivery> delivery) { }
+                               Delivery delivery) { }

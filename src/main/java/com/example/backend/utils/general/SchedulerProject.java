@@ -21,12 +21,12 @@ public class SchedulerProject {
     }
 
     @Scheduled(cron = "0 0 0 1 * ?")
-    public void deleteActiveAdvertisement () {
+    public void deleteActiveAdvertisement() {
         advertisementRepository.deleteActiveAdvertisements(LocalDateTime.now());
     }
 
     @Scheduled(cron = "0 0 0 1 * ?")
-    public void updateActiveAdvertisement () {
+    public void updateActiveAdvertisement() {
         advertisementRepository.updateActiveAdvertisements(LocalDateTime.now());
     }
 }

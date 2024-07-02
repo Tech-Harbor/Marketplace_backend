@@ -45,9 +45,8 @@ public class AdvertisementEntity {
     private String location;
 
     @Column(nullable = false)
-    @JdbcTypeCode(ARRAY)
     @Enumerated(value = STRING)
-    private Set<Delivery> delivery;
+    private Delivery delivery;
 
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();

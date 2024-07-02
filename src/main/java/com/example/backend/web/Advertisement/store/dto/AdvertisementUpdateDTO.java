@@ -13,6 +13,6 @@ public record AdvertisementUpdateDTO(String name,
                                      BigDecimal price,
                                      String location,
                                      String category,
-                                     Set<Delivery> delivery,
+                                     Delivery delivery,
                                      boolean auction,
                                      boolean active) { }

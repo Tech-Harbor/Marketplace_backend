@@ -6,15 +6,11 @@ import com.example.backend.web.File.store.ImageEntity;
 import com.example.backend.web.User.store.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import static jakarta.persistence.EnumType.STRING;
-import static java.sql.Types.ARRAY;
 
 @Entity
 @Table(name = "advertisements")

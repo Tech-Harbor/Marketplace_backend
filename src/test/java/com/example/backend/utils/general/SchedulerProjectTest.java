@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-public class UserDeleteSchedulerTest {
+public class SchedulerProjectTest {
 
     @Mock
     private UserRepository userRepository;
     @Mock
-    private UserDeleteScheduler scheduler;
+    private SchedulerProject scheduler;
 
     @Test
     @Transactional

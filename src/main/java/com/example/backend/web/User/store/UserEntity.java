@@ -7,11 +7,15 @@ import com.example.backend.web.Advertisement.store.AdvertisementEntity;
 import com.example.backend.web.File.store.ImageEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+
+import static jakarta.persistence.EnumType.STRING;
+import static java.sql.Types.ARRAY;
 
 @Entity
 @Table(name = "users")
@@ -46,10 +50,11 @@ public class UserEntity {
     @OneToOne
     private ImageEntity image;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = STRING)
+    @JdbcTypeCode(ARRAY)
     private Set<Role> roles;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = STRING)
     @Column(name = "register_status")
     private RegisterAuthStatus registerAuthStatus;
 
@@ -58,6 +63,6 @@ public class UserEntity {
 
     private Boolean enabled;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = STRING)
     private Status status;
 }

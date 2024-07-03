@@ -1,21 +1,17 @@
 package com.example.backend.security.service.details;
 
+import com.example.backend.utils.enums.Role;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import lombok.Builder;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Builder
 public record MyUserDetails(UserSecurityDTO user) implements UserDetails {
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.roles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
-                .collect(Collectors.toSet());
+    public Collection<Role> getAuthorities() {
+        return user.roles();
     }
 
     @Override

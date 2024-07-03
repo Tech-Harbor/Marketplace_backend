@@ -1,5 +1,6 @@
 package com.example.backend.web.Advertisement.store.dto;
 
+import com.example.backend.utils.enums.Delivery;
 import com.example.backend.web.File.store.ImageEntity;
 import lombok.Builder;
 
@@ -13,4 +14,6 @@ public record AdvertisementCreateDTO(String name,
                                      List<ImageEntity> images,
                                      String location,
                                      String category,
-                                     String delivery) { }
+                                     Delivery delivery,
+                                     boolean auction,
+                                     boolean active) { }

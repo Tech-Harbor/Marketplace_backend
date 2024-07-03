@@ -1,7 +1,8 @@
 package com.example.backend.web.User.store.factory;
 
+import com.example.backend.utils.general.WebIsNullFactory;
 import com.example.backend.web.User.store.UserEntity;
-import com.example.backend.web.User.store.dto.UserInfoDTO;
+import com.example.backend.web.User.store.dto.UserWebSocketDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -9,16 +10,17 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class UserInfoFactory implements Function<UserEntity, UserInfoDTO> {
+public class UserWebSocketFactory implements Function<UserEntity, UserWebSocketDTO> {
+
+    private final WebIsNullFactory webIsNullFactory;
+
     @Override
-    public UserInfoDTO apply(final UserEntity user) {
-        return UserInfoDTO.builder()
+    public UserWebSocketDTO apply(final UserEntity user) {
+        return UserWebSocketDTO.builder()
                 .firstname(user.getFirstname())
-                .email(user.getEmail())
                 .image(user.getImage().getImageUrl())
                 .lastname(user.getLastname())
-                .phone(user.getPhone())
-                .password(user.getPassword())
+                .advertisements(webIsNullFactory.isNullAdvertisementUser(user))
                 .build();
     }
 }

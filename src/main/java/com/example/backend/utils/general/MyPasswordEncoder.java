@@ -12,7 +12,7 @@ import java.util.Base64;
 public class MyPasswordEncoder {
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
     public static String generateRandomPassword() {

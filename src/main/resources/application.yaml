@@ -6,6 +6,13 @@ spring:
     graphiql:
       enabled: true
 
+  socket:
+    dest-prefixes: /topic, /user
+    user-prefix: /user
+    app-prefix: /app
+    endpoint: /chat
+    topic-prefix: /topic
+
   security:
     oauth2:
       client:
@@ -39,7 +46,7 @@ spring:
               enable: true
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?currentSchema=oranger
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -49,9 +56,15 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  liquibase:
+    change-log: classpath:liquibase/db.changelog.yaml
+    enabled: true
+    default-schema: oranger
+
   sql:
     init:
-      mode: always
+      mode: never
+      continue-on-error: false
 
 cloudinary:
   cloud_name: ${CLOUD_NAME}

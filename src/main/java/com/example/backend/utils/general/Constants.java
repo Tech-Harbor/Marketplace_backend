@@ -18,9 +18,9 @@ public class Constants {
     public static final String EMPTY_LINE = "";
     public static final String COOK = "; Path=/; HttpOnly; SameSite=None; Secure";
     public static final String PASSWORD = "password";
-    public static final String JWT = "JWT";
+    public static final String JWT = "jwt";
     public static final String TYPE = "type";
-    public static final String ROLE = "role";
+    public static final String ROLES = "roles";
     public static final String BEARER_AUTHENTICATION = "Bearer Authentication";
     public static final String EMPTY_FIELD = "Поле не повинно бути порожнім";
     public static final Date DATE_TIME_MILLIS = new Date(System.currentTimeMillis());
@@ -30,4 +30,6 @@ public class Constants {
     public static final String[] GET_AUTH = {
             "/api/accouth"
     };
+    public static final String PASSWORD_FORMAT_MESSAGE = "password має відповідати вказаному формату";
+    public static final String DELIVERY_MESSAGE = "Доставка через: ";
 }

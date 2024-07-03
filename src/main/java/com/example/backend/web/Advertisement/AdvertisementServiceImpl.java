@@ -57,8 +57,11 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .price(advertisement.price())
                 .images(imagesList)
                 .createDate(LocalDateTime.now())
+                .updateActiveDate(LocalDateTime.now())
                 .category(categoryName)
                 .delivery(advertisement.delivery())
+                .auction(advertisement.auction())
+                .active(advertisement.active())
                 .build();
 
         return advertisementCreateFactory.apply(advertisementRepository.save(newAdvertisement));
@@ -86,6 +89,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         final var user = helpers.tokenUserData(jwt);
         final var idAdvertisement =
                 advertisementRepository.getReferenceById(user.getAdvertisements().get(0).getId());
+        final var auctionParse = String.valueOf(advertisementDTO.auction());
+        final var activeParse = String.valueOf(advertisementDTO.active());
 
         if (StringUtils.isNoneEmpty(advertisementDTO.name())) {
             idAdvertisement.setName(advertisementDTO.name());
@@ -99,7 +104,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             idAdvertisement.setDescriptionAdvertisement(advertisementDTO.descriptionAdvertisement());
         }
 
-        if (StringUtils.isNoneEmpty(advertisementDTO.delivery())) {
+        if (StringUtils.isNoneEmpty(advertisementDTO.delivery().toString())) {
             idAdvertisement.setDelivery(advertisementDTO.delivery());
         }
 
@@ -109,6 +114,14 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         if (StringUtils.isNoneEmpty(advertisementDTO.price().toString())) {
             idAdvertisement.setPrice(advertisementDTO.price());
+        }
+
+        if (StringUtils.isNoneEmpty(auctionParse)) {
+            idAdvertisement.setAuction(advertisementDTO.auction());
+        }
+
+        if (StringUtils.isNoneEmpty(activeParse)) {
+            idAdvertisement.setAuction(advertisementDTO.active());
         }
 
         return advertisementUpdateFactory.apply(advertisementRepository.save(idAdvertisement));

@@ -47,6 +47,9 @@ public class AdvertisementEntity {
     @Builder.Default
     private LocalDateTime createDate = LocalDateTime.now();
 
+    @Builder.Default
+    private LocalDateTime updateActiveDate = LocalDateTime.now();
+
     @Column(nullable = false)
     private boolean auction;
 

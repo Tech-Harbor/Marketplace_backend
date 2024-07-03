@@ -16,8 +16,15 @@ public interface AdvertisementRepository extends JpaRepository<AdvertisementEnti
 
     @Transactional
     @Modifying
-    @Query("UPDATE AdvertisementEntity ad SET ad.active = false WHERE ad.createDate <= :dateTime AND ad.active = true")
-    void updateActiveAdvertisements(@Param("dateTime") LocalDateTime dateTime);
+    @Query("UPDATE AdvertisementEntity ad "
+            + "SET ad.createDate = :now WHERE ad.updateActiveDate <= :updateDate AND ad.active = false")
+    void updateActiveAdvertisements(@Param("now") LocalDateTime now,
+                                    @Param("updateDate") LocalDateTime updateDate);
+
+    //TODO Поямнення updateActiveAdvertisements!
+    // 01.08.2022 створення без true, а стоїть false
+    // 01.09.2022 треба обновити дату всі які є на false
+    // 01.10.2022 видалиться через місяць, якщо не активують оголошення
 
     @Transactional
     @Modifying

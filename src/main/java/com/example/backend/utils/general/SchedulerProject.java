@@ -27,6 +27,6 @@ public class SchedulerProject {
 
     @Scheduled(cron = "0 0 0 1 * ?")
     public void updateActiveAdvertisement() {
-        advertisementRepository.updateActiveAdvertisements(LocalDateTime.now());
+        advertisementRepository.updateActiveAdvertisements(LocalDateTime.now(), LocalDateTime.now());
     }
 }

@@ -57,6 +57,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .price(advertisement.price())
                 .images(imagesList)
                 .createDate(LocalDateTime.now())
+                .updateActiveDate(LocalDateTime.now())
                 .category(categoryName)
                 .delivery(advertisement.delivery())
                 .auction(advertisement.auction())

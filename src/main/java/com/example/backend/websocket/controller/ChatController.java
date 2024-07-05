@@ -1,16 +1,15 @@
 package com.example.backend.websocket.controller;
 
-import com.example.backend.security.service.details.MyUserDetails;
-import com.example.backend.websocket.models.ReceivedMessage;
-import com.example.backend.websocket.models.SendMessage;
 import com.example.backend.websocket.service.MessageService;
+import com.example.backend.websocket.store.entities.ReceivedMessageEntity;
+import com.example.backend.websocket.store.entities.SendMessageEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class ChatController {
 
@@ -22,14 +21,14 @@ public class ChatController {
 
     @MessageMapping(MESSAGE_APPLICATION)
     @SendTo(SEND_TOPIC)
-    public SendMessage sendToTopic(final ReceivedMessage receivedMessage, final MyUserDetails myUserDetails) {
-        return messageService.sendToTopic(receivedMessage, myUserDetails.getUsername());
+    public SendMessageEntity sendToTopic(final @Payload ReceivedMessageEntity receivedMessage,
+                                         final @Payload String username) {
+        return messageService.sendToTopic(receivedMessage, username);
     }
 
     @MessageMapping(MESSAGE_PRIVATE)
-    public SendMessage sendToUser(final @Payload ReceivedMessage receivedMessage, final MyUserDetails myUserDetails) {
-        return messageService.sendToUser(receivedMessage, myUserDetails.getUsername());
+    public SendMessageEntity sendToUser(final @Payload ReceivedMessageEntity receivedMessage,
+                                        final @Payload String username) {
+        return messageService.sendToUser(receivedMessage, username);
     }
-
-
 }

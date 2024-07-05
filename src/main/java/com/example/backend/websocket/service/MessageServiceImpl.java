@@ -1,7 +1,9 @@
 package com.example.backend.websocket.service;
 
-import com.example.backend.websocket.models.ReceivedMessage;
-import com.example.backend.websocket.models.SendMessage;
+import com.example.backend.websocket.store.entities.ReceivedMessageEntity;
+import com.example.backend.websocket.store.repository.ReceivedMessageRepository;
+import com.example.backend.websocket.store.entities.SendMessageEntity;
+import com.example.backend.websocket.store.repository.SendMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -13,36 +15,46 @@ import java.time.LocalDateTime;
 public class MessageServiceImpl implements MessageService {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final ReceivedMessageRepository receivedMessageRepository;
+    private final SendMessageRepository sendMessageRepository;
 
     @Override
-    public SendMessage sendToTopic(final ReceivedMessage receivedMessage, final String username) {
+    public SendMessageEntity sendToTopic(final ReceivedMessageEntity receivedMessage, final String username) {
 
-        final var messageTopic = ReceivedMessage.builder()
+        final var messageTopic = ReceivedMessageEntity.builder()
                 .sentFrom(username)
                 .sendTo("topic")
+                .text(receivedMessage.getText())
                 .build();
 
-        return SendMessage.builder()
+        receivedMessageRepository.save(messageTopic);
+
+        final var build = SendMessageEntity.builder()
                 .receivedMessage(messageTopic)
-                .localDateTime(LocalDateTime.now())
+                .createData(LocalDateTime.now())
                 .build();
+
+        return sendMessageRepository.save(build);
     }
 
     @Override
-    public SendMessage sendToUser(final ReceivedMessage receivedMessage, final String username) {
+    public SendMessageEntity sendToUser(final ReceivedMessageEntity receivedMessage, final String username) {
 
-        final var sendTo = receivedMessage.sendTo();
+        final var sendTo = receivedMessage.getSendTo();
 
-        final var messageUser = ReceivedMessage.builder()
+        final var messageUser = ReceivedMessageEntity.builder()
                 .sendTo(username)
+                .text(receivedMessage.getText())
                 .build();
 
-        final var sendUser = SendMessage.builder()
+        receivedMessageRepository.save(messageUser);
+
+        final var sendUser = SendMessageEntity.builder()
                 .receivedMessage(messageUser)
-                .localDateTime(LocalDateTime.now())
+                .createData(LocalDateTime.now())
                 .build();
 
         simpMessagingTemplate.convertAndSendToUser(sendTo, "/topic", sendUser);
-        return sendUser;
+        return sendMessageRepository.save(sendUser);
     }
 }

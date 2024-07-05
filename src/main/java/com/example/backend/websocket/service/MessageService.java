@@ -1,9 +1,9 @@
 package com.example.backend.websocket.service;
 
-import com.example.backend.websocket.models.ReceivedMessage;
-import com.example.backend.websocket.models.SendMessage;
+import com.example.backend.websocket.store.entities.ReceivedMessageEntity;
+import com.example.backend.websocket.store.entities.SendMessageEntity;
 
 public interface MessageService {
-    SendMessage sendToTopic(ReceivedMessage receivedMessage, String username);
-    SendMessage sendToUser(ReceivedMessage receivedMessage, String username);
+    SendMessageEntity sendToTopic(ReceivedMessageEntity receivedMessage, String username);
+    SendMessageEntity sendToUser(ReceivedMessageEntity receivedMessage, String username);
 }

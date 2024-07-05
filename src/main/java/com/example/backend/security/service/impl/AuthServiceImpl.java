@@ -104,7 +104,9 @@ public class AuthServiceImpl implements AuthService {
 
                 log.info("Update Password: {}", user.getFirstname());
 
-                userService.mySecuritySave(user);
+                final var userSecurityDTO = userService.mySecuritySave(user);
+
+                mailService.sendEmail(userSecurityDTO, MailType.UPDATED_PASSWORD, new Properties());
             }
         );
     }

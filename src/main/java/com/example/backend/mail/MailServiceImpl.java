@@ -29,6 +29,7 @@ public class MailServiceImpl implements MailService {
         switch (type) {
             case REGISTRATION -> sendRegistrationEmail(user);
             case NEW_PASSWORD -> sendNewPassword(user);
+            case UPDATED_PASSWORD -> sendUpdatedPassword(user);
             default -> { }
         }
     }
@@ -81,6 +82,31 @@ public class MailServiceImpl implements MailService {
         model.put(JWT, jwtTokenService.generateUserPasswordDataToken(user));
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);
+
+        return writer.getBuffer().toString();
+    }
+
+    @SneakyThrows
+    private void sendUpdatedPassword(final UserSecurityDTO user) {
+        final var mimeUpdatedPasswordMessage = mailSender.createMimeMessage();
+        final var passwordContent = getUpdatedPasswordContent(user);
+        final var helper = new MimeMessageHelper(mimeUpdatedPasswordMessage, false, UTF_8);
+
+        helper.setSubject("Updated Password, " + user.lastname());
+        helper.setTo(user.email());
+        helper.setText(passwordContent, true);
+
+        mailSender.send(mimeUpdatedPasswordMessage);
+    }
+
+    @SneakyThrows
+    private String getUpdatedPasswordContent(final UserSecurityDTO user) {
+        final var writer = new StringWriter();
+        final var model = new HashMap<String, Object>();
+
+        model.put("username", user.lastname());
+
+        configuration.getTemplate("updatedPassword.ftlh").process(model, writer);
 
         return writer.getBuffer().toString();
     }

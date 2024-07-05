@@ -161,6 +161,8 @@ public class AuthServiceImplTest {
 
         final var encoder = mock(PasswordEncoder.class);
 
+        final var userSecurity = userService.mySecuritySave(user);
+
         when(helpers.tokenUserEmail(anyString())).thenReturn(Optional.of(user));
         when(myPasswordEncoder.passwordEncoder()).thenReturn(encoder);
         when(encoder.encode(PASSWORD)).thenReturn(PASSWORD);
@@ -170,7 +172,7 @@ public class AuthServiceImplTest {
         assertEquals(PASSWORD, user.getPassword());
         verify(helpers).tokenUserEmail(jwt);
         verify(myPasswordEncoder.passwordEncoder()).encode(passwordRequest.password());
-        verify(userService).mySecuritySave(user);
+        verify(mailService).sendEmail(userSecurity, MailType.UPDATED_PASSWORD, new Properties());
     }
 
     @Test

@@ -1,13 +1,10 @@
 package com.example.backend.websocket.controller;
 
 import com.example.backend.websocket.models.ChatMessageEntity;
-import com.example.backend.websocket.models.ChatNotification;
 import com.example.backend.websocket.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

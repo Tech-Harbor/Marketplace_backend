@@ -1,11 +1,8 @@
-package com.example.backend.websocket;
+package com.example.backend.websocket.listener;
 
 import com.example.backend.web.User.store.dto.UserWebSocketDTO;
 import com.example.backend.websocket.models.ChatMessageEntity;
-import com.example.backend.websocket.models.MessageType;
-import freemarker.template.utility.StringUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;

@@ -21,7 +21,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .findBySenderIdAndRecipientId(senderId, recipientId)
                 .map(ChatRoomEntity::getChatId)
                 .or(() -> {
-                    if(createNewRoomIfNotExists) {
+                    if (createNewRoomIfNotExists) {
                         return Optional.of(createChatId(senderId, recipientId));
                     }
                     return  Optional.empty();

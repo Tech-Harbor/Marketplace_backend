@@ -71,7 +71,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public List<AdvertisementDTO> getAllAdvertisement() {
         return advertisementRepository.findAll().stream()
                 .map(advertisementFactory)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

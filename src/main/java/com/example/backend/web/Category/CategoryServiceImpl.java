@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findAll()
                 .stream()
                 .map(categoryFactory)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

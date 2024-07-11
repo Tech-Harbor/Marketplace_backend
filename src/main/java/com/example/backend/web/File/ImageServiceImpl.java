@@ -70,7 +70,7 @@ public class ImageServiceImpl implements ImageService {
     public List<ImageDTO> getAllPhoto() {
         return imageRepository.findAll().stream()
                 .map(imageFactory)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

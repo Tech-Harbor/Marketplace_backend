@@ -13,13 +13,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,7 +51,7 @@ public class UserController {
         return userService.getByIdUser(id);
     }
 
-    @PutMapping(value = UPDATE_IMAGE_USER, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = UPDATE_IMAGE_USER, consumes = {MULTIPART_FORM_DATA_VALUE})
     @ApiResponseOK
     public UserImageUpdateInfoDTO updateImage(@RequestHeader(AUTHORIZATION) final String jwt,
                                               @RequestPart final MultipartFile image) {

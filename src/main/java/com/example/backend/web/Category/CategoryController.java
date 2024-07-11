@@ -9,12 +9,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,14 +40,14 @@ public class CategoryController {
         return categoryService.getCategoryDTOName(name);
     }
 
-    @PostMapping(value = URI_CATEGORY, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = URI_CATEGORY, consumes = {MULTIPART_FORM_DATA_VALUE})
     @ApiResponseCreated
     public CategoryCreateDTO create(@RequestPart @Validated final CategoryCreateDTO categoryDTO,
                                     @RequestPart final MultipartFile image) {
         return categoryService.create(categoryDTO, image);
     }
 
-    @PatchMapping(value = URI_CATEGORIES_NAME, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping(value = URI_CATEGORIES_NAME, consumes = {MULTIPART_FORM_DATA_VALUE})
     @ApiResponseOK
     public CategoryCreateDTO update(@RequestParam final String name,
                                     @RequestPart @Validated final CategoryCreateDTO categoryDTO,

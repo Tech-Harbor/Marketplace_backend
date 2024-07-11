@@ -9,13 +9,13 @@ import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class AdvertisementController {
     private static final String ADVERTISEMENT = "/advertisement";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
-    @PostMapping(value = URL_CREATE, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = URL_CREATE, consumes = {MULTIPART_FORM_DATA_VALUE})
     @ApiResponseCreated
     public AdvertisementCreateDTO createAdvertisementByUser(@RequestHeader(AUTHORIZATION) final String jwt,
                                                             @RequestPart final AdvertisementCreateDTO advertisement,

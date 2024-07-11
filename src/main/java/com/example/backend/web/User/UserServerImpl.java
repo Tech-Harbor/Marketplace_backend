@@ -134,8 +134,8 @@ public class UserServerImpl implements UserServer {
     }
 
     @Override
-    public UserInfoDTO profileUser(final String accessToken) {
-        final var user = helpers.tokenUserData(accessToken);
+    public UserInfoDTO profileUser(final String jwt) {
+        final var user = helpers.tokenUserData(jwt);
 
         log.info("Info {}", user);
 

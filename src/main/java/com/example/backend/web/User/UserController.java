@@ -61,8 +61,8 @@ public class UserController {
     @GetMapping(PROFILE_USER)
     @Operation(summary = "Information about the user who is authorized and logged into the system")
     @ApiResponseInfoOK
-    public UserInfoDTO profile(@RequestHeader(AUTHORIZATION) final String accessToken) {
-        return userServer.profileUser(accessToken);
+    public UserInfoDTO profile(@RequestHeader(AUTHORIZATION) final String jwt) {
+        return userServer.profileUser(jwt);
     }
 
     @DeleteMapping(DELETE_USER)

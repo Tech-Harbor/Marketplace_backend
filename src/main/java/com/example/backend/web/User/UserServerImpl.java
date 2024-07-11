@@ -1,7 +1,7 @@
 package com.example.backend.web.User;
 
 import com.example.backend.utils.general.Helpers;
-import com.example.backend.web.File.ImageService;
+import com.example.backend.web.File.ImageServer;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.*;
 import com.example.backend.web.User.store.factory.*;
@@ -22,14 +22,14 @@ import static java.util.Optional.ofNullable;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServerImpl implements UserServer {
 
     private final UserImageUpdateInfoFactory userImageUpdateInfoFactory;
     private final UserUpdateInfoFactory userUpdateInfoFactory;
     private final UserSecurityFactory userSecurityFactory;
     private final UserInfoFactory userInfoFactory;
     private final UserRepository userRepository;
-    private final ImageService imageService;
+    private final ImageServer imageServer;
     private final UserFactory userFactory;
     private final Helpers helpers;
 
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserImageUpdateInfoDTO updateImageUser(final String jwt, final MultipartFile image) {
         final var userData = helpers.tokenUserData(jwt);
-        final var uploadImage = imageService.uploadImageEntity(image);
+        final var uploadImage = imageServer.uploadImageEntity(image);
 
         userData.setImage(uploadImage);
 

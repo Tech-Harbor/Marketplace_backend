@@ -1,4 +1,4 @@
-package com.example.backend.security.service.details;
+package com.example.backend.security.servers.details;
 
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import org.springframework.stereotype.Component;

@@ -23,7 +23,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RequestMapping("/api")
 public class CategoryController {
 
-    private final CategoryServiceImpl categoryService;
+    private final CategoryServerImpl categoryService;
     private static final String URI_CATEGORIES_NAME = "/category/update";
     private static final String URI_CATEGORY = "/category";
     private static final String URI_CATEGORIES = "/categories";

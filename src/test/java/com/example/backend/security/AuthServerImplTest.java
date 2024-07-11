@@ -1,17 +1,17 @@
 package com.example.backend.security;
 
-import com.example.backend.mail.MailService;
+import com.example.backend.mail.MailServer;
 import com.example.backend.mail.MailType;
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
-import com.example.backend.security.service.JwtTokenService;
-import com.example.backend.security.service.impl.AuthServiceImpl;
+import com.example.backend.security.servers.JwtTokenServer;
+import com.example.backend.security.servers.impl.AuthServerImpl;
 import com.example.backend.utils.general.Helpers;
 import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserRepository;
-import com.example.backend.web.User.UserServiceImpl;
+import com.example.backend.web.User.UserServerImpl;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import org.junit.jupiter.api.Test;
@@ -35,10 +35,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class AuthServiceImplTest {
+public class AuthServerImplTest {
 
     @InjectMocks
-    private AuthServiceImpl authService;
+    private AuthServerImpl authService;
     @Mock
     private AuthenticationManager authenticationManager;
     @Mock
@@ -46,11 +46,11 @@ public class AuthServiceImplTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private UserServiceImpl userService;
+    private UserServerImpl userService;
     @Mock
-    private MailService mailService;
+    private MailServer mailServer;
     @Mock
-    private JwtTokenService jwtTokenService;
+    private JwtTokenServer jwtTokenServer;
     @Mock
     private Helpers helpers;
 
@@ -73,7 +73,7 @@ public class AuthServiceImplTest {
 
         verify(userService).getByEmail(any());
         verify(userService).mySecuritySave(any(UserEntity.class));
-        verify(mailService).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
+        verify(mailServer).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
     }
 
     @Test
@@ -94,10 +94,10 @@ public class AuthServiceImplTest {
         authService.signup(registerRequest);
 
         verify(userService).getByEmail(EMAIL_KEY);
-        verify(mailService).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
+        verify(mailServer).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
         verify(userService).mySecuritySave(any(UserEntity.class));
 
-        verifyNoMoreInteractions(userService, userRepository, mailService);
+        verifyNoMoreInteractions(userService, userRepository, mailServer);
     }
 
     @Test
@@ -111,15 +111,15 @@ public class AuthServiceImplTest {
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
-        when(jwtTokenService.generateAccessToken(authentication)).thenReturn("AccessToken");
-        when(jwtTokenService.generateRefreshToken(authentication)).thenReturn("RefreshToken");
+        when(jwtTokenServer.generateAccessToken(authentication)).thenReturn("AccessToken");
+        when(jwtTokenServer.generateRefreshToken(authentication)).thenReturn("RefreshToken");
         when(userService.getByEmail(authRequest.email())).thenReturn(Optional.of(mock(UserEntity.class)));
 
         final var authRequestLogin = authService.login(authRequest);
 
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(jwtTokenService).generateAccessToken(authentication);
-        verify(jwtTokenService).generateRefreshToken(authentication);
+        verify(jwtTokenServer).generateAccessToken(authentication);
+        verify(jwtTokenServer).generateRefreshToken(authentication);
         verify(userService).getByEmail(authRequest.email());
 
         assertNotNull(authRequestLogin.accessToken());
@@ -144,7 +144,7 @@ public class AuthServiceImplTest {
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verify(userService).getByEmail(authRequest.email());
 
-        verifyNoMoreInteractions(authenticationManager, userService, jwtTokenService);
+        verifyNoMoreInteractions(authenticationManager, userService, jwtTokenServer);
     }
 
     @Test
@@ -172,7 +172,7 @@ public class AuthServiceImplTest {
         assertEquals(PASSWORD, user.getPassword());
         verify(helpers).tokenUserEmail(jwt);
         verify(myPasswordEncoder.passwordEncoder()).encode(passwordRequest.password());
-        verify(mailService).sendEmail(userSecurity, MailType.UPDATED_PASSWORD, new Properties());
+        verify(mailServer).sendEmail(userSecurity, MailType.UPDATED_PASSWORD, new Properties());
     }
 
     @Test
@@ -192,7 +192,7 @@ public class AuthServiceImplTest {
         authService.requestEmailUpdatePassword(emailRequest);
 
         verify(userService).getByEmail(emailRequest.email());
-        verify(mailService).sendEmail(userSecurity, MailType.NEW_PASSWORD, new Properties());
+        verify(mailServer).sendEmail(userSecurity, MailType.NEW_PASSWORD, new Properties());
     }
 
     @Test
@@ -231,6 +231,6 @@ public class AuthServiceImplTest {
 
         verify(userService).getByEmail(EMAIL_KEY);
 
-        verify(mailService).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
+        verify(mailServer).sendEmail(userCaptor.capture(), eq(MailType.REGISTRATION), any(Properties.class));
     }
 }

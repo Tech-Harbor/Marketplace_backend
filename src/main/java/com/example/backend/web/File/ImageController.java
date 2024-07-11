@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class ImageController {
 
-    private final ImageService imageService;
+    private final ImageServer imageServer;
     private static final String URI_IMAGES_ID = "/{imageId}";
     private static final String URI_IMAGE = "/upload";
     private static final String URI_IMAGES = "/images";
@@ -27,20 +27,20 @@ public class ImageController {
     @GetMapping(URI_IMAGES)
     @ApiResponseOK
     public List<ImageDTO> getAllImage() {
-        return imageService.getAllPhoto();
+        return imageServer.getAllPhoto();
     }
 
     @PostMapping(URI_IMAGE)
     @ResponseBody
     @ApiResponseCreated
     public ImageCreateDTO upload(@RequestParam final MultipartFile file) {
-        return imageService.uploadImage(file);
+        return imageServer.uploadImage(file);
     }
 
     @GetMapping(URI_IMAGES_ID)
     @ResponseBody
     @ApiResponseDelete
     public void deleteCloudinaryAndRepositoryById(@PathVariable final String imageId) {
-        imageService.imageDeleteId(imageId);
+        imageServer.imageDeleteId(imageId);
     }
 }

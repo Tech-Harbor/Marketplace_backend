@@ -1,4 +1,4 @@
-package com.example.backend.security.service;
+package com.example.backend.security.servers;
 
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
@@ -6,7 +6,7 @@ import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 
-public interface AuthService {
+public interface AuthServer {
     /**
      * Method for user registration in the system.
      *

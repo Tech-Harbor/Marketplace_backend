@@ -1,7 +1,7 @@
 package com.example.backend.security.jwt;
 
-import com.example.backend.security.service.JwtService;
-import com.example.backend.security.service.details.MyUserDetailsService;
+import com.example.backend.security.servers.JwtServer;
+import com.example.backend.security.servers.details.MyUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +22,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final MyUserDetailsService userDetailsService;
-    private final JwtService jwtService;
+    private final JwtServer jwtServer;
 
     @Override
     @SneakyThrows
@@ -53,7 +53,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private String getExtractUserData(final String jwt) {
 
         if (StringUtils.isNoneEmpty(jwt)) {
-            return jwtService.extractUserData(jwt);
+            return jwtServer.extractUserData(jwt);
         }
 
         return null;
@@ -64,7 +64,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             final var userDetails = userDetailsService.loadUserByUsername(userData);
 
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+            if (jwtServer.isTokenValid(jwt, userDetails)) {
 
                 final var authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

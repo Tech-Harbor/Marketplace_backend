@@ -1,4 +1,4 @@
-package com.example.backend.websocket.service;
+package com.example.backend.websocket.servers;
 
 import com.example.backend.websocket.models.ChatRoomEntity;
 import com.example.backend.websocket.models.ChatRoomRepository;
@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class ChatRoomServiceImpl implements ChatRoomService {
+public class ChatRoomServerImpl implements ChatRoomServer {
 
     private final ChatRoomRepository chatRoomRepository;
 

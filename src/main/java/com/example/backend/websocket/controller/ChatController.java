@@ -1,7 +1,7 @@
 package com.example.backend.websocket.controller;
 
 import com.example.backend.websocket.models.ChatMessageEntity;
-import com.example.backend.websocket.service.ChatMessageService;
+import com.example.backend.websocket.servers.ChatMessageServer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -15,16 +15,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final ChatMessageService chatMessageService;
+    private final ChatMessageServer chatMessageServer;
 
     @MessageMapping("/chat")
     public void processMessage(final @Payload ChatMessageEntity chatMessage) {
-        chatMessageService.processMessage(chatMessage);
+        chatMessageServer.processMessage(chatMessage);
     }
 
     @GetMapping("/messages/{senderId}/{recipientId}")
     public List<ChatMessageEntity> findChatMessages(final @PathVariable String senderId,
                                                     final @PathVariable String recipientId) {
-        return chatMessageService.findChatMessages(senderId, recipientId);
+        return chatMessageServer.findChatMessages(senderId, recipientId);
     }
 }

@@ -23,7 +23,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RequestMapping("/api")
 public class AdvertisementController {
 
-    private final AdvertisementService advertisementService;
+    private final AdvertisementServer advertisementServer;
     private static final String URL_CREATE = "/createAdvertisement";
     private static final String URL_EDIT = "/editAdvertisement";
     private static final String URL_DELETE = "/deleteAdvertisement";
@@ -35,36 +35,36 @@ public class AdvertisementController {
     public AdvertisementCreateDTO createAdvertisementByUser(@RequestHeader(AUTHORIZATION) final String jwt,
                                                             @RequestPart final AdvertisementCreateDTO advertisement,
                                                             @RequestPart final List<MultipartFile> images) {
-        return advertisementService.createAdvertisement(jwt, advertisement, images);
+        return advertisementServer.createAdvertisement(jwt, advertisement, images);
     }
 
     @QueryMapping
     public List<AdvertisementDTO> getAllAdvertisement() {
-        return advertisementService.getAllAdvertisement();
+        return advertisementServer.getAllAdvertisement();
     }
 
     @GetMapping(ADVERTISEMENT)
     @ApiResponseOK
     public AdvertisementDTO getByAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
-        return advertisementService.advertisement(jwt);
+        return advertisementServer.advertisement(jwt);
     }
 
     @PatchMapping(URL_EDIT)
     @ApiResponseOK
     public AdvertisementUpdateDTO editAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt,
                                                     @RequestBody final AdvertisementUpdateDTO entity) {
-        return advertisementService.editAdvertisement(jwt, entity);
+        return advertisementServer.editAdvertisement(jwt, entity);
     }
 
     @DeleteMapping(URL_DELETE)
     @ApiResponseDelete
     public void deleteAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
-        advertisementService.deleteAdvertisement(jwt);
+        advertisementServer.deleteAdvertisement(jwt);
     }
 
     @DeleteMapping(URL_DELETE_ALL)
     @ApiResponseDelete
     public void deleteAllAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
-        advertisementService.deleteAll(jwt);
+        advertisementServer.deleteAll(jwt);
     }
 }

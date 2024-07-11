@@ -2,7 +2,7 @@ package com.example.backend.user;
 
 import com.example.backend.utils.general.Helpers;
 import com.example.backend.web.User.UserRepository;
-import com.example.backend.web.User.UserServiceImpl;
+import com.example.backend.web.User.UserServerImpl;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserDTO;
 import com.example.backend.web.User.store.dto.UserUpdateInfoDTO;
@@ -27,10 +27,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplTest {
+public class UserServerImplTest {
 
     @InjectMocks
-    private UserServiceImpl userService;
+    private UserServerImpl userService;
     @Mock
     private UserRepository userRepository;
     @Mock

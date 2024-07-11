@@ -15,13 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.example.backend.utils.exception.RequestException.badRequestException;
 
 @Service
 @RequiredArgsConstructor
-public class ImageServiceImpl implements ImageService {
+public class ImageServerImpl implements ImageServer {
 
     private final ImageCreateFactory imageCreateFactory;
     private final ImageRepository imageRepository;

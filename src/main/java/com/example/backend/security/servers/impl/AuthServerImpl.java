@@ -1,17 +1,17 @@
-package com.example.backend.security.service.impl;
+package com.example.backend.security.servers.impl;
 
-import com.example.backend.mail.MailService;
+import com.example.backend.mail.MailServer;
 import com.example.backend.mail.MailType;
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
-import com.example.backend.security.service.AuthService;
-import com.example.backend.security.service.JwtTokenService;
+import com.example.backend.security.servers.AuthServer;
+import com.example.backend.security.servers.JwtTokenServer;
 import com.example.backend.utils.general.Helpers;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.UserService;
+import com.example.backend.web.User.UserServer;
 import com.example.backend.web.User.store.UserEntity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,19 +32,19 @@ import static com.example.backend.utils.exception.RequestException.badRequestExc
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService {
+public class AuthServerImpl implements AuthServer {
 
     private final AuthenticationManager authenticationManager;
     private final MyPasswordEncoder myPasswordEncoder;
-    private final JwtTokenService jwtTokenService;
-    private final UserService userService;
-    private final MailService mailService;
+    private final JwtTokenServer jwtTokenServer;
+    private final UserServer userServer;
+    private final MailServer mailServer;
     private final Helpers helpers;
 
     @Override
     @Transactional
     public void signup(final RegisterRequest registerRequest) {
-        final var existUser = userService.getByEmail(registerRequest.email());
+        final var existUser = userServer.getByEmail(registerRequest.email());
 
         existUser.ifPresent(user -> {
                 throw badRequestException("This email has already been used.");
@@ -62,11 +62,11 @@ public class AuthServiceImpl implements AuthService {
                 .roles(Set.of(USER, ADMIN))
                 .build();
 
-        final var userSecurityDTO = userService.mySecuritySave(user);
+        final var userSecurityDTO = userServer.mySecuritySave(user);
 
         log.info("Register User: {}", userSecurityDTO);
 
-        mailService.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
+        mailServer.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
     }
 
     @Override
@@ -80,11 +80,11 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        userService.getByEmail(authRequest.email()).orElseThrow();
+        userServer.getByEmail(authRequest.email()).orElseThrow();
 
-        final var accessToken = jwtTokenService.generateAccessToken(authentication);
+        final var accessToken = jwtTokenServer.generateAccessToken(authentication);
 
-        final var refreshToken = jwtTokenService.generateRefreshToken(authentication);
+        final var refreshToken = jwtTokenServer.generateRefreshToken(authentication);
 
         log.info("Login user: {}", authentication);
 
@@ -104,24 +104,24 @@ public class AuthServiceImpl implements AuthService {
 
                 log.info("Update Password: {}", user.getFirstname());
 
-                final var userSecurityDTO = userService.mySecuritySave(user);
+                final var userSecurityDTO = userServer.mySecuritySave(user);
 
-                mailService.sendEmail(userSecurityDTO, MailType.UPDATED_PASSWORD, new Properties());
+                mailServer.sendEmail(userSecurityDTO, MailType.UPDATED_PASSWORD, new Properties());
             }
         );
     }
 
     @Override
     public void requestEmailUpdatePassword(final EmailRequest emailRequest) {
-        final var emailUser = userService.getByEmail(emailRequest.email()).orElseThrow(
+        final var emailUser = userServer.getByEmail(emailRequest.email()).orElseThrow(
                 () -> badRequestException("This email is not exists")
         );
 
-        final var userSecurityDTO = userService.mySecuritySave(emailUser);
+        final var userSecurityDTO = userServer.mySecuritySave(emailUser);
 
         log.info("Email user: {}", emailUser.getFirstname());
 
-        mailService.sendEmail(userSecurityDTO, MailType.NEW_PASSWORD, new Properties());
+        mailServer.sendEmail(userSecurityDTO, MailType.NEW_PASSWORD, new Properties());
     }
 
     @Override
@@ -134,21 +134,21 @@ public class AuthServiceImpl implements AuthService {
 
                 log.info("Active user: {}", user.getFirstname());
 
-                userService.mySecuritySave(user);
+                userServer.mySecuritySave(user);
             }
         );
     }
 
     @Override
     public void sendEmailActive(final EmailRequest emailRequest) {
-        final var user = userService.getByEmail(emailRequest.email());
+        final var user = userServer.getByEmail(emailRequest.email());
 
         user.ifPresent(entity -> {
-                final var userSecurityDTO = userService.mySecuritySave(entity);
+                final var userSecurityDTO = userServer.mySecuritySave(entity);
 
                 log.info("SendEmail user: {}", entity.getFirstname());
 
-                mailService.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
+                mailServer.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
             }
         );
     }

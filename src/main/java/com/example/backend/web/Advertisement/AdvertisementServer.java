@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface AdvertisementService {
+public interface AdvertisementServer {
     AdvertisementCreateDTO createAdvertisement(String jwt, AdvertisementCreateDTO entity, List<MultipartFile> files);
     List<AdvertisementDTO> getAllAdvertisement();
     AdvertisementDTO advertisement(String jwt);

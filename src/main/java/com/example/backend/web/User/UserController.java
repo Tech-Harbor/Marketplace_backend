@@ -27,7 +27,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServer userServer;
 
     private static final String UPDATE_USER = "/updateUser";
     private static final String UPDATE_IMAGE_USER = "/updateImageUser";
@@ -36,38 +36,38 @@ public class UserController {
 
     @QueryMapping
     public List<UserDTO> getAllUsers() {
-        return userService.getByAllUser();
+        return userServer.getByAllUser();
     }
 
     @PatchMapping(UPDATE_USER)
     @ApiResponseOK
     public UserUpdateInfoDTO updateByUser(@RequestHeader(AUTHORIZATION) final String jwt,
                                           @RequestBody final UserUpdateInfoDTO user) {
-        return userService.updateByUser(jwt, user);
+        return userServer.updateByUser(jwt, user);
     }
 
     @QueryMapping
     public UserDTO getByIdUser(@Argument final Long id) {
-        return userService.getByIdUser(id);
+        return userServer.getByIdUser(id);
     }
 
     @PutMapping(value = UPDATE_IMAGE_USER, consumes = {MULTIPART_FORM_DATA_VALUE})
     @ApiResponseOK
     public UserImageUpdateInfoDTO updateImage(@RequestHeader(AUTHORIZATION) final String jwt,
                                               @RequestPart final MultipartFile image) {
-        return userService.updateImageUser(jwt, image);
+        return userServer.updateImageUser(jwt, image);
     }
 
     @GetMapping(PROFILE_USER)
     @Operation(summary = "Information about the user who is authorized and logged into the system")
     @ApiResponseInfoOK
     public UserInfoDTO profile(@RequestHeader(AUTHORIZATION) final String accessToken) {
-        return userService.profileUser(accessToken);
+        return userServer.profileUser(accessToken);
     }
 
     @DeleteMapping(DELETE_USER)
     @ApiResponseDelete
     public void deleteUser(@RequestHeader(AUTHORIZATION) final String jwt) {
-        userService.deleteUser(jwt);
+        userServer.deleteUser(jwt);
     }
 }

@@ -14,13 +14,15 @@ import static com.example.backend.utils.general.Constants.*;
 public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+        final var configuration = new CorsConfiguration();
+
         configuration.setAllowedOrigins(Arrays.asList(LOCALHOST, DEPLOY_STORE));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", configuration);
+
         return urlBasedCorsConfigurationSource;
     }
 }

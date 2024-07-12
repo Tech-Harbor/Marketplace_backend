@@ -26,7 +26,7 @@ public class LocalDateTimeScalarConfig implements Coercing<LocalDateTime, String
                                       @NotNull final GraphQLContext graphQLContext,
                                       @NotNull final Locale locale) {
 
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+        final var format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
 
         return format.format(
                 Date.from(((LocalDateTime) dataFetcherResult)

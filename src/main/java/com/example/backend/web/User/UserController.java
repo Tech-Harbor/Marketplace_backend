@@ -40,6 +40,7 @@ public class UserController {
     }
 
     @PatchMapping(UPDATE_USER)
+    @Operation(summary = "Update current User")
     @ApiResponseOK
     public UserUpdateInfoDTO updateByUser(@RequestHeader(AUTHORIZATION) final String jwt,
                                           @RequestBody final UserUpdateInfoDTO user) {
@@ -52,6 +53,7 @@ public class UserController {
     }
 
     @PutMapping(value = UPDATE_IMAGE_USER, consumes = {MULTIPART_FORM_DATA_VALUE})
+    @Operation(summary = "Update Image profile for User")
     @ApiResponseOK
     public UserImageUpdateInfoDTO updateImage(@RequestHeader(AUTHORIZATION) final String jwt,
                                               @RequestPart final MultipartFile image) {
@@ -66,6 +68,7 @@ public class UserController {
     }
 
     @DeleteMapping(DELETE_USER)
+    @Operation(summary = "Delete current User")
     @ApiResponseDelete
     public void deleteUser(@RequestHeader(AUTHORIZATION) final String jwt) {
         userServer.deleteUser(jwt);

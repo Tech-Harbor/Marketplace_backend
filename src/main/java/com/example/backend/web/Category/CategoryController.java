@@ -5,6 +5,7 @@ import com.example.backend.utils.annotations.ApiResponseDelete;
 import com.example.backend.utils.annotations.ApiResponseOK;
 import com.example.backend.web.Category.store.dto.CategoryCreateDTO;
 import com.example.backend.web.Category.store.dto.CategoryDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -19,7 +20,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "CategoryService")
+@Tag(name = "CategoryService for Admin")
 @RequestMapping("/api")
 public class CategoryController {
 
@@ -30,6 +31,7 @@ public class CategoryController {
     private static final String URI_CATEGORY_DELETE = "/category/delete";
 
     @GetMapping(URI_CATEGORIES)
+    @Operation(summary = "GetAll categories for users")
     @QueryMapping
     public List<CategoryDTO> getAllCategory() {
         return categoryService.getAll();
@@ -41,6 +43,7 @@ public class CategoryController {
     }
 
     @PostMapping(value = URI_CATEGORY, consumes = {MULTIPART_FORM_DATA_VALUE})
+    @Operation(summary = "function create category for admin ")
     @ApiResponseCreated
     public CategoryCreateDTO create(@RequestPart @Validated final CategoryCreateDTO categoryDTO,
                                     @RequestPart final MultipartFile image) {
@@ -48,6 +51,7 @@ public class CategoryController {
     }
 
     @PatchMapping(value = URI_CATEGORIES_NAME, consumes = {MULTIPART_FORM_DATA_VALUE})
+    @Operation(summary = "function update category for admin ")
     @ApiResponseOK
     public CategoryCreateDTO update(@RequestParam final String name,
                                     @RequestPart @Validated final CategoryCreateDTO categoryDTO,
@@ -56,6 +60,7 @@ public class CategoryController {
     }
 
     @DeleteMapping(URI_CATEGORY_DELETE)
+    @Operation(summary = "function delete category for admin")
     @ApiResponseDelete
     public void deleteCategory(@RequestBody final CategoryDTO categoryDTO) {
         categoryService.deleteCategory(categoryDTO);

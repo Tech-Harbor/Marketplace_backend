@@ -12,6 +12,5 @@ public interface ImageServer {
     ImageCreateDTO uploadImage(MultipartFile file);
     ImageEntity uploadImageEntity(MultipartFile file);
     List<ImageDTO> getAllPhoto();
-    ImageEntity getByImage(String image);
     void imageDeleteId(String id);
 }

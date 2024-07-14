@@ -73,11 +73,6 @@ public class ImageServerImpl implements ImageServer {
     }
 
     @Override
-    public ImageEntity getByImage(final String image) {
-        return imageRepository.getByImageUrl(image);
-    }
-
-    @Override
     public void imageDeleteId(final String id) {
         fileUpload.deleteCloudinaryById(id);
         imageRepository.deleteById(Long.valueOf(id));

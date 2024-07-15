@@ -59,6 +59,9 @@ public class AuthServerImpl implements AuthServer {
                 .phone(registerRequest.phone())
                 .registerAuthStatus(JWT)
                 .enabled(false)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .credentialsNonExpired(true)
                 .roles(Set.of(USER, ADMIN))
                 .build();
 

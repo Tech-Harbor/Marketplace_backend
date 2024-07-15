@@ -21,6 +21,9 @@ public class UserSecurityFactory implements Function<UserEntity, UserSecurityDTO
                 .status(user.getRegisterAuthStatus())
                 .roles(user.getRoles())
                 .enabled(user.getEnabled())
+                .accountNonExpired(user.getAccountNonExpired())
+                .accountNonLocked(user.getAccountNonLocked())
+                .credentialsNonExpired(user.getCredentialsNonExpired())
                 .build();
     }
 }

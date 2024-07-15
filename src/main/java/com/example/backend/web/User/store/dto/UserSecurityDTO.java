@@ -14,4 +14,7 @@ public record UserSecurityDTO(String lastname,
                               String password,
                               RegisterAuthStatus status,
                               Set<Role> roles,
-                              Boolean enabled) { }
+                              Boolean enabled,
+                              Boolean accountNonExpired,
+                              Boolean accountNonLocked,
+                              Boolean credentialsNonExpired) { }

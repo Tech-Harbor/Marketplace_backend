@@ -33,22 +33,25 @@ create table if not exists categories (
 );
 
 create table if not exists users (
-    id              bigserial primary key,
-    create_data     timestamp(6),
-    email           varchar(255) not null constraint uk_6dotkott2kjsp8vw4d0m25fb7 unique,
-    enabled         boolean,
-    firstname       varchar(255) not null,
-    lastname        varchar(255) not null,
-    password        varchar(255) not null,
-    phone           varchar(255) not null,
-    register_status varchar(255)
+    id                  bigserial primary key,
+    create_data         timestamp(6),
+    email               varchar(255) not null constraint uk_6dotkott2kjsp8vw4d0m25fb7 unique,
+    enabled             boolean,
+    account_expired     boolean,
+    account_locked      boolean,
+    credentials_expired boolean,
+    firstname           varchar(255) not null,
+    lastname            varchar(255) not null,
+    password            varchar(255) not null,
+    phone               varchar(255) not null,
+    register_status     varchar(255)
     constraint users_register_status_check check ((register_status)::text = ANY
         ((ARRAY ['GOOGLE'::character varying, 'JWT'::character varying])::text[])),
-    roles           varchar(255)[],
-    status          varchar(255)
+    roles               varchar(255)[],
+    status              varchar(255)
     constraint users_status_checkcheck check ((status)::text = ANY
         ((ARRAY ['ONLINE'::character varying, 'OFFLINE'::character varying])::text[])),
-    image_id        bigint
+    image_id            bigint
     constraint uk_94dj9ry3k3tmcsyg8eatp7vvn unique constraint fk17herqt2to4hyl5q5r5ogbxk9 references images
 );
 

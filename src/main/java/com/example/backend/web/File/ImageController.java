@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "ImageService for admin")
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 public class ImageController {
 
     private final ImageServer imageServer;

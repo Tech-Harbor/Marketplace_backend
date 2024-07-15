@@ -21,7 +21,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "CategoryService for Admin")
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 public class CategoryController {
 
     private final CategoryServerImpl categoryService;

@@ -1,7 +1,10 @@
 package com.example.backend.security.jwt;
 
+import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.servers.JwtServer;
+import com.example.backend.security.servers.JwtTokenServer;
 import com.example.backend.security.servers.details.MyUserDetailsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +26,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final MyUserDetailsService userDetailsService;
+    private final JwtTokenServer jwtTokenServer;
     private final JwtServer jwtServer;
 
     @Override
@@ -41,6 +45,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         getSecurityContextHolder(request, userData, jwt);
 
         filterChain.doFilter(request, response);
+    }
+
+    public void updateRefreshTokenFilter(final HttpServletRequest request, final HttpServletResponse response) {
+        updateRefreshTokenFilterServer(request, response);
     }
 
     private String getTokenHeaders(final HttpServletRequest request) {
@@ -79,6 +87,35 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
+            }
+        }
+    }
+
+    @SneakyThrows
+    private void updateRefreshTokenFilterServer(final HttpServletRequest request, final HttpServletResponse response) {
+        final var refreshToken = getTokenHeaders(request);
+
+        final var userData = getExtractUserData(refreshToken);
+
+        if (StringUtils.isNoneEmpty(userData)) {
+
+            final var userDetails = userDetailsService.loadUserByUsername(refreshToken);
+
+            if (jwtServer.isTokenValid(refreshToken, userDetails)) {
+                final var authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
+
+                final var accessToken = jwtTokenServer.generateAccessToken(authenticationToken);
+
+                final var authUpdateJwtResponse = AuthResponse.builder()
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .build();
+
+                new ObjectMapper().writeValue(response.getOutputStream(), authUpdateJwtResponse);
             }
         }
     }

@@ -2,6 +2,7 @@ package com.example.backend.security.servers.impl;
 
 import com.example.backend.mail.MailServer;
 import com.example.backend.mail.MailType;
+import com.example.backend.security.jwt.JwtAuthFilter;
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
@@ -13,6 +14,8 @@ import com.example.backend.utils.general.Helpers;
 import com.example.backend.utils.general.MyPasswordEncoder;
 import com.example.backend.web.User.UserServer;
 import com.example.backend.web.User.store.UserEntity;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +40,7 @@ public class AuthServerImpl implements AuthServer {
     private final AuthenticationManager authenticationManager;
     private final MyPasswordEncoder myPasswordEncoder;
     private final JwtTokenServer jwtTokenServer;
+    private final JwtAuthFilter jwtAuthFilter;
     private final UserServer userServer;
     private final MailServer mailServer;
     private final Helpers helpers;
@@ -154,5 +158,10 @@ public class AuthServerImpl implements AuthServer {
                 mailServer.sendEmail(userSecurityDTO, MailType.REGISTRATION, new Properties());
             }
         );
+    }
+
+    @Override
+    public void refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
+        jwtAuthFilter.updateRefreshTokenFilter(request, response);
     }
 }

@@ -5,6 +5,8 @@ import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthServer {
     /**
@@ -54,4 +56,6 @@ public interface AuthServer {
      * This method sends a letter to the user's mail if he did not have time to activate the account the first time
      */
     void sendEmailActive(EmailRequest emailRequest);
+
+    void refreshToken(HttpServletRequest request, HttpServletResponse response);
 }

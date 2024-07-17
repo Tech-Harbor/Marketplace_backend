@@ -7,6 +7,8 @@ import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
 import com.example.backend.security.servers.AuthServer;
 import com.example.backend.utils.annotations.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,6 +31,7 @@ public class AuthController {
 
     private static final String SIGNUP_URI = "/auth/signup";
     private static final String LOGIN_URI = "/auth/login";
+    private static final String UPDATE_JWT_URI = "/refresh-token";
     private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String ACTIVE_USER = "/active";
@@ -51,6 +54,13 @@ public class AuthController {
     @ApiResponseForbidden
     public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
         return authServer.login(authRequest);
+    }
+
+    @PostMapping(UPDATE_JWT_URI)
+    @Operation(summary = "Update refreshToken user")
+    @ApiResponseOK
+    public void refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
+        authServer.refreshToken(request, response);
     }
 
     @PutMapping(FORM_CHANGE_PASSWORD_URI)

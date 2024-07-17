@@ -2,7 +2,6 @@ package com.example.backend.security.servers.impl;
 
 import com.example.backend.mail.MailServer;
 import com.example.backend.mail.MailType;
-import com.example.backend.security.jwt.JwtAuthFilter;
 import com.example.backend.security.jwt.JwtAuthServerFilter;
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;

@@ -74,5 +74,5 @@ cloudinary:
 jwt:
   key: ${JWT_KEY}
   jwtAccessExpiration: 10080m #7day
-  jwtRefreshExpiration: 43200m #30day
+  jwtRefreshExpiration: 131490m #3_month
   jwtUserDataExpiration: 1440m #1day

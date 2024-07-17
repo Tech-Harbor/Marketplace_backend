@@ -3,6 +3,7 @@ package com.example.backend.security.servers.impl;
 import com.example.backend.mail.MailServer;
 import com.example.backend.mail.MailType;
 import com.example.backend.security.jwt.JwtAuthFilter;
+import com.example.backend.security.jwt.JwtAuthServerFilter;
 import com.example.backend.security.models.request.AuthRequest;
 import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
@@ -38,9 +39,9 @@ import static com.example.backend.utils.exception.RequestException.badRequestExc
 public class AuthServerImpl implements AuthServer {
 
     private final AuthenticationManager authenticationManager;
+    private final JwtAuthServerFilter jwtAuthServerFilter;
     private final MyPasswordEncoder myPasswordEncoder;
     private final JwtTokenServer jwtTokenServer;
-    private final JwtAuthFilter jwtAuthFilter;
     private final UserServer userServer;
     private final MailServer mailServer;
     private final Helpers helpers;
@@ -162,6 +163,6 @@ public class AuthServerImpl implements AuthServer {
 
     @Override
     public void refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
-        jwtAuthFilter.updateRefreshTokenFilter(request, response);
+        jwtAuthServerFilter.updateRefreshTokenFilter(request, response);
     }
 }

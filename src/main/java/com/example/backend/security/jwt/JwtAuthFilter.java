@@ -23,7 +23,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthFilter extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter implements JwtAuthServerFilter{
 
     private final MyUserDetailsService userDetailsService;
     private final JwtTokenServer jwtTokenServer;
@@ -47,6 +47,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    @Override
     public void updateRefreshTokenFilter(final HttpServletRequest request, final HttpServletResponse response) {
         updateRefreshTokenFilterServer(request, response);
     }

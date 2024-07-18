@@ -16,6 +16,9 @@ public class MyUserDetailsFactory {
                         .roles(user.roles())
                         .status(user.status())
                         .enabled(user.enabled())
+                        .accountNonLocked(user.accountNonLocked())
+                        .accountNonExpired(user.accountNonExpired())
+                        .credentialsNonExpired(user.credentialsNonExpired())
                         .build())
                 .build();
     }

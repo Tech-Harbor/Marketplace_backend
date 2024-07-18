@@ -161,7 +161,7 @@ public class AuthServerImpl implements AuthServer {
     }
 
     @Override
-    public void refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
+    public void updateRefreshToken(final HttpServletRequest request, final HttpServletResponse response) {
         jwtAuthServerFilter.updateRefreshTokenFilter(request, response);
     }
 }

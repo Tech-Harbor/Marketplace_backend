@@ -57,5 +57,5 @@ public interface AuthServer {
      */
     void sendEmailActive(EmailRequest emailRequest);
 
-    void refreshToken(HttpServletRequest request, HttpServletResponse response);
+    void updateRefreshToken(HttpServletRequest request, HttpServletResponse response);
 }

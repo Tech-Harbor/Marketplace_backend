@@ -60,7 +60,7 @@ public class AuthController {
     @Operation(summary = "Update refreshToken user")
     @ApiResponseOK
     public void refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
-        authServer.refreshToken(request, response);
+        authServer.updateRefreshToken(request, response);
     }
 
     @PutMapping(FORM_CHANGE_PASSWORD_URI)

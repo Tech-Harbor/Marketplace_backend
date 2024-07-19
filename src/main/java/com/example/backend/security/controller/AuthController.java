@@ -57,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping(UPDATE_JWT_URI)
-    @Operation(summary = "Update refreshToken user, Beta version")
+    @Operation(summary = "Update refreshToken user")
     @ApiResponseOK
     public void refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
         authServer.updateRefreshToken(request, response);

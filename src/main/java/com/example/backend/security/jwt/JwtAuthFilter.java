@@ -96,11 +96,11 @@ public class JwtAuthFilter extends OncePerRequestFilter implements JwtAuthServer
     private void updateRefreshTokenFilterServer(final HttpServletRequest request, final HttpServletResponse response) {
         final var refreshToken = getTokenHeaders(request);
 
-        final var userData = jwtServer.extractUserData(refreshToken);
+        final var userData = getExtractUserData(refreshToken);
 
         if (StringUtils.isNoneEmpty(userData)) {
 
-            final var userDetails = userDetailsService.loadUserByUsername(refreshToken);
+            final var userDetails = userDetailsService.loadUserByUsername(userData);
 
             if (jwtServer.isTokenValid(refreshToken, userDetails)) {
                 final var authenticationToken = new UsernamePasswordAuthenticationToken(

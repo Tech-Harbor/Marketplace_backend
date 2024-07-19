@@ -109,11 +109,12 @@ public class JwtAuthFilter extends OncePerRequestFilter implements JwtAuthServer
                         userDetails.getAuthorities()
                 );
 
-                final var accessToken = jwtTokenServer.generateAccessToken(authenticationToken);
+                final var accessTokenNew = jwtTokenServer.generateAccessToken(authenticationToken);
+                final var refreshTokenNew = jwtTokenServer.generateRefreshToken(authenticationToken);
 
                 final var authUpdateJwtResponse = AuthResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
+                        .accessToken(accessTokenNew)
+                        .refreshToken(refreshTokenNew)
                         .build();
 
                 new ObjectMapper().writeValue(response.getOutputStream(), authUpdateJwtResponse);

@@ -1,4 +1,4 @@
-package com.example.backend.security.service.details;
+package com.example.backend.security.servers.details;
 
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import org.springframework.stereotype.Component;
@@ -16,6 +16,9 @@ public class MyUserDetailsFactory {
                         .roles(user.roles())
                         .status(user.status())
                         .enabled(user.enabled())
+                        .accountNonLocked(user.accountNonLocked())
+                        .accountNonExpired(user.accountNonExpired())
+                        .credentialsNonExpired(user.credentialsNonExpired())
                         .build())
                 .build();
     }

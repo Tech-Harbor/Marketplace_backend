@@ -5,7 +5,7 @@ import com.example.backend.web.Category.store.dto.CategoryCreateDTO;
 import com.example.backend.web.Category.store.dto.CategoryDTO;
 import com.example.backend.web.Category.store.factory.CategoryCreateFactory;
 import com.example.backend.web.Category.store.factory.CategoryFactory;
-import com.example.backend.web.File.ImageService;
+import com.example.backend.web.File.ImageServer;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -13,23 +13,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServerImpl implements CategoryServer {
 
     private final CategoryCreateFactory categoryCreateFactory;
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
-    private final ImageService imageService;
+    private final ImageServer imageServer;
 
     @Override
     public List<CategoryDTO> getAll() {
         return categoryRepository.findAll()
                 .stream()
                 .map(categoryFactory)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -45,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryCreateDTO create(final CategoryCreateDTO categoryDTO, final MultipartFile image) {
-        final var newImage = imageService.uploadImageEntity(image);
+        final var newImage = imageServer.uploadImageEntity(image);
 
         final var newCategory = CategoryEntity.builder()
                 .name(categoryDTO.name())
@@ -61,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
                                     final CategoryCreateDTO categoryDTO,
                                     final MultipartFile image) {
         final var category = getCategoryName(name);
-        final var uploadImage = imageService.uploadImageEntity(image);
+        final var uploadImage = imageServer.uploadImageEntity(image);
 
         if (StringUtils.isNoneEmpty(categoryDTO.name())) {
             category.setName(categoryDTO.name());

@@ -1,9 +1,9 @@
-package com.example.backend.security.service;
+package com.example.backend.security.servers;
 
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import org.springframework.security.core.Authentication;
 
-public interface JwtTokenService {
+public interface JwtTokenServer {
     /**
      * Generates an access token for the provided authentication.
      *

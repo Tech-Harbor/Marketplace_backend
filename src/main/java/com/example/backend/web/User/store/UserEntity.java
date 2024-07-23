@@ -63,6 +63,15 @@ public class UserEntity {
 
     private Boolean enabled;
 
+    @Column(name = "account_expired")
+    private Boolean accountNonExpired;
+
+    @Column(name = "account_locked")
+    private Boolean accountNonLocked;
+
+    @Column(name = "credentials_expired")
+    private Boolean credentialsNonExpired;
+
     @Enumerated(value = STRING)
     private Status status;
 }

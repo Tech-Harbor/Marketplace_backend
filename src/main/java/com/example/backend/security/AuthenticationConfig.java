@@ -1,6 +1,6 @@
 package com.example.backend.security;
 
-import com.example.backend.security.service.details.MyUserDetailsService;
+import com.example.backend.security.servers.details.MyUserDetailsService;
 import com.example.backend.utils.general.MyPasswordEncoder;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;

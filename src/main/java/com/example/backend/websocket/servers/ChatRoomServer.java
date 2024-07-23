@@ -1,7 +1,7 @@
-package com.example.backend.websocket.service;
+package com.example.backend.websocket.servers;
 
 import java.util.Optional;
 
-public interface ChatRoomService {
+public interface ChatRoomServer {
     Optional<String> getChatRoomId(String senderId, String recipientId, boolean createNewRoomIfNotExists);
 }

@@ -1,11 +1,11 @@
-package com.example.backend.security.service;
+package com.example.backend.security.servers;
 
-import com.example.backend.security.service.details.MyUserDetails;
+import com.example.backend.security.servers.details.MyUserDetails;
 import io.jsonwebtoken.Claims;
 
 import java.util.function.Function;
 
-public interface JwtService {
+public interface JwtServer {
     /**
      * Extracts the userData from the provided JWT token.
      *

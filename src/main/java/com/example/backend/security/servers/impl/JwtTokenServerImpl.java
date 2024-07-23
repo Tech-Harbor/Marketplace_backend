@@ -1,7 +1,7 @@
-package com.example.backend.security.service.impl;
+package com.example.backend.security.servers.impl;
 
-import com.example.backend.security.service.JwtTokenService;
-import com.example.backend.security.service.details.MyUserDetails;
+import com.example.backend.security.servers.JwtTokenServer;
+import com.example.backend.security.servers.details.MyUserDetails;
 import com.example.backend.utils.general.JwtPropertiesManager;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import io.jsonwebtoken.Jwts;
@@ -17,7 +17,7 @@ import static com.example.backend.utils.general.Constants.*;
 
 @Service
 @RequiredArgsConstructor
-public class JwtTokenServiceImpl implements JwtTokenService {
+public class JwtTokenServerImpl implements JwtTokenServer {
 
     private final JwtPropertiesManager jwtPropertiesManager;
 

@@ -8,10 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface ImageService {
+public interface ImageServer {
     ImageCreateDTO uploadImage(MultipartFile file);
     ImageEntity uploadImageEntity(MultipartFile file);
     List<ImageDTO> getAllPhoto();
-    ImageEntity getByImage(String image);
     void imageDeleteId(String id);
 }

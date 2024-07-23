@@ -1,6 +1,6 @@
-package com.example.backend.security.service.details;
+package com.example.backend.security.servers.details;
 
-import com.example.backend.web.User.UserService;
+import com.example.backend.web.User.UserServer;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,12 +13,12 @@ import static com.example.backend.utils.exception.RequestException.notFoundReque
 public class MyUserDetailsService implements UserDetailsService {
 
     private final MyUserDetailsFactory myUserDetailsFactory;
-    private final UserService userService;
+    private final UserServer userServer;
 
     @Override
     @SneakyThrows
     public MyUserDetails loadUserByUsername(final String username) {
-        var user =  userService.getBySecurityEmail(username).orElseThrow(
+        var user =  userServer.getBySecurityEmail(username).orElseThrow(
                 () -> notFoundRequestException("Email not found")
         );
         return myUserDetailsFactory.build(user);

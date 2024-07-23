@@ -1,4 +1,4 @@
-package com.example.backend.security.service.details;
+package com.example.backend.security.servers.details;
 
 import com.example.backend.utils.enums.Role;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
@@ -26,17 +26,17 @@ public record MyUserDetails(UserSecurityDTO user) implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return user.accountNonExpired();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return user.accountNonLocked();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return user.credentialsNonExpired();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.example.backend.security.exception.AccessDeniedHandlerJwt;
 import com.example.backend.security.exception.AuthenticationEntryPointJwt;
 import com.example.backend.security.jwt.JwtAuthFilter;
 import com.example.backend.security.oauth.AuthGoogle;
+import com.example.backend.utils.enums.Role;
 import com.example.backend.utils.general.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -20,8 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.example.backend.utils.general.Constants.GET_AUTH;
-import static com.example.backend.utils.general.Constants.PERMIT_ALL;
+import static com.example.backend.utils.general.Constants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -45,7 +45,8 @@ public class SecurityConfig {
                 )
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.GET, GET_AUTH).authenticated()
+                        .requestMatchers(HttpMethod.GET, PERMIT_GET_AUTH).authenticated()
+                        .requestMatchers(PERMIT_ADMIN).hasRole(Role.ADMIN.name())
                         .requestMatchers(PERMIT_ALL).permitAll()
                         .anyRequest()
                         .permitAll()

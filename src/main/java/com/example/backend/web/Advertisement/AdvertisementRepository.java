@@ -24,10 +24,10 @@ public interface AdvertisementRepository extends JpaRepository<AdvertisementEnti
     //TODO Поямнення updateActiveAdvertisements!
     // 01.08.2022 створення без true, а стоїть false
     // 01.09.2022 треба обновити дату всі які є на false
-    // 01.10.2022 видалиться через місяць, якщо не активують оголошення
+    // 01.10.2022 видалиться через місяць, якщо не активують оголошення deleteActiveAdvertisements
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM AdvertisementEntity ad WHERE ad.createDate <= :dateTime AND ad.active = false")
+    @Query("DELETE FROM AdvertisementEntity ad WHERE ad.updateActiveDate <= :dateTime AND ad.active = false")
     void deleteActiveAdvertisements(@Param("dateTime") LocalDateTime dateTime);
 }

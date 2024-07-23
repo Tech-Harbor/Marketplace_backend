@@ -1,8 +1,8 @@
 package com.example.backend.security.oauth;
 
-import com.example.backend.security.service.JwtTokenService;
+import com.example.backend.security.servers.JwtTokenServer;
 import com.example.backend.utils.general.MyPasswordEncoder;
-import com.example.backend.web.User.UserService;
+import com.example.backend.web.User.UserServer;
 import com.example.backend.web.User.store.UserEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,8 +31,8 @@ import static com.example.backend.utils.general.MyPasswordEncoder.generateRandom
 public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
     private final MyPasswordEncoder passwordEncoder;
-    private final JwtTokenService jwtService;
-    private final UserService userService;
+    private final JwtTokenServer jwtService;
+    private final UserServer userServer;
 
     @Override
     @SneakyThrows
@@ -48,7 +48,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
 
             final var defaultOAuth2UserEmail = defaultOAuth2User.getOrDefault(EMAIL_KEY, EMPTY_LINE).toString();
 
-            userService.getByEmail(defaultOAuth2UserEmail)
+            userServer.getByEmail(defaultOAuth2UserEmail)
                     .ifPresentOrElse(user -> SecurityContextHolder.getContext().setAuthentication(
                                 createOAuth2AuthenticationToken(
                                     createOAuth2User(user.getRoles().toString(), defaultOAuth2User),
@@ -58,7 +58,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                             ), () -> {
                                 final var saveUser = createUserEntity(defaultOAuth2User, defaultOAuth2UserEmail);
 
-                                userService.mySecuritySave(saveUser);
+                                userServer.mySecuritySave(saveUser);
 
                                 SecurityContextHolder.getContext().setAuthentication(
                                         createOAuth2AuthenticationToken(
@@ -97,6 +97,9 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                 .registerAuthStatus(GOOGLE)
                 .roles(Set.of(USER))
                 .enabled(true)
+                .credentialsNonExpired(true)
+                .accountNonLocked(true)
+                .accountNonExpired(true)
                 .createData(LocalDateTime.now())
                 .password(passwordEncoder.passwordEncoder().encode(generateRandomPassword()))
                 .phone(attributes.getOrDefault("phone", EMPTY_LINE).toString())

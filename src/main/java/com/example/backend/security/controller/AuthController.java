@@ -5,8 +5,10 @@ import com.example.backend.security.models.request.EmailRequest;
 import com.example.backend.security.models.request.PasswordRequest;
 import com.example.backend.security.models.request.RegisterRequest;
 import com.example.backend.security.models.response.AuthResponse;
-import com.example.backend.security.service.AuthService;
+import com.example.backend.security.servers.AuthServer;
 import com.example.backend.utils.annotations.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,10 +27,11 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Tag(name = "Authentication")
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthServer authServer;
 
     private static final String SIGNUP_URI = "/auth/signup";
     private static final String LOGIN_URI = "/auth/login";
+    private static final String UPDATE_JWT_URI = "/refresh-token";
     private static final String FORM_CHANGE_PASSWORD_URI = "/change-password";
     private static final String REQUEST_EMAIL_UPDATE_PASSWORD = "/request/email";
     private static final String ACTIVE_USER = "/active";
@@ -40,7 +43,7 @@ public class AuthController {
     @ApiResponseCreated
     @ApiResponseBadRequest
     public void signup(@RequestBody @Validated final RegisterRequest registerRequest) {
-        authService.signup(registerRequest);
+        authServer.signup(registerRequest);
     }
 
     @PostMapping(LOGIN_URI)
@@ -50,7 +53,14 @@ public class AuthController {
     @ApiResponseUnauthorized
     @ApiResponseForbidden
     public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
-        return authService.login(authRequest);
+        return authServer.login(authRequest);
+    }
+
+    @PostMapping(UPDATE_JWT_URI)
+    @Operation(summary = "Update refreshToken user")
+    @ApiResponseTokenOK
+    public void refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
+        authServer.updateRefreshToken(request, response);
     }
 
     @PutMapping(FORM_CHANGE_PASSWORD_URI)
@@ -60,7 +70,7 @@ public class AuthController {
     @ApiResponseBadRequest
     public void updatePassword(@RequestHeader(AUTHORIZATION) final String jwt,
                                @RequestBody @Validated final PasswordRequest passwordRequest) {
-        authService.formUpdatePassword(jwt, passwordRequest);
+        authServer.formUpdatePassword(jwt, passwordRequest);
     }
 
     @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)
@@ -68,7 +78,7 @@ public class AuthController {
     @ApiResponseEmailOK
     @ApiResponseBadRequest
     public void requestEmailUpdatePassword(@RequestBody @Validated final EmailRequest emailRequest) {
-        authService.requestEmailUpdatePassword(emailRequest);
+        authServer.requestEmailUpdatePassword(emailRequest);
     }
 
     @PostMapping(ACTIVE_USER)
@@ -76,7 +86,7 @@ public class AuthController {
     @ApiResponseEmailOK
     @ApiResponseBadRequest
     public void activeUser(@RequestHeader(AUTHORIZATION) final String jwt) {
-        authService.activeUser(jwt);
+        authServer.activeUser(jwt);
     }
 
     @PostMapping(SEND_MESSAGE_EMAIL_NOT_ACTIVE)
@@ -84,6 +94,6 @@ public class AuthController {
     @ApiResponseEmailOK
     @ApiResponseBadRequest
     public void sendEmailSecondActive(@RequestBody @Validated final EmailRequest emailRequest) {
-        authService.sendEmailActive(emailRequest);
+        authServer.sendEmailActive(emailRequest);
     }
 }

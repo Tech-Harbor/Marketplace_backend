@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface CategoryService {
+public interface CategoryServer {
     List<CategoryDTO> getAll();
     CategoryEntity getCategoryName(String name);
     CategoryDTO getCategoryDTOName(String name);

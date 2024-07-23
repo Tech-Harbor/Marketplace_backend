@@ -1,7 +1,11 @@
 package com.example.backend.security.jwt;
 
-import com.example.backend.security.service.JwtService;
-import com.example.backend.security.service.details.MyUserDetailsService;
+import com.example.backend.security.models.response.AuthResponse;
+import com.example.backend.security.servers.JwtServer;
+import com.example.backend.security.servers.JwtTokenServer;
+import com.example.backend.security.servers.details.MyUserDetailsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,17 +23,20 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthFilter extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter implements JwtAuthServerFilter{
 
     private final MyUserDetailsService userDetailsService;
-    private final JwtService jwtService;
+    private final JwtTokenServer jwtTokenServer;
+    private final JwtServer jwtServer;
 
     @Override
     @SneakyThrows
     protected void doFilterInternal(
-            final HttpServletRequest request,
-            final HttpServletResponse response,
+            final @Nullable HttpServletRequest request,
+            final @Nullable HttpServletResponse response,
             final FilterChain filterChain) {
+
+        assert request != null;
 
         final var jwt = getTokenHeaders(request);
 
@@ -38,6 +45,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         getSecurityContextHolder(request, userData, jwt);
 
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    public void updateRefreshTokenFilter(final HttpServletRequest request, final HttpServletResponse response) {
+        updateRefreshTokenFilterServer(request, response);
     }
 
     private String getTokenHeaders(final HttpServletRequest request) {
@@ -53,7 +65,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private String getExtractUserData(final String jwt) {
 
         if (StringUtils.isNoneEmpty(jwt)) {
-            return jwtService.extractUserData(jwt);
+            return jwtServer.extractUserData(jwt);
         }
 
         return null;
@@ -64,7 +76,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             final var userDetails = userDetailsService.loadUserByUsername(userData);
 
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+            if (jwtServer.isTokenValid(jwt, userDetails)) {
 
                 final var authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -76,6 +88,36 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
+            }
+        }
+    }
+
+    @SneakyThrows
+    private void updateRefreshTokenFilterServer(final HttpServletRequest request, final HttpServletResponse response) {
+        final var refreshToken = getTokenHeaders(request);
+
+        final var userData = getExtractUserData(refreshToken);
+
+        if (StringUtils.isNoneEmpty(userData)) {
+
+            final var userDetails = userDetailsService.loadUserByUsername(userData);
+
+            if (jwtServer.isTokenValid(refreshToken, userDetails)) {
+                final var authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
+
+                final var accessTokenNew = jwtTokenServer.generateAccessToken(authenticationToken);
+                final var refreshTokenNew = jwtTokenServer.generateRefreshToken(authenticationToken);
+
+                final var authUpdateJwtResponse = AuthResponse.builder()
+                        .accessToken(accessTokenNew)
+                        .refreshToken(refreshTokenNew)
+                        .build();
+
+                new ObjectMapper().writeValue(response.getOutputStream(), authUpdateJwtResponse);
             }
         }
     }

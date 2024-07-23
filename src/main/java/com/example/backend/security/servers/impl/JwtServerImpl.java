@@ -1,7 +1,7 @@
-package com.example.backend.security.service.impl;
+package com.example.backend.security.servers.impl;
 
-import com.example.backend.security.service.JwtService;
-import com.example.backend.security.service.details.MyUserDetails;
+import com.example.backend.security.servers.JwtServer;
+import com.example.backend.security.servers.details.MyUserDetails;
 import com.example.backend.utils.general.JwtPropertiesManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
-public class JwtServiceImpl implements JwtService {
+public class JwtServerImpl implements JwtServer {
 
     private final JwtPropertiesManager jwtPropertiesManager;
 

@@ -1,6 +1,6 @@
 package com.example.backend.mail;
 
-import com.example.backend.security.service.JwtTokenService;
+import com.example.backend.security.servers.JwtTokenServer;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import freemarker.template.Configuration;
 import lombok.AllArgsConstructor;
@@ -18,9 +18,9 @@ import static com.example.backend.utils.general.Constants.UTF_8;
 
 @Service
 @AllArgsConstructor
-public class MailServiceImpl implements MailService {
+public class MailServerImpl implements MailServer {
 
-    private JwtTokenService jwtTokenService;
+    private JwtTokenServer jwtTokenServer;
     private Configuration configuration;
     private JavaMailSender mailSender;
 
@@ -53,7 +53,7 @@ public class MailServiceImpl implements MailService {
         final var model = new HashMap<String, Object>();
 
         model.put("username", user.lastname());
-        model.put(JWT, jwtTokenService.generateUserEmailDataToken(user));
+        model.put(JWT, jwtTokenServer.generateUserEmailDataToken(user));
 
         configuration.getTemplate("register.ftlh").process(model, writer);
 
@@ -79,7 +79,7 @@ public class MailServiceImpl implements MailService {
         final var model = new HashMap<String, Object>();
 
         model.put("username", user.lastname());
-        model.put(JWT, jwtTokenService.generateUserPasswordDataToken(user));
+        model.put(JWT, jwtTokenServer.generateUserPasswordDataToken(user));
 
         configuration.getTemplate("newPassword.ftlh").process(model, writer);
 

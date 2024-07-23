@@ -1,4 +1,4 @@
-package com.example.backend.websocket.service;
+package com.example.backend.websocket.servers;
 
 import com.example.backend.websocket.models.ChatMessageEntity;
 import com.example.backend.websocket.models.ChatMessageRepository;
@@ -14,11 +14,11 @@ import static com.example.backend.utils.exception.RequestException.badRequestExc
 
 @Component
 @RequiredArgsConstructor
-public class ChatMessageServiceImpl implements ChatMessageService {
+public class ChatMessageServerImpl implements ChatMessageServer {
 
     private final SimpMessagingTemplate messagingTemplate;
     private final ChatMessageRepository repository;
-    private final ChatRoomService chatRoomService;
+    private final ChatRoomServer chatRoomServer;
 
     @Override
     public void processMessage(final ChatMessageEntity chatMessage) {
@@ -33,12 +33,12 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     public List<ChatMessageEntity> findChatMessages(final String senderId, final String recipientId) {
-        var chatId = chatRoomService.getChatRoomId(senderId, recipientId, false);
+        var chatId = chatRoomServer.getChatRoomId(senderId, recipientId, false);
         return chatId.map(repository::findByChatId).orElse(new ArrayList<>());
     }
 
     private ChatMessageEntity save(final ChatMessageEntity chatMessage) {
-        var chatId = chatRoomService
+        var chatId = chatRoomServer
                 .getChatRoomId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true)
                 .orElseThrow(
                         () -> badRequestException("chat does not exist")

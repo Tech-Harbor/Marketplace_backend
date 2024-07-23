@@ -8,10 +8,10 @@ import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
 import com.example.backend.web.Advertisement.store.factory.AdvertisementCreateFactory;
 import com.example.backend.web.Advertisement.store.factory.AdvertisementFactory;
 import com.example.backend.web.Advertisement.store.factory.AdvertisementUpdateFactory;
-import com.example.backend.web.Category.CategoryService;
-import com.example.backend.web.File.ImageService;
+import com.example.backend.web.Category.CategoryServer;
+import com.example.backend.web.File.ImageServer;
 import com.example.backend.web.File.store.ImageEntity;
-import com.example.backend.web.User.UserService;
+import com.example.backend.web.User.UserServer;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -21,19 +21,18 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class AdvertisementServiceImpl implements AdvertisementService {
+public class AdvertisementServerImpl implements AdvertisementServer {
 
     private final AdvertisementUpdateFactory advertisementUpdateFactory;
     private final AdvertisementCreateFactory advertisementCreateFactory;
     private final AdvertisementRepository advertisementRepository;
     private final AdvertisementFactory advertisementFactory;
-    private final CategoryService categoryService;
-    private final ImageService imageService;
-    private final UserService userService;
+    private final CategoryServer categoryServer;
+    private final ImageServer imageServer;
+    private final UserServer userServer;
     private final Helpers helpers;
 
     @Override
@@ -42,12 +41,12 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                                                       final AdvertisementCreateDTO advertisement,
                                                       final List<MultipartFile> files) {
         final var user = helpers.tokenUserData(jwt);
-        final var userName = userService.getByUserFirstName(user.getFirstname());
-        final var categoryName = categoryService.getCategoryName(advertisement.category());
+        final var userName = userServer.getByUserFirstName(user.getFirstname());
+        final var categoryName = categoryServer.getCategoryName(advertisement.category());
         final var imagesList = new ArrayList<ImageEntity>();
 
         for (MultipartFile file : files) {
-            imagesList.add(imageService.uploadImageEntity(file));
+            imagesList.add(imageServer.uploadImageEntity(file));
         }
 
         final var newAdvertisement = AdvertisementEntity.builder()
@@ -71,7 +70,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public List<AdvertisementDTO> getAllAdvertisement() {
         return advertisementRepository.findAll().stream()
                 .map(advertisementFactory)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

@@ -11,13 +11,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.ALL_VALUE;
 
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ok", content = {
-                @Content(mediaType = APPLICATION_JSON_VALUE, schema =
+                @Content(mediaType = ALL_VALUE, schema =
                 @Schema(implementation = AuthResponse.class))}
         ),
     }

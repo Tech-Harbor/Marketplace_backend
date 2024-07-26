@@ -7,7 +7,6 @@ import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserDTO;
 import com.example.backend.web.User.store.dto.UserUpdateInfoDTO;
 import com.example.backend.web.User.store.factory.UserFactory;
-import com.example.backend.web.User.store.factory.UserInfoFactory;
 import com.example.backend.web.User.store.factory.UserUpdateInfoFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,8 +34,6 @@ public class UserServerImplTest {
     private UserRepository userRepository;
     @Mock
     private UserFactory userFactory;
-    @Mock
-    private UserInfoFactory userInfoFactory;
     @Mock
     private UserUpdateInfoFactory userUpdateInfoFactory;
     @Mock

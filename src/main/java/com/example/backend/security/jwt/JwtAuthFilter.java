@@ -23,7 +23,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthFilter extends OncePerRequestFilter implements JwtAuthServerFilter{
+public class JwtAuthFilter extends OncePerRequestFilter implements JwtAuthServerFilter {
 
     private final MyUserDetailsService userDetailsService;
     private final JwtTokenServer jwtTokenServer;

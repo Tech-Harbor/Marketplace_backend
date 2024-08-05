@@ -28,7 +28,6 @@ dependencies {
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.2.1'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '3.2.2'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.2.1'
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '3.2.0'
 }

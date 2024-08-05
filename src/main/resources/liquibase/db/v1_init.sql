@@ -48,9 +48,6 @@ create table if not exists users (
     constraint users_register_status_check check ((register_status)::text = ANY
         ((ARRAY ['GOOGLE'::character varying, 'JWT'::character varying])::text[])),
     roles               varchar(255)[],
-    status              varchar(255)
-    constraint users_status_checkcheck check ((status)::text = ANY
-        ((ARRAY ['ONLINE'::character varying, 'OFFLINE'::character varying])::text[])),
     image_id            bigint
     constraint uk_94dj9ry3k3tmcsyg8eatp7vvn unique constraint fk17herqt2to4hyl5q5r5ogbxk9 references images
 );

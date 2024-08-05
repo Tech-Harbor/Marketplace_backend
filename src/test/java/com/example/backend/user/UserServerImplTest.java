@@ -6,8 +6,7 @@ import com.example.backend.web.User.UserServerImpl;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.UserDTO;
 import com.example.backend.web.User.store.dto.UserUpdateInfoDTO;
-import com.example.backend.web.User.store.factory.UserFactory;
-import com.example.backend.web.User.store.factory.UserUpdateInfoFactory;
+import com.example.backend.web.User.store.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,9 +32,7 @@ public class UserServerImplTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private UserFactory userFactory;
-    @Mock
-    private UserUpdateInfoFactory userUpdateInfoFactory;
+    private UserMapper userMapper;
     @Mock
     private Helpers helpers;
 
@@ -52,7 +49,7 @@ public class UserServerImplTest {
                 .build();
 
         when(userService.getById(userId)).thenReturn(userEntity);
-        when(userFactory.apply(any(UserEntity.class))).thenReturn(expectedUserDTO);
+        when(userMapper.userMapperDTO(any(UserEntity.class))).thenReturn(expectedUserDTO);
 
         final var resultUserDTO = userService.getByIdUser(userId);
 
@@ -64,14 +61,14 @@ public class UserServerImplTest {
         final var userId = 1L;
 
         when(userService.getById(userId)).thenReturn(null);
-        when(userFactory.apply(isNull())).thenReturn(null);
+        when(userMapper.userMapperDTO(isNull())).thenReturn(null);
 
         final var resultUserDTO = userService.getByIdUser(userId);
 
         assertNull(resultUserDTO);
 
         verify(userRepository).getReferenceById(userId);
-        verify(userFactory, never()).apply(any(UserEntity.class));
+        verify(userMapper, never()).userMapperDTO(any(UserEntity.class));
     }
 
     @Test
@@ -137,7 +134,7 @@ public class UserServerImplTest {
 
         when(helpers.tokenUserData(anyString())).thenReturn(user);
         when(userRepository.save(any(UserEntity.class))).thenReturn(user);
-        when(userUpdateInfoFactory.apply(any(UserEntity.class))).thenReturn(userDTOUpdate);
+        when(userMapper.userMapperUpdateInfoDTO(any(UserEntity.class))).thenReturn(userDTOUpdate);
 
         final var updatedUser = userService.updateByUser(jwt, userDTOUpdate);
 
@@ -149,7 +146,7 @@ public class UserServerImplTest {
 
         verify(helpers).tokenUserData(jwt);
         verify(userRepository).save(Objects.requireNonNull(user));
-        verify(userUpdateInfoFactory).apply(user);
+        verify(userMapper).userMapperUpdateInfoDTO(user);
     }
 
     @Test
@@ -162,8 +159,8 @@ public class UserServerImplTest {
         final var userDTO1 = UserDTO.builder().build();
         final var userDTO2 = UserDTO.builder().build();
 
-        when(userFactory.apply(userEntity1)).thenReturn(userDTO1);
-        when(userFactory.apply(userEntity2)).thenReturn(userDTO2);
+        when(userMapper.userMapperDTO(userEntity1)).thenReturn(userDTO1);
+        when(userMapper.userMapperDTO(userEntity2)).thenReturn(userDTO2);
 
         final var result = userService.getByAllUser();
 

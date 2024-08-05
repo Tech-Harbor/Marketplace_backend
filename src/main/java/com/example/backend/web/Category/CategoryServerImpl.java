@@ -3,8 +3,7 @@ package com.example.backend.web.Category;
 import com.example.backend.web.Category.store.CategoryEntity;
 import com.example.backend.web.Category.store.dto.CategoryCreateDTO;
 import com.example.backend.web.Category.store.dto.CategoryDTO;
-import com.example.backend.web.Category.store.factory.CategoryCreateFactory;
-import com.example.backend.web.Category.store.factory.CategoryFactory;
+import com.example.backend.web.Category.store.mapper.CategoryMapper;
 import com.example.backend.web.File.ImageServer;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -18,16 +17,15 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryServerImpl implements CategoryServer {
 
-    private final CategoryCreateFactory categoryCreateFactory;
     private final CategoryRepository categoryRepository;
-    private final CategoryFactory categoryFactory;
+    private final CategoryMapper categoryMapper;
     private final ImageServer imageServer;
 
     @Override
     public List<CategoryDTO> getAll() {
         return categoryRepository.findAll()
                 .stream()
-                .map(categoryFactory)
+                .map(categoryMapper::categoryDTO)
                 .toList();
     }
 
@@ -38,7 +36,7 @@ public class CategoryServerImpl implements CategoryServer {
 
     @Override
     public CategoryDTO getCategoryDTOName(final String name) {
-        return categoryFactory.apply(categoryRepository.getByName(name));
+        return categoryMapper.categoryDTO(categoryRepository.getByName(name));
     }
 
     @Override
@@ -51,7 +49,7 @@ public class CategoryServerImpl implements CategoryServer {
                 .image(newImage)
                 .build();
 
-        return categoryCreateFactory.apply(categoryRepository.save(newCategory));
+        return categoryMapper.categoryMapperCreateDTO(categoryRepository.save(newCategory));
     }
 
     @Override
@@ -70,7 +68,7 @@ public class CategoryServerImpl implements CategoryServer {
             category.setImage(uploadImage);
         }
 
-        return categoryCreateFactory.apply(categoryRepository.save(category));
+        return categoryMapper.categoryMapperCreateDTO(categoryRepository.save(category));
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.example.backend.utils.general.Helpers;
 import com.example.backend.web.File.ImageServer;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.*;
-import com.example.backend.web.User.store.factory.*;
+import com.example.backend.web.User.store.mapper.UserMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,19 +24,14 @@ import static java.util.Optional.ofNullable;
 @RequiredArgsConstructor
 public class UserServerImpl implements UserServer {
 
-    private final UserImageUpdateInfoFactory userImageUpdateInfoFactory;
-    private final UserUpdateInfoFactory userUpdateInfoFactory;
-    private final UserSecurityFactory userSecurityFactory;
-    private final UserInfoFactory userInfoFactory;
     private final UserRepository userRepository;
     private final ImageServer imageServer;
-    private final UserFactory userFactory;
+    private final UserMapper userMapper;
     private final Helpers helpers;
 
     @Override
     public UserDTO getByIdUser(final Long id) {
-        UserEntity userId = getById(id);
-        return userFactory.apply(userId);
+        return userMapper.userMapperDTO(getById(id));
     }
 
     @Override
@@ -55,7 +50,7 @@ public class UserServerImpl implements UserServer {
                 () -> badRequestException("Not user")
         );
 
-        return ofNullable(userSecurityFactory.apply(user));
+        return ofNullable(userMapper.userMapperSecurityDTO(user));
     }
 
     @Override
@@ -68,7 +63,7 @@ public class UserServerImpl implements UserServer {
     @Override
     public List<UserDTO> getByAllUser() {
         return userRepository.findAll().stream()
-                .map(userFactory)
+                .map(userMapper::userMapperDTO)
                 .collect(Collectors.toList());
     }
 
@@ -97,7 +92,7 @@ public class UserServerImpl implements UserServer {
             byUserData.setPassword(user.password());
         }
 
-        return userUpdateInfoFactory.apply(userRepository.save(byUserData));
+        return userMapper.userMapperUpdateInfoDTO(userRepository.save(byUserData));
     }
 
     @Override
@@ -117,7 +112,7 @@ public class UserServerImpl implements UserServer {
 
     @Override
     public UserSecurityDTO mySecuritySave(final UserEntity user) {
-        return userSecurityFactory.apply(userRepository.save(user));
+        return userMapper.userMapperSecurityDTO(userRepository.save(user));
     }
 
     @Override
@@ -130,7 +125,7 @@ public class UserServerImpl implements UserServer {
 
         userRepository.save(userData);
 
-        return userImageUpdateInfoFactory.apply(userData);
+        return userMapper.userMapperImageUpdateInfoDTO(userData);
     }
 
     @Override
@@ -139,6 +134,6 @@ public class UserServerImpl implements UserServer {
 
         log.info("Info {}", user);
 
-        return userInfoFactory.apply(user);
+        return userMapper.userMapperInfoDTO(user);
     }
 }

@@ -25,34 +25,34 @@ public class BaseMapper {
     private final ImageRepository imageRepository;
 
     @Named("getAllAdvertisements")
-    public List<AdvertisementDTO> getAllAdvertisements(List<AdvertisementEntity> advertisement) {
-        return Collections.singletonList(advertisementMapper.advertisementMapperDTO
-                ((AdvertisementEntity) advertisement)
+    public List<AdvertisementDTO> getAllAdvertisements(final List<AdvertisementEntity> advertisement) {
+        return Collections.singletonList(advertisementMapper
+                .advertisementMapperDTO((AdvertisementEntity) advertisement)
         );
     }
 
     @Named("getAllImages")
-    public List<ImageEntity> getAllImages(List<ImageEntity> image) {
+    public List<ImageEntity> getAllImages(final List<ImageEntity> image) {
         return imageRepository.findAll();
     }
 
     @Named("getCategoryName")
-    public String getCategoryName(CategoryEntity category) {
+    public String getCategoryName(final CategoryEntity category) {
         return category.getName();
     }
 
     @Named("getImageUrl")
-    public String getImageUrl(ImageEntity image) {
+    public String getImageUrl(final ImageEntity image) {
         return image.getImageUrl();
     }
 
     @Named("getEnumRole")
-    public Set<Role> getEnumRole(Set<Role> roles) {
+    public Set<Role> getEnumRole(final Set<Role> roles) {
         return roles;
     }
 
     @Named("getEnumRegisterAuthStatus")
-    public RegisterAuthStatus getEnumRegisterAuthStatus(RegisterAuthStatus registerAuthStatus) {
+    public RegisterAuthStatus getEnumRegisterAuthStatus(final RegisterAuthStatus registerAuthStatus) {
         return registerAuthStatus;
     }
 }

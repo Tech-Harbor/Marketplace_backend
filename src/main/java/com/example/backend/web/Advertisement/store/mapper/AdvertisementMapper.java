@@ -4,7 +4,7 @@ import com.example.backend.web.Advertisement.store.AdvertisementEntity;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementCreateDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
-import com.example.backend.utils.general.BaseMapper;
+import com.example.backend.utils.mapper.BaseMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

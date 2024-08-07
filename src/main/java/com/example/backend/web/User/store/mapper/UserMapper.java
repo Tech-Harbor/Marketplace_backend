@@ -1,15 +1,16 @@
 package com.example.backend.web.User.store.mapper;
 
 
-import com.example.backend.utils.general.BaseMapper;
+import com.example.backend.utils.mapper.AdvertisementBaseMapper;
+import com.example.backend.utils.mapper.BaseMapper;
 import com.example.backend.web.User.store.UserEntity;
 import com.example.backend.web.User.store.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {BaseMapper.class})
+@Mapper(componentModel = "spring", uses = {BaseMapper.class, AdvertisementBaseMapper.class})
 public interface UserMapper {
-    @Mapping(target = "advertisements", qualifiedByName = {"BaseMapper", "getAllAdvertisements"})
+    @Mapping(target = "advertisements", qualifiedByName = {"AdvertisementBaseMapper", "getAllAdvertisements"})
     @Mapping(target = "image", qualifiedByName = {"BaseMapper", "getImageUrl"})
     UserDTO userMapperDTO(UserEntity user);
     @Mapping(target = "image", qualifiedByName = {"BaseMapper", "getImageUrl"})

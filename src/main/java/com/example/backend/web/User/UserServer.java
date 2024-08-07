@@ -12,7 +12,6 @@ public interface UserServer {
     UserEntity getById(Long id);
     Optional<UserEntity> getByEmail(String email);
     Optional<UserSecurityDTO> getBySecurityEmail(String email);
-    UserEntity getByUserData(String userData);
     List<UserDTO> getByAllUser();
     UserUpdateInfoDTO updateByUser(String jwt, UserUpdateInfoDTO user);
     void deleteUser(String jwt);

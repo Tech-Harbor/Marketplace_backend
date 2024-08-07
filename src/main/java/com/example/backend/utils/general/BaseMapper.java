@@ -8,21 +8,26 @@ import com.example.backend.web.Advertisement.store.mapper.AdvertisementMapper;
 import com.example.backend.web.Category.store.CategoryEntity;
 import com.example.backend.web.File.ImageRepository;
 import com.example.backend.web.File.store.ImageEntity;
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Named;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-@Named("BaseMapper")
 @Component
-@RequiredArgsConstructor
+@Named("BaseMapper")
 public class BaseMapper {
 
     private final AdvertisementMapper advertisementMapper;
     private final ImageRepository imageRepository;
+
+    public BaseMapper(final @Lazy AdvertisementMapper advertisementMapper,
+                      final ImageRepository imageRepository) {
+        this.advertisementMapper = advertisementMapper;
+        this.imageRepository = imageRepository;
+    }
 
     @Named("getAllAdvertisements")
     public List<AdvertisementDTO> getAllAdvertisements(final List<AdvertisementEntity> advertisement) {

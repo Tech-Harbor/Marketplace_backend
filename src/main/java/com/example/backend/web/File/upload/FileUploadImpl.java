@@ -24,19 +24,18 @@ public class FileUploadImpl implements FileUpload {
     @Override
     public Map uploadFile(final MultipartFile multipartFile) {
         final var file = convertMultiPartToFile(multipartFile);
-        final var map = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
 
         if (!Files.deleteIfExists(file.toPath())) {
             throw new IOException("Failed to deleteCategory temporary file: " + file.getAbsolutePath());
         }
 
-        return map;
+        return cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
     }
 
     @SneakyThrows
     @Override
-    public Map deleteCloudinaryById(final String id) {
-        return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
+    public void deleteCloudinaryById(final String id) {
+        cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
     }
 
     @SneakyThrows

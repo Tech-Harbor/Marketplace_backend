@@ -3,8 +3,7 @@ package com.example.backend.web.File;
 import com.example.backend.web.File.store.ImageEntity;
 import com.example.backend.web.File.store.dto.ImageCreateDTO;
 import com.example.backend.web.File.store.dto.ImageDTO;
-import com.example.backend.web.File.store.factory.ImageCreateFactory;
-import com.example.backend.web.File.store.factory.ImageFactory;
+import com.example.backend.web.File.store.mapper.ImageMapper;
 import com.example.backend.web.File.upload.FileUpload;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +21,8 @@ import static com.example.backend.utils.exception.RequestException.badRequestExc
 @RequiredArgsConstructor
 public class ImageServerImpl implements ImageServer {
 
-    private final ImageCreateFactory imageCreateFactory;
     private final ImageRepository imageRepository;
-    private final ImageFactory imageFactory;
+    private final ImageMapper imageMapper;
     private final FileUpload fileUpload;
 
     @Override
@@ -43,7 +41,7 @@ public class ImageServerImpl implements ImageServer {
 
         imageOptional.orElseThrow(() -> badRequestException("There is no uploaded image"));
 
-        return imageCreateFactory.apply(imageRepository.save(image));
+        return imageMapper.imageMapperCreateDTO(imageRepository.save(image));
     }
 
     @Override
@@ -68,7 +66,7 @@ public class ImageServerImpl implements ImageServer {
     @Override
     public List<ImageDTO> getAllPhoto() {
         return imageRepository.findAll().stream()
-                .map(imageFactory)
+                .map(imageMapper::imageMapperDTO)
                 .toList();
     }
 

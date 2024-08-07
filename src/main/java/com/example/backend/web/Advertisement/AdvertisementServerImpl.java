@@ -5,9 +5,7 @@ import com.example.backend.web.Advertisement.store.AdvertisementEntity;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementCreateDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
-import com.example.backend.web.Advertisement.store.factory.AdvertisementCreateFactory;
-import com.example.backend.web.Advertisement.store.factory.AdvertisementFactory;
-import com.example.backend.web.Advertisement.store.factory.AdvertisementUpdateFactory;
+import com.example.backend.web.Advertisement.store.mapper.AdvertisementMapper;
 import com.example.backend.web.Category.CategoryServer;
 import com.example.backend.web.File.ImageServer;
 import com.example.backend.web.File.store.ImageEntity;
@@ -26,10 +24,8 @@ import java.util.List;
 @AllArgsConstructor
 public class AdvertisementServerImpl implements AdvertisementServer {
 
-    private final AdvertisementUpdateFactory advertisementUpdateFactory;
-    private final AdvertisementCreateFactory advertisementCreateFactory;
     private final AdvertisementRepository advertisementRepository;
-    private final AdvertisementFactory advertisementFactory;
+    private final AdvertisementMapper advertisementMapper;
     private final CategoryServer categoryServer;
     private final ImageServer imageServer;
     private final UserServer userServer;
@@ -63,13 +59,13 @@ public class AdvertisementServerImpl implements AdvertisementServer {
                 .active(advertisement.active())
                 .build();
 
-        return advertisementCreateFactory.apply(advertisementRepository.save(newAdvertisement));
+        return advertisementMapper.advertisementMapperCreateDTO(advertisementRepository.save(newAdvertisement));
     }
 
     @Override
     public List<AdvertisementDTO> getAllAdvertisement() {
         return advertisementRepository.findAll().stream()
-                .map(advertisementFactory)
+                .map(advertisementMapper::advertisementMapperDTO)
                 .toList();
     }
 
@@ -79,7 +75,7 @@ public class AdvertisementServerImpl implements AdvertisementServer {
         final var advertisementRepositoryByName =
                 advertisementRepository.getByName(user.getAdvertisements().get(0).getName());
 
-        return advertisementFactory.apply(advertisementRepositoryByName);
+        return advertisementMapper.advertisementMapperDTO(advertisementRepositoryByName);
     }
 
     @Override
@@ -123,7 +119,7 @@ public class AdvertisementServerImpl implements AdvertisementServer {
             idAdvertisement.setAuction(advertisementDTO.active());
         }
 
-        return advertisementUpdateFactory.apply(advertisementRepository.save(idAdvertisement));
+        return advertisementMapper.advertisementMapperUpdateDTO(advertisementRepository.save(idAdvertisement));
     }
 
     @Override

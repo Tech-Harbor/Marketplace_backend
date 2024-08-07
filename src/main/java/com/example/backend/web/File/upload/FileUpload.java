@@ -6,5 +6,5 @@ import java.util.Map;
 
 public interface FileUpload {
     Map uploadFile(MultipartFile multipartFile);
-    Map deleteCloudinaryById(String id);
+    void deleteCloudinaryById(String id);
 }

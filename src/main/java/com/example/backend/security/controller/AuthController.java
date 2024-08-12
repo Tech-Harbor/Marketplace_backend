@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.example.backend.utils.general.Constants.BEARER_AUTHENTICATION;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @AllArgsConstructor
@@ -37,62 +38,62 @@ public class AuthController {
     private static final String ACTIVE_USER = "/active";
     private static final String SEND_MESSAGE_EMAIL_NOT_ACTIVE = "/sendMessageEmailActive";
 
-    @PostMapping(SIGNUP_URI)
     @SecurityRequirement(name = BEARER_AUTHENTICATION)
     @Operation(summary = "Register user")
     @ApiResponseCreated
     @ApiResponseBadRequest
+    @PostMapping(value = SIGNUP_URI, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public void signup(@RequestBody @Validated final RegisterRequest registerRequest) {
         authServer.signup(registerRequest);
     }
 
-    @PostMapping(LOGIN_URI)
     @SecurityRequirement(name = BEARER_AUTHENTICATION)
     @Operation(summary = "Login user")
     @ApiResponseOK
     @ApiResponseUnauthorized
     @ApiResponseForbidden
+    @PostMapping(value = LOGIN_URI, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public AuthResponse login(@RequestBody @Validated final AuthRequest authRequest) {
         return authServer.login(authRequest);
     }
 
-    @PostMapping(UPDATE_JWT_URI)
     @Operation(summary = "Update refreshToken user")
     @ApiResponseTokenOK
+    @PostMapping(value = UPDATE_JWT_URI, produces = APPLICATION_JSON_VALUE)
     public void refreshToken(final HttpServletRequest request, final HttpServletResponse response) {
         authServer.updateRefreshToken(request, response);
     }
 
-    @PutMapping(FORM_CHANGE_PASSWORD_URI)
     @Operation(summary = "Update Password User")
     @ApiResponseOK
     @ApiResponseNotFound
     @ApiResponseBadRequest
+    @PutMapping(value = FORM_CHANGE_PASSWORD_URI, produces = APPLICATION_JSON_VALUE)
     public void updatePassword(@RequestHeader(AUTHORIZATION) final String jwt,
                                @RequestBody @Validated final PasswordRequest passwordRequest) {
         authServer.formUpdatePassword(jwt, passwordRequest);
     }
 
-    @PostMapping(REQUEST_EMAIL_UPDATE_PASSWORD)
     @Operation(summary = "Change password using email")
     @ApiResponseEmailOK
     @ApiResponseBadRequest
+    @PostMapping(value = REQUEST_EMAIL_UPDATE_PASSWORD, consumes = APPLICATION_JSON_VALUE)
     public void requestEmailUpdatePassword(@RequestBody @Validated final EmailRequest emailRequest) {
         authServer.requestEmailUpdatePassword(emailRequest);
     }
 
-    @PostMapping(ACTIVE_USER)
     @Operation(summary = "Active User, JWT Token")
     @ApiResponseEmailOK
     @ApiResponseBadRequest
+    @PostMapping(value = ACTIVE_USER, consumes = APPLICATION_JSON_VALUE)
     public void activeUser(@RequestHeader(AUTHORIZATION) final String jwt) {
         authServer.activeUser(jwt);
     }
 
-    @PostMapping(SEND_MESSAGE_EMAIL_NOT_ACTIVE)
     @Operation(summary = "Re-sending the account activation letter if the first letter was not successful")
     @ApiResponseEmailOK
     @ApiResponseBadRequest
+    @PostMapping(value = SEND_MESSAGE_EMAIL_NOT_ACTIVE, consumes = APPLICATION_JSON_VALUE)
     public void sendEmailSecondActive(@RequestBody @Validated final EmailRequest emailRequest) {
         authServer.sendEmailActive(emailRequest);
     }

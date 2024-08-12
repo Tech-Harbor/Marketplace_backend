@@ -100,7 +100,6 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                 .credentialsNonExpired(true)
                 .accountNonLocked(true)
                 .accountNonExpired(true)
-                .createData(LocalDateTime.now())
                 .password(passwordEncoder.encode(generateRandomPassword()))
                 .phone(attributes.getOrDefault("phone", EMPTY_LINE).toString())
                 .build();

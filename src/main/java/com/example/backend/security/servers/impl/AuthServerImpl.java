@@ -59,7 +59,7 @@ public class AuthServerImpl implements AuthServer {
                 .firstname(registerRequest.firstname())
                 .lastname(registerRequest.lastname())
                 .email(registerRequest.email())
-                .password(myPasswordEncoder.passwordEncoder().encode(registerRequest.password()))
+                .password(myPasswordEncoder.encode(registerRequest.password()))
                 .phone(registerRequest.phone())
                 .registerAuthStatus(JWT)
                 .enabled(false)
@@ -107,7 +107,7 @@ public class AuthServerImpl implements AuthServer {
         final var userPassword = helpers.tokenUserEmail(jwt);
 
         userPassword.ifPresent(user -> {
-                user.setPassword(myPasswordEncoder.passwordEncoder().encode(passwordRequest.password()));
+                user.setPassword(myPasswordEncoder.encode(passwordRequest.password()));
 
                 log.info("Update Password: {}", user.getFirstname());
 

@@ -101,7 +101,7 @@ public class AuthGoogle extends SimpleUrlAuthenticationSuccessHandler {
                 .accountNonLocked(true)
                 .accountNonExpired(true)
                 .createData(LocalDateTime.now())
-                .password(passwordEncoder.passwordEncoder().encode(generateRandomPassword()))
+                .password(passwordEncoder.encode(generateRandomPassword()))
                 .phone(attributes.getOrDefault("phone", EMPTY_LINE).toString())
                 .build();
     }

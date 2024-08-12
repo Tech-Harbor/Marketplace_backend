@@ -66,8 +66,7 @@ public class AuthServerImplTest {
         final var userCaptor = ArgumentCaptor.forClass(UserSecurityDTO.class);
 
         when(userService.getByEmail(EMAIL_KEY)).thenReturn(Optional.empty());
-        when(myPasswordEncoder.passwordEncoder()).thenReturn(mock(PasswordEncoder.class));
-        when(myPasswordEncoder.passwordEncoder().encode(any())).thenReturn(PASSWORD);
+        when(myPasswordEncoder.encode(any())).thenReturn(PASSWORD);
 
         authService.signup(registerRequest);
 
@@ -88,8 +87,7 @@ public class AuthServerImplTest {
         final var userCaptor = ArgumentCaptor.forClass(UserSecurityDTO.class);
 
         when(userService.getByEmail(EMAIL_KEY)).thenReturn(Optional.empty());
-        when(myPasswordEncoder.passwordEncoder()).thenReturn(mock(PasswordEncoder.class));
-        when(myPasswordEncoder.passwordEncoder().encode(any())).thenReturn(PASSWORD);
+        when(myPasswordEncoder.encode(any())).thenReturn(PASSWORD);
 
         authService.signup(registerRequest);
 
@@ -159,19 +157,17 @@ public class AuthServerImplTest {
                 .email(EMAIL_KEY)
                 .build();
 
-        final var encoder = mock(PasswordEncoder.class);
 
         final var userSecurity = userService.mySecuritySave(user);
 
         when(helpers.tokenUserEmail(anyString())).thenReturn(Optional.of(user));
-        when(myPasswordEncoder.passwordEncoder()).thenReturn(encoder);
-        when(encoder.encode(PASSWORD)).thenReturn(PASSWORD);
+        when(myPasswordEncoder.encode(PASSWORD)).thenReturn(PASSWORD);
 
         authService.formUpdatePassword(jwt, passwordRequest);
 
         assertEquals(PASSWORD, user.getPassword());
         verify(helpers).tokenUserEmail(jwt);
-        verify(myPasswordEncoder.passwordEncoder()).encode(passwordRequest.password());
+        verify(myPasswordEncoder).encode(passwordRequest.password());
         verify(mailServer).sendEmail(userSecurity, MailType.UPDATED_PASSWORD, new Properties());
     }
 

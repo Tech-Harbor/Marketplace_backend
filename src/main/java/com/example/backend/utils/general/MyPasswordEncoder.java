@@ -9,10 +9,15 @@ import org.springframework.stereotype.Component;
 import java.util.Base64;
 
 @Component
-public class MyPasswordEncoder {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
+public class MyPasswordEncoder implements PasswordEncoder{
+    @Override
+    public String encode(CharSequence rawPassword) {
+        return new BCryptPasswordEncoder().encode(rawPassword);
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        return false;
     }
 
     public static String generateRandomPassword() {

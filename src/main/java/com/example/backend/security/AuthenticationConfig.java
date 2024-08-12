@@ -22,7 +22,7 @@ public class AuthenticationConfig {
     public AuthenticationProvider authenticationProvider() {
         final var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(myUserDetailsService);
-        authProvider.setPasswordEncoder(myPasswordEncoder.passwordEncoder());
+        authProvider.setPasswordEncoder(myPasswordEncoder);
         return authProvider;
     }
 

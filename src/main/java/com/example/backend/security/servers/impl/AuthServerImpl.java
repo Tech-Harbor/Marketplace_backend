@@ -55,21 +55,9 @@ public class AuthServerImpl implements AuthServer {
             }
         );
 
-        final var user = UserEntity.builder()
-                .firstname(registerRequest.firstname())
-                .lastname(registerRequest.lastname())
-                .email(registerRequest.email())
-                .password(myPasswordEncoder.encode(registerRequest.password()))
-                .phone(registerRequest.phone())
-                .registerAuthStatus(JWT)
-                .enabled(false)
-                .accountNonLocked(true)
-                .accountNonExpired(true)
-                .credentialsNonExpired(true)
-                .roles(Set.of(USER, ADMIN))
-                .build();
+        final var saveUser = createUserEntity(registerRequest);
 
-        final var userSecurityDTO = userServer.mySecuritySave(user);
+        final var userSecurityDTO = userServer.mySecuritySave(saveUser);
 
         log.info("Register User: {}", userSecurityDTO);
 
@@ -163,5 +151,21 @@ public class AuthServerImpl implements AuthServer {
     @Override
     public void updateRefreshToken(final HttpServletRequest request, final HttpServletResponse response) {
         jwtAuthServerFilter.updateRefreshTokenFilter(request, response);
+    }
+
+    private UserEntity createUserEntity(RegisterRequest registerRequest) {
+        return UserEntity.builder()
+                .firstname(registerRequest.firstname())
+                .lastname(registerRequest.lastname())
+                .email(registerRequest.email())
+                .password(myPasswordEncoder.encode(registerRequest.password()))
+                .phone(registerRequest.phone())
+                .registerAuthStatus(JWT)
+                .enabled(false)
+                .accountNonLocked(true)
+                .accountNonExpired(true)
+                .credentialsNonExpired(true)
+                .roles(Set.of(USER, ADMIN))
+                .build();
     }
 }

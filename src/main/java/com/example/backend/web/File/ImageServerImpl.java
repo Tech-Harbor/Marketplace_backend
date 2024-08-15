@@ -71,6 +71,7 @@ public class ImageServerImpl implements ImageServer {
     }
 
     @Override
+    @Transactional
     public void imageDeleteId(final String id) {
         fileUpload.deleteCloudinaryById(id);
         imageRepository.deleteById(Long.valueOf(id));

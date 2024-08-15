@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "ImageService for admin")
@@ -25,24 +27,24 @@ public class ImageController {
     private static final String URI_IMAGE = "/upload";
     private static final String URI_IMAGES = "/images";
 
-    @GetMapping(URI_IMAGES)
     @ApiResponseOK
+    @GetMapping(value = URI_IMAGES, produces = APPLICATION_JSON_VALUE)
     public List<ImageDTO> getAllImage() {
         return imageServer.getAllPhoto();
     }
 
-    @PostMapping(URI_IMAGE)
     @Operation(summary = "Create picture")
     @ResponseBody
     @ApiResponseCreated
+    @PostMapping(value = URI_IMAGE, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ImageCreateDTO upload(@RequestParam final MultipartFile file) {
         return imageServer.uploadImage(file);
     }
 
-    @GetMapping(URI_IMAGES_ID)
     @Operation(summary = "Delete picture by name")
     @ResponseBody
     @ApiResponseDelete
+    @GetMapping(value = URI_IMAGES_ID, produces = APPLICATION_JSON_VALUE)
     public void deleteCloudinaryAndRepositoryById(@PathVariable final String imageId) {
         imageServer.imageDeleteId(imageId);
     }

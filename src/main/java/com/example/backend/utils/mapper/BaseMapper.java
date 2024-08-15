@@ -1,10 +1,7 @@
-package com.example.backend.utils.general;
+package com.example.backend.utils.mapper;
 
 import com.example.backend.utils.enums.RegisterAuthStatus;
 import com.example.backend.utils.enums.Role;
-import com.example.backend.web.Advertisement.store.AdvertisementEntity;
-import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
-import com.example.backend.web.Advertisement.store.mapper.AdvertisementMapper;
 import com.example.backend.web.Category.store.CategoryEntity;
 import com.example.backend.web.File.ImageRepository;
 import com.example.backend.web.File.store.ImageEntity;
@@ -12,24 +9,15 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-@Named("BaseMapper")
 @Component
+@Named("BaseMapper")
 @RequiredArgsConstructor
 public class BaseMapper {
 
-    private final AdvertisementMapper advertisementMapper;
     private final ImageRepository imageRepository;
-
-    @Named("getAllAdvertisements")
-    public List<AdvertisementDTO> getAllAdvertisements(final List<AdvertisementEntity> advertisement) {
-        return Collections.singletonList(advertisementMapper
-                .advertisementMapperDTO((AdvertisementEntity) advertisement)
-        );
-    }
 
     @Named("getAllImages")
     public List<ImageEntity> getAllImages(final List<ImageEntity> image) {

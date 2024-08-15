@@ -54,13 +54,6 @@ public class UserServerImpl implements UserServer {
     }
 
     @Override
-    public UserEntity getByUserData(final String userData) {
-        return userRepository.findByEmail(userData).orElseThrow(
-                () -> badRequestException("Not userData: " + userData)
-        );
-    }
-
-    @Override
     public List<UserDTO> getByAllUser() {
         return userRepository.findAll().stream()
                 .map(userMapper::userMapperDTO)

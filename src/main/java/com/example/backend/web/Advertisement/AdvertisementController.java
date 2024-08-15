@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
@@ -31,9 +32,9 @@ public class AdvertisementController {
     private static final String ADVERTISEMENT = "/advertisement";
     private static final String URL_DELETE_ALL = "/deleteAll";
 
-    @PostMapping(value = URL_CREATE, consumes = {MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "Current user create advertisements")
     @ApiResponseCreated
+    @PostMapping(value = URL_CREATE, consumes = {MULTIPART_FORM_DATA_VALUE}, produces = APPLICATION_JSON_VALUE)
     public AdvertisementCreateDTO createAdvertisementByUser(@RequestHeader(AUTHORIZATION) final String jwt,
                                                             @RequestPart final AdvertisementCreateDTO advertisement,
                                                             @RequestPart final List<MultipartFile> images) {
@@ -45,31 +46,31 @@ public class AdvertisementController {
         return advertisementServer.getAllAdvertisement();
     }
 
-    @GetMapping(ADVERTISEMENT)
     @Operation(summary = "Current user get advertisement")
     @ApiResponseOK
+    @GetMapping(value = ADVERTISEMENT, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public AdvertisementDTO getByAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
         return advertisementServer.advertisement(jwt);
     }
 
-    @PatchMapping(URL_EDIT)
     @Operation(summary = "Current user update advertisement")
     @ApiResponseOK
+    @PatchMapping(value = URL_EDIT, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public AdvertisementUpdateDTO editAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt,
                                                     @RequestBody final AdvertisementUpdateDTO entity) {
         return advertisementServer.editAdvertisement(jwt, entity);
     }
 
-    @DeleteMapping(URL_DELETE)
     @Operation(summary = "Current user delete advertisement")
     @ApiResponseDelete
+    @DeleteMapping(value = URL_DELETE, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public void deleteAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
         advertisementServer.deleteAdvertisement(jwt);
     }
 
-    @DeleteMapping(URL_DELETE_ALL)
     @Operation(summary = "Current user will remove all advertisements")
     @ApiResponseDelete
+    @DeleteMapping(value = URL_DELETE_ALL, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public void deleteAllAdvertisement(@RequestHeader(AUTHORIZATION) final String jwt) {
         advertisementServer.deleteAll(jwt);
     }

@@ -153,7 +153,7 @@ public class AuthServerImpl implements AuthServer {
         jwtAuthServerFilter.updateRefreshTokenFilter(request, response);
     }
 
-    private UserEntity createUserEntity(RegisterRequest registerRequest) {
+    private UserEntity createUserEntity(final RegisterRequest registerRequest) {
         return UserEntity.builder()
                 .firstname(registerRequest.firstname())
                 .lastname(registerRequest.lastname())

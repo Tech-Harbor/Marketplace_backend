@@ -1,3 +1,5 @@
+create SCHEMA IF NOT EXISTS oranger;
+
 create table if not exists advertisements (
     id                           bigserial primary key,
     active                       boolean        not null,

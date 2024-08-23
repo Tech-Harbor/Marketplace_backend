@@ -24,20 +24,20 @@ create table if not exists images (
     image_id         varchar(255),
     image_url        varchar(255),
     name             varchar(255),
-    advertisement_id bigint constraint fkjibg9bsoybl2g8x1kdpgvgcvx references advertisements
+    advertisement_id bigint constraint images_constraint_advertisements_id references advertisements
 );
 
 create table if not exists categories (
     id       bigserial primary key,
     name     varchar(255) not null,
     image_id bigint
-    constraint uk_6b3bn760mqxmhflt089q8ba00 unique constraint fkqhmw54g2p4xu0k71mblvlqfvi references images
+    constraint categories_constraint unique constraint images_constraint references images
 );
 
 create table if not exists users (
     id                  bigserial primary key,
     create_data         timestamp(6),
-    email               varchar(255) not null constraint uk_6dotkott2kjsp8vw4d0m25fb7 unique,
+    email               varchar(255) not null constraint email_constraint unique,
     enabled             boolean,
     account_expired     boolean,
     account_locked      boolean,
@@ -51,13 +51,8 @@ create table if not exists users (
         ((ARRAY ['GOOGLE'::character varying, 'JWT'::character varying])::text[])),
     roles               varchar(255)[],
     image_id            bigint
-    constraint uk_94dj9ry3k3tmcsyg8eatp7vvn unique constraint fk17herqt2to4hyl5q5r5ogbxk9 references images
+    constraint users_constraint unique constraint image_constraint references images
 );
 
-alter table advertisements
-    add constraint fkj69sc4qf7g4p52q8vl0hqvbmp
-        foreign key (user_id) references users;
-
-alter table advertisements
-    add constraint fkq2bx00e2ngwnvvuneonbnemvj
-        foreign key (category_id) references categories;
+alter table advertisements add constraint advertisements_constraint_user_id foreign key (user_id) references users;
+alter table advertisements add constraint advertisements_constraint foreign key (category_id) references categories;

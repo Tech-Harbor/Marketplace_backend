@@ -169,7 +169,7 @@ public class AuthServerImpl implements AuthServer {
     }
 
     @SneakyThrows
-    private Authentication authenticateCredentials(String email, String password) {
+    private Authentication authenticateCredentials(final String email, final String password) {
         try {
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (AuthenticationException e) {

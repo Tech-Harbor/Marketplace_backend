@@ -7,9 +7,11 @@ import com.example.backend.web.Advertisement.store.dto.AdvertisementDTO;
 import com.example.backend.web.Advertisement.store.dto.AdvertisementUpdateDTO;
 import com.example.backend.web.Advertisement.store.mapper.AdvertisementMapper;
 import com.example.backend.web.Category.CategoryServer;
+import com.example.backend.web.Category.store.CategoryEntity;
 import com.example.backend.web.File.ImageServer;
 import com.example.backend.web.File.store.ImageEntity;
 import com.example.backend.web.User.UserServer;
+import com.example.backend.web.User.store.UserEntity;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -45,19 +47,7 @@ public class AdvertisementServerImpl implements AdvertisementServer {
             imagesList.add(imageServer.uploadImageEntity(file));
         }
 
-        final var newAdvertisement = AdvertisementEntity.builder()
-                .user(userName)
-                .name(advertisement.name())
-                .descriptionAdvertisement(advertisement.descriptionAdvertisement())
-                .price(advertisement.price())
-                .images(imagesList)
-                .createDate(LocalDateTime.now())
-                .updateActiveDate(LocalDateTime.now())
-                .category(categoryName)
-                .delivery(advertisement.delivery())
-                .auction(advertisement.auction())
-                .active(advertisement.active())
-                .build();
+        final var newAdvertisement = getNewAdvertisement(advertisement, userName, imagesList, categoryName);
 
         return advertisementMapper.advertisementMapperCreateDTO(advertisementRepository.save(newAdvertisement));
     }
@@ -87,6 +77,51 @@ public class AdvertisementServerImpl implements AdvertisementServer {
         final var auctionParse = String.valueOf(advertisementDTO.auction());
         final var activeParse = String.valueOf(advertisementDTO.active());
 
+        extracted(advertisementDTO, idAdvertisement, auctionParse, activeParse);
+
+        return advertisementMapper.advertisementMapperUpdateDTO(advertisementRepository.save(idAdvertisement));
+    }
+
+    @Override
+    @Transactional
+    public void deleteAdvertisement(final String jwt) {
+        final var user = helpers.tokenUserData(jwt);
+        final var advertisementRepositoryByName =
+                advertisementRepository.getByName(user.getAdvertisements().get(0).getName());
+
+        advertisementRepository.delete(advertisementRepositoryByName);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll(final String jwt) {
+        helpers.tokenUserData(jwt);
+        advertisementRepository.deleteAll();
+    }
+
+    private static AdvertisementEntity getNewAdvertisement(final AdvertisementCreateDTO advertisement,
+                                                           final UserEntity userName,
+                                                           final ArrayList<ImageEntity> imagesList,
+                                                           final CategoryEntity categoryName) {
+        return AdvertisementEntity.builder()
+                .user(userName)
+                .name(advertisement.name())
+                .descriptionAdvertisement(advertisement.descriptionAdvertisement())
+                .price(advertisement.price())
+                .images(imagesList)
+                .createDate(LocalDateTime.now())
+                .updateActiveDate(LocalDateTime.now())
+                .category(categoryName)
+                .delivery(advertisement.delivery())
+                .auction(advertisement.auction())
+                .active(advertisement.active())
+                .build();
+    }
+
+    private void extracted(final AdvertisementUpdateDTO advertisementDTO,
+                           final AdvertisementEntity idAdvertisement,
+                           final String auctionParse,
+                           final String activeParse) {
         if (StringUtils.isNoneEmpty(advertisementDTO.name())) {
             idAdvertisement.setName(advertisementDTO.name());
         }
@@ -118,24 +153,5 @@ public class AdvertisementServerImpl implements AdvertisementServer {
         if (StringUtils.isNoneEmpty(activeParse)) {
             idAdvertisement.setAuction(advertisementDTO.active());
         }
-
-        return advertisementMapper.advertisementMapperUpdateDTO(advertisementRepository.save(idAdvertisement));
-    }
-
-    @Override
-    @Transactional
-    public void deleteAdvertisement(final String jwt) {
-        final var user = helpers.tokenUserData(jwt);
-        final var advertisementRepositoryByName =
-                advertisementRepository.getByName(user.getAdvertisements().get(0).getName());
-
-        advertisementRepository.delete(advertisementRepositoryByName);
-    }
-
-    @Override
-    @Transactional
-    public void deleteAll(final String jwt) {
-        helpers.tokenUserData(jwt);
-        advertisementRepository.deleteAll();
     }
 }

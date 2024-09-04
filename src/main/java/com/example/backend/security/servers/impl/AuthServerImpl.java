@@ -18,9 +18,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -66,12 +70,7 @@ public class AuthServerImpl implements AuthServer {
 
     @Override
     public AuthResponse login(final AuthRequest authRequest) {
-        final var authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                    authRequest.email(),
-                    authRequest.password()
-                )
-        );
+        final var authentication = authenticateCredentials(authRequest.email(), authRequest.password());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -153,7 +152,7 @@ public class AuthServerImpl implements AuthServer {
         jwtAuthServerFilter.updateRefreshTokenFilter(request, response);
     }
 
-    private UserEntity createUserEntity(RegisterRequest registerRequest) {
+    private UserEntity createUserEntity(final RegisterRequest registerRequest) {
         return UserEntity.builder()
                 .firstname(registerRequest.firstname())
                 .lastname(registerRequest.lastname())
@@ -167,5 +166,14 @@ public class AuthServerImpl implements AuthServer {
                 .credentialsNonExpired(true)
                 .roles(Set.of(USER, ADMIN))
                 .build();
+    }
+
+    @SneakyThrows
+    private Authentication authenticateCredentials(final String email, final String password) {
+        try {
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        } catch (AuthenticationException e) {
+            throw new InvalidCredentialsException("Authentication failed, invalid email or password");
+        }
     }
 }

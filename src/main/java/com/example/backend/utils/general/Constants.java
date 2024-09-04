@@ -35,4 +35,5 @@ public class Constants {
     };
     public static final String PASSWORD_FORMAT_MESSAGE = "password має відповідати вказаному формату";
     public static final String DELIVERY_MESSAGE = "Доставка через: ";
+    public static final String BEARER_JWT_TEST = "Bearer some-jwt-token";
 }

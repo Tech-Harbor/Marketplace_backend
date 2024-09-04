@@ -23,13 +23,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 import java.util.Properties;
 
-import static com.example.backend.utils.general.Constants.EMAIL_KEY;
-import static com.example.backend.utils.general.Constants.PASSWORD;
+import static com.example.backend.utils.general.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -147,8 +145,6 @@ public class AuthServerImplTest {
 
     @Test
     void formUpdatePasswordTest() {
-        final var jwt = "Bearer some-jwt-token";
-
         final var passwordRequest = PasswordRequest.builder()
                 .password(PASSWORD)
                 .build();
@@ -163,10 +159,10 @@ public class AuthServerImplTest {
         when(helpers.tokenUserEmail(anyString())).thenReturn(Optional.of(user));
         when(myPasswordEncoder.encode(PASSWORD)).thenReturn(PASSWORD);
 
-        authService.formUpdatePassword(jwt, passwordRequest);
+        authService.formUpdatePassword(BEARER_JWT_TEST, passwordRequest);
 
         assertEquals(PASSWORD, user.getPassword());
-        verify(helpers).tokenUserEmail(jwt);
+        verify(helpers).tokenUserEmail(BEARER_JWT_TEST);
         verify(myPasswordEncoder).encode(passwordRequest.password());
         verify(mailServer).sendEmail(userSecurity, MailType.UPDATED_PASSWORD, new Properties());
     }
@@ -193,8 +189,6 @@ public class AuthServerImplTest {
 
     @Test
     void activeUserTest() {
-        final var jwt = "Bearer some-jwt-token";
-
         final var userEntity = UserEntity.builder()
                 .email(EMAIL_KEY)
                 .enabled(false)
@@ -202,10 +196,10 @@ public class AuthServerImplTest {
 
         when(helpers.tokenUserEmail(anyString())).thenReturn(Optional.of(userEntity));
 
-        authService.activeUser(jwt);
+        authService.activeUser(BEARER_JWT_TEST);
 
         assertTrue(userEntity.getEnabled());
-        verify(helpers).tokenUserEmail(jwt);
+        verify(helpers).tokenUserEmail(BEARER_JWT_TEST);
         verify(userService).mySecuritySave(userEntity);
     }
 

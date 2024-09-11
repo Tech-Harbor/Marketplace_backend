@@ -6,13 +6,6 @@ spring:
     graphiql:
       enabled: true
 
-  socket:
-    dest-prefixes: /topic, /user
-    user-prefix: /user
-    app-prefix: /app
-    endpoint: /chat
-    topic-prefix: /topic
-
   security:
     oauth2:
       client:

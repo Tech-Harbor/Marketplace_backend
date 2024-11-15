@@ -21,6 +21,6 @@ public class MyUserDetailsService implements UserDetailsService {
         var user =  userServer.getBySecurityEmail(username).orElseThrow(
                 () -> notFoundRequestException("Email not found")
         );
-        return myUserDetailsFactory.build(user);
+        return myUserDetailsFactory.apply(user);
     }
 }

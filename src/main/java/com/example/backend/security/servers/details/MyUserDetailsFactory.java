@@ -3,9 +3,12 @@ package com.example.backend.security.servers.details;
 import com.example.backend.web.User.store.dto.UserSecurityDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Function;
+
 @Component
-public class MyUserDetailsFactory {
-    public MyUserDetails build(final UserSecurityDTO user) {
+public class MyUserDetailsFactory implements Function<UserSecurityDTO, MyUserDetails> {
+    @Override
+    public MyUserDetails apply(UserSecurityDTO user) {
         return MyUserDetails.builder()
                 .user(UserSecurityDTO.builder()
                         .lastname(user.lastname())

@@ -8,7 +8,7 @@ import java.util.function.Function;
 @Component
 public class MyUserDetailsFactory implements Function<UserSecurityDTO, MyUserDetails> {
     @Override
-    public MyUserDetails apply(UserSecurityDTO user) {
+    public MyUserDetails apply(final UserSecurityDTO user) {
         return MyUserDetails.builder()
                 .user(UserSecurityDTO.builder()
                         .lastname(user.lastname())
